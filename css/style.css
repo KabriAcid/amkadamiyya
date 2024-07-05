@@ -1,0 +1,60 @@
+html {
+  font-size: 1rem;
+}
+
+@media (min-width: 576px) {
+  html {
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 0.95rem;
+  }
+}
+
+@media (min-width: 992px) {
+  html {
+    font-size: 1rem;
+  }
+}
+
+label::after {
+  content: " *";
+  color: red;
+}
+
+.null-label::after {
+  content: "";
+}
+
+.jumbotoron {
+  background: url('../assets/images/buildings/entrance.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.ordered-list {
+  font-size: 16px;
+  line-height: 32px;
+  margin-bottom: 10px;
+}
+
+.admin-form-bg {
+  background: url('../assets/images/backgrounds/vr-bg.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  background-attachment: fixed;
+  height: 100vh;
+}
+
+.student-form-bg {
+  background: url('../assets/images/curves/curved6-small.jpg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100vh;
+}

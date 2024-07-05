@@ -1,0 +1,5 @@
+1- Show different status for uploaded results subject
+2- Notification message when an admin tries to upload a result
+3- Recreate a table for the website
+4- Different access levels should have different sidebars and overview cards
+5- Admin should be able to truncate uploaded results for a subject
