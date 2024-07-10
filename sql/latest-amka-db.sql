@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jun 20, 2024 at 11:39 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- Host: localhost:3306
+-- Generation Time: Jul 06, 2024 at 06:35 PM
+-- Server version: 10.5.24-MariaDB-cll-lve-log
+-- PHP Version: 8.1.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -43,7 +43,7 @@ CREATE TABLE `alumni` (
   `lga` varchar(100) NOT NULL DEFAULT 'Jalingo',
   `state` varchar(100) DEFAULT NULL,
   `nin_number` varchar(20) NOT NULL DEFAULT 'UNAVAILABLE'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `alumni`
@@ -115,7 +115,7 @@ CREATE TABLE `applicants` (
   `application_code` varchar(255) NOT NULL,
   `admission_status` int(2) NOT NULL DEFAULT 0,
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -127,7 +127,7 @@ CREATE TABLE `classes` (
   `class_id` int(11) NOT NULL,
   `class_name` varchar(255) NOT NULL,
   `section_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `classes`
@@ -173,7 +173,7 @@ CREATE TABLE `contacts` (
   `phone` varchar(20) NOT NULL,
   `message` text NOT NULL,
   `submission_date` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `contacts`
@@ -188,7 +188,8 @@ INSERT INTO `contacts` (`id`, `first_name`, `last_name`, `email`, `phone`, `mess
 (6, 'Galena', 'Saunders', 'gocupu@mailinator.com', '+1 (772) 194-1791', 'Repudiandae ea accus', '2024-06-20 03:14:51'),
 (7, 'John', 'Sykes', 'vifaniw@mailinator', '+1 (881) 762-9979', 'Velit tempora ut qui', '2024-06-20 03:15:03'),
 (8, 'Gail', 'Diaz', 'gohore@mailinator.com', '16216971188', 'Mollit reiciendis qu', '2024-06-20 03:23:25'),
-(9, 'Duncan', 'Summers', 'pacexitig@mailinator.com', '234802345678', 'Rerum dolor reprehen', '2024-06-20 03:27:16');
+(9, 'Duncan', 'Summers', 'pacexitig@mailinator.com', '234802345678', 'Rerum dolor reprehen', '2024-06-20 03:27:16'),
+(10, 'Ismail', 'Babaji', 'ismailjugulde@gmail.com', '08107530819', 'Hii ankle if it\'s not yet ðŸ™ƒ ðŸ™‚ can person if I call you doing something else that aging is allowed for me like ðŸ¤” and above the best on the app to', '2024-06-23 11:27:09');
 
 -- --------------------------------------------------------
 
@@ -202,7 +203,7 @@ CREATE TABLE `defaults` (
   `current_term` varchar(100) DEFAULT '3rd Term',
   `term_ending` varchar(100) DEFAULT '05-July-2024',
   `term_begins` varchar(100) DEFAULT '15-Aug-2024'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `defaults`
@@ -220,7 +221,7 @@ INSERT INTO `defaults` (`default_id`, `session_name`, `current_term`, `term_endi
 CREATE TABLE `graduation_year` (
   `year_id` int(11) NOT NULL,
   `year` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `graduation_year`
@@ -239,7 +240,7 @@ INSERT INTO `graduation_year` (`year_id`, `year`) VALUES
 CREATE TABLE `nigerian_states` (
   `state_id` int(11) NOT NULL,
   `state_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `nigerian_states`
@@ -292,15 +293,30 @@ INSERT INTO `nigerian_states` (`state_id`, `state_name`) VALUES
 
 CREATE TABLE `notifications` (
   `not_id` int(11) NOT NULL,
-  `staff_id` int(20) DEFAULT NULL,
+  `teacher_id` int(20) DEFAULT NULL,
   `not_level` varchar(255) NOT NULL,
   `not_title` varchar(255) NOT NULL,
   `not_content` varchar(255) NOT NULL,
   `not_icon` varchar(255) NOT NULL,
-  `not_icon_color` varchar(255) NOT NULL,
-  `not_bg_color` varchar(255) NOT NULL,
+  `not_iconColor` varchar(255) NOT NULL,
+  `not_bgColor` varchar(255) NOT NULL,
   `not_timestamp` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `notifications`
+--
+
+INSERT INTO `notifications` (`not_id`, `teacher_id`, `not_level`, `not_title`, `not_content`, `not_icon`, `not_iconColor`, `not_bgColor`, `not_timestamp`) VALUES
+(1, 1042, '1', 'A subject has been uploaded.', 'The data for Arabic has been successfully uploaded.', 'ni ni-upload-96', 'text-info', 'bg-info-soft', '2024-06-20 19:33:35'),
+(4, 1032, '1', 'A subject has been uploaded.', 'The data for Handwriting has been successfully uploaded.', 'ni ni-upload-96', 'text-info', 'bg-info-soft', '2024-06-21 20:32:52'),
+(5, 1032, '1', 'A subject has been uploaded.', 'The data for Further Mathematics has been successfully uploaded.', 'ni ni-upload-96', 'text-info', 'bg-info-soft', '2024-06-21 20:34:57'),
+(6, 1055, '1', 'New Student has been added.', 'Ibrahim Abubakar Saleh has been added successfully.', 'fa fa-user', 'text-info', 'bg-info-soft', '2024-06-22 20:43:37'),
+(7, NULL, '', 'Ismail Babaji is trying to reach you.', 'Hii ankle if it\'s not yet ðŸ™ƒ ðŸ™‚ can person if I call you doing something else that aging is allowed for me like ðŸ¤” and above the best on the app to', 'fa fa-envelope', 'text-primary', 'bg-primary-soft', '2024-06-23 11:27:09'),
+(8, 1042, '1', 'A subject has been uploaded.', 'The data for Agricultural Science has been successfully uploaded.', 'ni ni-upload-96', 'text-info', 'bg-info-soft', '2024-06-23 15:31:55'),
+(9, 1042, '1', 'A subject has been uploaded.', 'The data for Biology has been successfully uploaded.', 'ni ni-upload-96', 'text-info', 'bg-info-soft', '2024-06-23 15:32:33'),
+(10, 1042, '1', 'A subject has been uploaded.', 'The data for Chemistry has been successfully uploaded.', 'ni ni-upload-96', 'text-info', 'bg-info-soft', '2024-06-23 15:33:00'),
+(11, 1042, '1', 'A subject has been uploaded.', 'The data for Civic Education has been successfully uploaded.', 'ni ni-upload-96', 'text-info', 'bg-info-soft', '2024-06-23 15:34:01');
 
 -- --------------------------------------------------------
 
@@ -319,7 +335,7 @@ CREATE TABLE `results` (
   `total` int(11) DEFAULT NULL,
   `grade` varchar(2) NOT NULL,
   `remark` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -331,7 +347,7 @@ CREATE TABLE `school_class` (
   `id` int(11) NOT NULL,
   `class_alias` int(100) NOT NULL,
   `class_name` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `school_class`
@@ -364,7 +380,7 @@ CREATE TABLE `school_sessions` (
   `session_id` int(11) NOT NULL,
   `session_name` varchar(9) NOT NULL,
   `active_session` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `school_sessions`
@@ -387,7 +403,7 @@ INSERT INTO `school_sessions` (`session_id`, `session_name`, `active_session`) V
 CREATE TABLE `sections` (
   `section_id` int(11) NOT NULL,
   `section_name` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `sections`
@@ -421,7 +437,7 @@ CREATE TABLE `students` (
   `class_id` int(11) NOT NULL,
   `section_id` int(10) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `students`
@@ -548,7 +564,9 @@ INSERT INTO `students` (`student_id`, `first_name`, `second_name`, `last_name`, 
 (1133, 'Jibril', 'Alhassan', '', 'Male', 'Borno', 'Dambuwa', 20, 5, '2024-06-18 04:30:53'),
 (1134, 'Muhammad', 'Muhammad', 'Laro', 'Male', 'Taraba', 'Jalingo', 20, 5, '2024-06-18 04:31:23'),
 (1135, 'Fatima', 'Dauda', 'Abubakar', 'Female', 'Taraba', 'Sardauna', 20, 5, '2024-06-18 04:33:13'),
-(1136, 'Fatima', 'Ibrahim', 'Bammi', 'Female', 'Taraba', 'Jalingo', 20, 5, '2024-06-18 04:34:04');
+(1136, 'Fatima', 'Ibrahim', 'Bammi', 'Female', 'Taraba', 'Jalingo', 20, 5, '2024-06-18 04:34:04'),
+(1137, 'Ibrahim', 'Abubakar', 'Saleh', 'Male', 'Taraba', 'Jalingo', 22, 7, '2024-06-22 20:43:37'),
+(1138, 'Ibrahim', 'Suleiman', 'Adamu', 'Male', 'Gombe', 'Gombe', 24, 9, '2024-06-26 09:34:14');
 
 -- --------------------------------------------------------
 
@@ -561,7 +579,7 @@ CREATE TABLE `subjects` (
   `subject_name` varchar(255) NOT NULL,
   `subject_section` varchar(50) NOT NULL,
   `subject_class` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `subjects`
@@ -605,11 +623,11 @@ INSERT INTO `subjects` (`subject_id`, `subject_name`, `subject_section`, `subjec
 -- --------------------------------------------------------
 
 --
--- Table structure for table `staff`
+-- Table structure for table `teachers`
 --
 
-CREATE TABLE `staff` (
-  `staff_id` int(11) NOT NULL,
+CREATE TABLE `teachers` (
+  `teacher_id` int(11) NOT NULL,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `phone_number` varchar(11) NOT NULL,
@@ -618,16 +636,16 @@ CREATE TABLE `staff` (
   `photo` varchar(255) NOT NULL DEFAULT 'uploads/default.png',
   `subject_id` int(11) DEFAULT NULL,
   `class_id` int(11) DEFAULT NULL,
-  `position_id` int(10) NOT NULL DEFAULT 2,
+  `access_level` int(10) NOT NULL DEFAULT 2,
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `staff`
+-- Dumping data for table `teachers`
 --
 
-INSERT INTO `staff` (`staff_id`, `first_name`, `last_name`, `phone_number`, `username`, `password`, `photo`, `subject_id`, `class_id`, `position_id`, `timestamp`) VALUES
-(1002, 'Abdullahi', 'Kabri', '07037943396', 'kabriacid', '81dc9bdb52d04dc20036dbd8313ed055', 'uploads/icon.jpg', 22, 21, 1, '2024-06-19 22:06:45'),
+INSERT INTO `teachers` (`teacher_id`, `first_name`, `last_name`, `phone_number`, `username`, `password`, `photo`, `subject_id`, `class_id`, `access_level`, `timestamp`) VALUES
+(1002, 'Abdullahi', 'Kabri', '07037943396', 'kabriacid', '81dc9bdb52d04dc20036dbd8313ed055', 'uploads/icon.jpg', 22, 21, 1, '2024-06-26 14:52:19'),
 (1032, 'Abubakar', 'Kabri Abubakar', '07038341242', 'Abubakar42', '17d6fd4cc26f3a47e491f6b3304bf802', 'uploads/667399a09849a.jpg', 23, 19, 2, '2024-06-20 02:53:20'),
 (1033, 'Fatima', 'Idris', '08161660772', 'Fatima72', '17d6fd4cc26f3a47e491f6b3304bf802', 'uploads/default.png', 29, 2, 2, '2024-06-10 13:42:56'),
 (1034, 'Yagana', 'Hassan', '07068592642', 'Yagana42', '17d6fd4cc26f3a47e491f6b3304bf802', 'uploads/default.png', 20, 3, 2, '2024-06-10 09:47:37'),
@@ -668,7 +686,7 @@ CREATE TABLE `uploads` (
   `average` decimal(10,2) NOT NULL,
   `position` int(50) NOT NULL,
   `subject_count` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -760,12 +778,12 @@ ALTER TABLE `subjects`
   ADD PRIMARY KEY (`subject_id`);
 
 --
--- Indexes for table `staff`
+-- Indexes for table `teachers`
 --
-ALTER TABLE `staff`
-  ADD PRIMARY KEY (`staff_id`),
-  ADD KEY `fk_staff_1` (`subject_id`),
-  ADD KEY `fk_staff_2` (`class_id`);
+ALTER TABLE `teachers`
+  ADD PRIMARY KEY (`teacher_id`),
+  ADD KEY `fk_teachers_1` (`subject_id`),
+  ADD KEY `fk_teachers_2` (`class_id`);
 
 --
 -- Indexes for table `uploads`
@@ -801,7 +819,7 @@ ALTER TABLE `classes`
 -- AUTO_INCREMENT for table `contacts`
 --
 ALTER TABLE `contacts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `defaults`
@@ -825,7 +843,7 @@ ALTER TABLE `nigerian_states`
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `not_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `not_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `results`
@@ -849,7 +867,7 @@ ALTER TABLE `sections`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1137;
+  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1139;
 
 --
 -- AUTO_INCREMENT for table `subjects`
@@ -858,10 +876,10 @@ ALTER TABLE `subjects`
   MODIFY `subject_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
--- AUTO_INCREMENT for table `staff`
+-- AUTO_INCREMENT for table `teachers`
 --
-ALTER TABLE `staff`
-  MODIFY `staff_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1057;
+ALTER TABLE `teachers`
+  MODIFY `teacher_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1057;
 
 --
 -- AUTO_INCREMENT for table `uploads`
@@ -889,11 +907,11 @@ ALTER TABLE `students`
   ADD CONSTRAINT `fk_student_2` FOREIGN KEY (`section_id`) REFERENCES `sections` (`section_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `staff`
+-- Constraints for table `teachers`
 --
-ALTER TABLE `staff`
-  ADD CONSTRAINT `fk_staff_1` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`subject_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_staff_2` FOREIGN KEY (`class_id`) REFERENCES `classes` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `teachers`
+  ADD CONSTRAINT `fk_teachers_1` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`subject_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_teachers_2` FOREIGN KEY (`class_id`) REFERENCES `classes` (`class_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `uploads`
