@@ -27,7 +27,7 @@ function addOrdinalSuffix($num) {
     if ($_SESSION['staff']['position_id'] == 1) {
         include "inc/admin-sidebar.php";
     } else {
-        include "";
+        include "inc/admin-sidebar.php";
     }
     ?>
 

@@ -1,11 +1,5 @@
 <?php
     session_start();
-   // Check if user is logged in
-   if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true){
-    // Redirect to login page if not logged in
-    header("location: student-logout.php");
-    
-   }
 ?>
 <!DOCTYPE html>
 <html lang="en">

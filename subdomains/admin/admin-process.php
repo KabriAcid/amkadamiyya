@@ -198,44 +198,44 @@ if (isset($_POST['addStudent'])) {
         }
     }
 
-    function isValidPhoneNumber($parent_phone_number)
-    {
-        // Define the regular expression pattern for a Nigerian phone number
-        $pattern = '/^((070|080|090|081|091)\d{8})$/';
-        trim($parent_phone_number);
+    // function isValidPhoneNumber($parent_phone_number)
+    // {
+    //     // Define the regular expression pattern for a Nigerian phone number
+    //     $pattern = '/^((070|080|090|081|091)\d{8})$/';
+    //     trim($parent_phone_number);
 
-        // Check if the phone number matches the pattern
-        if (preg_match($pattern, $parent_phone_number)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    // Validate phone number
-    if (!isValidPhoneNumber($parent_phone_number)) {
-        $_SESSION['error_message'] = "Please enter a valid Nigerian phone number.";
-        // Redirect back to the same page
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit();
-    }
+    //     // Check if the phone number matches the pattern
+    //     if (preg_match($pattern, $parent_phone_number)) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
+    // // Validate phone number
+    // if (!isValidPhoneNumber($parent_phone_number)) {
+    //     $_SESSION['error_message'] = "Please enter a valid Nigerian phone number.";
+    //     // Redirect back to the same page
+    //     header("Location: " . $_SERVER['PHP_SELF']);
+    //     exit();
+    // }
 
-    function isValidEmailAddress($email)
-    {
-        // Remove all illegal characters from email
-        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+    // function isValidEmailAddress($email)
+    // {
+    //     // Remove all illegal characters from email
+    //     $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    if (!isValidEmailAddress($email)) {
-        $_SESSION['error_message'] = "Please enter a valid email address.";
-        // Redirect back to the same page
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit();
-    }
+    //     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
+    // if (!isValidEmailAddress($email)) {
+    //     $_SESSION['error_message'] = "Please enter a valid email address.";
+    //     // Redirect back to the same page
+    //     header("Location: " . $_SERVER['PHP_SELF']);
+    //     exit();
+    // }
 
     if (empty($errors)) {
         // Insert data into the database
@@ -244,7 +244,7 @@ if (isset($_POST['addStudent'])) {
         VALUES ('$class_id', '$section_id', 1001, '$first_name', '$second_name', '$last_name', '$birth_date', '$state', '$lga', '$gender', '$parent_first_name', '$parent_last_name', '$parent_email', '$parent_address', '$parent_phone_number')";
 
         if (mysqli_query($conn, $sql)) {
-            $_SESSION['success_message'] = "Application submitted successfully!";
+            $_SESSION['success_message'] = "Student added successfully!";
             // echo 
         } else {
             $_SESSION['error_message'] = "Error: " . mysqli_error($conn);
@@ -646,7 +646,7 @@ if (isset($_POST['uploadSubject'])) {
     foreach ($student_ids as $index => $student_id) {
         $first_test = $first_tests[$index];
         $second_test = $second_tests[$index];
-        $exam = $exams[$index];
+        $exam = $exams[$index]; 
 
         // Calculate total score for each student
         $total = $first_test + $second_test + $exam;
@@ -670,8 +670,8 @@ if (isset($_POST['uploadSubject'])) {
         }
 
         // Insert scores into the results table
-        $sql = "INSERT INTO `results` (`student_id`, `subject_id`, `class_id`, `first_test`, `second_test`, `exam`, `total`, `grade`, `remark`)
-                VALUES ('$student_id', '$subject_id', '$class_id', '$first_test', '$second_test', '$exam', '$total', '$grade', '$remark')";
+        $sql = "INSERT INTO `results` (`student_id`, `subject_id`, `class_id`, `first_test`, `second_test`, `exam`, `total`, `grade`, `remark`, `status`)
+                VALUES ('$student_id', '$subject_id', '$class_id', '$first_test', '$second_test', '$exam', '$total', '$grade', '$remark', 1)";
         if (!mysqli_query($conn, $sql)) {
             $_SESSION['error_message'] = "Error inserting scores: " . mysqli_error($conn);
             header("Location: " . $_SERVER['PHP_SELF']);
@@ -743,7 +743,7 @@ if (isset($_POST['uploadSubject'])) {
 
         // Success message and redirection
         $_SESSION['success_message'] = "Upload Successful";
-        header("Location: choose-subject.php");
+        header("Location: admin-choose-subject.php");
         exit;
     } else {
         // Error message and redirection if calculation fails

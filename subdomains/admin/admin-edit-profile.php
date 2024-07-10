@@ -1,6 +1,6 @@
 <?php
-    session_start();
-    include "../../config/database.php";
+session_start();
+include "../../config/database.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -360,20 +360,12 @@
             </div>
         </div>
 
-    <?php include './inc/admin-footer.php';  ?>
-</main>
+        <?php include './inc/admin-footer.php';  ?>
+    </main>
 
-    <script src="../../js/core/popper.min.js"></script>
-    <script src="../../js/core/bootstrap.min.js"></script>
-    <script src="../../js/plugins/chartjs.min.js"></script>
-    <script src="../../js/plugins/perfect-scrollbar.min.js"></script>
-    <script src="../../js/plugins/smooth-scrollbar.min.js"></script>
-    <script src="../../js/plugins/datatables.js"></script>
-
-    <script src="../../js/plugins/dragula/dragula.min.js"></script>
-    <script src="../../js/plugins/jkanban/jkanban.js"></script>
-
-    <script src="../../js/soft-ui-dashboard.min3f71.js"></script>
+    <script src="../../js/plugins/state-capital.js"></script>
+    <script src="../../js/plugins/sweetalert.min.js"></script>
+    <?php include "inc/admin-scripts.php"; ?>
 
 </body>
 

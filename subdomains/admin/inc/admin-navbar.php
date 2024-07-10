@@ -14,13 +14,10 @@
             </div>
             <ul class="navbar-nav  justify-content-end">
                 <li class="nav-item d-flex align-items-center">
-                
-                    <a href="profile.php" class="nav-link text-body font-weight-bold px-0">
-                        <span class="me-2"><small class="text-secondary">Welcome&comma;&nbsp;</small><span
-                                class="font-weight-bolder"><?php echo $_SESSION['staff']
-['first_name']; ?></span></span>
-                        <img src="<?php echo $_SESSION['staff']
-['photo']; ?>" class="avatar avatar-sm">
+
+                    <a href="admin-profile.php" class="nav-link text-body font-weight-bold px-0">
+                        <span class="me-2"><small class="text-secondary">Welcome&comma;&nbsp;</small><span class="font-weight-bolder"><?php echo $_SESSION['staff']['first_name']; ?></span></span>
+                        <img src="<?php echo $_SESSION['staff']['photo']; ?>" class="avatar avatar-sm">
                     </a>
                 </li>
                 <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -33,12 +30,10 @@
                     </a>
                 </li>
                 <li class="nav-item dropdown pe-2 px-3 d-flex align-items-center">
-                    <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa fa-cog cursor-pointer" aria-hidden="true"></i>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end px-2 me-sm-n4"
-                        aria-labelledby="dropdownMenuButton">
+                    <ul class="dropdown-menu dropdown-menu-end px-2 me-sm-n4" aria-labelledby="dropdownMenuButton">
                         <li class="">
                             <a class="dropdown-item border-radius-md" href="../../index.php">
                                 <span>Homepage</span>

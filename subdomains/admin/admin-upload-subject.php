@@ -15,11 +15,11 @@ if (isset($_GET['subject_id'])) {
     if (mysqli_num_rows($result) > 0) {  // Changed to > 0 to handle multiple records
         $_SESSION['error_message'] = "Subject Already Uploaded";
         // Redirect to avoid form resubmission on page refresh
-        header("Location: choose-subject.php");
+        header("Location: admin-choose-subject.php");
         exit;
     }
 } else {
-    header("Location: choose-subject.php");
+    header("Location: admin-choose-subject.php");
 }
 $sql = 'SELECT * FROM `defaults`';
 $default_result = mysqli_query($conn, $sql);

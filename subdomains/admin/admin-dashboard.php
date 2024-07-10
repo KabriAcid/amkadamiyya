@@ -2,16 +2,13 @@
 session_start();
 include "../../config/database.php";
 
-if(!isset($_SESSION['staff']
-)){
+if (!isset($_SESSION['staff'])) {
     header("Location: admin-login.php");
 }
-$class_id = $_SESSION['staff']
-['class_id'];
+$class_id = $_SESSION['staff']['class_id'];
 $sql = "SELECT * FROM `classes` WHERE `class_id` = '$class_id'";
 $result = mysqli_query($conn, $sql);
 $class = mysqli_fetch_assoc($result);
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,9 +16,28 @@ $class = mysqli_fetch_assoc($result);
 <head>
     <?php include "inc/admin-header.php"; ?>
     <title>Dashboard</title>
+    <script src="../../js/plugins/sweetalert.min.js"></script>
 </head>
 
 <body class="g-sidenav-show bg-info-soft">
+    <?php
+    if (isset($_SESSION['success_message'])) {
+    ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: "Successful",
+                    text: "<?php echo $_SESSION['success_message']; ?>",
+                    timer: 3000,
+                    showConfirmButton: true,
+                    icon: 'success'
+                })
+            })
+        </script>
+    <?php
+        unset($_SESSION['success_message']);
+    }
+    ?>
     <?php
     if ($_SESSION['staff']['position_id'] == 1) {
         include "inc/admin-sidebar.php";
@@ -42,13 +58,12 @@ $class = mysqli_fetch_assoc($result);
     </main>
 
 
-    <script src="../../js/plugins/sweetalert.min.js"></script>
     <script src="../../js/plugins/datatables.js"></script>
     <script src="../../js/plugins/chartjs.min.js"></script>
     <script src="inc/chart.js"></script>
     <?php include "inc/admin-scripts.php"; ?>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const dataTableBasic = new simpleDatatables.DataTable("#datatable-basic", {
                 searchable: true,
                 fixedHeight: true,
@@ -60,7 +75,7 @@ $class = mysqli_fetch_assoc($result);
                 }
             });
         });
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const dataTableBasic = new simpleDatatables.DataTable("#datatable-search", {
                 searchable: true,
                 fixedHeight: true,
@@ -73,25 +88,6 @@ $class = mysqli_fetch_assoc($result);
             });
         });
     </script>
-
-    <?php
-    if (isset($_SESSION['success_message'])) {
-        ?>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                Swal.fire({
-                    title: "Successful",
-                    text: "<?php echo $_SESSION['success_message']; ?>",
-                    timer: 3000,
-                    showConfirmButton: true,
-                    icon: 'success'
-                })
-            })
-        </script>
-        <?php
-        unset($_SESSION['success_message']);
-    }
-    ?>
 
 
 </body>

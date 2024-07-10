@@ -3,11 +3,10 @@ session_start();
 include "../../config/database.php";
 
 $section_id = $_SESSION['staff']['section_id'];
+$class_id = $_SESSION['staff']['class_id'];
 
 $sql = "SELECT * FROM `section_subjects` WHERE `section_id` = '$section_id'";
 $result = mysqli_query($conn, $sql);
-while ($row = mysqli_fetch_assoc($result)) {
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,9 +35,6 @@ while ($row = mysqli_fetch_assoc($result)) {
                         <form action="admin-upload-subject.php" method="get">
                             <select name="subject_id" class="form-select" required>
                                 <?php
-                                $sql = "SELECT * FROM `section_subjects` WHERE `section_id` = '$section_id'";
-                                $result = mysqli_query($conn, $sql);
-
                                 if (mysqli_num_rows($result) > 0) {
 
                                     echo "<option value='' class='text-center'>-- Choose Subject --</option>";
@@ -46,8 +42,8 @@ while ($row = mysqli_fetch_assoc($result)) {
                                     while ($row = mysqli_fetch_assoc($result)) {
                                         $subject_id = $row['subject_id'];
                                         $sql = "SELECT * FROM `subjects` WHERE `subject_id` = '$subject_id'";
-                                        $subject_result = mysqli_query($conn, $sql);
-                                        $subject = mysqli_fetch_assoc($subject_result);
+                                        $subjects = mysqli_query($conn, $sql);
+                                        $subject = mysqli_fetch_assoc($subjects);
                                 ?>
                                         <option value="<?php echo $subject['subject_id']; ?>">
                                             <?php echo $subject['subject_name']; ?>
@@ -63,7 +59,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                             </select>
 
                             <div class="form-group mb-0 mt-3 text-center">
-                                <input type="submit" name="chooseSubject" class="mb-0 btn bg-gradient-success">
+                                <input type="submit" name="chooseSubject" value="Choose" class="mb-0 btn bg-gradient-success">
                             </div>
                         </form>
                     </div>
@@ -87,27 +83,39 @@ while ($row = mysqli_fetch_assoc($result)) {
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                $class_id = $_SESSION['staff']['class_id'];
-                                                $sql = "SELECT DISTINCT `class_id`, `subject_id` FROM `results` WHERE `class_id` = '$class_id' ORDER BY `subject_id`";
+
+                                                $sql = "SELECT * FROM `section_subjects` WHERE `section_id` = '$section_id'";
                                                 $result = mysqli_query($conn, $sql);
                                                 $count = 1;
-
-                                                // Looping through the results table
                                                 while ($row = mysqli_fetch_assoc($result)) {
                                                 ?>
                                                     <tr>
+                                                        <!-- S/N -->
                                                         <td class="ps-4 text-sm text-left font-weight-normal"><?php echo $count; ?></td>
+                                                        <!-- Subject -->
                                                         <td class="text-sm text-center font-weight-normal">
                                                             <?php
                                                             $subject_id = $row['subject_id'];
                                                             $sql = "SELECT * FROM `subjects` WHERE `subject_id` = '$subject_id'";
-                                                            $subject_result = mysqli_query($conn, $sql);
-                                                            $subject = mysqli_fetch_assoc($subject_result);
+                                                            $subjects = mysqli_query($conn, $sql);
+                                                            $subject = mysqli_fetch_assoc($subjects);
                                                             echo $subject['subject_name'];
-
                                                             ?>
                                                         </td>
-                                                        <td class="text-sm text-center font-weight-normal text-success">&check;</td>
+                                                        <!-- Status -->
+                                                        <td class="text-sm text-center font-weight-normal">
+                                                            <?php
+                                                            $sql = "SELECT DISTINCT `class_id`, `subject_id`, `status` FROM `results` WHERE `class_id` = '$class_id' ORDER BY `status` DESC";
+                                                            $results = mysqli_query($conn, $sql);
+                                                            if(mysqli_num_rows($results) > 0){
+                                                                $row = mysqli_fetch_assoc($results);
+                                                                echo 1;
+                                                            } else {
+                                                                echo 0;
+                                                            }
+                                                            
+                                                            ?>
+                                                        </td>
                                                     </tr>
                                                 <?php
                                                     $count++;
@@ -137,7 +145,7 @@ while ($row = mysqli_fetch_assoc($result)) {
             const dataTableBasic = new simpleDatatables.DataTable("#datatable-basic", {
                 searchable: true,
                 fixedHeight: true,
-                perPage: 10, // Default number of entries per page
+                perPage: 25, // Default number of entries per page
                 labels: {
                     placeholder: "Search...", // Placeholder text for search input
                     noRows: "No entries found", // Text shown when no rows found
