@@ -50,8 +50,8 @@
                                             <?php
                                             $class_id = $row['class_id'];
                                             $sql = "SELECT * FROM `classes` WHERE `class_id` = '$class_id'";
-                                            $res = mysqli_query($conn, $sql);
-                                            $class = mysqli_fetch_assoc($res);
+                                            $classes = mysqli_query($conn, $sql);
+                                            $class = mysqli_fetch_assoc($classes);
                                             echo $class['class_name'];
                                             ?>
                                         </td>
