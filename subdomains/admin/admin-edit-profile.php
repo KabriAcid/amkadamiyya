@@ -360,7 +360,7 @@ include "../../config/database.php";
             </div>
         </div>
 
-        <?php include './inc/admin-footer.php';  ?>
+        <?php include 'inc/admin-footer.php';  ?>
     </main>
 
     <script src="../../js/plugins/state-capital.js"></script>
