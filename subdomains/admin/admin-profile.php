@@ -26,16 +26,16 @@
                 <div class="row">
                     <div class="col-auto">
                         <div class="avatar avatar-xl position-relative">
-                            <img src="<?php echo $_SESSION['admin']['photo']; ?>" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+                            <img src="<?php echo $_SESSION['staff']['photo']; ?>" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
                         </div>
                     </div>
                     <div class="col-auto my-auto">
                         <div class="h-100">
                             <h5 class="mb-1">
-                                <?php echo $_SESSION['admin']['first_name'] . " " . $_SESSION['admin']['last_name']; ?>
+                                <?php echo $_SESSION['staff']['first_name'] . " " . $_SESSION['staff']['last_name']; ?>
                             </h5>
                             <p class="mb-0 font-weight-bold text-sm">
-                                <?php echo $_SESSION['admin']['position']; ?>
+                                <?php echo $_SESSION['staff']['position']; ?>
                             </p>
                         </div>
                     </div>
@@ -58,52 +58,52 @@
                             <div class="row">
                                 <h6 class="mb-4 text-gradient text-warning">Personal Data</h6>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">First Name: </strong>&nbsp; <?php echo ucfirst($_SESSION['admin']['first_name']); ?>
+                                    <strong class="text-dark">First Name: </strong>&nbsp; <?php echo ucfirst($_SESSION['staff']['first_name']); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Last Name: </strong>&nbsp; <?php echo ucfirst($_SESSION['admin']['last_name']); ?>
+                                    <strong class="text-dark">Last Name: </strong>&nbsp; <?php echo ucfirst($_SESSION['staff']['last_name']); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Position: </strong>&nbsp; <?php echo ucfirst($_SESSION['admin']['position']); ?>
+                                    <strong class="text-dark">Position: </strong>&nbsp; <?php echo ucfirst($_SESSION['staff']['position']); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Birth Date: </strong>&nbsp; <?php echo $_SESSION['admin']['birth_date']; ?>
+                                    <strong class="text-dark">Birth Date: </strong>&nbsp; <?php echo $_SESSION['staff']['birth_date']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Gender: </strong>&nbsp; <?php echo $_SESSION['admin']['gender']; ?>
+                                    <strong class="text-dark">Gender: </strong>&nbsp; <?php echo $_SESSION['staff']['gender']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Qualification: </strong>&nbsp; <?php echo $_SESSION['admin']['qualification'] . '. ' . $_SESSION['admin']['discipline']; ?>
+                                    <strong class="text-dark">Qualification: </strong>&nbsp; <?php echo $_SESSION['staff']['qualification'] . '. ' . $_SESSION['staff']['discipline']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Home Address: </strong>&nbsp; <?php echo $_SESSION['admin']['address']; ?>
+                                    <strong class="text-dark">Home Address: </strong>&nbsp; <?php echo $_SESSION['staff']['address']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">State: </strong>&nbsp; <?php echo $_SESSION['admin']['birth_state']; ?>
+                                    <strong class="text-dark">State: </strong>&nbsp; <?php echo $_SESSION['staff']['birth_state']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">LGA: </strong>&nbsp; <?php echo ucfirst($_SESSION['admin']['birth_lga']); ?>
+                                    <strong class="text-dark">LGA: </strong>&nbsp; <?php echo ucfirst($_SESSION['staff']['birth_lga']); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Administrative Role: </strong>&nbsp; <?php echo $_SESSION['admin']['post_number']; ?>
+                                    <strong class="text-dark">Administrative Role: </strong>&nbsp; <?php echo $_SESSION['staff']['post_number']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Level: </strong>&nbsp; <?php echo $_SESSION['admin']['level']; ?>
+                                    <strong class="text-dark">Level: </strong>&nbsp; <?php echo $_SESSION['staff']['level']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Salary: </strong>&nbsp;&#8358; <?php echo number_format($_SESSION['admin']['salary']); ?>.00
+                                    <strong class="text-dark">Salary: </strong>&nbsp;&#8358; <?php echo number_format($_SESSION['staff']['salary']); ?>.00
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Account Number: </strong>&nbsp; <?php echo $_SESSION['admin']['account_number']; ?>
+                                    <strong class="text-dark">Account Number: </strong>&nbsp; <?php echo $_SESSION['staff']['account_number']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Account Name: </strong>&nbsp; <?php echo $_SESSION['admin']['account_name']; ?>
+                                    <strong class="text-dark">Account Name: </strong>&nbsp; <?php echo $_SESSION['staff']['account_name']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Join Date: </strong>&nbsp; <?php echo $_SESSION['admin']['join_date']; ?>
+                                    <strong class="text-dark">Join Date: </strong>&nbsp; <?php echo $_SESSION['staff']['join_date']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Status: </strong>&nbsp; <?php echo $_SESSION['admin']['status'] == "" ? "Not Active" : "Active"; ?>
+                                    <strong class="text-dark">Status: </strong>&nbsp; <?php echo $_SESSION['staff']['status'] == "" ? "Not Active" : "Active"; ?>
                                 </div>
                             </div>
                         </div>
