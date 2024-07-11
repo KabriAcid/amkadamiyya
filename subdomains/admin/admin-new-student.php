@@ -1,4 +1,4 @@
-<?php
+ <?php
 include "admin-process.php";
 ?>
 <!DOCTYPE html>

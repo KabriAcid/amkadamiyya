@@ -7,11 +7,11 @@ include "../../config/database.php";
 
 <head>
     <title>Edit My Profile</title>
-    <?php include "./inc/admin-header.php"; ?>
+    <?php include "inc/admin-header.php"; ?>
 </head>
 
 <body class="g-sidenav-show bg-info-soft">
-    <?php include "./inc/admin-sidebar.php"; ?>
+    <?php include "inc/admin-sidebar.php"; ?>
 
     <!--  -->
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
