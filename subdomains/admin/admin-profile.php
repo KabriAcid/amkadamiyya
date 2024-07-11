@@ -35,7 +35,7 @@
                                 <?php echo $_SESSION['staff']['first_name'] . " " . $_SESSION['staff']['last_name']; ?>
                             </h5>
                             <p class="mb-0 font-weight-bold text-sm">
-                                <?php echo $_SESSION['staff']['position']; ?>
+                                <?php echo $_SESSION['staff']['position_id']; ?>
                             </p>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                                     <strong class="text-dark">Last Name: </strong>&nbsp; <?php echo ucfirst($_SESSION['staff']['last_name']); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Position: </strong>&nbsp; <?php echo ucfirst($_SESSION['staff']['position']); ?>
+                                    <strong class="text-dark">Position: </strong>&nbsp; <?php echo ucfirst($_SESSION['staff']['position_id']); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Birth Date: </strong>&nbsp; <?php echo $_SESSION['staff']['birth_date']; ?>
