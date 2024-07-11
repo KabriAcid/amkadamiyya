@@ -198,44 +198,53 @@ if (isset($_POST['addStudent'])) {
         }
     }
 
-    // function isValidPhoneNumber($parent_phone_number)
-    // {
-    //     // Define the regular expression pattern for a Nigerian phone number
-    //     $pattern = '/^((070|080|090|081|091)\d{8})$/';
-    //     trim($parent_phone_number);
+    function isValidPhoneNumber($parent_phone_number)
+    {
+        // Define the regular expression pattern for a Nigerian phone number
+        $pattern = '/^((070|080|090|081|091)\d{8})$/';
+        trim($parent_phone_number);
 
-    //     // Check if the phone number matches the pattern
-    //     if (preg_match($pattern, $parent_phone_number)) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
-    // // Validate phone number
-    // if (!isValidPhoneNumber($parent_phone_number)) {
-    //     $_SESSION['error_message'] = "Please enter a valid Nigerian phone number.";
-    //     // Redirect back to the same page
-    //     header("Location: " . $_SERVER['PHP_SELF']);
-    //     exit();
-    // }
+        // Check if the phone number matches the pattern
+        if (preg_match($pattern, $parent_phone_number)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    // Validate phone number
+    if (!isValidPhoneNumber($parent_phone_number)) {
+        $_SESSION['error_message'] = "Please enter a valid Nigerian phone number.";
+        // Redirect back to the same page
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
+    }
 
-    // function isValidEmailAddress($email)
-    // {
-    //     // Remove all illegal characters from email
-    //     $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-
-    //     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
-    // if (!isValidEmailAddress($email)) {
-    //     $_SESSION['error_message'] = "Please enter a valid email address.";
-    //     // Redirect back to the same page
-    //     header("Location: " . $_SERVER['PHP_SELF']);
-    //     exit();
-    // }
+    function isValidEmailAddress($email) {
+        // Remove all illegal characters from email
+        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+    
+        // Validate the sanitized email
+        return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
+    }
+    
+    // Check if email is set and not empty
+    if (isset($_POST['email']) && !empty($_POST['email'])) {
+        $email = $_POST['email'];
+    
+        if (!isValidEmailAddress($email)) {
+            session_start();
+            $_SESSION['error_message'] = "Please enter a valid email address.";
+            // Redirect back to the same page
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
+        }
+    } else {
+        session_start();
+        $_SESSION['error_message'] = "Email is required.";
+        // Redirect back to the same page
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
+    }
 
     if (empty($errors)) {
         // Insert data into the database
