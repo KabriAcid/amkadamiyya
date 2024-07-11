@@ -79,16 +79,10 @@
                                     <strong class="text-dark">Home Address: </strong>&nbsp; <?php echo $_SESSION['staff']['address']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">State: </strong>&nbsp; <?php echo $_SESSION['staff']['birth_state']; ?>
+                                    <strong class="text-dark">State: </strong>&nbsp; <?php echo $_SESSION['staff']['state']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">LGA: </strong>&nbsp; <?php echo ucfirst($_SESSION['staff']['birth_lga']); ?>
-                                </div>
-                                <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Administrative Role: </strong>&nbsp; <?php echo $_SESSION['staff']['post_number']; ?>
-                                </div>
-                                <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Level: </strong>&nbsp; <?php echo $_SESSION['staff']['level']; ?>
+                                    <strong class="text-dark">LGA: </strong>&nbsp; <?php echo ucfirst($_SESSION['staff']['lga']); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Salary: </strong>&nbsp;&#8358; <?php echo number_format($_SESSION['staff']['salary']); ?>.00
@@ -97,7 +91,7 @@
                                     <strong class="text-dark">Account Number: </strong>&nbsp; <?php echo $_SESSION['staff']['account_number']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Account Name: </strong>&nbsp; <?php echo $_SESSION['staff']['account_name']; ?>
+                                    <strong class="text-dark">Bank Name: </strong>&nbsp; <?php echo $_SESSION['staff']['bank_name']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Join Date: </strong>&nbsp; <?php echo $_SESSION['staff']['join_date']; ?>
