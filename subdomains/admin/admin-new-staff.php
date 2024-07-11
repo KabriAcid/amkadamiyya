@@ -11,15 +11,15 @@ if (isset($_SESSION['registration_success'])) {
 
 <head>
     <title>Add New Staff</title>
-    <?php include "./inc/admin-header.php"; ?>
+    <?php include "inc/admin-header.php"; ?>
 </head>
 
 <body class="g-sidenav-show bg-info-soft">
-    <?php include "./inc/admin-sidebar.php"; ?>
+    <?php include "inc/admin-sidebar.php"; ?>
 
     <!--  -->
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-        <?php include "./inc/admin-navbar.php";
+        <?php include "inc/admin-navbar.php";
         ?>
         <!--  -->
         <div class="container-fluid pt-3">
@@ -341,7 +341,7 @@ if (isset($_SESSION['registration_success'])) {
                 </div>
             </div>
         </div>
-        <?php include './inc/admin-footer.php'; ?>
+        <?php include 'inc/admin-footer.php'; ?>
     </main>
 
     <script src="../../js/plugins/state-capital.js"></script>
@@ -350,7 +350,7 @@ if (isset($_SESSION['registration_success'])) {
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <?php include './inc/admin-scripts.php'; ?>
+    <?php include 'inc/admin-scripts.php'; ?>
 
     <?php
     if (isset($_SESSION['success_message'])) {

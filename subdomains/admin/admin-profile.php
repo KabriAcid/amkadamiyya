@@ -7,15 +7,15 @@
 
 <head>
     <title>Admin Profile</title>
-    <?php include "./inc/admin-header.php"; ?>
+    <?php include "inc/admin-header.php"; ?>
 </head>
 
 <body class="g-sidenav-show bg-info-soft">
-    <?php include "./inc/admin-sidebar.php"; ?>
+    <?php include "inc/admin-sidebar.php"; ?>
 
     <!--  -->
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-        <?php include "./inc/admin-navbar.php"; ?>
+        <?php include "inc/admin-navbar.php"; ?>
 
         <!--  -->
         <div class="container-fluid">
@@ -94,7 +94,7 @@
                                     <strong class="text-dark">Bank Name: </strong>&nbsp; <?php echo $_SESSION['staff']['bank_name']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Join Date: </strong>&nbsp; <?php echo $_SESSION['staff']['join_date']; ?>
+                                    <strong class="text-dark">Join Date: </strong>&nbsp; <?php echo date("j F, Y h:m", strtotime($_SESSION['staff']['timestamp'])); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Status: </strong>&nbsp; <?php echo $_SESSION['staff']['status'] == "" ? "Not Active" : "Active"; ?>
@@ -106,7 +106,7 @@
             </div>
         </div>
 
-    <?php include './inc/admin-footer.php';  ?>
+    <?php include 'inc/admin-footer.php';  ?>
 </main>
 
 </body>

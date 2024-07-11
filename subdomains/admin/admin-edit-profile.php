@@ -15,7 +15,7 @@ include "../../config/database.php";
 
     <!--  -->
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-        <?php include "./inc/admin-navbar.php"; ?>
+        <?php include "inc/admin-navbar.php"; ?>
         <!--  -->
         <div class="container-fluid pt-3">
             <div class="page-header w-100 p-5 rounded" style="background: url('../../assets/images/backgrounds/curved-8.jpg') no-repeat; background-size: auto; background-position: left;">

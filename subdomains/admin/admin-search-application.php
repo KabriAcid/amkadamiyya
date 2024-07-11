@@ -24,15 +24,15 @@
 
 <head>
     <title>Search Applicants</title>
-    <?php include "./inc/admin-header.php"; ?>
+    <?php include "inc/admin-header.php"; ?>
 </head>
 
 <body class="g-sidenav-show bg-info-soft">
-    <?php include "./inc/admin-sidebar.php"; ?>
+    <?php include "inc/admin-sidebar.php"; ?>
 
     <!--  -->
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-        <?php include "./inc/admin-navbar.php"; ?>
+        <?php include "inc/admin-navbar.php"; ?>
         <div class="container-fluid pt-3">
             <div class="card">
                 <div class="card-body">
@@ -78,7 +78,7 @@
                 </div>
             </div>
         </div>
-        <?php include './inc/admin-footer.php';  ?>
+        <?php include 'inc/admin-footer.php';  ?>
     </main>
 
     <script src="../../js/core/popper.min.js"></script>
