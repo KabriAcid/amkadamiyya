@@ -66,7 +66,7 @@ $staff_id = $_SESSION['staff']
                     <div class="card">
                         <div class="card-body">
                             <h6 class="text-danger">Delete All Notifications</h6>
-                            <p class="text-sm">By hitting the delete button all your notifications will be cleared.</p>
+                            <p class="text-sm mb-0">By hitting the delete button all your notifications will be cleared.</p>
                             <div class="text-end">
                                 <a href="?delete_notification=<?php echo $staff_id; ?>" class="btn bg-gradient-danger btn-sm text-end my-3">Delete</a>
                             </div>

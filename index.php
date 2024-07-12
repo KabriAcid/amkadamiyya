@@ -809,7 +809,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['contactBtn'])) {
 
                 <div class="col-md-6 col-lg-3 col-12 mb-md-0 mb-4">
                     <h6 class="text-sm text-primary">Newsletter</h6>
-                    <p class="text-sm">Subscribe to Amkadamiyya's Newsletter.</p>
+                    <p class="text-sm mb-0">Subscribe to Amkadamiyya's Newsletter.</p>
                     <form action="" method="post">
                         <div class="row">
                             <div class="col-12">

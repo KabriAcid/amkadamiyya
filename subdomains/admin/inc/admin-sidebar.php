@@ -235,14 +235,14 @@
          <li class="nav-item">
             <a data-bs-toggle="collapse" href="#resultsMenu" class="nav-link 
             <?php
-            if (basename($_SERVER['PHP_SELF']) == 'admin-choose-subject.php' || basename($_SERVER['PHP_SELF']) == 'admin-view-result.php') {
+            if (basename($_SERVER['PHP_SELF']) == 'admin-choose-subject.php' || basename($_SERVER['PHP_SELF']) == 'admin-view-results.php') {
                echo "active";
             }
             ?>" aria-controls="resultsMenu" role="button" aria-expanded="false">
-               <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
+               <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2">
                   <i class="ni ni-archive-2
                   <?php
-                  if (basename($_SERVER['PHP_SELF']) == 'admin-choose-subject.php' || basename($_SERVER['PHP_SELF']) == 'admin-view-result.php') {
+                  if (basename($_SERVER['PHP_SELF']) == 'admin-choose-subject.php' || basename($_SERVER['PHP_SELF']) == 'admin-view-results.php') {
                      echo 'text-white';
                   } else {
                      echo 'text-dark';
@@ -259,7 +259,7 @@
                      </a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="admin-view-result.php">
+                     <a class="nav-link" href="admin-view-results.php">
                         <span class="sidenav-normal"> View Results </span>
                      </a>
                   </li>

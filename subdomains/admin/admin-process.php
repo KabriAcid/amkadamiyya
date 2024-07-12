@@ -18,7 +18,7 @@ if (isset($_POST['register'])) {
             return ucwords(strtolower(trim($string)));
         }
         // Validate mandatory fields
-        $mandatoryFields = ['first_name', 'last_name', 'birth_date', 'gender', 'address', 'state', 'lga', 'email', 'phone_number', 'qualification', 'discipline', 'class_id', 'subject_id','position_id', 'account_number', 'bank_name', 'salary', 'status'];
+        $mandatoryFields = ['first_name', 'last_name', 'birth_date', 'gender', 'address', 'state', 'lga', 'email', 'phone_number', 'qualification', 'discipline', 'class_id', 'subject_id', 'position_id', 'account_number', 'bank_id', 'salary', 'status'];
         foreach ($mandatoryFields as $field) {
             if (empty($_POST[$field])) {
                 $_SESSION['error_message'] = "Some fields are missing!";
@@ -38,7 +38,7 @@ if (isset($_POST['register'])) {
         $class_id = mysqli_real_escape_string($conn, $_POST['class_id']);
         $subject_id = mysqli_real_escape_string($conn, $_POST['subject_id']);
         $account_number = mysqli_real_escape_string($conn, $_POST['account_number']);
-        $bank_name = mysqli_real_escape_string($conn, $_POST['bank_name']);
+        $bank_id = mysqli_real_escape_string($conn, $_POST['bank_id']);
         $salary = mysqli_real_escape_string($conn, $_POST['salary']);
         $status = mysqli_real_escape_string($conn, $_POST['status']);
         $position_id = mysqli_real_escape_string($conn, $_POST['position_id']);
@@ -95,12 +95,12 @@ if (isset($_POST['register'])) {
                     `username`, `first_name`, `last_name`, `class_id`, `section_id`,
                     `subject_id`, `birth_date`, `state`, `lga`, `gender`, `photo`,
                     `email`, `phone_number`,`qualification`, `discipline`, `address`,
-                    `account_number`, `bank_name`, `salary`, `status`, `position_id`, `password`
+                    `account_number`, `bank_id`, `salary`, `status`, `position_id`, `password`
                 ) VALUES (
                     '$username', '$first_name', '$last_name', '$class_id', '$section_id',
                     '$subject_id', '$birth_date', '$state', '$lga', '$gender', '$photo',
                     '$email', '$phone_number', '$qualification', '$discipline', '$address',
-                    '$account_number', '$bank_name', '$salary', '$status', '$position_id', '$hashed_password'
+                    '$account_number', '$bank_id', '$salary', '$status', '$position_id', '$hashed_password'
                 )";
 
         if (mysqli_query($conn, $sql)) {
@@ -124,6 +124,211 @@ if (isset($_POST['register'])) {
         }
     }
 }
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Function to capitalize names
+    function capitalize($string)
+    {
+        return ucwords(strtolower(trim($string)));
+    }
+
+    // Update Biodata
+    if (isset($_POST['updateBioData'])) {
+        $staff_id = $_POST['staff_id'];
+
+        $first_name = capitalize(mysqli_real_escape_string($conn, $_POST['first_name']));
+        $last_name = capitalize(mysqli_real_escape_string($conn, $_POST['last_name']));
+        $birth_date = mysqli_real_escape_string($conn, $_POST['birth_date']);
+        $gender = mysqli_real_escape_string($conn, $_POST['gender']);
+        $state = mysqli_real_escape_string($conn, $_POST['state']);
+        $lga = mysqli_real_escape_string($conn, $_POST['lga']);
+        $phone_number = mysqli_real_escape_string($conn, $_POST['phone_number']);
+        $address = capitalize(mysqli_real_escape_string($conn, $_POST['address']));
+
+        if (isset($_FILES['photo'])) {
+            $megabyte = (1024 * 1024) * 3;
+            if ($_FILES['photo']['size'] > $megabyte) {
+                $_SESSION['error_message'] = "Image size should not be more than 3MB";
+            } else {
+                $photo = "uploads/" . strtolower(uniqid((substr($first_name, 3) . '-' . $last_name))) . '_' . basename($_FILES['photo']['name']);
+                if (move_uploaded_file($_FILES['photo']['tmp_name'], $photo)) {
+                    if ($_SESSION['staff']['staff_id'] == $staff_id) {
+                        $_SESSION['staff']['photo'] = $photo;
+                    }
+                    $_SESSION['success_message'] = "Photo updated successfully!";
+                    // Redirect back to the same page
+                    header("Location: " . $_SERVER['PHP_SELF']);
+                    exit();
+                }
+            }
+        }
+
+        $sql = "UPDATE staff SET 
+            first_name='$first_name',
+            last_name='$last_name', 
+            birth_date='$birth_date', 
+            gender='$gender', 
+            state='$state', 
+            lga='$lga', 
+            phone_number='$phone_number', 
+            address='$address'
+            WHERE staff_id='$staff_id'";
+
+        if (mysqli_query($conn, $sql)) {
+            // Update session data
+            if ($_SESSION['staff']['staff_id'] == $staff_id) {
+
+                $_SESSION['staff']['first_name'] = $first_name;
+                $_SESSION['staff']['last_name'] = $last_name;
+                $_SESSION['staff']['birth_date'] = $birth_date;
+                $_SESSION['staff']['gender'] = $gender;
+                $_SESSION['staff']['state'] = $state;
+                $_SESSION['staff']['lga'] = $lga;
+                $_SESSION['staff']['phone_number'] = $phone_number;
+                $_SESSION['staff']['address'] = $address;
+            }
+
+            $_SESSION['success_message'] = "Biodata updated successfully!";
+        } else {
+            $_SESSION['error_message'] = "Error updating biodata: " . mysqli_error($conn);
+        }
+        // Redirect to the appropriate page after processing
+        header("Location:" . $_SERVER['PHP_SELF']);
+        exit();
+    }
+
+    // Update Other Information
+    if (isset($_POST['updateOtherData'])) {
+
+        $staff_id = $_POST['staff_id'];
+
+        $class_id = mysqli_real_escape_string($conn, $_POST['class_id']);
+        $subject_id = mysqli_real_escape_string($conn, $_POST['subject_id']);
+        $position_id = mysqli_real_escape_string($conn, $_POST['position_id']);
+        $qualification = mysqli_real_escape_string($conn, $_POST['qualification']);
+        $discipline = mysqli_real_escape_string($conn, $_POST['discipline']);
+        $salary = mysqli_real_escape_string($conn, str_replace(['₦', ',', '.00'], '', $_POST['salary']));
+        $account_number = mysqli_real_escape_string($conn, $_POST['account_number']);
+        $bank_id = mysqli_real_escape_string($conn, $_POST['bank_id']);
+        $status = mysqli_real_escape_string($conn, $_POST['status']);
+
+        // Update session data
+        if ($_SESSION['staff']['staff_id'] == $staff_id) {
+
+            $_SESSION['staff']['class_id'] = $class_id;
+            $_SESSION['staff']['subject_id'] = $subject_id;
+            $_SESSION['staff']['position_id'] = $position_id;
+            $_SESSION['staff']['qualification'] = $qualification;
+            $_SESSION['staff']['discipline'] = $discipline;
+            $_SESSION['staff']['salary'] = $salary;
+            $_SESSION['staff']['account_number'] = $account_number;
+            $_SESSION['staff']['bank_id'] = $bank_id;
+            $_SESSION['staff']['status'] = $status;
+        }
+
+        $sql = "UPDATE staff SET 
+            class_id='$class_id', 
+            subject_id='$subject_id', 
+            position_id='$position_id', 
+            qualification='$qualification', 
+            discipline='$discipline', 
+            salary='$salary', 
+            account_number='$account_number', 
+            bank_id='$bank_id',
+            status='$status'
+            WHERE staff_id='$staff_id'";
+
+        if (mysqli_query($conn, $sql)) {
+            $_SESSION['success_message'] = "Profile information updated successfully!";
+        } else {
+            $_SESSION['error_message'] = "Error updating profile information: " . mysqli_error($conn);
+        }
+        // Redirect to the appropriate page after processing
+        header("Location:" . $_SERVER['PHP_SELF']);
+        exit();
+    }
+
+    // Update Account Information
+    if (isset($_POST['updateAccount'])) {
+
+        $staff_id = $_POST['staff_id'];
+
+        $username = mysqli_real_escape_string($conn, $_POST['username']);
+        $email = mysqli_real_escape_string($conn, $_POST['email']);
+
+        $sql = "UPDATE staff SET 
+            username='$username', 
+            email='$email', 
+            password='$password' 
+            WHERE staff_id='$staff_id'";
+
+        if (mysqli_query($conn, $sql)) {
+            // Update session data
+            if ($_SESSION['staff']['staff_id'] == $staff_id) {
+                $_SESSION['staff']['username'] = $username;
+                $_SESSION['staff']['email'] = $email;
+                $_SESSION['staff']['password'] = $password;
+
+                $_SESSION['success_message'] = "Account information updated successfully!";
+            }
+        } else {
+            $_SESSION['error_message'] = "Error updating account information: " . mysqli_error($conn);
+        }
+        // Redirect to the appropriate page after processing
+        header("Location:" . $_SERVER['PHP_SELF']);
+        exit();
+    }
+    // Update Staff password
+    if (isset($_POST['updatePassword'])) {
+
+        $staff_id = $_POST['staff_id'];
+
+        $newPassword = mysqli_real_escape_string($conn, $_POST['newPassword']);
+
+        if (empty($newPassword)) {
+            $_SESSION['error_message'] = "Password cannot be empty";
+        } else if (strlen($newPassword) < 3) {
+            $_SESSION['error_message'] = "Password must be greater the 3 characters";
+        } else {
+            $password = password_hash($newPassword, PASSWORD_BCRYPT);
+        }
+        $sql = "UPDATE staff SET 
+        password='$password' 
+        WHERE staff_id='$staff_id'";
+
+        if (mysqli_query($conn, $sql)) {
+            // Update session data
+            if ($_SESSION['staff']['staff_id'] == $staff_id) {
+                $_SESSION['staff']['password'] = $password;
+            }
+            $_SESSION['success_message'] = "Password updated successfully!";
+        } else {
+            $_SESSION['error_message'] = "Error updating password: " . mysqli_error($conn);
+        }
+        // Redirect to the appropriate page after processing
+        header("Location:" . $_SERVER['PHP_SELF']);
+        exit();
+    }
+
+    // Erase Staff
+    if (isset($_POST['eraseStaff'])) {
+
+        $staff_id = $_POST['staff_id'];
+
+        $sql = "DELETE FROM staff WHERE staff_id='$staff_id'";
+
+        if (mysqli_query($conn, $sql)) {
+            $_SESSION['success_message'] = "Staff erased successfully!";
+            // Clear session data after deleting the staff
+        } else {
+            $_SESSION['error_message'] = "Error erasing staff: " . mysqli_error($conn);
+        }
+        // Redirect to the appropriate page after processing
+        header("Location: admin-staff-list.php");
+        exit();
+    }
+}
+
 
 //  Login Process
 if (isset($_POST['login'])) {
@@ -171,18 +376,23 @@ if (isset($_POST['addStudent'])) {
 
     $section_id = $class['section_id'];
 
+    function changeCase($string)
+    {
+        return strtolower(ucwords(htmlspecialchars($string)));
+    }
 
-    $first_name = ucwords(trim($_POST['first_name']));
-    $second_name = ucwords(trim($_POST['second_name']));
-    $last_name = ucwords(trim($_POST['last_name']));
+
+    $first_name = changeCase(trim($_POST['first_name']));
+    $second_name = changeCase(trim($_POST['second_name']));
+    $last_name = changeCase(trim($_POST['last_name']));
     $birth_date = trim($_POST['birth_date']);
-    $state = ucwords(trim($_POST['state']));
-    $lga = ucwords(trim($_POST['lga']));
+    $state = changeCase(trim($_POST['state']));
+    $lga = changeCase(trim($_POST['lga']));
     $gender = trim($_POST['gender']);
-    $parent_first_name = ucwords(trim($_POST['parent_first_name']));
-    $parent_last_name = ucwords(trim($_POST['parent_last_name']));
+    $parent_first_name = changeCase(trim($_POST['parent_first_name']));
+    $parent_last_name = changeCase(trim($_POST['parent_last_name']));
     $parent_email = trim($_POST['parent_email']);
-    $parent_address = ucwords(trim($_POST['parent_address']));
+    $parent_address = changeCase(trim($_POST['parent_address']));
     $parent_phone_number = trim($_POST['parent_phone_number']);
 
     $errors = [];
@@ -219,32 +429,33 @@ if (isset($_POST['addStudent'])) {
         exit();
     }
 
-    function isValidEmailAddress($email) {
-        // Remove all illegal characters from email
-        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-    
-        // Validate the sanitized email
-        return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
-    }
-    
-    // Check if email is set and not empty
-    if (isset($_POST['email']) && !empty($_POST['email'])) {
-        $email = $_POST['email'];
-    
-        if (!isValidEmailAddress($email)) {
-            session_start();
-            $_SESSION['error_message'] = "Please enter a valid email address.";
-            // Redirect back to the same page
-            header("Location: " . $_SERVER['PHP_SELF']);
-            exit();
-        }
-    } else {
-        session_start();
-        $_SESSION['error_message'] = "Email is required.";
-        // Redirect back to the same page
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit();
-    }
+    // function isValidEmailAddress($email)
+    // {
+    //     // Remove all illegal characters from email
+    //     $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+
+    //     // Validate the sanitized email
+    //     return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
+    // }
+
+    // // Check if email is set and not empty
+    // if (isset($_POST['email']) && !empty($_POST['email'])) {
+    //     $email = $_POST['email'];
+
+    //     if (!isValidEmailAddress($email)) {
+    //         session_start();
+    //         $_SESSION['error_message'] = "Please enter a valid email address.";
+    //         // Redirect back to the same page
+    //         header("Location: " . $_SERVER['PHP_SELF']);
+    //         exit();
+    //     }
+    // } else {
+    //     session_start();
+    //     $_SESSION['error_message'] = "Email is required.";
+    //     // Redirect back to the same page
+    //     header("Location: " . $_SERVER['PHP_SELF']);
+    //     exit();
+    // }
 
     if (empty($errors)) {
         // Insert data into the database
@@ -282,7 +493,7 @@ if (isset($_POST['uploadPost'])) {
 
     # Validate and sanitize post details
     $blog_title = ucwords(strtolower(htmlspecialchars($_POST['blog_title'])));
-    $blog_subtitle = htmlspecialchars($_POST['blog_subtitle']);
+    $blog_subtitle = ucwords(strtolower(htmlspecialchars($_POST['blog_subtitle'])));
     $blog_content = htmlspecialchars($_POST['blog_content']);
 
     # Reusable Variables
@@ -471,20 +682,27 @@ if (isset($_POST['updatePicture'])) {
 
 // Assuming you have already established a database connection
 if (isset($_POST['addalumni'])) {
+
+    function changeCase($string)
+    {
+        return strtolower(ucwords(htmlspecialchars(trim($string))));
+    }
+
+
     // Retrieve and sanitize form data
-    $first_name = ucwords(strtolower(trim($_POST['first_name'])));
-    $second_name = ucwords(strtolower(trim($_POST['second_name'])));
-    $last_name = ucwords(strtolower(trim($_POST['last_name'])));
+    $first_name = changeCase($_POST['first_name']);
+    $second_name = changeCase($_POST['second_name']);
+    $last_name = changeCase($_POST['last_name']);
     $index_no = trim($_POST['index_no']);
     $date_of_birth = trim($_POST['date_of_birth']);
-    $gender = ucwords(strtolower(trim($_POST['gender'])));
+    $gender = changeCase($_POST['gender']);
     $graduation_year = trim($_POST['graduation_year']);
-    $position_held = ucwords(strtolower(trim($_POST['position_held'])));
+    $position_held = changeCase($_POST['position_held']);
     $email = trim($_POST['email']);
     $phone_number = trim($_POST['phone_number']);
-    $state = ucwords(strtolower(trim($_POST['state'])));
-    $lga = ucwords(strtolower(trim($_POST['lga'])));
-    $address = ucwords(strtolower(trim($_POST['address'])));
+    $state = changeCase($_POST['state']);
+    $lga = changeCase($_POST['lga']);
+    $address = changeCase($_POST['address']);
     $nin_number = trim($_POST['nin_number']);
 
     function isValidPhoneNumber($phone_number)
@@ -655,7 +873,7 @@ if (isset($_POST['uploadSubject'])) {
     foreach ($student_ids as $index => $student_id) {
         $first_test = $first_tests[$index];
         $second_test = $second_tests[$index];
-        $exam = $exams[$index]; 
+        $exam = $exams[$index];
 
         // Calculate total score for each student
         $total = $first_test + $second_test + $exam;

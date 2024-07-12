@@ -151,12 +151,12 @@ if (isset($_SESSION['registration_success'])) {
                                                     <div class="input-group">
                                                         <select class="multisteps-form__input form-select" name="qualification">
                                                             <?php
-                                                            $sql = "SELECT `qualification_name` FROM `qualifications`;";
+                                                            $sql = "SELECT * FROM `qualifications`;";
                                                             $result = mysqli_query($conn, $sql);
 
                                                             while ($qualification = mysqli_fetch_assoc($result)) {
                                                             ?>
-                                                                <option value="<?php echo $qualification['qualification_name']; ?>">
+                                                                <option value="<?php echo $qualification['q_id']; ?>">
                                                                     <?php echo $qualification['qualification_name'] ?></option>
                                                             <?php
                                                             }
@@ -169,12 +169,12 @@ if (isset($_SESSION['registration_success'])) {
                                                     <div class="input-group">
                                                         <select class="multisteps-form__input form-select" name="discipline">
                                                             <?php
-                                                            $sql = "SELECT `discipline_name` FROM `university_disciplines`;";
+                                                            $sql = "SELECT * FROM `university_disciplines`;";
                                                             $result = mysqli_query($conn, $sql);
 
                                                             while ($discipline = mysqli_fetch_assoc($result)) {
                                                             ?>
-                                                                <option value="<?php echo $discipline['discipline_name']; ?>">
+                                                                <option value="<?php echo $discipline['discipline_id']; ?>">
                                                                     <?php echo $discipline['discipline_name'] ?></option>
                                                             <?php
                                                             }
@@ -261,14 +261,14 @@ if (isset($_SESSION['registration_success'])) {
                                                 </div>
                                                 <div class="col-md-6 mt-3">
                                                     <label>Bank Name</label>
-                                                    <select class="form-select" name="bank_name">
+                                                    <select class="form-select" name="bank_id">
                                                         <?php
                                                         $sql = "SELECT * FROM `nigerian_banks`;";
                                                         $result = mysqli_query($conn, $sql);
 
                                                         while ($bank = mysqli_fetch_assoc($result)) {
                                                         ?>
-                                                            <option value="<?php echo $bank['bank_name']; ?>">
+                                                            <option value="<?php echo $bank['bank_id']; ?>">
                                                                 <?php echo $bank['bank_name'] ?></option>
                                                         <?php
                                                         }
@@ -289,7 +289,7 @@ if (isset($_SESSION['registration_success'])) {
                                                     <label>Status</label>
                                                     <select name="status" class="multisteps-form__input form-select fs-small select-lga" required>
                                                         <option value="1" selected>Active</option>
-                                                        <option value="0">Not Active</option>
+                                                        <option value="0">Inactive</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -328,7 +328,7 @@ if (isset($_SESSION['registration_success'])) {
                                                 <p>Dear <?php echo $first_name . ' ' . $last_name; ?>, your login details are as follows:</p>
                                                 <p>Username: <strong><?php echo $username; ?></strong></p>
                                                 <p>Password: <strong><i>amka123</i></strong></p>
-                                                <p class="text-sm">Note: Please change your password immediately after logging in.</p>
+                                                <p class="text-sm mb-0">Note: Please change your password immediately after logging in.</p>
                                                 <button type="button" class="btn btn-success mt-3" data-bs-dismiss="modal">Okay</button>
                                             </div>
                                         </div>

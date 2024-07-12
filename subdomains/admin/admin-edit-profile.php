@@ -1,166 +1,244 @@
 <?php
-session_start();
-include "../../config/database.php";
+include_once "admin-process.php";
+
+if (isset($_GET['staff_id'])) {
+    $staff_id = $_GET['staff_id'];
+    $sql = "SELECT * FROM `staff` WHERE `staff_id` = '$staff_id'";
+    $staff_result = mysqli_query($conn, $sql);
+    $staff = mysqli_fetch_assoc($staff_result);
+
+    echo $staff_id;
+} else {
+    $staff_id = $_SESSION['staff']['staff_id'];
+    $sql = "SELECT * FROM `staff` WHERE `staff_id` = '$staff_id'";
+    $staff_result = mysqli_query($conn, $sql);
+    $staff = mysqli_fetch_assoc($staff_result);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>Edit My Profile</title>
+    <title>Edit Profile</title>
     <?php include "inc/admin-header.php"; ?>
 </head>
 
 <body class="g-sidenav-show bg-info-soft">
-    <?php include "inc/admin-sidebar.php"; ?>
+    <?php
+    if ($_SESSION['staff']['position_id'] == 1) {
+        include "inc/admin-sidebar.php";
+    } else {
+        include "inc/admin-sidebar.php";
+    }
+    ?>
 
-    <!--  -->
-    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-        <?php include "inc/admin-navbar.php"; ?>
-        <!--  -->
-        <div class="container-fluid pt-3">
-            <div class="page-header w-100 p-5 rounded" style="background: url('../../assets/images/backgrounds/curved-8.jpg') no-repeat; background-size: auto; background-position: left;">
-                <span class="mask bg-gradient-primary opacity-6"></span>
-            </div>
-            <div class="card car-body blur shadow-blur p-4 mx-4 mt-n6 overflow-hidden">
-                <div class="row gx-4">
-                    <div class="col-auto my-auto">
-                        <div class="h100">
-                            <h4 class="text-gradient text-danger">Edit Profile</h4>
-                            <p class="mb-0">Manage staff basic profile information. Here you can update, delete or modify staff data.</p>
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+        <?php require "inc/admin-navbar.php"; ?>
+        <!-- Page Header  -->
+        <?php
+        if (isset($_GET['staff_id'])) {
+        ?>
+            <div class="container-fluid pt-3">
+                <div class="page-header w-100 p-5 rounded" style="background: url('../../assets/images/backgrounds/curved-8.jpg') no-repeat; background-size: auto; background-position: left;">
+                    <span class="mask bg-gradient-primary opacity-6"></span>
+                </div>
+                <div class="card card-body blur shadow-blur p-4 mx-4 mt-n6 overflow-hidden">
+                    <div class="row">
+                        <div class="col-auto my-auto">
+                            <div class="h100">
+                                <h4 class="mb-0 text-gradient text-success">Edit Staff Profile</h4>
+                                <p class="text-sm mb-0">Manage staff profile information. Here you can update or modify staff data.</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-auto"></div>
                 </div>
             </div>
-        </div>
-        <!--  -->
+        <?php
+        } else {
+        ?>
+            <div class="container-fluid pt-3">
+                <div class="page-header w-100 p-5 rounded" style="background: url('../../assets/images/backgrounds/blog7-3.jpg') no-repeat; background-size: cover; background-position: center;">
+                    <span class="mask bg-gradient-primary opacity-6"></span>
+                </div>
+                <div class="card card-body blur shadow-blur p-4 mx-4 mt-n6 overflow-hidden">
+                    <div class="row">
+                        <div class="col-auto my-auto">
+                            <div class="h100">
+                                <h4 class="mb-0 text-gradient text-primary">Edit My Profile</h4>
+                                <p class="text-sm mb-0">Manage your profile information. Here you can update or modify staff data.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php
+        }
+        ?>
+        <!-- Update profile -->
         <div class="container-fluid pt-3">
             <div class="row">
-                <div class="col-md-6">
-                    <form action="student-process.php" method="post" enctype="multipart/form-data">
+                <div class="col-lg-12 col-xl-7">
+                    <form action="processing-form.php" method="post" enctype="multipart/form-data">
                         <div class="card">
                             <div class="card-header">
-                                <h6 class="text-gradient text-warning">Staff Biodata</h6>
-                                <p class="mb-0">Here you can modify or change a staff biodata.</p>
+                                <h6 class="mb-0 text-gradient text-warning">Biodata</h6>
+                                <p class="text-sm mb-0">Here you can modify or change a staff biodata.</p>
                             </div>
-                            <hr class="horizontal gray-light my-0">
+                            <hr class="horizontal dark">
                             <div class="card-body">
                                 <!-- Image and Button -->
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <img src="<?php echo $_SESSION['staff']['photo']; ?>" class="avatar avatar-xl shadow-lg blur" style="">
+                                    <img src="<?php echo $staff['photo']; ?>" class="avatar avatar-xl shadow-lg blur">
                                     <span class="btn-file me-3">
                                         <button type="button" class="fileupload-new btn bg-gradient-dark btn-sm position-relative">
                                             Change Photo
-                                            <input type="file" name="photo" id="user-photo" class="opacity-0 position-absolute cursor-pointer" style="right: 0px;top: 5px;">
+                                            <input type="file" name="photo" id="user-photo" class="opacity-0 position-absolute cursor-pointer" style="right: 0px;top: 5px;" accept=".jpg, .png, .jpeg, .heic">
                                         </button>
                                     </span>
                                 </div>
                                 <!-- Form inputs groups -->
-                                <div class="row mt-4">
-                                    <div class="col-12">
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
                                         <label>First Name</label>
-                                        <div class="input-group mb-4">
-                                            <input type="text" name="first_name" placeholder="First Name" value="<?php echo ucfirst($_SESSION['staff']['first_name']); ?>" class="form-control">
+                                        <div class="input-group mb-3">
+                                            <input type="text" name="first_name" placeholder="First Name" value="<?php echo ucfirst($staff['first_name']); ?>" class="form-control">
                                         </div>
                                     </div>
                                     <!--  -->
-                                    <div class="col-12">
+                                    <div class="col-md-6">
                                         <label>Last Name</label>
-                                        <div class="input-group mb-4">
-                                            <input type="text" name="last_name" placeholder="Last Name" value="<?php echo ucfirst($_SESSION['staff']['last_name']); ?>" class="form-control">
+                                        <div class="input-group mb-3">
+                                            <input type="text" name="last_name" placeholder="Last Name" value="<?php echo ucfirst($staff['last_name']); ?>" class="form-control">
                                         </div>
                                     </div>
                                     <!--  -->
-                                    <div class="col-12">
+                                    <div class="col-md-6">
                                         <label>Date of Birth</label>
-                                        <div class="input-group mb-4">
-                                            <input type="date" value="<?php echo $_SESSION['staff']['birth_date']; ?>" class="form-control text-uppercase cursor-pointer" placeholder="DOB" name="birth_date">
+                                        <div class="input-group mb-3">
+                                            <input type="date" value="<?php echo $staff['birth_date']; ?>" class="form-control text-uppercase cursor-pointer" placeholder="DOB" name="birth_date">
                                         </div>
                                     </div>
                                     <!--  -->
-                                    <div class="col-12">
+                                    <div class="col-md-6">
                                         <label>Gender</label>
-                                        <div class="input-group mb-4">
+                                        <div class="input-group mb-3">
                                             <select class="form-select" name="gender">
-                                                <option value="Male">Male</option>
-                                                <option value="Female">Female</option>
+                                                <option value="Male" <?php if ($staff['gender'] == 'Male') echo 'selected'; ?>>Male</option>
+                                                <option value="Female" <?php if ($staff['gender'] == 'Female') echo 'selected'; ?>>Female</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <!--  -->
-                                    <div class="col-12">
+                                    <!-- State of Origin  -->
+                                    <div class="col-md-6">
                                         <label>State of Origin</label>
-                                        <div class="input-group mb-4">
-                                            <select onchange="toggleLGA(this);" name="state" id="state" class="form-select">
-                                                <option>-- State --</option>
+                                        <div class="input-group mb-3">
+                                            <select onchange="toggleLGA(this);" name="state" id="state" class="form-select select-state">
+                                                <option value="" selected="selected">-- State --</option>
                                                 <?php
-                                                $sql = "SELECT * FROM nigerian_states;";
-                                                $result = mysqli_query($conn, $sql);
+                                                $sql = "SELECT * FROM `nigerian_states`;";
+                                                $states = mysqli_query($conn, $sql);
 
-                                                while ($row_n = mysqli_fetch_assoc($result)) {
+                                                while ($state = mysqli_fetch_assoc($states)) {
                                                 ?>
-                                                    <option value="<?php echo $row_n['state_name']; ?>"><?php echo $row_n['state_name'] ?></option>
+                                                    <option value="<?php echo $state['state_name']; ?>" <?php if ($staff['state'] == $state['state_name']) echo 'selected'; ?>><?php echo $state['state_name'] ?></option>
                                                 <?php
                                                 }
                                                 ?>
                                             </select>
                                         </div>
                                     </div>
-                                    <!--  -->
-                                    <div class="col-12">
+                                    <!-- Local Government Area  -->
+                                    <div class="col-md-6">
                                         <label>Local government Area</label>
-                                        <div class="input-group mb-4">
-                                            <select name="lga" id="lga" class="form-select fs-small select-lga">
-                                                <option value="">LGA</option>
+                                        <div class="input-group mb-3">
+                                            <select name="lga" id="lga" class="form-select select-lga">
+                                                <option value="<?php echo $staff['lga']; ?>"><?php echo $staff['lga']; ?></option>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-12">
-                                        <label>Home Address</label>
-                                        <div class="input-group mb-4">
-                                            <input type="text" value="<?php echo $_SESSION['staff']['address']; ?>" class="form-control" name="address" placeholder="Home Address">
-                                        </div>
-                                    </div>
-                                    <!--  -->
-                                    <div class="col-12">
+                                    <!-- Phone Number -->
+                                    <div class="col-md-6">
                                         <label>Phone Number</label>
-                                        <div class="input-group">
-                                            <input type="text" value="<?php echo $_SESSION['staff']['phone_number']; ?>" class="form-control" name="phone_number" placeholder="Phone Number" maxlength="11">
+                                        <div class="input-group mb-3">
+                                            <input type="text" value="<?php echo $staff['phone_number']; ?>" class="form-control" name="phone_number" placeholder="Phone Number" maxlength="11">
                                         </div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <label>Home Address</label>
+                                        <div class="input-group">
+                                            <input type="text" value="<?php echo $staff['address']; ?>" class="form-control" name="address" placeholder="Home Address">
+                                        </div>
+                                    </div>
+                                    <!-- Hidden Input Field -->
+                                    <input type="hidden" name="staff_id" value="<?php echo $staff_id; ?>">
                                     <!--  -->
                                 </div>
                             </div>
                             <!-- card body -->
-                            <div class="card-footer text-end">
-                                <input type="submit" value="SUBMIT" name="staffBiodata" class="btn bg-gradient-dark mb-0">
+                            <div class="card-footer text-end pt-0">
+                                <input type="submit" value="update" name="updateBioData" class="btn bg-gradient-dark mb-0">
                             </div>
                         </div>
                     </form>
 
                     <div class="my-3"></div>
                     <!--  -->
-                    <form action="student-process.php" method="post" enctype="multipart/form-data">
+                    <form action="" method="post">
                         <div class="card">
                             <div class="card-header">
-                                <h6 class="text-gradient text-warning">Other Information</h6>
-                                <p class="mb-0">Here you can modify or change a staff data.</p>
+                                <h6 class="mb-0 text-gradient text-warning">Other Information</h6>
+                                <p class="text-sm mb-0">Here you can modify or change a staff personal data.</p>
                             </div>
-                            <hr class="horizontal gray-light my-0">
+                            <hr class="horizontal dark">
                             <div class="card-body">
                                 <!-- Form inputs groups -->
-                                <div class="row mt-4">
-                                    <div class="col-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Class</label>
+                                        <div class="input-group mb-3">
+                                            <select class="form-select" name="class_id">
+                                                <?php
+                                                $sql = "SELECT * FROM `classes`;";
+                                                $classes = mysqli_query($conn, $sql);
+
+                                                while ($class = mysqli_fetch_assoc($classes)) {
+                                                ?>
+                                                    <option value="<?php echo $class['class_id']; ?>" <?php if ($staff['class_id'] == $class['class_id']) echo 'selected'; ?>><?php echo $class['class_name'] ?></option>
+                                                <?php
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Subject</label>
+                                        <div class="input-group mb-3">
+                                            <select class="form-select" name="subject_id">
+                                                <?php
+                                                $sql = "SELECT * FROM `subjects`;";
+                                                $subjects = mysqli_query($conn, $sql);
+
+                                                while ($subject = mysqli_fetch_assoc($subjects)) {
+                                                ?>
+                                                    <option value="<?php echo $subject['subject_id']; ?>" <?php if ($staff['subject_id'] == $subject['subject_id']) echo 'selected'; ?>><?php echo $subject['subject_name'] ?></option>
+                                                <?php
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
                                         <label>Position</label>
-                                        <div class="input-group mb-4">
-                                            <select class="form-select" name="position">
+                                        <div class="input-group mb-3">
+                                            <select class="form-select" name="position_id">
                                                 <?php
                                                 $sql = "SELECT * FROM `school_post`;";
-                                                $result = mysqli_query($conn, $sql);
+                                                $positions = mysqli_query($conn, $sql);
 
-                                                while ($row_p = mysqli_fetch_assoc($result)) {
+                                                while ($position = mysqli_fetch_assoc($positions)) {
                                                 ?>
-                                                    <option value="<?php echo $row_p['post_name']; ?>"><?php echo $row_p['post_name'] ?></option>
+                                                    <option value="<?php echo $position['position_id']; ?>" <?php if ($staff['position_id'] == $position['position_id']) echo 'selected'; ?>><?php echo $position['position_name'] ?></option>
                                                 <?php
                                                 }
                                                 ?>
@@ -168,18 +246,18 @@ include "../../config/database.php";
                                         </div>
                                     </div>
                                     <!--  -->
-                                    <div class="col-12">
-                                        <div class="input-group mb-4">
+                                    <div class="col-md-6">
+                                        <div class="input-group mb-3">
                                             <label>Qualification</label>
                                             <div class="input-group">
                                                 <select class="form-select" name="qualification">
                                                     <?php
                                                     $sql = "SELECT * FROM `qualifications`;";
-                                                    $result = mysqli_query($conn, $sql);
+                                                    $qualifications = mysqli_query($conn, $sql);
 
-                                                    while ($row_q = mysqli_fetch_assoc($result)) {
+                                                    while ($qualification = mysqli_fetch_assoc($qualifications)) {
                                                     ?>
-                                                        <option value="<?php echo $row_q['qualification_name']; ?>"><?php echo $row_q['qualification_name'] ?></option>
+                                                        <option value="<?php echo $qualification['q_id']; ?>" <?php if ($staff['q_id'] == $qualification['q_id']) echo 'selected'; ?>><?php echo $qualification['qualification_name'] ?></option>
                                                     <?php
                                                     }
                                                     ?>
@@ -188,18 +266,18 @@ include "../../config/database.php";
                                         </div>
                                     </div>
                                     <!--  -->
-                                    <div class="col-12">
-                                        <div class="input-group mb-4">
+                                    <div class="col-md-6">
+                                        <div class="input-group mb-3">
                                             <label>Discipline</label>
                                             <div class="input-group">
                                                 <select class="form-select" name="discipline">
                                                     <?php
                                                     $sql = "SELECT * FROM `university_disciplines`;";
-                                                    $result = mysqli_query($conn, $sql);
+                                                    $disciplines = mysqli_query($conn, $sql);
 
-                                                    while ($row_u = mysqli_fetch_assoc($result)) {
+                                                    while ($discipline = mysqli_fetch_assoc($disciplines)) {
                                                     ?>
-                                                        <option value="<?php echo $row_u['discipline_name']; ?>"><?php echo $row_u['discipline_name'] ?></option>
+                                                        <option value="<?php echo $discipline['discipline_id']; ?>" <?php if ($staff['discipline_id'] == $discipline['discipline_id']) echo 'selected'; ?>><?php echo $discipline['discipline_name'] ?></option>
                                                     <?php
                                                     }
                                                     ?>
@@ -208,164 +286,209 @@ include "../../config/database.php";
                                         </div>
                                     </div>
                                     <!--  -->
-                                    <div class="col-12">
-                                        <label>Administrative Role</label>
-                                        <div class="input-group mb-4">
-                                            <select class="form-select" name="role">
-                                                <?php
-                                                $sql = "SELECT * FROM `school_post`;";
-                                                $result = mysqli_query($conn, $sql);
-
-                                                while ($row_n = mysqli_fetch_assoc($result)) {
-                                                ?>
-                                                    <option value="<?php echo $row_n['position_name']; ?>"><?php echo $row_n['position_name'] ?></option>
-                                                <?php
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <!--  -->
-                                    <div class="col-12">
-                                        <label>Level</label>
-                                        <div class="input-group mb-4">
-                                            <select class="form-select" name="level">
-                                                <?php
-                                                $sql = "SELECT * FROM `government_levels`;";
-                                                $result = mysqli_query($conn, $sql);
-
-                                                while ($row_g = mysqli_fetch_assoc($result)) {
-                                                ?>
-                                                    <option value="<?php echo $row_g['level_name']; ?>"><?php echo $row_g['level_name'] ?></option>
-                                                <?php
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <!--  -->
-                                    <div class="col-12">
+                                    <div class="col-md-6">
                                         <label>Salary</label>
-                                        <div class="input-group mb-4">
-                                            <input type="text" value="&#8358;<?php echo number_format($_SESSION['staff']['salary']); ?>.00" class="form-control" name="salary">
+                                        <div class="input-group mb-3">
+                                            <input type="text" value="&#8358;<?php echo number_format($staff['salary']); ?>.00" class="form-control" name="salary">
                                         </div>
                                     </div>
                                     <!--  -->
-                                    <div class="col-12">
+                                    <div class="col-md-6">
                                         <label>Account Number</label>
-                                        <div class="input-group mb-4">
-                                            <input type="text" value="<?php echo $_SESSION['staff']['account_number']; ?>" class="form-control" name="account_number" maxlength="10">
+                                        <div class="input-group mb-3">
+                                            <input type="text" value="<?php echo $staff['account_number']; ?>" class="form-control" name="account_number" maxlength="10">
                                         </div>
                                     </div>
-
-                                    <!--  -->
-                                    <div class="col-12">
-                                        <label>Account Name</label>
-                                        <div class="input-group mb-4">
-                                            <input type="text" value="<?php echo $_SESSION['staff']['bank_name']; ?>" class="form-control" name="account_name">
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
+                                    <!-- Bank Name -->
+                                    <div class="col-md-6">
                                         <label>Bank Name</label>
-                                        <div class="input-group mb-4">
-                                            <select name="bank_name" class="form-control">
+                                        <div class="input-group mb-3">
+                                            <select name="bank_id" class="form-control">
                                                 <?php
-                                                $sql = "SELECT * FROM `bank_names`;";
-                                                $result = mysqli_query($conn, $sql);
+                                                $sql = "SELECT * FROM `nigerian_banks`;";
+                                                $banks = mysqli_query($conn, $sql);
 
-                                                while ($row_b = mysqli_fetch_assoc($result)) {
+                                                while ($bank = mysqli_fetch_assoc($banks)) {
                                                 ?>
-                                                    <option value="<?php echo $row_b['bank_name']; ?>"><?php echo $row_b['bank_name']; ?></option>
+                                                    <option value="<?php echo $bank['bank_id']; ?>" <?php if ($staff['bank_id'] == $bank['bank_id']) echo 'selected'; ?>><?php echo $bank['bank_name']; ?></option>
                                                 <?php
                                                 }
                                                 ?>
                                             </select>
                                         </div>
                                     </div>
-
-                                    <!--  -->
-                                    <div class="col-12">
-                                        <label>Join Date</label>
-                                        <div class="input-group">
-                                            <input type="date" value="<?php echo $_SESSION['staff']['join_date']; ?>" class="form-control" name="join_date">
+                                    <!-- Status -->
+                                    <div class="col-md-6">
+                                        <label>Status</label>
+                                        <div class="input-group mb-3">
+                                            <select class="form-select" name="status">
+                                                <option value="1" <?php if ($staff['status'] == 1) echo 'selected'; ?>>Active</option>
+                                                <option value="0" <?php if ($staff['status'] == 0) echo 'selected'; ?>>Inactive</option>
+                                            </select>
                                         </div>
                                     </div>
+                                    <!-- Hidden Input Field -->
+                                    <input type="hidden" name="staff_id" value="<?php echo $staff_id; ?>">
                                     <!--  -->
                                 </div>
                             </div>
                             <!-- card body -->
-                            <div class="card-footer text-end">
-                                <input type="submit" value="SUBMIT" name="staffOtherdata" class="btn bg-gradient-dark mb-0">
+                            <div class="card-footer text-end pt-0">
+                                <input type="submit" value="update" name="updateOtherData" class="btn bg-gradient-dark mb-0">
                             </div>
                         </div>
                     </form>
                 </div>
-                <div class="col-md-6 mt-3 mt-md-0">
+                <!--  -->
+                <div class="col-lg-12 col-xl-5 mt-3 mt-xl-0">
+                    <!-- Account Info form -->
                     <form action="" method="post">
-                        <div class="card pt-sm-none pt-3">
+                        <div class="card">
                             <div class="card-header">
-                                <h6 class="text-gradient text-dark">Account Information</h6>
-                                <p class="mb-0">Edit staff&apos;s account information.</p>
+                                <h6 class="mb-0 text-gradient text-warning">Account Information</h6>
+                                <p class="text-sm mb-0">Edit your account information.</p>
                             </div>
-                            <hr class="horizontal gray-light m-0 p-0">
+                            <hr class="horizontal dark">
+
                             <div class="card-body">
                                 <!--  -->
+                                <label>Username</label>
+                                <div class="input-group mb-3">
+                                    <input type="text" value="<?php echo $staff['username']; ?>" class="form-control" name="username">
+                                </div>
+                                <!--  -->
                                 <label>Email Address</label>
-                                <div class="input-group mb-4">
-                                    <input type="text" value="<?php echo $_SESSION['staff']['email']; ?>" class="form-control" placeholder="Email Address" name="email">
+                                <div class="input-group mb-3">
+                                    <input type="email" value="<?php echo $staff['email']; ?>" class="form-control" placeholder="Email Address" name="email">
                                 </div>
+                                <!-- Hidden Input Field -->
+                                <input type="hidden" name="staff_id" value="<?php echo $staff_id; ?>">
                                 <!--  -->
-                                <label>Current Password</label>
-                                <div class="input-group mb-4">
-                                    <input type="text" name="currentPassword" placeholder="Current Password" class="form-control" value="<?php echo $_SESSION['staff']['password'] ?>">
-                                </div>
-                                <!--  -->
-                                <label>New Password</label>
-                                <div class="input-group mb-4">
-                                    <input type="password" name="newPassword" placeholder="New Password" class="form-control">
-                                </div>
-                                <!--  -->
-                                <label>Confirm New Password</label>
-                                <div class="input-group">
-                                    <input type="password" name="confirmPassword" placeholder="Confirm New Password" class="form-control">
-                                </div>
-
                             </div>
-                            <div class="card-footer text-end">
-                                <input type="submit" value="CHANGE" name="modifyAccount" class="btn bg-gradient-dark mb-0">
+                            <div class="card-footer text-end pt-0">
+                                <input type="submit" value="update" name="updateAccount" class="btn bg-gradient-dark mb-0">
                             </div>
                         </div>
                     </form>
+                    <!-- End of form -->
+                    <form action="" method="post" class="mt-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-gradient text-warning">Change Password</h6>
+                                <p class="text-sm mb-0">Change your account password.</p>
+                            </div>
+                            <hr class="horizontal dark">
 
-                    <!--  -->
-                    <div class="my-3"></div>
+                            <div class="card-body">
+                                <label>Change Password</label>
+                                <div class="input-group">
+                                    <input type="password" name="newPassword" placeholder="Enter New Password" class="form-control">
+                                </div>
+
+                            </div>
+                            <div class="card-footer text-end pt-0">
+                                <input type="submit" value="update" name="updatePassword" class="btn bg-gradient-dark mb-0">
+                            </div>
+                            <!-- Hidden Input Field -->
+                            <input type="hidden" name="staff_id" value="<?php echo $staff_id; ?>">
+                            <!--  -->
+                        </div>
+                    </form>
                     <!-- Delete Account -->
-                    <div class="card">
+                    <div class="card mt-3">
                         <div class="card-header">
-                            <h6 class="text-gradient text-dark">Erase Staff</h6>
-                            <p class="mb-0 text-danger">Once you erase staff, all data will be removed from the database.</p>
+                            <h6 class="mb-0 text-gradient text-warning">Erase Staff</h6>
+                            <p class="text-secondary text-sm mb-0">Once you erase staff, all data will be removed from the database.</p>
                         </div>
                         <div class="card-body">
                             <div class="d-flex justify-content-end align-items-center">
-                                <div class="text-end">
-                                    <form action="student-process.php" method="post">
-                                        <input class="btn bg-gradient-danger btn-sm px-0" value="ERASE STAFF" name="eraseStaff">
+                                <div class="text-end pt-0 mt-0">
+                                    <form action="" method="post">
+                                        <input type="hidden" name="staff_id" value="<?php echo $staff['staff_id']; ?>">
+                                        <input type="submit" class="btn bg-gradient-danger btn-sm" value="erase" name="eraseStaff">
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- EOF card -->
+                    <!--  -->
+                    <div class="container py-7">
+                        <div class="row mt-5">
+                            <div class="col-sm-3 col-6 mx-auto">
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn bg-gradient-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Launch demo modal
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Your modal title</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Society has put up so many boundaries, so many limitations on what’s right and wrong that it’s almost impossible to get a pure thought out.
+                                                <br><br>
+                                                It’s like a little kid, a little boy, looking at colors, and no one told him what colors are good, before somebody tells you you shouldn’t like pink because that’s for girls, or you’d instantly become a gay two-year-old.
+                                            </div>
+                                            <div class="modal-footer justify-content-between">
+                                                <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn bg-gradient-warning">Save changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <?php include 'inc/admin-footer.php';  ?>
+        </div>
+        <?php include "inc/admin-footer.php"; ?>
     </main>
 
     <script src="../../js/plugins/state-capital.js"></script>
     <script src="../../js/plugins/sweetalert.min.js"></script>
     <?php include "inc/admin-scripts.php"; ?>
+
+    <?php
+    if (isset($_SESSION['success_message'])) {
+    ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: "Successful",
+                    text: "<?php echo $_SESSION['success_message']; ?>",
+                    timer: 3000,
+                    showConfirmButton: true,
+                    icon: 'success'
+                })
+            })
+        </script>
+    <?php
+        unset($_SESSION['success_message']);
+    }
+    if (isset($_SESSION['error_message'])) {
+    ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: "Error",
+                    text: "<?php echo $_SESSION['error_message']; ?>",
+                    timer: 3000,
+                    showConfirmButton: true,
+                    icon: 'error'
+                })
+            })
+        </script>
+    <?php
+        unset($_SESSION['error_message']);
+    }
+
+    ?>
 
 </body>
 

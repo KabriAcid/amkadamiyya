@@ -15,7 +15,7 @@
     if ($_SESSION['staff']['position_id'] == 1) {
         include "inc/admin-sidebar.php";
     } else {
-        include "inc/sidebar-staff.php";
+        include "inc/admin-sidebar.php";
     }
     ?>
 

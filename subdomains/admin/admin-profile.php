@@ -1,6 +1,11 @@
 <?php
-    session_start();
-    include "../../config/database.php";
+session_start();
+include "../../config/database.php";
+
+$position_id = $_SESSION['staff']['position_id'];
+$sql = "SELECT `position_name` FROM `school_post` WHERE `position_id` = '$position_id'";
+$result = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($result);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +24,7 @@
 
         <!--  -->
         <div class="container-fluid">
-            <div class="page-header min-height-300 border-radius-xl mt-4" style="background-image: url('../../assets/images/backgrounds/curved0.jpg'); background-position-y: 50%;">
+            <div class="page-header w-100 p-5 rounded" style="background: url('../../assets/images/backgrounds/blog7-3.jpg') no-repeat; background-size: cover; background-position: center;">
                 <span class="mask bg-gradient-primary opacity-6"></span>
             </div>
             <div class="card card-body blur shadow-blur mx-4 mt-n6 overflow-hidden">
@@ -35,7 +40,7 @@
                                 <?php echo $_SESSION['staff']['first_name'] . " " . $_SESSION['staff']['last_name']; ?>
                             </h5>
                             <p class="mb-0 font-weight-bold text-sm">
-                                <?php echo $_SESSION['staff']['position_id']; ?>
+                                <?php echo $row['position_name']; ?>
                             </p>
                         </div>
                     </div>
@@ -45,18 +50,17 @@
         <!-- Profile Information -->
         <div class="container-fluid pt-3">
             <div class="row">
-                <div class="col-lg-8 mb-3 mb-lg-0">
+                <div class="col-lg-10 mb-3 mb-lg-0">
                     <div class="card">
                         <div class="card-header pb-0">
                             <div class="d-flex justify-content-between">
-                                <h6>Profile Information</h6>
+                                <h6 class="text-gradient text-warning">Profile Information</h6>
                                 <a href="admin-edit-profile.php" class="btn bg-gradient-dark btn-sm">Edit <i class="ms-2 fa fa-edit" style="font-size: 12px;"></i></a>
                             </div>
                         </div>
-                        <hr class="horizontal gray-light my-1">
+                        <hr class="horizontal dark my-1">
                         <div class="card-body">
                             <div class="row">
-                                <h6 class="mb-4 text-gradient text-warning">Personal Data</h6>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">First Name: </strong>&nbsp; <?php echo ucfirst($_SESSION['staff']['first_name']); ?>
                                 </div>
@@ -64,7 +68,43 @@
                                     <strong class="text-dark">Last Name: </strong>&nbsp; <?php echo ucfirst($_SESSION['staff']['last_name']); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Position: </strong>&nbsp; <?php echo ucfirst($_SESSION['staff']['position_id']); ?>
+                                    <strong class="text-dark">Username: </strong>&nbsp; <?php echo ucfirst($_SESSION['staff']['username']); ?>
+                                </div>
+                                <div class="col-xxl-4 col-6 text-sm mb-4">
+                                    <strong class="text-dark">Email: </strong>&nbsp; <?php echo $_SESSION['staff']['email']; ?>
+                                </div>
+                                <div class="col-xxl-4 col-6 text-sm mb-4">
+                                    <strong class="text-dark">Phone Number: </strong>&nbsp; <?php echo $_SESSION['staff']['phone_number']; ?>
+                                </div>
+                                <div class="col-xxl-4 col-6 text-sm mb-4">
+                                    <strong class="text-dark">Class: </strong>&nbsp;
+                                    <?php
+                                    $class_id = $_SESSION['staff']['class_id'];
+                                    $sql = "SELECT `class_name` FROM `classes` WHERE `class_id` = '$class_id'";
+                                    $clasess = mysqli_query($conn, $sql);
+                                    $class = mysqli_fetch_assoc($clasess);
+                                    echo $class['class_name'];
+                                    ?>
+                                </div>
+                                <div class="col-xxl-4 col-6 text-sm mb-4">
+                                    <strong class="text-dark">Subject: </strong>&nbsp;
+                                    <?php
+                                    $subject_id = $_SESSION['staff']['subject_id'];
+                                    $sql = "SELECT `subject_name` FROM `subjects` WHERE `subject_id` = '$subject_id'";
+                                    $subjects = mysqli_query($conn, $sql);
+                                    $subject = mysqli_fetch_assoc($subjects);
+                                    echo $subject['subject_name'];
+                                    ?>
+                                </div>
+                                <div class="col-xxl-4 col-6 text-sm mb-4">
+                                    <strong class="text-dark">Position: </strong>&nbsp;
+                                    <?php
+                                    $position_id = $_SESSION['staff']['position_id'];
+                                    $sql = "SELECT `position_name` FROM `school_post` WHERE `position_id` = '$position_id'";
+                                    $positions = mysqli_query($conn, $sql);
+                                    $position = mysqli_fetch_assoc($positions);
+                                    echo $position['position_name'];
+                                    ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Birth Date: </strong>&nbsp; <?php echo $_SESSION['staff']['birth_date']; ?>
@@ -73,7 +113,19 @@
                                     <strong class="text-dark">Gender: </strong>&nbsp; <?php echo $_SESSION['staff']['gender']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Qualification: </strong>&nbsp; <?php echo $_SESSION['staff']['qualification'] . '. ' . $_SESSION['staff']['discipline']; ?>
+                                    <strong class="text-dark">Qualification: </strong>&nbsp;
+                                    <?php
+                                    $q_id = $_SESSION['staff']['q_id'];
+                                    $sql = "SELECT * FROM `qualifications` WHERE `q_id` = '$q_id'";
+                                    $result = mysqli_query($conn, $sql);
+                                    $qual = mysqli_fetch_assoc($result);
+
+                                    $discipline_id = $_SESSION['staff']['discipline_id'];
+                                    $sql = "SELECT * FROM `university_disciplines` WHERE `discipline_id` = '$discipline_id'";
+                                    $result = mysqli_query($conn, $sql);
+                                    $discipline = mysqli_fetch_assoc($result);
+                                    echo $qual['qualification_name'] . '. ' . $discipline['discipline_name'];
+                                    ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Home Address: </strong>&nbsp; <?php echo $_SESSION['staff']['address']; ?>
@@ -91,10 +143,17 @@
                                     <strong class="text-dark">Account Number: </strong>&nbsp; <?php echo $_SESSION['staff']['account_number']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Bank Name: </strong>&nbsp; <?php echo $_SESSION['staff']['bank_name']; ?>
+                                    <strong class="text-dark">Bank Name: </strong>&nbsp;
+                                    <?php
+                                    $bank_id = $_SESSION['staff']['bank_id'];
+                                    $sql = "SELECT `bank_name` FROM `nigerian_banks` WHERE `bank_id` = '$bank_id'";
+                                    $banks = mysqli_query($conn, $sql);
+                                    $bank = mysqli_fetch_assoc($banks);
+                                    echo $bank['bank_name'];
+                                    ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Join Date: </strong>&nbsp; <?php echo date("j F, Y h:m", strtotime($_SESSION['staff']['timestamp'])); ?>
+                                    <strong class="text-dark">Join Date: </strong>&nbsp; <?php echo date("j F, Y", strtotime($_SESSION['staff']['timestamp'])); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Status: </strong>&nbsp; <?php echo $_SESSION['staff']['status'] == "" ? "Not Active" : "Active"; ?>
@@ -106,8 +165,10 @@
             </div>
         </div>
 
-    <?php include 'inc/admin-footer.php';  ?>
-</main>
+        <?php include 'inc/admin-footer.php';  ?>
+    </main>
+    <script src="../../js/plugins/sweetalert.min.js"></script>
+    <?php include "inc/admin-scripts.php"; ?>
 
 </body>
 

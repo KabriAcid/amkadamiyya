@@ -79,7 +79,7 @@ include "admin-process.php";
                         <div class="card-header mb-0">
                             <h6 class="text-dark">Add New Subject</h6>
                         </div>
-                        <hr class="horizontal dark my-0">
+                        <hr class="horizontal dark">
                         <div class="card-body">
                             <form action="" method="POST">
                                 <div class="mb-3">

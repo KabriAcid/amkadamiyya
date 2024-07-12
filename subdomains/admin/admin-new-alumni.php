@@ -30,7 +30,7 @@ include "admin-process.php";
                                 You can add a new alumni to the database here.
                             </p>
                         </div>
-                        <hr class="horizontal dark my-0">
+                        <hr class="horizontal dark">
                         <div class="card-body">
                             <form action="" method="post" class="mt-3">
                                 <div class="row">

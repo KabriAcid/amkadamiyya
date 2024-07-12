@@ -6,7 +6,7 @@
                 <div class="card-header">
                     <h5 class="mb-0 text-gradient text-dark">Staff Table</h5>
                     <p class="text-sm mb-0">
-                        Below is a concise staff list. Click 'View' to see complete details.
+                        Below is a list of staff. Click 'View' to see complete details.
                     </p>
                 </div>
                 <div class="table-responsive">
@@ -33,7 +33,7 @@
                         </thead>
                         <tbody>
                             <?php
-                            $sql = "SELECT * FROM `staff` WHERE `position_id` != 1 ORDER BY `position_id`, `first_name`, `last_name`";
+                            $sql = "SELECT * FROM `staff` ORDER BY `position_id`, `first_name`, `last_name`";
                             $result = mysqli_query($conn, $sql);
                             while ($row = mysqli_fetch_assoc($result)) {
                             ?>
@@ -90,7 +90,10 @@
                                         ?>
                                     </td>
                                     <td class="text-sm text-center font-weight-normal">
-                                        <a href="admin-view-staff.php?staff_id=<?php echo $row['staff_id']; ?>">View</a>
+                                        <form action="admin-view-staff.php" method="get">
+                                            <input type="hidden" name="staff_id" value="<?php echo $row['staff_id']; ?>">
+                                            <button type="submit" class="border-0 bg-gradient-light rounded text-sm">View</button>
+                                        </form>
                                     </td>
                                 </tr>
                             <?php

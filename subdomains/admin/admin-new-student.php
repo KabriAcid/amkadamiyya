@@ -1,5 +1,5 @@
 <?php
-include "admin-process.php";
+    include_once "admin-process.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -71,11 +71,11 @@ include "admin-process.php";
                                             <option value="" selected="selected">-- State --</option>
                                             <?php
                                             $sql = "SELECT * FROM `nigerian_states`;";
-                                            $result = mysqli_query($conn, $sql);
+                                            $states = mysqli_query($conn, $sql);
 
-                                            while ($row = mysqli_fetch_assoc($result)) {
+                                            while ($state = mysqli_fetch_assoc($states)) {
                                             ?>
-                                                <option value="<?php echo $row['state_name']; ?>"><?php echo $row['state_name'] ?>
+                                                <option value="<?php echo $state['state_name']; ?>"><?php echo $state['state_name'] ?>
                                                 </option>
                                             <?php
                                             }
@@ -226,7 +226,6 @@ include "admin-process.php";
                 Swal.fire({
                     title: "Error",
                     text: "<?php echo $_SESSION['error_message']; ?>",
-                    timer: 3000,
                     showConfirmButton: true,
                     icon: 'error'
                 })
