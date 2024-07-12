@@ -79,7 +79,7 @@ if (isset($_GET['staff_id'])) {
         <div class="container-fluid pt-3">
             <div class="row">
                 <div class="col-lg-12 col-xl-7">
-                    <form action="processing-form.php" method="post" enctype="multipart/form-data">
+                    <form action="" method="post" enctype="multipart/form-data">
                         <div class="card">
                             <div class="card-header">
                                 <h6 class="mb-0 text-gradient text-warning">Biodata</h6>
@@ -177,7 +177,7 @@ if (isset($_GET['staff_id'])) {
                             </div>
                             <!-- card body -->
                             <div class="card-footer text-end pt-0">
-                                <input type="submit" value="update" name="updateBioData" class="btn bg-gradient-dark mb-0">
+                                <input type="submit" value="update" name="updateStaffBioData" class="btn bg-gradient-dark mb-0">
                             </div>
                         </div>
                     </form>
@@ -366,7 +366,7 @@ if (isset($_GET['staff_id'])) {
                                 <!--  -->
                             </div>
                             <div class="card-footer text-end pt-0">
-                                <input type="submit" value="update" name="updateAccount" class="btn bg-gradient-dark mb-0">
+                                <input type="submit" value="update" name="updateStaffAccount" class="btn bg-gradient-dark mb-0">
                             </div>
                         </div>
                     </form>
@@ -374,11 +374,10 @@ if (isset($_GET['staff_id'])) {
                     <form action="" method="post" class="mt-3">
                         <div class="card">
                             <div class="card-header">
-                                <h6 class="mb-0 text-gradient text-warning">Change Password</h6>
+                                <h6 class="mb-0 text-gradient text-info">Change Password</h6>
                                 <p class="text-sm mb-0">Change your account password.</p>
                             </div>
-                            <hr class="horizontal dark">
-
+                            <hr class="horizontal dark my-0">
                             <div class="card-body">
                                 <label>Change Password</label>
                                 <div class="input-group">
@@ -387,7 +386,7 @@ if (isset($_GET['staff_id'])) {
 
                             </div>
                             <div class="card-footer text-end pt-0">
-                                <input type="submit" value="update" name="updatePassword" class="btn bg-gradient-dark mb-0">
+                                <input type="submit" value="update" name="updateStaffPassword" class="btn bg-gradient-dark mb-0">
                             </div>
                             <!-- Hidden Input Field -->
                             <input type="hidden" name="staff_id" value="<?php echo $staff_id; ?>">
@@ -401,11 +400,11 @@ if (isset($_GET['staff_id'])) {
                             <p class="text-secondary text-sm mb-0">Once you erase staff, all data will be removed from the database.</p>
                         </div>
                         <div class="card-body">
-                            <div class="d-flex justify-content-end align-items-center">
-                                <div class="text-end pt-0 mt-0">
+                            <div class="d-flex justify-content-end align-items-center my-0 py-0">
+                                <div class="text-end">
                                     <form action="" method="post">
                                         <input type="hidden" name="staff_id" value="<?php echo $staff['staff_id']; ?>">
-                                        <input type="submit" class="btn bg-gradient-danger btn-sm" value="erase" name="eraseStaff">
+                                        <input type="submit" class="btn bg-gradient-danger btn-sm" value="erase" name="eraseStaffData">
                                     </form>
                                 </div>
                             </div>
@@ -416,9 +415,9 @@ if (isset($_GET['staff_id'])) {
                         <div class="row mt-5">
                             <div class="col-sm-3 col-6 mx-auto">
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn bg-gradient-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <!-- <button type="button" class="btn bg-gradient-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                     Launch demo modal
-                                </button>
+                                </button> -->
 
                                 <!-- Modal -->
                                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -445,7 +444,7 @@ if (isset($_GET['staff_id'])) {
                     </div>
                 </div>
             </div>
-
+            <!-- <button type="submit" focusable name="register" class="btn bg-gradient-success ms-auto mb-0" onclick="soft.showSwal('success-message')">Proceed</button> -->
         </div>
         <?php include "inc/admin-footer.php"; ?>
     </main>

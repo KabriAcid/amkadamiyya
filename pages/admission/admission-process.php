@@ -1,60 +1,54 @@
+
 <?php
 session_start();
 include "../../config/database.php";
+function changeCase($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = ucwords(strtolower($data));
+    return $data;
+}
+// Adding new student
+if (isset($_POST['applyAdmission'])) {
+    // Input sanitization and validation
+    $class_id = $_POST['class_id'];
 
-if (isset($_POST['submitApplication'])) {
+    $result = mysqli_query($conn, "SELECT * FROM `classes` WHERE `class_id` = '$class_id'");
+    $class = mysqli_fetch_assoc($result);
 
-    // Function to sanitize input data
-    function sanitize_input($data) {
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = ucwords(strtolower($data));
-        return $data;
+    $section_id = $class['section_id'];
+
+
+    $first_name = changeCase(trim($_POST['first_name']));
+    $second_name = changeCase(trim($_POST['second_name']));
+    $last_name = changeCase(trim($_POST['last_name']));
+    $birth_date = trim($_POST['birth_date']);
+    $state = changeCase(trim($_POST['state']));
+    $lga = changeCase(trim($_POST['lga']));
+    $gender = trim($_POST['gender']);
+    $parent_first_name = changeCase(trim($_POST['parent_first_name']));
+    $parent_last_name = changeCase(trim($_POST['parent_last_name']));
+    $parent_email = trim($_POST['parent_email']);
+    $parent_address = changeCase(trim($_POST['parent_address']));
+    $parent_phone_number = trim($_POST['parent_phone_number']);
+
+    $errors = [];
+
+    // Validate mandatory fields
+    $mandatoryFields = [
+        'first_name', 'last_name', 'birth_date', 'state', 'lga', 'gender',
+        'parent_first_name', 'parent_last_name', 'parent_address'
+    ];
+    foreach ($mandatoryFields as $field) {
+        if (empty($_POST[$field])) {
+            $errors[] = ucfirst(str_replace('_', ' ', $field)) . " is required";
+        }
     }
 
-    // Error and success message initialization
-    $_SESSION['success_message'] = null;
-    $_SESSION['error_message'] = null;
-
-    // Student's Data
-    $first_name = sanitize_input($_POST['first_name']);
-    $middle_name = sanitize_input($_POST['middle_name']);
-    $last_name = sanitize_input($_POST['last_name']);
-    $birth_date = sanitize_input($_POST['birth_date']);
-    $state = sanitize_input($_POST['state']);
-    $lga = sanitize_input($_POST['lga']);
-    $gender = sanitize_input($_POST['gender']);
-
-    // Student's Passport photograph
-    $photo = $_FILES['photo'];
-
-    // Parent's Data
-    $parent_firstName = sanitize_input($_POST['parent_firstName']);
-    $parent_last_name = sanitize_input($_POST['parent_last_name']);
-    $parent_email = $_POST['parent_email'];
-    $parent_address = sanitize_input($_POST['parent_address']);
-    $parent_occupation = sanitize_input($_POST['parent_occupation']);
-    $parent_maritalStatus = sanitize_input($_POST['parent_maritalStatus']);
-    $parent_phoneNumber = sanitize_input($_POST['parent_phoneNumber']);
-    $parent_altPhone = sanitize_input($_POST['parent_altPhone']);
-    $parent_birthState = sanitize_input($_POST['parent_birthState']);
-    $parent_birthLGA = sanitize_input($_POST['parent_birthLGA']);
-    $enrolling_class = sanitize_input($_POST['enrolling_class']);
-
-    // Reusable Variables
-    $dir = "uploads/";
-    $tmp_name = $photo['tmp_name'];
-    $fileSize = $photo['size'];
-
-    // Encrypting file Name
-    $uniqid = uniqid();
-    $fileNewName = $dir . $uniqid . "." . pathinfo($photo['name'], PATHINFO_EXTENSION);
-    $target_file = $fileNewName;
-    $ext = array("jpg", "jpeg", "JPG", "png", "heic");
-    $megabyte = (1024 * 1024) * 3; // 3MB
-
     // Function to insert hyphens
-    function insertHyphens($string) {
+    function insertHyphens($string)
+    {
         $result = chunk_split($string, 4, '-');
         return rtrim($result, '-');
     }
@@ -64,53 +58,46 @@ if (isset($_POST['submitApplication'])) {
     $substring = substr($md5_hash, 0, 16);
     $application_code = strtoupper(insertHyphens($substring));
 
-    // Check if photo upload is successful
-    if ($photo['error'] == 0) {
-        // Check file size
-        if ($fileSize <= $megabyte) {
-            // Check if file is a valid photo
-            if (in_array(pathinfo($target_file, PATHINFO_EXTENSION), $ext)) {
-                // Move uploaded file
-                if (move_uploaded_file($tmp_name, $target_file)) {
-                    // Insert into database
-                    $sql = "INSERT INTO `applicants` (
-                        first_name, middle_name, last_name, birth_date, state, lga, gender, photo, parent_firstName, parent_last_name, parent_email, parent_address, parent_occupation, parent_maritalStatus, parent_phoneNumber, parent_altPhone, parent_birthState, parent_birthLGA, enrolling_class, application_code
-                    ) VALUES (
-                        '$first_name', '$middle_name', '$last_name', '$birth_date', '$state', '$lga', '$gender', '$target_file', '$parent_firstName', '$parent_last_name', '$parent_email', '$parent_address', '$parent_occupation', '$parent_maritalStatus', '$parent_phoneNumber', '$parent_altPhone', '$parent_birthState', '$parent_birthLGA', '$enrolling_class', '$application_code'
-                    )";
+    function isValidPhoneNumber($parent_phone_number)
+    {
+        // Define the regular expression pattern for a Nigerian phone number
+        $pattern = '/^((070|080|090|081|091)\d{8})$/';
+        trim($parent_phone_number);
 
-                    if (mysqli_query($conn, $sql)) {
-                        // Insert into Notifications table
-                        $notification_sql = "INSERT INTO `notifications` (`not_level`, `not_title`, `not_content`, `not_icon`, `not_icon_color`, `not_bg_color`)
-                        VALUES ('applicant', 'New Applicant received.', '$first_name $last_name from $lga has applied for an admission and is enrolling for $enrolling_class.', 'ni ni-single-02', 'text-warning', 'bg-warning-soft');";
-                        
-                        mysqli_query($conn, $notification_sql);
-
-                        $_SESSION['success_message'] = "Application submitted successfully.";
-                        $_SESSION['applicant'] = $_POST;
-
-                        // Redirect to form-success page
-                        header('Location: form-success.php');
-                        exit;
-                    } else {
-                        $_SESSION['error_message'] = "Can't upload data.";
-                    }
-                } else {
-                    $_SESSION['error_message'] = "Failed to move uploaded file.";
-                }
-            } else {
-                $_SESSION['error_message'] = "Invalid file type.";
-            }
+        // Check if the phone number matches the pattern
+        if (preg_match($pattern, $parent_phone_number)) {
+            return true;
         } else {
-            $_SESSION['error_message'] = "File size is greater than 3MB.";
+            return false;
         }
-    } else {
-        $_SESSION['error_message'] = "Error uploading photo.";
+    }
+    // Validate phone number
+    if (!isValidPhoneNumber($parent_phone_number)) {
+        $_SESSION['error_message'] = "Please enter a valid Nigerian phone number.";
+        // Redirect back to the same page
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
     }
 
-    // Redirect to the same page to show error message
-    // header('Location: ' . $_SERVER['PHP_SELF']);
-    header("Location: form-success.php");
+    if (empty($errors)) {
+        // Insert data into the database
+        $sql = "INSERT INTO `applicants` (`class_id`, `section_id`, `first_name`, `second_name`, `last_name`, `birth_date`, `state`, `lga`, `gender`, `parent_first_name`, `parent_last_name`, `parent_email`, `parent_address`, `parent_phone_number`) 
+
+        VALUES ('$class_id', '$section_id', '$first_name', '$second_name', '$last_name', '$birth_date', '$state', '$lga', '$gender', '$parent_first_name', '$parent_last_name', '$parent_email', '$parent_address', '$parent_phone_number')";
+
+        if (mysqli_query($conn, $sql)) {
+            $sql = "INSERT INTO `admin_notification` (`not_level`, `not_title`, `not_content`, `not_icon`, `not_icon_color`, `not_bg_color`)
+                        VALUES ('applicant', 'New Applicant received.', '$first_name $last_name from $lga has applied for an admission and is enrolling for $enrolling_class.', 'ni ni-single-02', 'text-warning', 'bg-warning-soft');";
+            mysqli_query($conn, $sql);
+            $_SESSION['success_message'] = "Student added successfully!";
+            header('Location: form-success.php');
+            // echo 
+        } else {
+            $_SESSION['error_message'] = "Error: " . mysqli_error($conn);
+        }
+    } else {
+        $_SESSION['error_message'] = $errors;
+    }
+
     exit;
 }
-?>

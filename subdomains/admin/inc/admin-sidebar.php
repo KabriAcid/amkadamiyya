@@ -66,7 +66,7 @@
                   </li>
                   <li class="nav-item">
                      <a class="nav-link" href="admin-new-student.php">
-                        <span class="sidenav-normal"> Add New Student </span>
+                        <span class="sidenav-normal"> Add Student </span>
                      </a>
                   </li>
                </ul>
@@ -102,7 +102,7 @@
                   </li>
                   <li class="nav-item">
                      <a class="nav-link" href="admin-new-staff.php">
-                        <span class="sidenav-normal"> Add New Staff </span>
+                        <span class="sidenav-normal"> Add Staff </span>
                      </a>
                   </li>
                </ul>
@@ -169,7 +169,7 @@
                   </li>
                   <li class="nav-item">
                      <a class="nav-link" href="admin-new-post.php">
-                        <span class="sidenav-normal"> Add new Blog </span>
+                        <span class="sidenav-normal"> New Post </span>
                      </a>
                   </li>
                </ul>
@@ -225,7 +225,7 @@
                <ul class="nav ms-4 ps-3">
                   <li class="nav-item">
                      <a class="nav-link" href="admin-add-subject.php">
-                        <span class="sidenav-normal"> Add New Subject </span>
+                        <span class="sidenav-normal"> Add Subject </span>
                      </a>
                   </li>
                </ul>

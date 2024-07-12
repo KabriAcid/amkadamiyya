@@ -59,7 +59,10 @@
                                         <td class="text-sm text-center font-weight-normal"><?php echo $row['state']; ?></td>
                                         <td class="text-sm text-center font-weight-normal"><?php echo $row['lga']; ?></td>
                                         <td class="text-sm text-center font-weight-normal">
-                                            <a href="admin-view-student.php?student_id=<?php echo $row['student_id']; ?>" class="">View</a>
+                                            <form action="admin-view-student.php" method="get">
+                                                <input type="hidden" name="student_id" value="<?php echo $row['student_id']; ?>">
+                                                <button type="submit" class="border-0 bg-gradient-light rounded text-sm">View</button>
+                                            </form>
                                         </td>
                                     </tr>
 
@@ -85,7 +88,10 @@
                                         <td class="text-sm text-center font-weight-normal"><?php echo $row['state']; ?></td>
                                         <td class="text-sm text-center font-weight-normal"><?php echo $row['lga']; ?></td>
                                         <td class="text-sm text-center font-weight-normal">
-                                            <a href="admin-view-student.php?student_id=<?php echo $row['student_id']; ?>" class="">View</a>
+                                            <form action="admin-view-student.php" method="get">
+                                                <input type="hidden" name="student_id" value="<?php echo $row['student_id']; ?>">
+                                                <button type="submit" class="border-0 bg-gradient-light rounded text-sm">View</button>
+                                            </form>
                                         </td>
                                     </tr>
 

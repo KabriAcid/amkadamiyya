@@ -313,7 +313,7 @@ if (isset($_SESSION['registration_success'])) {
                                                 <button class="btn bg-gradient-light mb-0 js-btn-prev" type="button" title="Prev">Prev</button>
 
                                                 <!-- Submit Button -->
-                                                <button type="submit" focusable name="register" class="btn bg-gradient-success ms-auto mb-0" tabindex="1">Proceed</button>
+                                                <button type="submit" focusable name="register" class="btn bg-gradient-success ms-auto mb-0" onclick="soft.showSwal('success-message')">Proceed</button>
                                             </div>
                                         </div>
                                     </div>

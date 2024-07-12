@@ -1,6 +1,6 @@
  <!-- ---- START FOOTER 10 white w/ bg image 5 cols & subscribe area & social---- -->
  <footer class="footer py-7 position-relative overflow-hidden">
-     <img src="../assets/shapes/pattern-lines.svg" alt="pattern-lines" class="position-absolute start-0 top-0 w-100 opacity-6">
+     <!-- <img src="../assets/shapes/pattern-lines.svg" alt="pattern-lines" class="position-absolute start-0 top-0 w-100 opacity-6"> -->
      <div class="position-absolute w-100 bottom-0">
          <svg width="100%" viewBox="0 -1 1920 166" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
              <title>wave-up</title>

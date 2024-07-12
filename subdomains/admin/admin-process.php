@@ -18,7 +18,7 @@ if (isset($_POST['register'])) {
             return ucwords(strtolower(trim($string)));
         }
         // Validate mandatory fields
-        $mandatoryFields = ['first_name', 'last_name', 'birth_date', 'gender', 'address', 'state', 'lga', 'email', 'phone_number', 'qualification', 'discipline', 'class_id', 'subject_id', 'position_id', 'account_number', 'bank_id', 'salary', 'status'];
+        $mandatoryFields = ['first_name', 'last_name', 'birth_date', 'gender', 'address', 'state', 'lga', 'email', 'phone_number', 'q_id', 'discipline_id', 'class_id', 'subject_id', 'position_id', 'account_number', 'bank_id', 'salary', 'status'];
         foreach ($mandatoryFields as $field) {
             if (empty($_POST[$field])) {
                 $_SESSION['error_message'] = "Some fields are missing!";
@@ -94,7 +94,7 @@ if (isset($_POST['register'])) {
         $sql = "INSERT INTO `staff` (
                     `username`, `first_name`, `last_name`, `class_id`, `section_id`,
                     `subject_id`, `birth_date`, `state`, `lga`, `gender`, `photo`,
-                    `email`, `phone_number`,`qualification`, `discipline`, `address`,
+                    `email`, `phone_number`,`q_id`, `discipline_id`, `address`,
                     `account_number`, `bank_id`, `salary`, `status`, `position_id`, `password`
                 ) VALUES (
                     '$username', '$first_name', '$last_name', '$class_id', '$section_id',
@@ -125,6 +125,7 @@ if (isset($_POST['register'])) {
     }
 }
 
+// Updating staff information
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Function to capitalize names
     function capitalize($string)
@@ -132,10 +133,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         return ucwords(strtolower(trim($string)));
     }
 
-    // Update Biodata
-    if (isset($_POST['updateBioData'])) {
-        $staff_id = $_POST['staff_id'];
+    $staff_id = mysqli_real_escape_string($conn, $_POST['staff_id']);
 
+    // Update Biodata
+    if (isset($_POST['updateStaffBioData'])) {
         $first_name = capitalize(mysqli_real_escape_string($conn, $_POST['first_name']));
         $last_name = capitalize(mysqli_real_escape_string($conn, $_POST['last_name']));
         $birth_date = mysqli_real_escape_string($conn, $_POST['birth_date']);
@@ -145,7 +146,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $phone_number = mysqli_real_escape_string($conn, $_POST['phone_number']);
         $address = capitalize(mysqli_real_escape_string($conn, $_POST['address']));
 
-        if (isset($_FILES['photo'])) {
+        $photo = null;
+        if (isset($_FILES['photo']) && $_FILES['photo']['error'] == UPLOAD_ERR_OK) {
             $megabyte = (1024 * 1024) * 3;
             if ($_FILES['photo']['size'] > $megabyte) {
                 $_SESSION['error_message'] = "Image size should not be more than 3MB";
@@ -156,28 +158,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $_SESSION['staff']['photo'] = $photo;
                     }
                     $_SESSION['success_message'] = "Photo updated successfully!";
-                    // Redirect back to the same page
-                    header("Location: " . $_SERVER['PHP_SELF']);
-                    exit();
+                } else {
+                    $_SESSION['error_message'] = "Error uploading the photo.";
                 }
             }
         }
 
         $sql = "UPDATE staff SET 
-            first_name='$first_name',
-            last_name='$last_name', 
-            birth_date='$birth_date', 
-            gender='$gender', 
-            state='$state', 
-            lga='$lga', 
-            phone_number='$phone_number', 
-            address='$address'
-            WHERE staff_id='$staff_id'";
+            first_name=?, last_name=?, birth_date=?, gender=?, state=?, lga=?, phone_number=?, address=?";
+        if ($photo) {
+            $sql .= ", photo=?";
+        }
+        $sql .= " WHERE staff_id=?";
 
-        if (mysqli_query($conn, $sql)) {
-            // Update session data
+        $stmt = $conn->prepare($sql);
+        if ($photo) {
+            $stmt->bind_param("sssssssssi", $first_name, $last_name, $birth_date, $gender, $state, $lga, $phone_number, $address, $photo, $staff_id);
+        } else {
+            $stmt->bind_param("ssssssssi", $first_name, $last_name, $birth_date, $gender, $state, $lga, $phone_number, $address, $staff_id);
+        }
+
+        if ($stmt->execute()) {
             if ($_SESSION['staff']['staff_id'] == $staff_id) {
-
                 $_SESSION['staff']['first_name'] = $first_name;
                 $_SESSION['staff']['last_name'] = $last_name;
                 $_SESSION['staff']['birth_date'] = $birth_date;
@@ -186,22 +188,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['staff']['lga'] = $lga;
                 $_SESSION['staff']['phone_number'] = $phone_number;
                 $_SESSION['staff']['address'] = $address;
+                if ($photo) {
+                    $_SESSION['staff']['photo'] = $photo;
+                }
             }
-
             $_SESSION['success_message'] = "Biodata updated successfully!";
         } else {
-            $_SESSION['error_message'] = "Error updating biodata: " . mysqli_error($conn);
+            $_SESSION['error_message'] = "Error updating biodata: " . $stmt->error;
         }
-        // Redirect to the appropriate page after processing
-        header("Location:" . $_SERVER['PHP_SELF']);
-        exit();
+
+        $stmt->close();
     }
 
     // Update Other Information
     if (isset($_POST['updateOtherData'])) {
-
-        $staff_id = $_POST['staff_id'];
-
         $class_id = mysqli_real_escape_string($conn, $_POST['class_id']);
         $subject_id = mysqli_real_escape_string($conn, $_POST['subject_id']);
         $position_id = mysqli_real_escape_string($conn, $_POST['position_id']);
@@ -212,122 +212,195 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $bank_id = mysqli_real_escape_string($conn, $_POST['bank_id']);
         $status = mysqli_real_escape_string($conn, $_POST['status']);
 
-        // Update session data
         if ($_SESSION['staff']['staff_id'] == $staff_id) {
-
             $_SESSION['staff']['class_id'] = $class_id;
             $_SESSION['staff']['subject_id'] = $subject_id;
             $_SESSION['staff']['position_id'] = $position_id;
-            $_SESSION['staff']['qualification'] = $qualification;
-            $_SESSION['staff']['discipline'] = $discipline;
+            $_SESSION['staff']['q_id'] = $qualification;
+            $_SESSION['staff']['discipline_id'] = $discipline;
             $_SESSION['staff']['salary'] = $salary;
             $_SESSION['staff']['account_number'] = $account_number;
             $_SESSION['staff']['bank_id'] = $bank_id;
             $_SESSION['staff']['status'] = $status;
         }
 
-        $sql = "UPDATE staff SET 
-            class_id='$class_id', 
-            subject_id='$subject_id', 
-            position_id='$position_id', 
-            qualification='$qualification', 
-            discipline='$discipline', 
-            salary='$salary', 
-            account_number='$account_number', 
-            bank_id='$bank_id',
-            status='$status'
-            WHERE staff_id='$staff_id'";
+        $stmt = $conn->prepare("UPDATE staff SET class_id=?, subject_id=?, position_id=?, q_id=?, discipline_id=?, salary=?, account_number=?, bank_id=?, status=? WHERE staff_id=?");
+        $stmt->bind_param("iiississsi", $class_id, $subject_id, $position_id, $qualification, $discipline, $salary, $account_number, $bank_id, $status, $staff_id);
 
-        if (mysqli_query($conn, $sql)) {
+        if ($stmt->execute()) {
             $_SESSION['success_message'] = "Profile information updated successfully!";
         } else {
-            $_SESSION['error_message'] = "Error updating profile information: " . mysqli_error($conn);
+            $_SESSION['error_message'] = "Error updating profile information: " . $stmt->error;
         }
-        // Redirect to the appropriate page after processing
-        header("Location:" . $_SERVER['PHP_SELF']);
-        exit();
+
+        $stmt->close();
     }
 
     // Update Account Information
     if (isset($_POST['updateAccount'])) {
-
-        $staff_id = $_POST['staff_id'];
-
         $username = mysqli_real_escape_string($conn, $_POST['username']);
         $email = mysqli_real_escape_string($conn, $_POST['email']);
 
-        $sql = "UPDATE staff SET 
-            username='$username', 
-            email='$email', 
-            password='$password' 
-            WHERE staff_id='$staff_id'";
+        $stmt = $conn->prepare("UPDATE staff SET username=?, email=? WHERE staff_id=?");
+        $stmt->bind_param("ssi", $username, $email, $staff_id);
 
-        if (mysqli_query($conn, $sql)) {
-            // Update session data
+        if ($stmt->execute()) {
             if ($_SESSION['staff']['staff_id'] == $staff_id) {
                 $_SESSION['staff']['username'] = $username;
                 $_SESSION['staff']['email'] = $email;
-                $_SESSION['staff']['password'] = $password;
-
-                $_SESSION['success_message'] = "Account information updated successfully!";
             }
+            $_SESSION['success_message'] = "Account information updated successfully!";
         } else {
-            $_SESSION['error_message'] = "Error updating account information: " . mysqli_error($conn);
+            $_SESSION['error_message'] = "Error updating account information: " . $stmt->error;
         }
-        // Redirect to the appropriate page after processing
-        header("Location:" . $_SERVER['PHP_SELF']);
-        exit();
+
+        $stmt->close();
     }
-    // Update Staff password
-    if (isset($_POST['updatePassword'])) {
 
-        $staff_id = $_POST['staff_id'];
-
+    // Update Staff Password
+    if (isset($_POST['updateStaffPassword'])) {
         $newPassword = mysqli_real_escape_string($conn, $_POST['newPassword']);
 
         if (empty($newPassword)) {
             $_SESSION['error_message'] = "Password cannot be empty";
         } else if (strlen($newPassword) < 3) {
-            $_SESSION['error_message'] = "Password must be greater the 3 characters";
+            $_SESSION['error_message'] = "Password must be greater than 3 characters";
         } else {
             $password = password_hash($newPassword, PASSWORD_BCRYPT);
-        }
-        $sql = "UPDATE staff SET 
-        password='$password' 
-        WHERE staff_id='$staff_id'";
 
-        if (mysqli_query($conn, $sql)) {
-            // Update session data
-            if ($_SESSION['staff']['staff_id'] == $staff_id) {
-                $_SESSION['staff']['password'] = $password;
+            $stmt = $conn->prepare("UPDATE staff SET password=? WHERE staff_id=?");
+            $stmt->bind_param("si", $password, $staff_id);
+
+            if ($stmt->execute()) {
+                if ($_SESSION['staff']['staff_id'] == $staff_id) {
+                    $_SESSION['staff']['password'] = $password;
+                }
+                $_SESSION['success_message'] = "Password updated successfully!";
+            } else {
+                $_SESSION['error_message'] = "Error updating password: " . $stmt->error;
             }
-            $_SESSION['success_message'] = "Password updated successfully!";
-        } else {
-            $_SESSION['error_message'] = "Error updating password: " . mysqli_error($conn);
+
+            $stmt->close();
         }
-        // Redirect to the appropriate page after processing
-        header("Location:" . $_SERVER['PHP_SELF']);
-        exit();
     }
 
     // Erase Staff
-    if (isset($_POST['eraseStaff'])) {
+    if (isset($_POST['eraseStaffData'])) {
+        $stmt = $conn->prepare("DELETE FROM staff WHERE staff_id=?");
+        $stmt->bind_param("i", $staff_id);
 
-        $staff_id = $_POST['staff_id'];
-
-        $sql = "DELETE FROM staff WHERE staff_id='$staff_id'";
-
-        if (mysqli_query($conn, $sql)) {
+        if ($stmt->execute()) {
             $_SESSION['success_message'] = "Staff erased successfully!";
             // Clear session data after deleting the staff
         } else {
-            $_SESSION['error_message'] = "Error erasing staff: " . mysqli_error($conn);
+            $_SESSION['error_message'] = "Error erasing staff: " . $stmt->error;
         }
-        // Redirect to the appropriate page after processing
-        header("Location: admin-staff-list.php");
-        exit();
+
+        $stmt->close();
     }
+
+    // Redirect to the appropriate page after processing
+    header("Location:" . $_SERVER['PHP_SELF']);
+    exit();
 }
+// Check if the form is submitted
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    // Function to capitalize names
+    function capitalize($string)
+    {
+        return ucwords(strtolower(htmlspecialchars(trim($string))));
+    }
+
+    // Declare student_id once
+    $student_id = $_POST['student_id'];
+
+    // Update Student Biodata
+    if (isset($_POST['updateStudentBioData'])) {
+        $first_name = capitalize($_POST['first_name']);
+        $second_name = capitalize($_POST['second_name']);
+        $last_name = capitalize($_POST['last_name']);
+        $birth_date = $_POST['birth_date'];
+        $gender = $_POST['gender'];
+        $state = $_POST['state'];
+        $lga = $_POST['lga'];
+        $class_id = $_POST['class_id'];
+
+        $sql = "UPDATE students SET first_name = ?, second_name = ?, last_name = ?, birth_date = ?, gender = ?, state = ?, lga = ?, class_id = ? WHERE student_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('sssssssii', $first_name, $second_name, $last_name, $birth_date, $gender, $state, $lga, $class_id, $student_id);
+        if ($stmt->execute()) {
+            $_SESSION['success_message'] = "Student biodata updated successfully!";
+        } else {
+            $_SESSION['error_message'] = "Error updating biodata: " . $stmt->error;
+        }
+        $stmt->close();
+    }
+
+    // Update Parent Information
+    if (isset($_POST['updateParentData'])) {
+        $parent_first_name = capitalize($_POST['parent_first_name']);
+        $parent_last_name = capitalize($_POST['parent_last_name']);
+        $parent_email = $_POST['parent_email'];
+        $parent_phone_number = $_POST['parent_phone_number'];
+        $parent_address = capitalize($_POST['parent_address']);
+        $status = $_POST['status'];
+
+        $sql = "UPDATE parents SET first_name = ?, last_name = ?, email = ?, phone_number = ?, address = ?, status = ? WHERE student_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('sssssii', $parent_first_name, $parent_last_name, $parent_email, $parent_phone_number, $parent_address, $status, $student_id);
+        if ($stmt->execute()) {
+            $_SESSION['success_message'] = "Parent information updated successfully!";
+        } else {
+            $_SESSION['error_message'] = "Error updating parent information: " . $stmt->error;
+        }
+        $stmt->close();
+    }
+
+    // Update Student Account Information
+    if (isset($_POST['updateStudentAdmission'])) {
+        $admission_number = $_POST['admission_number'];
+
+        $sql = "UPDATE students SET admission_number = ? WHERE student_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('si', $admission_number, $student_id);
+        if ($stmt->execute()) {
+            $_SESSION['success_message'] = "Account information updated successfully!";
+        } else {
+            $_SESSION['error_message'] = "Error updating account information: " . $stmt->error;
+        }
+        $stmt->close();
+    }
+
+    // Update Student Password
+    if (isset($_POST['updateStudentPassword'])) {
+        $newPassword = $_POST['newPassword'];
+
+        if (empty($newPassword)) {
+            $_SESSION['error_message'] = "Password cannot be empty";
+        } else if (strlen($newPassword) < 3) {
+            $_SESSION['error_message'] = "Password must be greater than 3 characters";
+        } else {
+            $password = password_hash($newPassword, PASSWORD_BCRYPT);
+
+            $sql = "UPDATE students SET password = ? WHERE student_id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param('si', $password, $student_id);
+            if ($stmt->execute()) {
+                $_SESSION['success_message'] = "Password updated successfully!";
+            } else {
+                $_SESSION['error_message'] = "Error updating password: " . $stmt->error;
+            }
+            $stmt->close();
+        }
+    }
+
+    // Redirect to the appropriate page after processing
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+}
+
+
 
 
 //  Login Process
@@ -429,33 +502,31 @@ if (isset($_POST['addStudent'])) {
         exit();
     }
 
-    // function isValidEmailAddress($email)
-    // {
-    //     // Remove all illegal characters from email
-    //     $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+    function isValidEmailAddress($email)
+    {
+        // Remove all illegal characters from email
+        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
-    //     // Validate the sanitized email
-    //     return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
-    // }
+        // Validate the sanitized email
+        return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
+    }
 
-    // // Check if email is set and not empty
-    // if (isset($_POST['email']) && !empty($_POST['email'])) {
-    //     $email = $_POST['email'];
+    // Check if email is set and not empty
+    if (isset($_POST['email']) && !empty($_POST['email'])) {
+        $email = $_POST['email'];
 
-    //     if (!isValidEmailAddress($email)) {
-    //         session_start();
-    //         $_SESSION['error_message'] = "Please enter a valid email address.";
-    //         // Redirect back to the same page
-    //         header("Location: " . $_SERVER['PHP_SELF']);
-    //         exit();
-    //     }
-    // } else {
-    //     session_start();
-    //     $_SESSION['error_message'] = "Email is required.";
-    //     // Redirect back to the same page
-    //     header("Location: " . $_SERVER['PHP_SELF']);
-    //     exit();
-    // }
+        if (!isValidEmailAddress($email)) {
+            $_SESSION['error_message'] = "Please enter a valid email address.";
+            // Redirect back to the same page
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
+        }
+    } else {
+        $_SESSION['error_message'] = "Email is required.";
+        // Redirect back to the same page
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
+    }
 
     if (empty($errors)) {
         // Insert data into the database
@@ -479,11 +550,6 @@ if (isset($_POST['addStudent'])) {
 
 # Check if the form is submitted
 if (isset($_POST['uploadPost'])) {
-
-    # Validate the staff details
-    if (!isset($_SESSION['staff'])) {
-        exit("Staff details not found. Please log in again.");
-    }
 
     # Details about the staff making the post
     $staff_id = $_SESSION['staff']['staff_id'];
@@ -556,128 +622,6 @@ if (isset($_POST['uploadPost'])) {
         header("Location: " . $_SERVER['PHP_SELF']);
         exit;
     }
-}
-
-#Updating passwords 
-if (isset($_POST['updatePassword'])) {
-
-    $user_id = $_SESSION['staff']['staff_id'];
-
-    // Sanitize and validate the new password
-    $new_password = mysqli_real_escape_string($conn, $_POST['new_password']); // Escape input
-
-    if (empty($new_password)) {
-        $error_message = 'Password cannot be empty';
-    } else if (strlen($new_password) <= 3) {
-        $error_message = 'Password must be longer than 3 characters';
-    } else {
-        // Hash the new password using bcrypt
-        $hashed_password = md5($new_password);
-
-        // Update password in the database
-        $sql = "UPDATE staff SET password = '$hashed_password' WHERE staff_id = '$user_id'";
-
-        if (mysqli_query($conn, $sql)) {
-            // Password updated successfully
-            $success_message = 'Password updated successfully';
-
-            // Insert notification
-            $sql = "INSERT INTO notifications (staff_id, not_title, not_content, not_icon, not_icon_color, not_bg_color)
-                                 VALUES ('$user_id', 'Password Updated Successfully.', 'You have successfully changed your password.', 'ni ni-key-25', 'text-dark', 'bg-dark-soft')";
-            mysqli_query($conn, $sql);
-
-            // Redirect to avoid form resubmission on page refresh
-            header("Location: " . $_SERVER['PHP_SELF']);
-            exit;
-        } else {
-            // Error occurred while updating password
-            $error_message = 'Error occurred while updating password';
-        }
-    }
-
-    // Set error or success message in session for SweetAlert
-    if (!empty($error_message)) {
-        $_SESSION['alert'] = array('type' => 'error', 'message' => $error_message);
-    } elseif (!empty($success_message)) {
-        $_SESSION['alert'] = array('type' => 'success', 'message' => $success_message);
-    }
-}
-
-// Resetting staff passsword 
-if (isset($_POST['resetPassword'])) {
-    $staff_id = $_POST['staff_id'];
-    $password = md5($_POST['password']);
-
-    // Fetch user data from database
-    $sql = "SELECT * FROM `staff` WHERE `staff_id` = '$staff_id'";
-    $result = mysqli_query($conn, $sql);
-    $staff = mysqli_fetch_assoc($result);
-
-    $first_name = $staff['first_name'];
-    $last_name = $staff['last_name'];
-
-    // Update staff password
-    $sql = "UPDATE `staff` SET `password` = '$password' WHERE `staff_id` = '$staff_id'";
-
-    if (mysqli_query($conn, $sql)) {
-        $sql = "INSERT INTO `notifications` (`staff_id`, `not_level`, `not_title`, `not_content`, `not_icon`, `not_icon_color`, `not_bg_color`)
-            VALUES ('$staff_id', '1', 'Password Reset.', 'Password reset for {$first_name} {$last_name} is successful .', 'fa fa-sync', 'text-primary', 'bg-primary-soft');";
-        $result = mysqli_query($conn, $sql);
-        $_SESSION['success_message'] = "Password Reset successful";
-        header("Location:" . $_SERVER['PHP_SELF']);
-        exit;
-    } else {
-        $_SESSION['error_message'] = "Error: " . $sql . "<br>" . mysqli_error($conn);
-    }
-}
-
-//  Updating New Profile Picture
-if (isset($_POST['updatePicture'])) {
-    $photo = "uploads/default.png"; // Default profile picture
-
-    if (isset($_FILES['photo']) && $_FILES['photo']['error'] == 0) {
-        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/heic', 'image/jpg'];
-        $maxFileSize = 2 * 1024 * 1024; // 2 MB
-
-        $fileType = $_FILES['photo']['type'];
-        $fileSize = $_FILES['photo']['size'];
-
-        if (in_array($fileType, $allowedTypes) && $fileSize <= $maxFileSize) {
-            $extension = pathinfo(basename($_FILES['photo']['name']), PATHINFO_EXTENSION);
-            $photo = 'uploads/' . uniqid() . '.' . $extension;
-            if (!move_uploaded_file($_FILES['photo']['tmp_name'], $photo)) {
-                $_SESSION['error_message'] = "Failed to upload the file.";
-                header("Location:" . $_SERVER['PHP_SELF']);
-                exit();
-            }
-        } else {
-            $_SESSION['error_message'] = "Invalid file type or size. Please upload a JPEG, PNG, GIF, HEIC, or JPG image less than 2MB.";
-            header("Location:" . $_SERVER['PHP_SELF']);
-            exit();
-        }
-    }
-
-    $staff_id = $_POST['staff_id'];
-
-    if ($_SESSION['staff']['position_id'] == 1) {
-        $sql = "UPDATE `staff` SET `photo` = '$photo' WHERE `staff_id` = '$staff_id'";
-        if (mysqli_query($conn, $sql)) {
-            $_SESSION['staff']['photo'] = $photo;
-
-            $sql = "INSERT INTO `notifications` (`staff_id`, `not_level`, `not_title`, `not_content`, `not_icon`, `not_icon_color`, `not_bg_color`)
-                VALUES ('$staff_id', '1', 'picture update', 'Profile Picture Updated Successfully.', 'You have successfully updated your profile picture.', 'fa fa-camera', 'text-warning', 'bg-warning-soft')";
-            mysqli_query($conn, $sql);
-
-            $_SESSION['success_message'] = "Profile updated successfully.";
-        } else {
-            $_SESSION['error_message'] = "Failed to update profile picture in the database.";
-        }
-    } else {
-        $_SESSION['error_message'] = "You do not have permission to update the profile picture.";
-    }
-
-    header("Location:" . $_SERVER['PHP_SELF']);
-    exit();
 }
 
 // Assuming you have already established a database connection
@@ -811,17 +755,7 @@ if (isset($_GET['delete_alumni'])) {
         exit;
     }
 }
-# Delete Staff
-if (isset($_GET['delete_staff'])) {
 
-    $staff_id = $_GET['delete_staff'];
-
-    $sql = "DELETE FROM `staff` WHERE `staff_id` = '$staff_id'";
-    if (mysqli_query($conn, $sql)) {
-        $_SESSION['success_message'] = "Staff Deleted Successfully";
-        exit;
-    }
-}
 # Delete Subject
 if (isset($_GET['delete_subject'])) {
     $subject_id = $_GET['delete_subject'];

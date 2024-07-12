@@ -5,9 +5,8 @@ include "../../config/database.php";
 if (isset($_GET['student_id'])) {
     $student_id = $_GET['student_id'];
     $sql = "SELECT * FROM `students` WHERE `student_id` = '$student_id'";
-    $std_result = mysqli_query($conn, $sql);
-    $student = mysqli_fetch_assoc($std_result);
-
+    $students = mysqli_query($conn, $sql);
+    $student = mysqli_fetch_assoc($students);
 }
 ?>
 <!DOCTYPE html>
@@ -31,26 +30,82 @@ if (isset($_GET['student_id'])) {
         <?php require "inc/admin-navbar.php"; ?>
         <!-- Profile Information -->
         <div class="container-fluid pt-3">
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="">
-                            <h6 class="font-weight-bold text-dark">Result Summary</h6>
-                            <p class="text-secondary text-sm">Below is the result summary for
-                                <span
-                                    class="font-weight-bold text-dark"><?php echo $student['first_name'] . '&nbsp;' . $student['second_name'] . '&nbsp;' . $student['last_name']; ?>.</span>
-                            </p>
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <div class="card">
+                        <div class="card-header pb-0">
+                            <div class="d-flex justify-content-between">
+                                <h6 class="text-gradient text-info">Profile Information</h6>
+                                <form action="admin-edit-student.php" method="get">
+                                    <input type="hidden" name="student_id" value="<?php echo $student['student_id']; ?>">
+                                    <button type="submit" class="btn bg-gradient-dark btn-sm">Edit</button>
+                                </form>
+                            </div>
                         </div>
-                        <div class="">
-                            <a href="admin-student-profile.php?student_id=<?php echo $student['student_id']; ?>"
-                                class="btn bg-gradient-dark btn-sm">View Profile</a>
+                        <hr class="horizontal dark">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-xxl-4 col-6 text-sm mb-4">
+                                    <strong class="text-dark">First Name: </strong>&nbsp; <?php echo ucfirst($student['first_name']); ?>
+                                </div>
+                                <div class="col-xxl-4 col-6 text-sm mb-4">
+                                    <strong class="text-dark">Last Name: </strong>&nbsp; <?php echo ucfirst($student['last_name']); ?>
+                                </div>
+                                <div class="col-xxl-4 col-6 text-sm mb-4">
+                                    <strong class="text-dark">Admission Number: </strong>&nbsp; <?php echo ucfirst($student['admission_id']); ?>
+                                </div>
+                                <div class="col-xxl-4 col-6 text-sm mb-4">
+                                    <strong class="text-dark">Class: </strong>&nbsp;
+                                    <?php
+                                    $class_id = $student['class_id'];
+                                    $sql = "SELECT `class_name` FROM `classes` WHERE `class_id` = '$class_id'";
+                                    $clasess = mysqli_query($conn, $sql);
+                                    $class = mysqli_fetch_assoc($clasess);
+                                    echo $class['class_name'];
+                                    ?>
+                                </div>
+                                <div class="col-xxl-4 col-6 text-sm mb-4">
+                                    <strong class="text-dark">Birth Date: </strong>&nbsp; <?php echo $student['birth_date']; ?>
+                                </div>
+                                <div class="col-xxl-4 col-6 text-sm mb-4">
+                                    <strong class="text-dark">Gender: </strong>&nbsp; <?php echo $student['gender']; ?>
+                                </div>
+                                <div class="col-xxl-4 col-6 text-sm mb-4">
+                                    <strong class="text-dark">State: </strong>&nbsp; <?php echo $student['state']; ?>
+                                </div>
+                                <div class="col-xxl-4 col-6 text-sm mb-4">
+                                    <strong class="text-dark">LGA: </strong>&nbsp; <?php echo ucfirst($student['lga']); ?>
+                                </div>
+                                <div class="col-xxl-4 col-6 text-sm mb-4">
+                                    <strong class="text-dark">Join Date: </strong>&nbsp; <?php echo date("j F, Y", strtotime($student['timestamp'])); ?>
+                                </div>
+                                <div class="col-xxl-4 col-6 text-sm mb-4">
+                                    <strong class="text-dark">Status: </strong>&nbsp; <?php echo $student['status'] == "" ? "Not Active" : "Active"; ?>
+                                </div>
+                                <!--  -->
+                                <h6 class="mt-4 mb-3 text-gradient text-primary">Parent's Data</h6>
+
+                                <div class="col-xxl-4 col-6 text-sm mb-4">
+                                    <strong class="text-dark">Par. First Name: </strong>&nbsp; <?php echo ucfirst($student['parent_first_name']); ?>
+                                </div>
+                                <div class="col-xxl-4 col-6 text-sm mb-4">
+                                    <strong class="text-dark">Par. Last Name: </strong>&nbsp; <?php echo ucfirst($student['parent_last_name']); ?>
+                                </div>
+                                <div class="col-xxl-4 col-6 text-sm mb-4">
+                                    <strong class="text-dark">Par. Phone Number: </strong>&nbsp; <?php echo $student['parent_phone_number']; ?>
+                                </div>
+                                <div class="col-xxl-4 col-6 text-sm mb-4">
+                                    <strong class="text-dark">Par. Email Address: </strong>&nbsp; <?php echo $student['parent_email']; ?>
+                                </div>
+                                <div class="col-xxl-4 col-6 text-sm mb-4">
+                                    <strong class="text-dark">Par. Home Address: </strong>&nbsp; <?php echo $student['parent_address']; ?>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <small class="text-warning" style="font-style:italic">Note that the student&apos;s uploaded result
-                        might be inconclusive.</small>
                 </div>
-            </div>
-            <div class="row">
+                <!-- <small class="text-warning" style="font-style:italic">Note that the student&apos;s uploaded result
+                might be inconclusive.</small> -->
                 <div class="col-12">
                     <div class="card" style="overflow: auto;">
                         <div class="card-body">
@@ -83,7 +138,7 @@ if (isset($_GET['student_id'])) {
                                     $count = 1;
 
                                     while ($row = mysqli_fetch_assoc($result)) {
-                                        ?>
+                                    ?>
                                         <tr>
                                             <td class="text-sm text-center font-weight-normal border"><?php echo $count; ?>
                                             </td>
@@ -94,8 +149,7 @@ if (isset($_GET['student_id'])) {
                                                 $subject_id = $row['subject_id'];
 
                                                 $subject_query = "SELECT * FROM `subjects` WHERE `subject_id` = '$subject_id' ";
-                                                $subject_result = mysqli_query($conn, $subject_query);
-                                                ;
+                                                $subject_result = mysqli_query($conn, $subject_query);;
                                                 $subject = mysqli_fetch_assoc($subject_result);
                                                 echo $subject['subject_name'];
                                                 ?>
@@ -145,7 +199,7 @@ if (isset($_GET['student_id'])) {
 
                                         </tr>
 
-                                        <?php
+                                    <?php
                                         $count++;
                                     }
                                     ?>
@@ -155,12 +209,11 @@ if (isset($_GET['student_id'])) {
                     </div>
                 </div>
                 <div class="d-flex justify-content-center mt-3">
-                    <a href="admin-print-result.php?student_id=<?php echo $student['student_id'] ?>"
-                        class="btn btn-round bg-gradient-info">Print result</a>
+                    <a href="admin-print-result.php?student_id=<?php echo $student['student_id'] ?>" class="btn btn-round bg-gradient-info">Print result</a>
                 </div>
             </div>
         </div>
-        <?php include "inc/admin-footer.php";?>
+        <?php include "inc/admin-footer.php"; ?>
     </main>
 
     <?php include "inc/admin-scripts.php"; ?>
