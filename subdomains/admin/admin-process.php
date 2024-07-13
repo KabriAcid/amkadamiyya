@@ -163,27 +163,24 @@ if (isset($_POST['login'])) {
     }
 }
 
-// Generate Student ID function
-function generateStudentID($conn, $section_id, $entry_year)
-{
-    $sql = "SELECT * FROM `sections` WHERE `section_id` = '$section_id'";
-    $result = mysqli_query($conn, $sql);
-    $section = mysqli_fetch_assoc($result);
-
-    $sql = "SELECT * FROM `serial_numbers` WHERE `section_id` = '$section_id' AND `entry_year` = '$entry_year'";
-    $result = mysqli_query($conn, $sql);
-    $serial = mysqli_fetch_assoc($result);
-
-    $current_serial = $serial['current_serial'] + 1;
-    $sql = "UPDATE `serial_numbers` SET `current_serial` = '$current_serial' WHERE `section_id` = '$section_id' AND `entry_year` = '$entry_year'";
-    mysqli_query($conn, $sql);
-
-    $admission_id = sprintf('AMK/%d/%d', $entry_year, $current_serial);
-    return $admission_id;
-}
 
 // Adding new student
 if (isset($_POST['addStudent'])) {
+    // Generate Student ID function
+    function generateStudentID($conn, $section_id, $entry_year)
+    {
+
+        $sql = "SELECT * FROM `serial_numbers` WHERE `section_id` = '$section_id' AND `entry_year` = '$entry_year'";
+        $result = mysqli_query($conn, $sql);
+        $serial = mysqli_fetch_assoc($result);
+
+        $current_serial = $serial['current_serial'] + 1;
+        $sql = "UPDATE `serial_numbers` SET `current_serial` = '$current_serial' WHERE `section_id` = '$section_id' AND `entry_year` = '$entry_year'";
+        mysqli_query($conn, $sql);
+
+        $admission_id = sprintf('AMK/%d/%d', $entry_year, $current_serial);
+        return $admission_id;
+    }
     // Input sanitization and validation
     $class_id = $_POST['class_id'];
 
@@ -214,9 +211,9 @@ if (isset($_POST['addStudent'])) {
     $entry_year = date('y');
     $admission_id = generateStudentID($conn, $section_id, $entry_year);
 
-     // Hash the password using BCRYPT
-     $default_password = $admission_id;
-     $password = password_hash($default_password, PASSWORD_BCRYPT);
+    // Hash the password using BCRYPT
+    $default_password = $admission_id;
+    $password = password_hash($default_password, PASSWORD_BCRYPT);
 
 
     $errors = [];

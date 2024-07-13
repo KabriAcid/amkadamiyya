@@ -31,7 +31,7 @@
                         <tbody>
                             <?php
                             if ($_SESSION['staff']['position_id'] == 1) {
-                                $sql = "SELECT * FROM `students` ORDER BY `class_id` DESC, `first_name` ASC, `second_name` ASC, `last_name` ASC, `gender` ASC, `state` ASC";
+                                $sql = "SELECT * FROM `students` ORDER BY `admission_id` DESC, `class_id` DESC, `first_name` ASC, `second_name` ASC, `last_name` ASC, `gender` ASC, `state` ASC";
 
                                 $result = mysqli_query($conn, $sql);
                                 while ($row = mysqli_fetch_assoc($result)) {
