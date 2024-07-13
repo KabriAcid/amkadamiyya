@@ -1,16 +1,15 @@
 <?php
-include "admin-process.php";
+include_once "admin-process.php";
 
 if (isset($_GET['staff_id'])) {
     $staff_id = $_GET['staff_id'];
     $sql = "SELECT * FROM `staff` WHERE `staff_id` = '$staff_id'";
-    $result = mysqli_query($conn, $sql);
-    $staff = mysqli_fetch_assoc($result);
+    $staff_result = mysqli_query($conn, $sql);
+    $staff = mysqli_fetch_assoc($staff_result);
 } else {
-    // Redirect if no valid staff ID is provided
     header('Location: admin-staff-list.php');
-    exit();
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +21,7 @@ if (isset($_GET['staff_id'])) {
 
 <body class="g-sidenav-show bg-info-soft">
     <?php
-    if ($staff['position_id'] == 1) {
+    if ($_SESSION['staff']['position_id'] == 1) {
         include "inc/admin-sidebar.php";
     } else {
         include "inc/admin-sidebar.php";
@@ -34,7 +33,7 @@ if (isset($_GET['staff_id'])) {
         <!-- Page Header  -->
         <div class="container-fluid pt-3">
             <div class="page-header w-100 p-5 rounded" style="background: url('../../assets/images/backgrounds/curved-8.jpg') no-repeat; background-size: auto; background-position: left;">
-                <span class="mask bg-gradient-primary opacity-6"></span>
+                <span class="mask bg-gradient-warning opacity-6"></span>
             </div>
             <div class="card card-body blur shadow-blur p-4 mx-4 mt-n6 overflow-hidden">
                 <div class="row">
@@ -54,16 +53,16 @@ if (isset($_GET['staff_id'])) {
                     <form action="" method="post" enctype="multipart/form-data">
                         <div class="card">
                             <div class="card-header">
-                                <h6 class="mb-0 text-gradient text-warning">Staff Biodata</h6>
+                                <h6 class="mb-0 text-gradient text-warning">Biodata</h6>
                                 <p class="text-sm mb-0">Here you can modify or change a staff biodata.</p>
                             </div>
                             <hr class="horizontal dark">
                             <div class="card-body">
                                 <!-- Image and Button -->
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <img src="<?php echo $staff['photo']; ?>" class="avatar avatar-xl shadow-lg blur" style="">
+                                    <img src="<?php echo $staff['photo']; ?>" class="avatar avatar-xl shadow-lg blur">
                                     <span class="btn-file me-3">
-                                        <button type="button" class="fileupload-new btn bg-gradient-dark btn-sm position-relative">
+                                        <button type="button" class="fileupload-new btn bg-gradient-warning btn-sm position-relative">
                                             Change Photo
                                             <input type="file" name="photo" id="user-photo" class="opacity-0 position-absolute cursor-pointer" style="right: 0px;top: 5px;" accept=".jpg, .png, .jpeg, .heic">
                                         </button>
@@ -142,12 +141,14 @@ if (isset($_GET['staff_id'])) {
                                             <input type="text" value="<?php echo $staff['address']; ?>" class="form-control" name="address" placeholder="Home Address">
                                         </div>
                                     </div>
+                                    <!-- Hidden Input Field -->
+                                    <input type="hidden" name="staff_id" value="<?php echo $staff_id; ?>">
                                     <!--  -->
                                 </div>
                             </div>
                             <!-- card body -->
                             <div class="card-footer text-end pt-0">
-                                <input type="submit" value="update" name="updateBioData" class="btn bg-gradient-dark mb-0">
+                                <input type="submit" value="update" name="updateStaffBioData" class="btn bg-gradient-warning mb-0">
                             </div>
                         </div>
                     </form>
@@ -291,27 +292,32 @@ if (isset($_GET['staff_id'])) {
                                     <div class="col-md-6">
                                         <label>Status</label>
                                         <div class="input-group mb-3">
-                                        <select class="form-select" name="status">
+                                            <select class="form-select" name="status">
                                                 <option value="1" <?php if ($staff['status'] == 1) echo 'selected'; ?>>Active</option>
                                                 <option value="0" <?php if ($staff['status'] == 0) echo 'selected'; ?>>Inactive</option>
                                             </select>
                                         </div>
                                     </div>
+                                    <!-- Hidden Input Field -->
+                                    <input type="hidden" name="staff_id" value="<?php echo $staff_id; ?>">
+                                    <!--  -->
                                 </div>
                             </div>
                             <!-- card body -->
                             <div class="card-footer text-end pt-0">
-                                <input type="submit" value="update" name="updateOtherData" class="btn bg-gradient-dark mb-0">
+                                <input type="submit" value="update" name="updateOtherData" class="btn bg-gradient-warning mb-0">
                             </div>
                         </div>
                     </form>
                 </div>
+                <!--  -->
                 <div class="col-lg-12 col-xl-5 mt-3 mt-xl-0">
+                    <!-- Account Info form -->
                     <form action="" method="post">
                         <div class="card">
                             <div class="card-header">
-                                <h6 class="mb-0 text-gradient text-primary">Account Information</h6>
-                                <p class="text-sm mb-0">Edit staff&apos;s account information.</p>
+                                <h6 class="mb-0 text-gradient text-warning">Account Information</h6>
+                                <p class="text-sm mb-0">Edit staff account information.</p>
                             </div>
                             <hr class="horizontal dark">
 
@@ -324,24 +330,92 @@ if (isset($_GET['staff_id'])) {
                                 <!--  -->
                                 <label>Email Address</label>
                                 <div class="input-group mb-3">
-                                    <input type="text" value="<?php echo $staff['email']; ?>" class="form-control" placeholder="Email Address" name="email">
+                                    <input type="email" value="<?php echo $staff['email']; ?>" class="form-control" placeholder="Email Address" name="email">
                                 </div>
+                                <!-- Hidden Input Field -->
+                                <input type="hidden" name="staff_id" value="<?php echo $staff_id; ?>">
                                 <!--  -->
-                                <label>Current Password</label>
+                            </div>
+                            <div class="card-footer text-end pt-0">
+                                <input type="submit" value="update" name="updateStaffAccount" class="btn bg-gradient-warning mb-0">
+                            </div>
+                        </div>
+                    </form>
+                    <!-- End of form -->
+                    <form action="" method="post" class="mt-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="mb-0 text-gradient text-warning">Change Password</h6>
+                                <p class="text-sm mb-0">Change staff account password.</p>
+                            </div>
+                            <hr class="horizontal dark my-0">
+                            <div class="card-body">
+                                <label>Change Password</label>
                                 <div class="input-group">
-                                    <input type="text" name="newPassword" placeholder="Current Password" class="form-control" value="<?php echo $staff['password'] ?>">
+                                    <input type="password" name="newPassword" placeholder="Enter New Password" class="form-control">
                                 </div>
 
                             </div>
                             <div class="card-footer text-end pt-0">
-                                <input type="submit" value="update" name="updateAccount" class="btn bg-gradient-dark mb-0">
+                                <input type="submit" value="update" name="updateStaffPassword" class="btn bg-gradient-warning mb-0">
                             </div>
+                            <!-- Hidden Input Field -->
+                            <input type="hidden" name="staff_id" value="<?php echo $staff_id; ?>">
+                            <!--  -->
                         </div>
                     </form>
-                    <!-- EOF card -->
+                    <!-- Delete Account -->
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            <h6 class="mb-0 text-gradient text-warning">Erase Staff</h6>
+                            <p class="text-secondary text-sm mb-0">Once you erase staff, all data will be removed from the database.</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-end align-items-center my-0 py-0">
+                                <div class="text-end">
+                                    <form action="" method="post">
+                                        <input type="hidden" name="staff_id" value="<?php echo $staff['staff_id']; ?>">
+                                        <input type="submit" class="btn bg-gradient-danger btn-sm" value="erase" name="eraseStaffData">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="container py-7">
+                        <div class="row mt-5">
+                            <div class="col-sm-3 col-6 mx-auto">
+                                <!-- Button trigger modal -->
+                                <!-- <button type="button" class="btn bg-gradient-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Launch demo modal
+                                </button> -->
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Your modal title</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Society has put up so many boundaries, so many limitations on what’s right and wrong that it’s almost impossible to get a pure thought out.
+                                                <br><br>
+                                                It’s like a little kid, a little boy, looking at colors, and no one told him what colors are good, before somebody tells you you shouldn’t like pink because that’s for girls, or you’d instantly become a gay two-year-old.
+                                            </div>
+                                            <div class="modal-footer justify-content-between">
+                                                <button type="button" class="btn bg-gradient-warning" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn bg-gradient-warning">Save changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
+            <!-- <button type="submit" focusable name="register" class="btn bg-gradient-success ms-auto mb-0" onclick="soft.showSwal('success-message')">Proceed</button> -->
         </div>
         <?php include "inc/admin-footer.php"; ?>
     </main>
@@ -383,6 +457,7 @@ if (isset($_GET['staff_id'])) {
     <?php
         unset($_SESSION['error_message']);
     }
+
     ?>
 
 </body>

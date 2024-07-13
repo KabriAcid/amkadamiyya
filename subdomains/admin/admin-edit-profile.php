@@ -1,26 +1,17 @@
 <?php
 include_once "admin-process.php";
 
-if (isset($_GET['staff_id'])) {
-    $staff_id = $_GET['staff_id'];
-    $sql = "SELECT * FROM `staff` WHERE `staff_id` = '$staff_id'";
-    $staff_result = mysqli_query($conn, $sql);
-    $staff = mysqli_fetch_assoc($staff_result);
-
-    echo $staff_id;
-} else {
-    $staff_id = $_SESSION['staff']['staff_id'];
-    $sql = "SELECT * FROM `staff` WHERE `staff_id` = '$staff_id'";
-    $staff_result = mysqli_query($conn, $sql);
-    $staff = mysqli_fetch_assoc($staff_result);
-}
+$staff_id = $_SESSION['staff']['staff_id'];
+$sql = "SELECT * FROM `staff` WHERE `staff_id` = '$staff_id'";
+$staff_result = mysqli_query($conn, $sql);
+$staff = mysqli_fetch_assoc($staff_result);
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>Edit Profile</title>
+    <title>Edit My Profile</title>
     <?php include "inc/admin-header.php"; ?>
 </head>
 
@@ -36,45 +27,21 @@ if (isset($_GET['staff_id'])) {
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         <?php require "inc/admin-navbar.php"; ?>
         <!-- Page Header  -->
-        <?php
-        if (isset($_GET['staff_id'])) {
-        ?>
-            <div class="container-fluid pt-3">
-                <div class="page-header w-100 p-5 rounded" style="background: url('../../assets/images/backgrounds/curved-8.jpg') no-repeat; background-size: auto; background-position: left;">
-                    <span class="mask bg-gradient-primary opacity-6"></span>
-                </div>
-                <div class="card card-body blur shadow-blur p-4 mx-4 mt-n6 overflow-hidden">
-                    <div class="row">
-                        <div class="col-auto my-auto">
-                            <div class="h100">
-                                <h4 class="mb-0 text-gradient text-success">Edit Staff Profile</h4>
-                                <p class="text-sm mb-0">Manage staff profile information. Here you can update or modify staff data.</p>
-                            </div>
+        <div class="container-fluid pt-3">
+            <div class="page-header w-100 p-5 rounded" style="background: url('../../assets/images/backgrounds/blog7-3.jpg') no-repeat; background-size: cover; background-position: center;">
+                <span class="mask bg-gradient-dark opacity-6"></span>
+            </div>
+            <div class="card card-body blur shadow-blur p-4 mx-4 mt-n6 overflow-hidden">
+                <div class="row">
+                    <div class="col-auto my-auto">
+                        <div class="h100">
+                            <h4 class="mb-0 text-gradient text-dark">Edit My Profile</h4>
+                            <p class="text-sm mb-0">Manage your profile information. Here you can update or modify your personal data.</p>
                         </div>
                     </div>
                 </div>
             </div>
-        <?php
-        } else {
-        ?>
-            <div class="container-fluid pt-3">
-                <div class="page-header w-100 p-5 rounded" style="background: url('../../assets/images/backgrounds/blog7-3.jpg') no-repeat; background-size: cover; background-position: center;">
-                    <span class="mask bg-gradient-primary opacity-6"></span>
-                </div>
-                <div class="card card-body blur shadow-blur p-4 mx-4 mt-n6 overflow-hidden">
-                    <div class="row">
-                        <div class="col-auto my-auto">
-                            <div class="h100">
-                                <h4 class="mb-0 text-gradient text-primary">Edit My Profile</h4>
-                                <p class="text-sm mb-0">Manage your profile information. Here you can update or modify staff data.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <?php
-        }
-        ?>
+        </div>
         <!-- Update profile -->
         <div class="container-fluid pt-3">
             <div class="row">
@@ -82,8 +49,8 @@ if (isset($_GET['staff_id'])) {
                     <form action="" method="post" enctype="multipart/form-data">
                         <div class="card">
                             <div class="card-header">
-                                <h6 class="mb-0 text-gradient text-warning">Biodata</h6>
-                                <p class="text-sm mb-0">Here you can modify or change a staff biodata.</p>
+                                <h6 class="mb-0 text-gradient text-dark">Biodata</h6>
+                                <p class="text-sm mb-0">Here you can modify or change a your personal biodata.</p>
                             </div>
                             <hr class="horizontal dark">
                             <div class="card-body">
@@ -187,8 +154,8 @@ if (isset($_GET['staff_id'])) {
                     <form action="" method="post">
                         <div class="card">
                             <div class="card-header">
-                                <h6 class="mb-0 text-gradient text-warning">Other Information</h6>
-                                <p class="text-sm mb-0">Here you can modify or change a staff personal data.</p>
+                                <h6 class="mb-0 text-gradient text-dark">Other Information</h6>
+                                <p class="text-sm mb-0">Here you can edit or change your personal data.</p>
                             </div>
                             <hr class="horizontal dark">
                             <div class="card-body">
@@ -257,7 +224,7 @@ if (isset($_GET['staff_id'])) {
 
                                                     while ($qualification = mysqli_fetch_assoc($qualifications)) {
                                                     ?>
-                                                        <option value="<?php echo $qualification['qualification_name']; ?>" <?php if ($staff['qualification_name'] == $qualification['qualification_name']) echo 'selected'; ?>><?php echo $qualification['qualification_name'] ?></option>
+                                                        <option value="<?php echo $qualification['qualification_name']; ?>" <?php if ($staff['qualification'] == $qualification['qualification_name']) echo 'selected'; ?>><?php echo $qualification['qualification_name'] ?></option>
                                                     <?php
                                                     }
                                                     ?>
@@ -277,7 +244,7 @@ if (isset($_GET['staff_id'])) {
 
                                                     while ($discipline = mysqli_fetch_assoc($disciplines)) {
                                                     ?>
-                                                        <option value="<?php echo $discipline['discipline_name']; ?>" <?php if ($staff['discipline_name'] == $discipline['discipline_name']) echo 'selected'; ?>><?php echo $discipline['discipline_name'] ?></option>
+                                                        <option value="<?php echo $discipline['discipline_name']; ?>" <?php if ($staff['discipline'] == $discipline['discipline_name']) echo 'selected'; ?>><?php echo $discipline['discipline_name'] ?></option>
                                                     <?php
                                                     }
                                                     ?>
@@ -345,7 +312,7 @@ if (isset($_GET['staff_id'])) {
                     <form action="" method="post">
                         <div class="card">
                             <div class="card-header">
-                                <h6 class="mb-0 text-gradient text-warning">Account Information</h6>
+                                <h6 class="mb-0 text-gradient text-dark">Account Information</h6>
                                 <p class="text-sm mb-0">Edit your account information.</p>
                             </div>
                             <hr class="horizontal dark">
@@ -393,29 +360,11 @@ if (isset($_GET['staff_id'])) {
                             <!--  -->
                         </div>
                     </form>
-                    <!-- Delete Account -->
-                    <div class="card mt-3">
-                        <div class="card-header">
-                            <h6 class="mb-0 text-gradient text-warning">Erase Staff</h6>
-                            <p class="text-secondary text-sm mb-0">Once you erase staff, all data will be removed from the database.</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex justify-content-end align-items-center my-0 py-0">
-                                <div class="text-end">
-                                    <form action="" method="post">
-                                        <input type="hidden" name="staff_id" value="<?php echo $staff['staff_id']; ?>">
-                                        <input type="submit" class="btn bg-gradient-danger btn-sm" value="erase" name="eraseStaffData">
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--  -->
                     <div class="container py-7">
                         <div class="row mt-5">
                             <div class="col-sm-3 col-6 mx-auto">
                                 <!-- Button trigger modal -->
-                                <!-- <button type="button" class="btn bg-gradient-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <!-- <button type="button" class="btn bg-gradient-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                     Launch demo modal
                                 </button> -->
 
@@ -434,7 +383,7 @@ if (isset($_GET['staff_id'])) {
                                             </div>
                                             <div class="modal-footer justify-content-between">
                                                 <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Close</button>
-                                                <button type="button" class="btn bg-gradient-warning">Save changes</button>
+                                                <button type="button" class="btn bg-gradient-dark">Save changes</button>
                                             </div>
                                         </div>
                                     </div>

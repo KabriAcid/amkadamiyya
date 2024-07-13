@@ -2,8 +2,6 @@
 session_start();
 include "../../config/database.php";
 
-print_r($_SESSION);
-
 $position_id = $_SESSION['staff']['position_id'];
 $sql = "SELECT `position_name` FROM `school_post` WHERE `position_id` = '$position_id'";
 $result = mysqli_query($conn, $sql);

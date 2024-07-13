@@ -50,7 +50,7 @@ if (isset($_POST['register'])) {
 
         // Handle file upload for photo
         if (!empty($_FILES['photo']['name'])) {
-            $photo = "uploads/" . strtolower(uniqid((substr($first_name, 3) . '-' . $last_name))) . '_' . basename($_FILES['photo']['name']);
+            $photo = "uploads/" . strtoupper(uniqid($first_name . '_' . $last_name . '_')) . '.' . pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
 
             if (!move_uploaded_file($_FILES['photo']['tmp_name'], $photo)) {
                 $_SESSION['error_message'] = "Photo upload failed!";
@@ -62,26 +62,26 @@ if (isset($_POST['register'])) {
             $photo = 'uploads/default.png';
         }
 
-        function isValidPhoneNumber($phone_number)
-        {
-            // Define the regular expression pattern for a Nigerian phone number
-            $pattern = '/^((070|080|090|081|091)\d{8})$/';
-            trim($phone_number);
+        // function isValidPhoneNumber($phone_number)
+        // {
+        //     // Define the regular expression pattern for a Nigerian phone number
+        //     $pattern = '/^((070|080|090|081|091)\d{8})$/';
+        //     trim($phone_number);
 
-            // Check if the phone number matches the pattern
-            if (preg_match($pattern, $phone_number)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        // Validate phone number
-        if (!isValidPhoneNumber($phone_number)) {
-            $_SESSION['error_message'] = "Please enter a valid Nigerian phone number.";
-            // Redirect back to the same page
-            header("Location: " . $_SERVER['PHP_SELF']);
-            exit();
-        }
+        //     // Check if the phone number matches the pattern
+        //     if (preg_match($pattern, $phone_number)) {
+        //         return true;
+        //     } else {
+        //         return false;
+        //     }
+        // }
+        // // Validate phone number
+        // if (!isValidPhoneNumber($phone_number)) {
+        //     $_SESSION['error_message'] = "Please enter a valid Nigerian phone number.";
+        //     // Redirect back to the same page
+        //     header("Location: " . $_SERVER['PHP_SELF']);
+        //     exit();
+        // }
 
         // Generate username
         $username = $first_name . substr($phone_number, 9);
@@ -374,26 +374,26 @@ if (isset($_POST['addalumni'])) {
     $address = changeCase($_POST['address']);
     $nin_number = trim($_POST['nin_number']);
 
-    function isValidPhoneNumber($phone_number)
-    {
-        // Define the regular expression pattern for a Nigerian phone number
-        $pattern = '/^((070|080|090|081|091)\d{8})$/';
-        trim($phone_number);
+    // function isValidPhoneNumber($phone_number)
+    // {
+    //     // Define the regular expression pattern for a Nigerian phone number
+    //     $pattern = '/^((070|080|090|081|091)\d{8})$/';
+    //     trim($phone_number);
 
-        // Check if the phone number matches the pattern
-        if (preg_match($pattern, $phone_number)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    // Validate phone number
-    if (!isValidPhoneNumber($phone_number)) {
-        $_SESSION['error_message'] = "Please enter a valid Nigerian phone number.";
-        // Redirect back to the same page
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit();
-    }
+    //     // Check if the phone number matches the pattern
+    //     if (preg_match($pattern, $phone_number)) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
+    // // Validate phone number
+    // if (!isValidPhoneNumber($phone_number)) {
+    //     $_SESSION['error_message'] = "Please enter a valid Nigerian phone number.";
+    //     // Redirect back to the same page
+    //     header("Location: " . $_SERVER['PHP_SELF']);
+    //     exit();
+    // }
 
     $index_prefix = '4350785';
     $index_prefix .= $index_no;
@@ -690,6 +690,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $_SESSION['staff']['photo'] = $photo;
                 }
             }
+        // Success Message
             $_SESSION['success_message'] = "Biodata updated successfully!";
         } else {
             $_SESSION['error_message'] = "Error updating biodata: " . $stmt->error;
@@ -710,22 +711,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $bank_name = mysqli_real_escape_string($conn, $_POST['bank_name']);
         $status = mysqli_real_escape_string($conn, $_POST['status']);
 
-        if ($_SESSION['staff']['staff_id'] == $staff_id) {
-            $_SESSION['staff']['class_id'] = $class_id;
-            $_SESSION['staff']['subject_id'] = $subject_id;
-            $_SESSION['staff']['position_id'] = $position_id;
-            $_SESSION['staff']['qualification'] = $qualification;
-            $_SESSION['staff']['discipline'] = $discipline;
-            $_SESSION['staff']['salary'] = $salary;
-            $_SESSION['staff']['account_number'] = $account_number;
-            $_SESSION['staff']['bank_name'] = $bank_name;
-            $_SESSION['staff']['status'] = $status;
-        }
 
         $stmt = $conn->prepare("UPDATE staff SET class_id=?, subject_id=?, position_id=?, qualification=?, discipline=?, salary=?, account_number=?, bank_name=?, status=? WHERE staff_id=?");
         $stmt->bind_param("iiississsi", $class_id, $subject_id, $position_id, $qualification, $discipline, $salary, $account_number, $bank_name, $status, $staff_id);
 
         if ($stmt->execute()) {
+            if ($_SESSION['staff']['staff_id'] == $staff_id) {
+                $_SESSION['staff']['class_id'] = $class_id;
+                $_SESSION['staff']['subject_id'] = $subject_id;
+                $_SESSION['staff']['position_id'] = $position_id;
+                $_SESSION['staff']['qualification'] = $qualification;
+                $_SESSION['staff']['discipline'] = $discipline;
+                $_SESSION['staff']['salary'] = $salary;
+                $_SESSION['staff']['account_number'] = $account_number;
+                $_SESSION['staff']['bank_name'] = $bank_name;
+                $_SESSION['staff']['status'] = $status;
+            } 
+            // Success Message
             $_SESSION['success_message'] = "Profile information updated successfully!";
         } else {
             $_SESSION['error_message'] = "Error updating profile information: " . $stmt->error;
@@ -747,6 +749,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['staff']['username'] = $username;
                 $_SESSION['staff']['email'] = $email;
             }
+            // Success Message
             $_SESSION['success_message'] = "Account information updated successfully!";
         } else {
             $_SESSION['error_message'] = "Error updating account information: " . $stmt->error;
@@ -773,6 +776,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 if ($_SESSION['staff']['staff_id'] == $staff_id) {
                     $_SESSION['staff']['password'] = $password;
                 }
+                // Success Message
                 $_SESSION['success_message'] = "Password updated successfully!";
             } else {
                 $_SESSION['error_message'] = "Error updating password: " . $stmt->error;
@@ -789,7 +793,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($stmt->execute()) {
             $_SESSION['success_message'] = "Staff erased successfully!";
-            // Clear session data after deleting the staff
+            header('Location: admin-staff-list.php');
         } else {
             $_SESSION['error_message'] = "Error erasing staff: " . $stmt->error;
         }

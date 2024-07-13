@@ -39,7 +39,7 @@ if (isset($_GET['staff_id'])) {
                         <div class="card-header pb-0">
                             <div class="d-flex justify-content-between">
                                 <h6 class="text-gradient text-warning">Profile Information</h6>
-                                <form action="admin-edit-profile.php" method="get">
+                                <form action="admin-edit-staff.php" method="get">
                                     <input type="hidden" name="staff_id" value="<?php echo $staff['staff_id']; ?>">
                                     <button type="submit" class="btn bg-gradient-dark btn-sm">Edit</button>
                                 </form>
@@ -100,18 +100,7 @@ if (isset($_GET['staff_id'])) {
                                     <strong class="text-dark">Gender: </strong>&nbsp; <?php echo $staff['gender']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Qualification: </strong>&nbsp;
-                                    <?php
-                                    $qualification_name = $staff['qualification_name'];
-                                    $sql = "SELECT * FROM `qualifications` WHERE `qualification_name` = '$qualification_name'";
-                                    $result = mysqli_query($conn, $sql);
-                                    $qual = mysqli_fetch_assoc($result);
-
-                                    $discipline_name = $staff['discipline_name'];
-                                    $sql = "SELECT * FROM `university_disciplines` WHERE `discipline_name` = '$discipline_name'";
-                                    $result = mysqli_query($conn, $sql);
-                                    $discipline = mysqli_fetch_assoc($result);
-                                    echo $qual['qualification_name'] . '. ' . $discipline['discipline_name'];
+                                    <strong class="text-dark">Qualification: </strong>&nbsp;<?php $_SESSION['staff']['qualification'] . '. ' . $_SESSION['staff']['discipline'];
                                     ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
@@ -130,14 +119,7 @@ if (isset($_GET['staff_id'])) {
                                     <strong class="text-dark">Account Number: </strong>&nbsp; <?php echo $staff['account_number']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Bank Name: </strong>&nbsp;
-                                    <?php
-                                    $bank_name = $staff['bank_name'];
-                                    $sql = "SELECT `bank_name` FROM `nigerian_banks` WHERE `bank_name` = '$bank_name'";
-                                    $banks = mysqli_query($conn, $sql);
-                                    $bank = mysqli_fetch_assoc($banks);
-                                    echo $bank['bank_name'];
-                                    ?>
+                                    <strong class="text-dark">LGA: </strong>&nbsp; <?php echo ucfirst($staff['bank_name']); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Join Date: </strong>&nbsp; <?php echo date("j F, Y", strtotime($staff['timestamp'])); ?>
@@ -154,7 +136,7 @@ if (isset($_GET['staff_id'])) {
                     <div class="card">
 
                         <div class="card-header">
-                            <h6 class="mb-0 text-gradient text-danger">Student's Table</h6>
+                            <h6 class="mb-0 text-gradient text-info">Student's Table</h6>
                             <p class="text-sm mb-0">
                                 Here is the complete list of students from this class.
                             </p>
