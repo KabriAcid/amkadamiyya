@@ -197,126 +197,122 @@ if (isset($_POST['eraseStaffData'])) {
 // header("Location:" . $_SERVER['PHP_SELF']);
 // exit();
 
-
+// Update Student Biodata
+if (isset($_POST['updateStudentBioData'])) {
     // Declare student_id from hidden input field
     $student_id = $_POST['student_id'];
 
-    // Update Student Biodata
-    if (isset($_POST['updateStudentBioData'])) {
-        // Declare student_id from hidden input field
-        $student_id = $_POST['student_id'];
+    $first_name = capitalize($_POST['first_name']);
+    $second_name = capitalize($_POST['second_name']);
+    $last_name = capitalize($_POST['last_name']);
+    $birth_date = $_POST['birth_date'];
+    $gender = $_POST['gender'];
+    $state = $_POST['state'];
+    $lga = $_POST['lga'];
+    $class_id = $_POST['class_id'];
 
-        $first_name = capitalize($_POST['first_name']);
-        $second_name = capitalize($_POST['second_name']);
-        $last_name = capitalize($_POST['last_name']);
-        $birth_date = $_POST['birth_date'];
-        $gender = $_POST['gender'];
-        $state = $_POST['state'];
-        $lga = $_POST['lga'];
-        $class_id = $_POST['class_id'];
+    $sql = "UPDATE students SET first_name = ?, second_name = ?, last_name = ?, birth_date = ?, gender = ?, state = ?, lga = ?, class_id = ? WHERE student_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('sssssssii', $first_name, $second_name, $last_name, $birth_date, $gender, $state, $lga, $class_id, $student_id);
+    if ($stmt->execute()) {
+        $_SESSION['success_message'] = "Student biodata updated successfully!";
+    } else {
+        $_SESSION['error_message'] = "Error updating biodata: " . $stmt->error;
+    }
+    $stmt->close();
+}
 
-        $sql = "UPDATE students SET first_name = ?, second_name = ?, last_name = ?, birth_date = ?, gender = ?, state = ?, lga = ?, class_id = ? WHERE student_id = ?";
+// Update Parent Information
+if (isset($_POST['updateParentData'])) {
+    // Declare student_id from hidden input field
+    $student_id = $_POST['student_id'];
+
+    $parent_first_name = capitalize($_POST['parent_first_name']);
+    $parent_last_name = capitalize($_POST['parent_last_name']);
+    $parent_email = $_POST['parent_email'];
+    $parent_phone_number = $_POST['parent_phone_number'];
+    $parent_address = capitalize($_POST['parent_address']);
+    $status = $_POST['status'];
+
+    $sql = "UPDATE parents SET first_name = ?, last_name = ?, email = ?, phone_number = ?, address = ?, status = ? WHERE student_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('sssssii', $parent_first_name, $parent_last_name, $parent_email, $parent_phone_number, $parent_address, $status, $student_id);
+    if ($stmt->execute()) {
+        $_SESSION['success_message'] = "Parent information updated successfully!";
+    } else {
+        $_SESSION['error_message'] = "Error updating parent information: " . $stmt->error;
+    }
+    $stmt->close();
+}
+
+// Update Student Account Information
+if (isset($_POST['updateStudentAdmission'])) {
+    // Declare student_id from hidden input field
+    $student_id = $_POST['student_id'];
+
+    $admission_id = $_POST['admission_id'];
+
+    $sql = "SELECT `admission_id` * FROM `students` WHERE `admission_id` = '$admission_id'";
+    $result = mysqli_query($conn, $sql);
+
+    if (mysqli_num_rows($result) == 1) {
+        $_SESSION['error_message'] = "Admission ID already taken!";
+    } else {
+        $sql = "UPDATE students SET admission_id = ? WHERE student_id = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('sssssssii', $first_name, $second_name, $last_name, $birth_date, $gender, $state, $lga, $class_id, $student_id);
+        $stmt->bind_param('si', $admission_id, $student_id);
         if ($stmt->execute()) {
-            $_SESSION['success_message'] = "Student biodata updated successfully!";
+            $_SESSION['success_message'] = "Account information updated successfully!";
         } else {
-            $_SESSION['error_message'] = "Error updating biodata: " . $stmt->error;
+            $_SESSION['error_message'] = "Error updating account information: " . $stmt->error;
         }
         $stmt->close();
     }
+}
 
-    // Update Parent Information
-    if (isset($_POST['updateParentData'])) {
-         // Declare student_id from hidden input field
-         $student_id = $_POST['student_id'];
+// Update Student Password
+if (isset($_POST['updateStudentPassword'])) {
+    // Declare student_id from hidden input field
+    $student_id = $_POST['student_id'];
 
-        $parent_first_name = capitalize($_POST['parent_first_name']);
-        $parent_last_name = capitalize($_POST['parent_last_name']);
-        $parent_email = $_POST['parent_email'];
-        $parent_phone_number = $_POST['parent_phone_number'];
-        $parent_address = capitalize($_POST['parent_address']);
-        $status = $_POST['status'];
+    $newPassword = $_POST['newPassword'];
 
-        $sql = "UPDATE parents SET first_name = ?, last_name = ?, email = ?, phone_number = ?, address = ?, status = ? WHERE student_id = ?";
+    if (empty($newPassword)) {
+        $_SESSION['error_message'] = "Password cannot be empty";
+    } else if (strlen($newPassword) < 3) {
+        $_SESSION['error_message'] = "Password must be greater than 3 characters";
+    } else {
+        $password = password_hash($newPassword, PASSWORD_BCRYPT);
+
+        $sql = "UPDATE students SET password = ? WHERE student_id = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('sssssii', $parent_first_name, $parent_last_name, $parent_email, $parent_phone_number, $parent_address, $status, $student_id);
+        $stmt->bind_param('si', $password, $student_id);
         if ($stmt->execute()) {
-            $_SESSION['success_message'] = "Parent information updated successfully!";
+            $_SESSION['success_message'] = "Password updated successfully!";
         } else {
-            $_SESSION['error_message'] = "Error updating parent information: " . $stmt->error;
+            $_SESSION['error_message'] = "Error updating password: " . $stmt->error;
         }
         $stmt->close();
     }
+}
 
-    // Update Student Account Information
-    if (isset($_POST['updateStudentAdmission'])) {
-         // Declare student_id from hidden input field
-         $student_id = $_POST['student_id'];
+// Erase Student
+if (isset($_POST['eraseStudentData'])) {
+    // Declare student_id from hidden input field
+    $student_id = $_POST['student_id'];
 
-        $admission_id = $_POST['admission_id'];
+    $stmt = $conn->prepare("DELETE FROM students WHERE student_id=?");
+    $stmt->bind_param("i", $student_id);
 
-        $sql = "SELECT `admission_id` * FROM `students` WHERE `admission_id` = '$admission_id'";
-        $result = mysqli_query($conn, $sql);
-
-        if (mysqli_num_rows($result) == 1) {
-            $_SESSION['error_message'] = "Admission ID already taken!";
-        } else {
-            $sql = "UPDATE students SET admission_id = ? WHERE student_id = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param('si', $admission_id, $student_id);
-            if ($stmt->execute()) {
-                $_SESSION['success_message'] = "Account information updated successfully!";
-            } else {
-                $_SESSION['error_message'] = "Error updating account information: " . $stmt->error;
-            }
-            $stmt->close();
-        }
+    if ($stmt->execute()) {
+        $_SESSION['success_message'] = "Student erased successfully!";
+        header('Location: admin-student-list.php');
+    } else {
+        $_SESSION['error_message'] = "Error erasing student: " . $stmt->error;
     }
 
-    // Update Student Password
-    if (isset($_POST['updateStudentPassword'])) {
-         // Declare student_id from hidden input field
-         $student_id = $_POST['student_id'];
-
-        $newPassword = $_POST['newPassword'];
-
-        if (empty($newPassword)) {
-            $_SESSION['error_message'] = "Password cannot be empty";
-        } else if (strlen($newPassword) < 3) {
-            $_SESSION['error_message'] = "Password must be greater than 3 characters";
-        } else {
-            $password = password_hash($newPassword, PASSWORD_BCRYPT);
-
-            $sql = "UPDATE students SET password = ? WHERE student_id = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param('si', $password, $student_id);
-            if ($stmt->execute()) {
-                $_SESSION['success_message'] = "Password updated successfully!";
-            } else {
-                $_SESSION['error_message'] = "Error updating password: " . $stmt->error;
-            }
-            $stmt->close();
-        }
-    }
-
-    // Erase Student
-    if (isset($_POST['eraseStudentData'])) {
-         // Declare student_id from hidden input field
-         $student_id = $_POST['student_id'];
-
-        $stmt = $conn->prepare("DELETE FROM students WHERE student_id=?");
-        $stmt->bind_param("i", $student_id);
-
-        if ($stmt->execute()) {
-            $_SESSION['success_message'] = "Student erased successfully!";
-            header('Location: admin-student-list.php');
-        } else {
-            $_SESSION['error_message'] = "Error erasing student: " . $stmt->error;
-        }
-
-        $stmt->close();
-    }
+    $stmt->close();
+}
 
     // Redirect to the appropriate page after processing
     // header("Location: " . $_SERVER['PHP_SELF']);
