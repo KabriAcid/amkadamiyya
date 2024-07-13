@@ -90,8 +90,8 @@ $default = mysqli_fetch_assoc($result);
                                     <label class="form-check-label null-label text-body ms-3 text-truncate w-80 mb-0" for="notifications">Truncate Notifications Table</label>
                                 </div>
                                 <!-- Submit Button -->
-                                <div class="form-check form-switch ps-0 mt-4">
-                                    <button type="submit" name="truncateData" class="btn btn-primary">Apply Changes</button>
+                                <div class="form-check form-switch ps-0 mt-4 text-end">
+                                    <button type="submit" name="truncateData" class="btn bg-gradient-danger">Apply Changes</button>
                                 </div>
                             </div>
                         </div>

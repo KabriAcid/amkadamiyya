@@ -282,73 +282,66 @@ if (isset($_POST['addStudent'])) {
 }
 
 # Check if the form is submitted
-if (isset($_POST['uploadPost'])) {
 
-    # Details about the staff making the post
-    $staff_id = $_SESSION['staff']['staff_id'];
-    $staff_first_name = $_SESSION['staff']['first_name'];
-    $staff_last_name = $_SESSION['staff']['last_name'];
-    $staff_photo = $_SESSION['staff']['photo'];
 
-    # Validate and sanitize post details
-    $blog_title = ucwords(strtolower(htmlspecialchars($_POST['blog_title'])));
-    $blog_subtitle = ucwords(strtolower(htmlspecialchars($_POST['blog_subtitle'])));
-    $blog_content = htmlspecialchars($_POST['blog_content']);
 
-    # Reusable Variables
-    $dir = 'uploads/';
-    $tmp_name = $_FILES['blog_thumbnail']['tmp_name'];
-    $fileSize = $_FILES['blog_thumbnail']['size'];
-    $fileError = $_FILES['blog_thumbnail']['error'];
-    $fileExt = pathinfo($_FILES['blog_thumbnail']['name'], PATHINFO_EXTENSION);
+if (isset($_POST['uploadBlog'])) {
+    
+    // Function to generate a unique filename
+    function generateUniqueFileName($extension)
+    {
+        return uniqid('thumb_', true) . '.' . $extension;
+    }
 
-    # Encrypting file Name
-    $uniqid = uniqid();
-    $fileNewName = $dir . $uniqid . "." . $fileExt;
-    $target_file = $fileNewName;
-    $allowed_ext = array("jpg", "jpeg", "JPG", "png", "heic");
-    $maxFileSize = 3 * 1024 * 1024; # 3MB
+    $blogTitle = $_POST['blog_title'];
+    $blogSubtitle = $_POST['blog_subtitle'];
+    $blogContent = $_POST['blog_content'];
 
-    # If upload is successful
-    if ($fileError == 0) {
-        # Checking file size
-        if ($fileSize <= $maxFileSize) {
-            # Checking if file is an allowed photo type
-            if (in_array($fileExt, $allowed_ext)) {
-                # Move uploaded file
-                if (move_uploaded_file($tmp_name, $target_file)) {
-                    # Inserting into database
-                    $sql = "INSERT INTO `blogs` 
-                            (`staff_id`, `staff_first_name`, `staff_last_name`, `staff_photo`, `blog_title`, `blog_subtitle`, `blog_thumbnail`, `blog_content`)
-                            VALUES 
-                            ('$staff_id', '$staff_first_name', '$staff_last_name', '$staff_photo', '$blog_title', '$blog_subtitle', '$target_file', '$blog_content');";
+    // Thumbnail upload handling
+    if (isset($_FILES['blog_thumbnail']) && $_FILES['blog_thumbnail']['error'] == UPLOAD_ERR_OK) {
+        $thumbnail = $_FILES['blog_thumbnail'];
+        $thumbnailTmpName = $thumbnail['tmp_name'];
+        $thumbnailSize = $thumbnail['size'];
+        $thumbnailExtension = pathinfo($thumbnail['name'], PATHINFO_EXTENSION);
 
-                    if (mysqli_query($conn, $sql)) {
-                        $_SESSION['success_message'] = "Post Uploaded Successfully";
-                        header("Location: admin-timeline.php");
-                        exit;
-                    } else {
-                        exit("Can't upload post. Database error.");
-                    }
-                } else {
-                    $_SESSION['error_message'] = "Failed to move uploaded file.";
-                }
-            } else {
-                $_SESSION['error_message'] = "Invalid file type. Allowed types: " . implode(", ", $allowed_ext);
-            }
-        } else {
-            $_SESSION['error_message'] = "File size exceeds 3MB.";
+        // Check thumbnail size (limit to 3MB)
+        if ($thumbnailSize > 3000000) {
+            $_SESSION['error_message'] = "Thumbnail size should not exceed 3MB.";
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
+        }
+
+        // Generate a unique file name for the thumbnail
+        $thumbnailName = generateUniqueFileName($thumbnailExtension);
+        $thumbnailDestination = 'uploads/' . $thumbnailName;
+
+        // Upload thumbnail
+        if (!move_uploaded_file($thumbnailTmpName, $thumbnailDestination)) {
+            $_SESSION['error_message'] = "There was an error uploading the thumbnail.";
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
         }
     } else {
-        $_SESSION['error_message'] = "Error uploading file.";
+        $thumbnailDestination = "uploads/blog.png";
     }
 
-    # Redirect back in case of error
-    if (isset($_SESSION['error_message'])) {
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit;
+    // Insert blog post into database
+    $stmt = $conn->prepare("INSERT INTO blogs (blog_title, blog_subtitle, blog_content, blog_thumbnail) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $blogTitle, $blogSubtitle, $blogContent, $thumbnailDestination);
+
+    if ($stmt->execute()) {
+        $_SESSION['success_message'] = "Blog post uploaded successfully.";
+    } else {
+        $_SESSION['error_message'] = "There was an error uploading the blog post.";
     }
+
+    $stmt->close();
+    $conn->close();
+
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
 }
+
 
 // Assuming you have already established a database connection
 if (isset($_POST['addalumni'])) {
@@ -438,7 +431,7 @@ if (isset($_GET['delete_subject'])) {
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($result);
     $subject_name = $row['subject_name'];
-    
+
     $sql = "DELETE FROM `subjects` WHERE `subject_id` = '$subject_id' ";
     if (mysqli_query($conn, $sql)) {
         $_SESSION['success_message'] = "Subject Deleted Successfully";
@@ -483,12 +476,8 @@ if (isset($_POST['truncateData'])) {
             // Simulating truncation
             $truncated_tables[] = $table;
         }
-        $_SESSION['truncated_tables'] = $truncated_tables;
-        $_SESSION['truncation_status'] = "success";
-        $_SESSION['success_message'] = "Selected tables truncated successfully.";
-    } 
-    else {
-        $_SESSION['truncation_status'] = "error";
+        $_SESSION['success_message'] = "Operation successfully.";
+    } else {
         $_SESSION['error_message'] = "No tables selected.";
     }
     header("Location: " . $_SERVER['PHP_SELF']);
@@ -613,4 +602,4 @@ if (isset($_POST['uploadSubject'])) {
         header("Location: " . $_SERVER['PHP_SELF']);
         exit;
     }
-} ?>
+}

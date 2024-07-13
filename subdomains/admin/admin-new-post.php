@@ -1,5 +1,5 @@
 <?php
-    include "admin-process.php";
+include "admin-process.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,13 +45,17 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-12 mt-3">
-                                                <label>Blog Thumbnail</label>
-                                                <input type="file" name="blog_thumbnail" class="form-control">
+                                            <div class="col-12">
+                                                <div class="input-group mt-3">
+                                                    <label>Blog Thumbnail</label>
+                                                    <input type="file" name="blog_thumbnail" class="form-control">
+                                                </div>
                                             </div>
-                                            <div class="col-12 mt-3">
-                                                <label>Blog Content</label>
-                                                <textarea name="blog_content" class="form-control" rows="6" placeholder="Blog content should be more than 50 characters."></textarea>
+                                            <div class="col-12">
+                                                <div class="input-group mt-3">
+                                                    <label>Blog Content</label>
+                                                    <textarea name="blog_content" class="form-control" rows="6" placeholder="Blog content should be less than 50 characters."></textarea>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
