@@ -25,62 +25,78 @@ $default = mysqli_fetch_assoc($result);
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         <?php require "inc/admin-navbar.php"; ?>
-        <div class="container-fluid pt-3">
+        <div class="container-fluid py-4">
             <div class="row">
-                <div class="col-8 mx-auto">
-                    <div class="card">
-                        <div class="card-header pb-0 p-3">
-                            <h6 class="mb-0">General Settings</h6>
+                <div class="col-lg-8 mx-auto">
+                    <form action="" method="post">
+                        <div class="card">
+                            <div class="card-header pb-0 p-3">
+                                <h4 class="mb-0 text-dark text-gradient text-center">General Settings</h4>
+                            </div>
+                            <hr class="horizontal dark">
+                            <div class="card-body p-3">
+                                <!-- Students -->
+                                <h6 class="text-uppercase font-weight-bolder">
+                                    Students
+                                </h6>
+                                <p class="text-muted mb-3">Truncating this table will remove all student records.</p>
+                                <div class="form-check form-switch ps-0">
+                                    <input class="form-check-input ms-auto" type="checkbox" id="students" name="tables[]" value="students" />
+                                    <label class="form-check-label null-label text-body ms-3 text-truncate w-80 mb-0" for="students">Truncate Students Table</label>
+                                </div>
+                                <!-- Staff -->
+                                <h6 class="text-uppercase font-weight-bolder mt-4">
+                                    Staff
+                                </h6>
+                                <p class="text-muted mb-3">Truncating this table will remove all staff records.</p>
+                                <div class="form-check form-switch ps-0">
+                                    <input class="form-check-input ms-auto" type="checkbox" id="staff" name="tables[]" value="staff" />
+                                    <label class="form-check-label null-label text-body ms-3 text-truncate w-80 mb-0" for="staff">Truncate Staff Table</label>
+                                </div>
+                                <!-- Alumni -->
+                                <h6 class="text-uppercase font-weight-bolder mt-4">
+                                    Alumni
+                                </h6>
+                                <p class="text-muted mb-3">Truncating this table will remove all alumni records.</p>
+                                <div class="form-check form-switch ps-0">
+                                    <input class="form-check-input ms-auto" type="checkbox" id="alumni" name="tables[]" value="alumni" />
+                                    <label class="form-check-label null-label text-body ms-3 text-truncate w-80 mb-0" for="alumni">Truncate Alumni Table</label>
+                                </div>
+                                <!-- Blog -->
+                                <h6 class="text-uppercase font-weight-bolder mt-4">
+                                    Blog
+                                </h6>
+                                <p class="text-muted mb-3">Truncating this table will remove all blog posts.</p>
+                                <div class="form-check form-switch ps-0">
+                                    <input class="form-check-input ms-auto" type="checkbox" id="blog" name="tables[]" value="blog" />
+                                    <label class="form-check-label null-label text-body ms-3 text-truncate w-80 mb-0" for="blog">Truncate Blog Table</label>
+                                </div>
+                                <!-- Results -->
+                                <h6 class="text-uppercase font-weight-bolder mt-4">
+                                    Results
+                                </h6>
+                                <p class="text-muted mb-3">Truncating this table will remove all results records.</p>
+                                <div class="form-check form-switch ps-0">
+                                    <input class="form-check-input ms-auto" type="checkbox" id="results" name="tables[]" value="results" />
+                                    <label class="form-check-label null-label text-body ms-3 text-truncate w-80 mb-0" for="results">Truncate Results Table</label>
+                                </div>
+                                <!-- Notifications -->
+                                <h6 class="text-uppercase font-weight-bolder mt-4">
+                                    Notifications
+                                </h6>
+                                <p class="text-muted mb-3">Truncating this table will remove all notifications records.</p>
+                                <div class="form-check form-switch ps-0">
+                                    <input class="form-check-input ms-auto" type="checkbox" id="notifications" name="tables[]" value="notifications" />
+                                    <label class="form-check-label null-label text-body ms-3 text-truncate w-80 mb-0" for="notifications">Truncate Notifications Table</label>
+                                </div>
+                                <!-- Submit Button -->
+                                <div class="form-check form-switch ps-0 mt-4">
+                                    <button type="submit" class="btn btn-primary">Apply Changes</button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body p-3">
-                            <h6 class="text-uppercase text-body text-xs font-weight-bolder">
-                                Account
-                            </h6>
-                            <ul class="list-group">
-                                <li class="list-group-item border-0 px-0">
-                                    <div class="form-check form-switch ps-0">
-                                        <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault" checked />
-                                        <label class="null-label form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault">Email me when someone follows me</label>
-                                    </div>
-                                </li>
-                                <li class="list-group-item border-0 px-0">
-                                    <div class="form-check form-switch ps-0">
-                                        <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault1" />
-                                        <label class="null-label form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault1">Email me when someone answers on my post</label>
-                                    </div>
-                                </li>
-                                <li class="list-group-item border-0 px-0">
-                                    <div class="form-check form-switch ps-0">
-                                        <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault2" checked />
-                                        <label class="null-label form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault2">Email me when someone mentions me</label>
-                                    </div>
-                                </li>
-                            </ul>
-                            <h6 class="text-uppercase text-body text-xs font-weight-bolder mt-4">
-                                Application
-                            </h6>
-                            <ul class="list-group">
-                                <li class="list-group-item border-0 px-0">
-                                    <div class="form-check form-switch ps-0">
-                                        <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault3" />
-                                        <label class="null-label form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault3">New launches and projects</label>
-                                    </div>
-                                </li>
-                                <li class="list-group-item border-0 px-0">
-                                    <div class="form-check form-switch ps-0">
-                                        <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault4" checked />
-                                        <label class="null-label form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault4">Monthly product updates</label>
-                                    </div>
-                                </li>
-                                <li class="list-group-item border-0 px-0 pb-0">
-                                    <div class="form-check form-switch ps-0">
-                                        <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault5" />
-                                        <label class="null-label form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault5">Subscribe to newsletter</label>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    </form>
+
                 </div>
             </div>
         </div>
