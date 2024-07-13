@@ -257,14 +257,15 @@ if (isset($_POST['updateStudentAdmission'])) {
 
     if (mysqli_num_rows($result) == 1) {
         $_SESSION['error_message'] = "Admission ID already taken!";
-    } else {
+    } 
+    else {
         $sql = "UPDATE students SET admission_id = ? WHERE student_id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('si', $admission_id, $student_id);
         if ($stmt->execute()) {
-            $_SESSION['success_message'] = "Account information updated successfully!";
+            $_SESSION['success_message'] = "Student ID updated successfully!";
         } else {
-            $_SESSION['error_message'] = "Error updating account information: " . $stmt->error;
+            $_SESSION['error_message'] = "Error updating student ID: " . $stmt->error;
         }
         $stmt->close();
     }

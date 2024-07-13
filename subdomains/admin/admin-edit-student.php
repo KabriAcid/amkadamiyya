@@ -214,7 +214,7 @@ if (isset($_GET['student_id'])) {
                         <div class="card-body">
                             <form action="" method="post">
                                 <!--  -->
-                                <label>Admission Number</label>
+                                <label>Admission ID</label>
                                 <div class="input-group mb-3">
                                     <input type="text" value="<?php echo $student['admission_id']; ?>" class="form-control" name="admission_id">
                                 </div>
