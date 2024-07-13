@@ -28,10 +28,10 @@ include "../../config/database.php";
 
     </main>
 
-
-    <script src="../../js/plugins/sweetalert.min.js"></script>
     <script src="../../js/plugins/datatables.js"></script>
+    <script src="../../js/plugins/sweetalert.min.js"></script>
     <?php include "inc/admin-scripts.php"; ?>
+
 
     <?php
     if (isset($_SESSION['success_message'])) {
@@ -50,8 +50,8 @@ include "../../config/database.php";
     <?php
         unset($_SESSION['success_message']);
     }
-    ?>
 
+    ?>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
