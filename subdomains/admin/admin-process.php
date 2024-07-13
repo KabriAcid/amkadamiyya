@@ -170,13 +170,23 @@ if (isset($_POST['addStudent'])) {
     function generateStudentID($conn, $section_id, $entry_year)
     {
 
+        $sql = "SELECT * FROM `sections` WHERE `section_id` = '$section_id'";
+        $result = mysqli_query($conn, $sql);
+        $section = mysqli_fetch_assoc($result);
+
         $sql = "SELECT * FROM `serial_numbers` WHERE `section_id` = '$section_id' AND `entry_year` = '$entry_year'";
         $result = mysqli_query($conn, $sql);
         $serial = mysqli_fetch_assoc($result);
 
-        $current_serial = $serial['current_serial'] + 1;
-        $sql = "UPDATE `serial_numbers` SET `current_serial` = '$current_serial' WHERE `section_id` = '$section_id' AND `entry_year` = '$entry_year'";
-        mysqli_query($conn, $sql);
+        if ($serial) {
+            $current_serial = $serial['current_serial'] + 1;
+            $sql = "UPDATE `serial_numbers` SET `current_serial` = '$current_serial' WHERE `section_id` = '$section_id' AND `entry_year` = '$entry_year'";
+            mysqli_query($conn, $sql);
+        } else {
+            $current_serial = $section['serial_start'];
+            $sql = "INSERT INTO serial_numbers (section_id, entry_year, current_serial) VALUES ('$section_id', '$entry_year', '$current_serial')";
+            mysqli_query($conn, $sql);
+        }
 
         $admission_id = sprintf('AMK/%d/%d', $entry_year, $current_serial);
         return $admission_id;

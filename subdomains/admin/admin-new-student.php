@@ -49,6 +49,7 @@
                                         <div class="input-group">
                                             <input type="text" class="form-control" placeholder="Second Name" name="second_name">
                                         </div>
+                                        <small class="text-secondary">If using two names, leave this blank and fill in the last name.</small>
                                     </div>
                                     <!-- Last Name  -->
                                     <div class="col-md-6 mt-3">
@@ -127,7 +128,7 @@
                         </div>
                         <!--  -->
                         <div class="mt-5">
-                            <h6 class="text-sm text-primary text-gradient">Section B: Parent's Bio Data</h6>
+                            <h6 class="text-sm text-info text-gradient">Section B: Parent's Bio Data</h6>
                         </div>
                         <!-- PARENT OR GUARDIAN SECTION -->
                         <div class="card">
@@ -179,7 +180,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="ms-2">
-                                                        <span class="text-dark font-weight-bold d-block text-sm">Form Attestation</span>
+                                                        <span class="text-info font-weight-bold d-block text-sm">Form Attestation</span>
                                                         <span class="text-xs d-block">I hereby affirm and verify that all the aforementioned data is accurate.</span>
                                                     </div>
                                                 </div>
@@ -187,7 +188,7 @@
                                             <div class="col-4 col-md-6">
                                                 <!-- Submit Button -->
                                                 <div class="text-end">
-                                                    <input type="submit" class="btn bg-gradient-success" name="addStudent">
+                                                    <input type="submit" class="btn bg-gradient-info" name="addStudent">
                                                 </div>
                                             </div>
                                         </div>
