@@ -6,7 +6,7 @@ if (isset($_GET['student_id'])) {
     $sql = "SELECT * FROM `students` WHERE `student_id` = '$student_id'";
     $students = mysqli_query($conn, $sql);
     $student = mysqli_fetch_assoc($students);
-} 
+}
 // else {
 //     header('Location: admin-student-list.php');
 //     exit();
@@ -126,6 +126,8 @@ if (isset($_GET['student_id'])) {
                                             </select>
                                         </div>
                                     </div>
+                                    <!-- Hidden Input Field -->
+                                    <input type="hidden" name="student_id" value="<?php echo $student['student_id']; ?>">
                                 </div>
                             </div>
                             <!-- card body -->
@@ -180,8 +182,8 @@ if (isset($_GET['student_id'])) {
                                             <input type="text" name="parent_address" placeholder="Parent Address" value="<?php echo ucfirst($student['parent_address']); ?>" class="form-control">
                                         </div>
                                     </div>
-                                     <!-- Status -->
-                                     <div class="col-md-6">
+                                    <!-- Status -->
+                                    <div class="col-md-6">
                                         <label>Status</label>
                                         <div class="input-group mb-3">
                                             <select class="form-select" name="status">
@@ -190,6 +192,8 @@ if (isset($_GET['student_id'])) {
                                             </select>
                                         </div>
                                     </div>
+                                    <!-- Hidden Input Field -->
+                                    <input type="hidden" name="student_id" value="<?php echo $student['student_id']; ?>">
                                 </div>
                             </div>
                             <!-- card body -->
@@ -221,6 +225,8 @@ if (isset($_GET['student_id'])) {
                             </div>
                         </div>
                     </form>
+
+                    <!-- Change Passowrd -->
                     <form action="" method="post" class="mt-3">
                         <div class="card">
                             <div class="card-header">
@@ -243,9 +249,9 @@ if (isset($_GET['student_id'])) {
                             <!--  -->
                         </div>
                     </form>
-                    
-                     <!-- Delete Account -->
-                     <div class="card mt-3">
+
+                    <!-- Delete Account -->
+                    <div class="card mt-3">
                         <div class="card-header">
                             <h6 class="mb-0 text-danger">Erase Student</h6>
                             <p class="text-secondary text-sm mb-0">Once you erase student, all associated data will be removed from the database and will never be restored.</p>
