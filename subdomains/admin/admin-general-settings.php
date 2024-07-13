@@ -1,20 +1,21 @@
 <?php
-    session_start();
-    include "../../config/database.php";
+session_start();
+include "../../config/database.php";
 
-    $sql = "SELECT * FROM `defaults`;";
-    $result = mysqli_query($conn, $sql);
-    $default = mysqli_fetch_assoc($result);
+$sql = "SELECT * FROM `defaults`;";
+$result = mysqli_query($conn, $sql);
+$default = mysqli_fetch_assoc($result);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Set Defaults</title>
     <?php include "inc/admin-header.php"; ?>
 </head>
 
 <body class="g-sidenav-show bg-info-soft">
-     <?php
+    <?php
     if ($_SESSION['staff']['position_id'] == 1) {
         include "inc/admin-sidebar.php";
     } else {
@@ -26,41 +27,64 @@
         <?php require "inc/admin-navbar.php"; ?>
         <div class="container-fluid pt-3">
             <div class="row">
-                <div class="col-lg-8">
-                    <div class="card mb-4">
-                        <div class="card-header mb-0">
-                            <h6 class="text-info">Set Defaults</h6>
-                            <p class="mb-0">Here you can set the general default settings of the result.</p>
+                <div class="col-8 mx-auto">
+                    <div class="card">
+                        <div class="card-header pb-0 p-3">
+                            <h6 class="mb-0">General Settings</h6>
                         </div>
-                        <hr class="horizontal dark my-0 py-0">
-                        <div class="card-body">
-                            <form action="admin-process.php" method="post">
-                                <div class="form-group">
-                                    <label for="">Session</label>
-                                    <input type="text" name="session" class="form-control" value="<?php echo $default['session_name'] ?>" placeholder="Enter session year">
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Current Term</label>
-                                    <input type="text" name="current_term" class="form-control" value="<?php echo $default['current_term'] ?>" placeholder="Enter current term">
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Term Ending</label>
-                                    <input type="text" name="term_ending" class="form-control" value="<?php echo $default['term_ending'] ?>" placeholder="Enter term Ending year">
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Next Term Begins</label>
-                                    <input type="text" name="term_begins" class="form-control" value="<?php echo $default['term_begins'] ?>" placeholder="Enter next term beginning">
-                                </div>
-                                <div class="text-end">
-                                    <input type="submit" value="Update" name="setDefaults" class="btn bg-gradient-success">
-                                </div>
-                            </form>
+                        <div class="card-body p-3">
+                            <h6 class="text-uppercase text-body text-xs font-weight-bolder">
+                                Account
+                            </h6>
+                            <ul class="list-group">
+                                <li class="list-group-item border-0 px-0">
+                                    <div class="form-check form-switch ps-0">
+                                        <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault" checked />
+                                        <label class="null-label form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault">Email me when someone follows me</label>
+                                    </div>
+                                </li>
+                                <li class="list-group-item border-0 px-0">
+                                    <div class="form-check form-switch ps-0">
+                                        <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault1" />
+                                        <label class="null-label form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault1">Email me when someone answers on my post</label>
+                                    </div>
+                                </li>
+                                <li class="list-group-item border-0 px-0">
+                                    <div class="form-check form-switch ps-0">
+                                        <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault2" checked />
+                                        <label class="null-label form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault2">Email me when someone mentions me</label>
+                                    </div>
+                                </li>
+                            </ul>
+                            <h6 class="text-uppercase text-body text-xs font-weight-bolder mt-4">
+                                Application
+                            </h6>
+                            <ul class="list-group">
+                                <li class="list-group-item border-0 px-0">
+                                    <div class="form-check form-switch ps-0">
+                                        <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault3" />
+                                        <label class="null-label form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault3">New launches and projects</label>
+                                    </div>
+                                </li>
+                                <li class="list-group-item border-0 px-0">
+                                    <div class="form-check form-switch ps-0">
+                                        <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault4" checked />
+                                        <label class="null-label form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault4">Monthly product updates</label>
+                                    </div>
+                                </li>
+                                <li class="list-group-item border-0 px-0 pb-0">
+                                    <div class="form-check form-switch ps-0">
+                                        <input class="form-check-input ms-auto" type="checkbox" id="flexSwitchCheckDefault5" />
+                                        <label class="null-label form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault5">Subscribe to newsletter</label>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <?php include "inc/admin-footer.php";?>
+        <?php include "inc/admin-footer.php"; ?>
     </main>
 
 
@@ -69,37 +93,38 @@
 
     <?php
     if (isset($_SESSION['success_message'])) {
-        ?>
+    ?>
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
                     title: "Successful",
-                    text: "<?php echo $_SESSION['success_message'];?>",
+                    text: "<?php echo $_SESSION['success_message']; ?>",
                     timer: 3000,
                     showConfirmButton: true,
                     icon: 'success'
                 })
             })
         </script>
-        <?php
+    <?php
         unset($_SESSION['success_message']);
-    } else if(isset($_SESSION['error_message'])){
-        ?>
+    } else if (isset($_SESSION['error_message'])) {
+    ?>
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
                     title: "Error",
-                    text: "<?php echo $_SESSION['error_message'];?>",
+                    text: "<?php echo $_SESSION['error_message']; ?>",
                     timer: 3000,
                     showConfirmButton: true,
                     icon: 'error'
                 })
             })
         </script>
-        <?php
+    <?php
         unset($_SESSION['error_message']);
     }
     ?>
 
 </body>
+
 </html>
