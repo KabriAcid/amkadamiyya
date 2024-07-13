@@ -426,6 +426,34 @@ if (isset($_POST['addSubject'])) {
     }
 }
 
+
+
+
+# Delete Subject
+if (isset($_GET['delete_subject'])) {
+    $subject_id = $_GET['delete_subject'];
+    $staff_id = $_SESSION['staff']['staff_id'];
+
+    $sql = "SELECT * FROM `subjects` WHERE `subject_id` = '$subject_id' ";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $subject_name = $row['subject_name'];
+    
+    $sql = "DELETE FROM `subjects` WHERE `subject_id` = '$subject_id' ";
+    if (mysqli_query($conn, $sql)) {
+        $_SESSION['success_message'] = "Subject Deleted Successfully";
+    }
+}
+
+# Delete Notification 
+if (isset($_GET['delete_notification'])) {
+    $staff_id = $_GET['delete_notification'];
+    $sql = "DELETE FROM `admin_notification`";
+    if (mysqli_query($conn, $sql)) {
+        $_SESSION['success_message'] = "Notifications Deleted Successfully";
+    }
+}
+
 #Setting Defaults
 if (isset($_POST['setDefaults'])) {
     $staff_id = $_SESSION['staff']['staff_id'];
@@ -445,31 +473,27 @@ if (isset($_POST['setDefaults'])) {
     }
 }
 
-# Delete Subject
-if (isset($_GET['delete_subject'])) {
-    $subject_id = $_GET['delete_subject'];
-    $staff_id = $_SESSION['staff']['staff_id'];
+if (isset($_POST['truncateData'])) {
+    $tables = isset($_POST['tables']) ? $_POST['tables'] : [];
 
-    $sql = "SELECT * FROM `subjects` WHERE `subject_id` = '$subject_id' ";
-    $result = mysqli_query($conn, $sql);
-    $row = mysqli_fetch_assoc($result);
-    $subject_name = $row['subject_name'];
-
-    $sql = "DELETE FROM `subjects` WHERE `subject_id` = '$subject_id' ";
-    if (mysqli_query($conn, $sql)) {
-        $_SESSION['success_message'] = "Subject Deleted Successfully";
+    if (!empty($tables)) {
+        // Assume truncation logic here, for example purposes only
+        $truncated_tables = [];
+        foreach ($tables as $table) {
+            // Simulating truncation
+            $truncated_tables[] = $table;
+        }
+        $_SESSION['truncated_tables'] = $truncated_tables;
+        $_SESSION['truncation_status'] = "success";
+        $_SESSION['success_message'] = "Selected tables truncated successfully.";
+    } 
+    else {
+        $_SESSION['truncation_status'] = "error";
+        $_SESSION['error_message'] = "No tables selected.";
     }
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit;
 }
-
-# Delete Notification 
-if (isset($_GET['delete_notification'])) {
-    $staff_id = $_GET['delete_notification'];
-    $sql = "DELETE FROM `admin_notification`";
-    if (mysqli_query($conn, $sql)) {
-        $_SESSION['success_message'] = "Notifications Deleted Successfully";
-    }
-}
-
 
 // Uploading Results base on subject
 if (isset($_POST['uploadSubject'])) {

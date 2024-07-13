@@ -91,7 +91,7 @@ $default = mysqli_fetch_assoc($result);
                                 </div>
                                 <!-- Submit Button -->
                                 <div class="form-check form-switch ps-0 mt-4">
-                                    <button type="submit" class="btn btn-primary">Apply Changes</button>
+                                    <button type="submit" name="truncateData" class="btn btn-primary">Apply Changes</button>
                                 </div>
                             </div>
                         </div>
