@@ -27,6 +27,8 @@
                                 <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
                                     Class Master</th>
                                 <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Status</th>
+                                <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
                                     Action</th>
                             </tr>
                         </thead>
@@ -88,6 +90,17 @@
                                         echo $class['class_name'] ?? '';
                                         ?>
                                     </td>
+                                    <td class="text-sm text-center font-weight-normal">
+                                        <span class="badge badge-sm rounded
+                                                    <?php
+                                                    echo $row['status'] == 1 ? 'bg-gradient-success' : "bg-gradient-secondary";
+                                                    ?>">
+                                            <?php
+                                            echo $row['status'] == 1 ? 'Active' : "Inactive";
+                                            ?>
+                                        </span>
+                                    </td>
+
                                     <td class="text-sm text-center font-weight-normal">
                                         <form action="admin-view-staff.php" method="get">
                                             <input type="hidden" name="staff_id" value="<?php echo $row['staff_id']; ?>">

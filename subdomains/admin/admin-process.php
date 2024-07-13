@@ -294,19 +294,19 @@ if (isset($_POST['uploadBlog'])) {
     }
 
     function sanitizeBlog($string){
-        $string = htmlspecialchars($string);
-        $string = trim($string);
+        $string = ucwords(strtolower($string));
 
         return $string;
     }
     $staff_id = $_POST['staff_id'];
-    $blogTitle = ucwords(strtolower(sanitizeBlog($_POST['blog_title'])));
-    $blogSubTitle = ucwords(strtolower(sanitizeBlog($_POST['blog_subtitle'])));
-    $blogContent = sanitizeBlog($_POST['blog_content']);
+    $blogTitle = sanitizeBlog($_POST['blog_title']);
+    $blogSubTitle = sanitizeBlog($_POST['blog_subtitle']);
+    $blogContent = htmlspecialchars($_POST['blog_content']);
+
+
 
     if(str_word_count($blogContent) < 10){
         $_SESSION['error_message'] = "Blog content must contain at least 10 words";
-        exit;
     }
 
     // Thumbnail upload handling
@@ -338,8 +338,8 @@ if (isset($_POST['uploadBlog'])) {
     }
 
     // Insert blog post into database
-    $stmt = $conn->prepare("INSERT INTO blogs (blog_title, blog_subtitle, blog_content, blog_thumbnail) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $blogTitle, $blogSubtitle, $blogContent, $thumbnailDestination);
+    $stmt = $conn->prepare("INSERT INTO blogs (staff_id, blog_title, blog_subtitle, blog_content, blog_thumbnail) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("issss", $staff_id, $blogTitle, $blogSubtitle, $blogContent, $thumbnailDestination);
 
     if ($stmt->execute()) {
         $_SESSION['success_message'] = "Blog post uploaded successfully.";

@@ -23,8 +23,8 @@ include "admin-process.php";
                                 <h3 class="text-dark font-weight-bold text-gradient">Publish Blog Post</h3>
                                 <p>This blog section is a platform for school administrators to share informative content. Please be mindful of typographical and grammatical errors in our posts.
 
-                                    <p>Posts must adhere to our standards of relevance and coherence. Content that does not meet these guidelines may be declined or removed.</p>
-                                    Thank you for your attention to these guidelines.</p>
+                                <p>Posts must adhere to our standards of relevance and coherence. Content that does not meet these guidelines may be declined or removed.</p>
+                                Thank you for your attention to these guidelines.</p>
                             </div>
                         </div>
                     </div>
@@ -42,9 +42,14 @@ include "admin-process.php";
                                                 </div>
                                             </div>
                                             <div class="col-md-6 ps-md-2">
-                                                <label>Blog Subtitle</label>
+                                                <label>Blog Category</label>
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" placeholder="News" required name="blog_subtitle">
+                                                    <select id="blog_subtitle" name="blog_subtitle" class="form-control">
+                                                        <option value="academic" selected>Academic</option>
+                                                        <option value="sports">Notice</option>
+                                                        <option value="events">Events</option>
+                                                        <option value="news">News</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -58,13 +63,14 @@ include "admin-process.php";
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label>Blog Content</label>
-                                                    <textarea name="blog_content" class="form-control" rows="6" placeholder="Blog content should be less than 50 characters."></textarea>
+                                                    <?php $dummy_text = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum tempora eum soluta optio accusamus aliquid totam ipsam consequuntur cumque fugit numquam assumenda quos, asperiores labore facilis expedita vitae sed corrupti!"; ?>
+                                                    <textarea name="blog_content" class="form-control" rows="6" placeholder="Blog content should be less than 50 characters."><?php echo $dummy_text; ?></textarea>
                                                 </div>
                                             </div>
                                         </div>
                                         <!-- Hidden Input Field -->
-                                         <input type="hidden" name="staff_id" value="<?php echo $_SESSION['staff']['staff_id']?>">
-        
+                                        <input type="hidden" name="staff_id" value="<?php echo $_SESSION['staff']['staff_id'] ?>">
+
                                         <div class="row mt-3">
                                             <div class="col-12 text-end">
                                                 <input type="submit" name="uploadBlog" class="btn bg-gradient-success mb-0" value="upload">
