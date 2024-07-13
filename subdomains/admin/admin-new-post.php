@@ -62,6 +62,9 @@ include "admin-process.php";
                                                 </div>
                                             </div>
                                         </div>
+                                        <!-- Hidden Input Field -->
+                                         <input type="hidden" name="staff_id" value="<?php echo $_SESSION['staff']['staff_id']?>">
+        
                                         <div class="row mt-3">
                                             <div class="col-12 text-end">
                                                 <input type="submit" name="uploadBlog" class="btn bg-gradient-success mb-0" value="upload">

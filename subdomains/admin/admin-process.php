@@ -286,16 +286,28 @@ if (isset($_POST['addStudent'])) {
 
 
 if (isset($_POST['uploadBlog'])) {
-    
+
     // Function to generate a unique filename
     function generateUniqueFileName($extension)
     {
         return uniqid('thumb_', true) . '.' . $extension;
     }
 
-    $blogTitle = $_POST['blog_title'];
-    $blogSubtitle = $_POST['blog_subtitle'];
-    $blogContent = $_POST['blog_content'];
+    function sanitizeBlog($string){
+        $string = htmlspecialchars($string);
+        $string = trim($string);
+
+        return $string;
+    }
+    $staff_id = $_POST['staff_id'];
+    $blogTitle = ucwords(strtolower(sanitizeBlog($_POST['blog_title'])));
+    $blogSubTitle = ucwords(strtolower(sanitizeBlog($_POST['blog_subtitle'])));
+    $blogContent = sanitizeBlog($_POST['blog_content']);
+
+    if(str_word_count($blogContent) < 10){
+        $_SESSION['error_message'] = "Blog content must contain at least 10 words";
+        exit;
+    }
 
     // Thumbnail upload handling
     if (isset($_FILES['blog_thumbnail']) && $_FILES['blog_thumbnail']['error'] == UPLOAD_ERR_OK) {
@@ -322,7 +334,7 @@ if (isset($_POST['uploadBlog'])) {
             exit();
         }
     } else {
-        $thumbnailDestination = "uploads/blog.png";
+        $thumbnailDestination = "uploads/blog.jpg";
     }
 
     // Insert blog post into database
