@@ -218,6 +218,10 @@ if (isset($_GET['student_id'])) {
                                 <div class="input-group mb-3">
                                     <input type="text" value="<?php echo $student['admission_id']; ?>" class="form-control" name="admission_id">
                                 </div>
+
+                                <!-- Hidden Input Field -->
+                                <input type="hidden" name="student_id" value="<?php echo $student_id; ?>">
+
                                 <!--  -->
                                 <div class="text-end">
                                     <input type="submit" value="update" name="updateStudentAdmission" class="btn bg-gradient-info mb-0">
