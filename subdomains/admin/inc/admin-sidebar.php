@@ -161,7 +161,7 @@
                }
                ?>" aria-controls="postsMenu" role="button" aria-expanded="false">
                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
-                  <i class="ni ni-album-2 
+                  <i class="ni ni-camera-compact
                   <?php
                   if (basename($_SERVER['PHP_SELF']) == 'admin-timeline.php' || basename($_SERVER['PHP_SELF']) == 'admin-new-post.php') {
                      echo 'text-white';
@@ -391,9 +391,9 @@
             }
             ?>" aria-controls="settingsMenu" role="button" aria-expanded="false">
                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
-                  <i class="ni ni-notification-70
+                  <i class="ni ni-settings
                   <?php
-                  if (basename($_SERVER['PHP_SELF']) == 'admin-set-defauls.php' || basename($_SERVER['PHP_SELF']) == 'admin-general-settings.php') {
+                  if (basename($_SERVER['PHP_SELF']) == 'admin-set-defaults.php' || basename($_SERVER['PHP_SELF']) == 'admin-general-settings.php') {
                      echo 'text-white';
                   } else {
                      echo 'text-dark';
