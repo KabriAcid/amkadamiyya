@@ -204,27 +204,27 @@ if (isset($_GET['student_id'])) {
                     </form>
                 </div>
                 <div class="col-lg-12 col-xl-5 mt-3 mt-xl-0">
-                    <form action="" method="post">
-                        <div class="card">
-                            <div class="card-header">
-                                <h6 class="mb-0 text-gradient text-info">Account Information</h6>
-                                <p class="text-sm mb-0">Edit student&apos;s account information.</p>
-                            </div>
-                            <hr class="horizontal dark">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0 text-gradient text-info">Account Information</h6>
+                            <p class="text-sm mb-0">Edit student&apos;s account information.</p>
+                        </div>
+                        <hr class="horizontal dark">
 
-                            <div class="card-body">
+                        <div class="card-body">
+                            <form action="" method="post">
                                 <!--  -->
                                 <label>Admission Number</label>
                                 <div class="input-group mb-3">
                                     <input type="text" value="<?php echo $student['admission_id']; ?>" class="form-control" name="admission_id">
                                 </div>
                                 <!--  -->
-                            </div>
-                            <div class="card-footer text-end pt-0">
-                                <input type="submit" value="update" name="updateStudentAdmission" class="btn bg-gradient-info mb-0">
-                            </div>
+                                <div class="text-end">
+                                    <input type="submit" value="update" name="updateStudentAdmission" class="btn bg-gradient-info mb-0">
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
 
                     <!-- Change Passowrd -->
                     <form action="" method="post" class="mt-3">
