@@ -386,32 +386,32 @@
          <li class="nav-item">
             <a data-bs-toggle="collapse" href="#settingsMenu" class="nav-link 
             <?php
-            if (basename($_SERVER['PHP_SELF']) == 'admin-view-notification.php') {
+            if (basename($_SERVER['PHP_SELF']) == 'admin-set-defaults.php' || basename($_SERVER['PHP_SELF']) == 'admin-general-settings.php') {
                echo "active";
             }
             ?>" aria-controls="settingsMenu" role="button" aria-expanded="false">
                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
                   <i class="ni ni-notification-70
                   <?php
-                  if (basename($_SERVER['PHP_SELF']) == 'admin-view-notification.php') {
+                  if (basename($_SERVER['PHP_SELF']) == 'admin-set-defauls.php' || basename($_SERVER['PHP_SELF']) == 'admin-general-settings.php') {
                      echo 'text-white';
                   } else {
                      echo 'text-dark';
                   }
                   ?>" style="font-size: 12px;"></i>
                </div>
-               <span class="nav-link-text ms-1">Notifications</span>
+               <span class="nav-link-text ms-1">Settings</span>
             </a>
             <div class="collapse " id="settingsMenu">
                <ul class="nav ms-4 ps-3">
                   <li class="nav-item">
-                     <a class="nav-link" href="admin-general-alert.php">
-                        <span class="sidenav-normal"> General Alerts </span>
+                     <a class="nav-link" href="admin-set-defaults.php">
+                        <span class="sidenav-normal"> Set Defaults </span>
                      </a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="admin-view-notification.php">
-                        <span class="sidenav-normal"> View Notifications </span>
+                     <a class="nav-link" href="admin-general-settings.php">
+                        <span class="sidenav-normal"> General Settings </span>
                      </a>
                   </li>
                </ul>
