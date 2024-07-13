@@ -283,6 +283,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
+     // Erase Student
+     if (isset($_POST['eraseStudentData'])) {
+        $stmt = $conn->prepare("DELETE FROM students WHERE student_id=?");
+        $stmt->bind_param("i", $student_id);
+
+        if ($stmt->execute()) {
+            $_SESSION['success_message'] = "Student erased successfully!";
+            header('Location: admin-student-list.php');
+        } else {
+            $_SESSION['error_message'] = "Error erasing student: " . $stmt->error;
+        }
+
+        $stmt->close();
+    }
+
     // Redirect to the appropriate page after processing
     header("Location: " . $_SERVER['PHP_SELF']);
     exit();

@@ -6,10 +6,11 @@ if (isset($_GET['student_id'])) {
     $sql = "SELECT * FROM `students` WHERE `student_id` = '$student_id'";
     $students = mysqli_query($conn, $sql);
     $student = mysqli_fetch_assoc($students);
-} else {
-    header('Location: admin-student-list.php');
-    exit();
-}
+} 
+// else {
+//     header('Location: admin-student-list.php');
+//     exit();
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -238,11 +239,28 @@ if (isset($_GET['student_id'])) {
                                 <input type="submit" value="update" name="updateStudentPassword" class="btn bg-gradient-info mb-0">
                             </div>
                             <!-- Hidden Input Field -->
-                            <input type="hidden" name="staff_id" value="<?php echo $student_id; ?>">
+                            <input type="hidden" name="student_id" value="<?php echo $student_id; ?>">
                             <!--  -->
                         </div>
                     </form>
-                    <!-- EOF card -->
+                    
+                     <!-- Delete Account -->
+                     <div class="card mt-3">
+                        <div class="card-header">
+                            <h6 class="mb-0 text-danger">Erase Student</h6>
+                            <p class="text-secondary text-sm mb-0">Once you erase student, all associated data will be removed from the database and will never be restored.</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-end align-items-center my-0 py-0">
+                                <div class="text-end">
+                                    <form action="" method="post">
+                                        <input type="hidden" name="student_id" value="<?php echo $student['student_id']; ?>">
+                                        <input type="submit" class="btn bg-gradient-danger btn-sm" value="erase" name="eraseStudentData">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 

@@ -1,6 +1,6 @@
 <?php
-    session_start();
-    include "../../config/database.php";
+session_start();
+include "../../config/database.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,12 +19,15 @@
         <div class="container-fluid pt-3">
             <div class="card">
                 <div class="card-header">
-                    <h6 class="mb-0">New Applicants</h6>
+                    <h5 class="text-gradient text-info">New Applicants</h5>
+                    <p class="text-sm">
+                        Here's a list of pending applications. Click 'View' to see the complete details.
+                    </p>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
-                        <table class="table align-items-center mb-0">
-                            <thead>
+                        <table class="table table-flush" id="datatable-basic">
+                            <thead class="thead-light">
                                 <tr>
                                     <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7" spellcheck="false">#</th>
                                     <th class="text-uppercase text-left text-secondary text-xxs font-weight-bolder opacity-7" spellcheck="false">Name</th>
@@ -36,14 +39,15 @@
                                     <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7" spellcheck="false">Action</th>
                                 </tr>
                             </thead>
+
                             <tbody>
                                 <?php
                                 $sql = "SELECT * FROM `applicants` WHERE `admission_status` = 0 ORDER BY `timestamp` DESC";
-                                $result = mysqli_query($conn, $sql);
+                                $applicants = mysqli_query($conn, $sql);
                                 $count = 1;
 
-                                if (mysqli_num_rows($result) > 0) {
-                                    while ($row = mysqli_fetch_assoc($result)) {
+                                if (mysqli_num_rows($applicants) > 0) {
+                                    while ($applicant = mysqli_fetch_assoc($applicants)) {
                                 ?>
                                         <tr>
                                             <td class="align-middle text-center text-sm">
@@ -51,34 +55,40 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex px-2 py-1">
-                                                    <div>
-                                                        <img src="../../pages/admission/<?php echo $row['photo']; ?>" class="avatar avatar-sm me-3" style="object-fit: cover;">
-                                                    </div>
                                                     <div class="d-flex align-items-center justify-content-center">
-                                                        <h6 class="mb-0 text-sm text-capitalize text-left"><?php echo $row['first_name'] . " " . $row['second_name'] . " " . $row['last_name']  ?></h6>
+                                                        <span class="mb-0 text-secondary text-xs font-weight-bold text-capitalize text-left"><?php echo $applicant['first_name'] . " " . $applicant['second_name'] . " " . $applicant['last_name']  ?></span>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
-                                                <p class="text-xs text-center font-weight-bold mb-0"><?php echo $row['application_code']; ?></p>
+                                                <p class="text-secondary text-xs text-center font-weight-bold mb-0"><?php echo $applicant['application_code']; ?></p>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <span class="text-secondary text-xs font-weight-bold text-capitalize"><?php echo $row['enrolling_class']; ?></span>
+                                                <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                                    <?php
+                                                    $class_id = $applicant['enrolling_class'];
+                                                    $sql = "SELECT `class_name` FROM `classes` WHERE `class_id` = '$class_id'";
+                                                    $clasess = mysqli_query($conn, $sql);
+                                                    $class = mysqli_fetch_assoc($clasess);
+                                                    echo $class['class_name'];
+                                                    ?>
+                                                </span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs font-weight-bold text-capitalize"><?php echo $row['gender']; ?></span>
+                                                <span class="text-secondary text-xs font-weight-bold text-capitalize"><?php echo $applicant['gender']; ?></span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs font-weight-bold text-capitalize"><?php echo date("j F, Y", strtotime($row['birth_date'])); ?></span>
+                                                <span class="text-secondary text-xs font-weight-bold text-capitalize"><?php echo date("j F, Y", strtotime($applicant['birth_date'])); ?></span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs font-weight-bold text-capitalize"><?php echo $row['timestamp']; ?></span>
+                                                <span class="text-secondary text-xs font-weight-bold text-capitalize"><?php echo date("j F, Y H:m", strtotime($applicant['timestamp'])); ?></span>
                                             </td>
 
-                                            <td class="align-middle">
-                                                <a href="admin-view-applicant.php?applicant_id=<?php echo $row['applicant_id']; ?>" class="text-secondary text-center d-block font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                                                    View
-                                                </a>
+                                            <td class="align-middle text-center">
+                                                <form action="admin-view-applicant.php" method="get">
+                                                    <input type="hidden" name="applicant_id" value="<?php echo $applicant['applicant_id']; ?>">
+                                                    <button type="submit" class="badge badge-sm rounded bg-gradient-light text-dark border-0">View</button>
+                                                </form>
                                             </td>
                                         </tr>
                                     <?php
@@ -103,21 +113,46 @@
             </div>
         </div>
 
-    <?php include 'inc/admin-footer.php';  ?>
-</main>
+        <?php include 'inc/admin-footer.php';  ?>
+    </main>
 
-    <script src="../../js/core/popper.min.js"></script>
-    <script src="../../js/core/bootstrap.min.js"></script>
-    <script src="../../js/plugins/chartjs.min.js"></script>
-    <script src="../../js/plugins/perfect-scrollbar.min.js"></script>
-    <script src="../../js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="../../js/plugins/sweetalert.min.js"></script>
     <script src="../../js/plugins/datatables.js"></script>
+    <?php include "inc/admin-scripts.php"; ?>
 
-    <script src="../../js/plugins/dragula/dragula.min.js"></script>
-    <script src="../../js/plugins/jkanban/jkanban.js"></script>
+    <?php
+    if (isset($_SESSION['success_message'])) {
+    ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: "Successful",
+                    text: "<?php echo $_SESSION['success_message']; ?>",
+                    timer: 3000,
+                    showConfirmButton: true,
+                    icon: 'success'
+                })
+            })
+        </script>
+    <?php
+        unset($_SESSION['success_message']);
+    }
+    ?>
 
-    <script src="../../js/soft-ui-dashboard.min3f71.js"></script>
-
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const dataTableBasic = new simpleDatatables.DataTable("#datatable-basic", {
+                searchable: true,
+                fixedHeight: true,
+                perPage: 10, // Default number of entries per page
+                labels: {
+                    placeholder: "Search...", // Placeholder text for search input
+                    noRows: "No entries found", // Text shown when no rows found
+                    info: "Showing {start} to {end} of {rows} entries" // Info text shown below the table
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

@@ -5,7 +5,7 @@
                 <div class="card-header">
                     <h5 class="mb-0 text-gradient text-info">Student's Table</h5>
                     <p class="text-sm mb-0">
-                        Below is a concise student list. Click 'View' to see complete details.
+                        Below is a general list of students. Click 'View' to see complete details.
                     </p>
                 </div>
                 <div class="table-responsive">

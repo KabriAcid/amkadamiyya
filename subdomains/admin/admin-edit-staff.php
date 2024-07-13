@@ -367,8 +367,8 @@ if (isset($_GET['staff_id'])) {
                     <!-- Delete Account -->
                     <div class="card mt-3">
                         <div class="card-header">
-                            <h6 class="mb-0 text-gradient text-warning">Erase Staff</h6>
-                            <p class="text-secondary text-sm mb-0">Once you erase staff, all data will be removed from the database.</p>
+                            <h6 class="mb-0 text-danger">Erase Staff</h6>
+                            <p class="text-secondary text-sm mb-0">Once you erase staff, all associated data will be removed from the database and will never be restored.</p>
                         </div>
                         <div class="card-body">
                             <div class="d-flex justify-content-end align-items-center my-0 py-0">
