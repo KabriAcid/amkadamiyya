@@ -25,13 +25,15 @@
                                 <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
                                     LGA</th>
                                 <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+                                    Status</th>
+                                <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
                                     Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
                             if ($_SESSION['staff']['position_id'] == 1) {
-                                $sql = "SELECT * FROM `students` ORDER BY `class_id` DESC, `admission_id` ASC, `first_name` ASC, `second_name` ASC, `last_name` ASC, `gender` ASC, `state` ASC";
+                                $sql = "SELECT * FROM `students` ORDER BY `admission_id` ASC, `first_name` ASC, `second_name` ASC, `last_name` ASC, `gender` ASC, `state` ASC";
 
                                 $result = mysqli_query($conn, $sql);
                                 while ($row = mysqli_fetch_assoc($result)) {
@@ -59,9 +61,19 @@
                                         <td class="text-sm text-center font-weight-normal"><?php echo $row['state']; ?></td>
                                         <td class="text-sm text-center font-weight-normal"><?php echo $row['lga']; ?></td>
                                         <td class="text-sm text-center font-weight-normal">
+                                            <span class="badge badge-sm rounded
+                                                    <?php
+                                                        echo $row['status'] == 1 ? 'bg-gradient-success' : "bg-gradient-secondary";
+                                                    ?>">
+                                                     <?php
+                                                        echo $row['status'] == 1 ? 'Active' : "Inactive";
+                                                    ?>
+                                            </span>
+                                        </td>
+                                        <td class="text-sm text-center font-weight-normal">
                                             <form action="admin-view-student.php" method="get">
                                                 <input type="hidden" name="student_id" value="<?php echo $row['student_id']; ?>">
-                                                <button type="submit" class="border-0 bg-gradient-light rounded text-sm">View</button>
+                                                <button type="submit" class="badge badge-sm rounded bg-gradient-light text-dark border-0">View</button>
                                             </form>
                                         </td>
                                     </tr>

@@ -135,7 +135,7 @@
                             <h6 class="mb-0">Notifications</h6>
                         </div>
                         <div class="col-6 text-end">
-                            <a class="text-sm mb-0" href="admin-view-notification.php">View All</a>
+                            <a class="badge badge-sm rounded bg-gradient-light text-dark border-0" href="admin-view-notification.php">View All</a>
                         </div>
                     </div>
                 </div>

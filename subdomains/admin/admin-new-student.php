@@ -180,7 +180,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="ms-2">
-                                                        <span class="text-info font-weight-bold d-block text-sm">Form Attestation</span>
+                                                        <span class="text-dark font-weight-bold d-block text-sm">Form Attestation</span>
                                                         <span class="text-xs d-block">I hereby affirm and verify that all the aforementioned data is accurate.</span>
                                                     </div>
                                                 </div>

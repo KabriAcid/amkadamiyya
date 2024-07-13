@@ -20,7 +20,6 @@
 
                                 <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
                                     Phone number</th>
-
                                 <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
                                     Username</th>
                                 <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
@@ -92,7 +91,7 @@
                                     <td class="text-sm text-center font-weight-normal">
                                         <form action="admin-view-staff.php" method="get">
                                             <input type="hidden" name="staff_id" value="<?php echo $row['staff_id']; ?>">
-                                            <button type="submit" class="border-0 bg-gradient-light rounded text-sm">View</button>
+                                            <button type="submit" class="badge badge-sm rounded bg-gradient-light text-dark border-0">View</button>
                                         </form>
                                     </td>
                                 </tr>

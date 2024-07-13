@@ -2,6 +2,8 @@
 session_start();
 include "../../config/database.php";
 
+print_r($_SESSION);
+
 $position_id = $_SESSION['staff']['position_id'];
 $sql = "SELECT `position_name` FROM `school_post` WHERE `position_id` = '$position_id'";
 $result = mysqli_query($conn, $sql);
@@ -113,7 +115,7 @@ $row = mysqli_fetch_assoc($result);
                                     <strong class="text-dark">Gender: </strong>&nbsp; <?php echo $_SESSION['staff']['gender']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Qualification: </strong>&nbsp;<?php $_SESSION['staff']['qualification_name'] . '. ' . $_SESSION['staff']['discipline_name'];
+                                    <strong class="text-dark">Qualification: </strong>&nbsp;<?php $_SESSION['staff']['qualification'] . '. ' . $_SESSION['staff']['discipline'];
                                     ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
