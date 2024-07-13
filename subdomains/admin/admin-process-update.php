@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Update Account Information
-    if (isset($_POST['updateAccount'])) {
+    if (isset($_POST['updateStaffAccount'])) {
         $username = mysqli_real_escape_string($conn, $_POST['username']);
         $email = mysqli_real_escape_string($conn, $_POST['email']);
 
