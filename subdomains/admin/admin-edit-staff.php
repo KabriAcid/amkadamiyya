@@ -1,5 +1,5 @@
 <?php
-include_once "admin-process.php";
+include_once "admin-process-update.php";
 
 if (isset($_GET['staff_id'])) {
     $staff_id = $_GET['staff_id'];

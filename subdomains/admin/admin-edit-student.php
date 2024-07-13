@@ -1,5 +1,5 @@
 <?php
-include "admin-process.php";
+include "admin-process-update.php";
 
 if (isset($_GET['student_id'])) {
     $student_id = $_GET['student_id'];
@@ -211,7 +211,7 @@ if (isset($_GET['student_id'])) {
                                 <!--  -->
                                 <label>Admission Number</label>
                                 <div class="input-group mb-3">
-                                    <input type="text" value="<?php echo $student['admission_id']; ?>" class="form-control" name="admission_number">
+                                    <input type="text" value="<?php echo $student['admission_id']; ?>" class="form-control" name="admission_id">
                                 </div>
                                 <!--  -->
                             </div>

@@ -1,5 +1,5 @@
 <?php
-include_once "admin-process.php";
+include_once "admin-process-update.php";
 
 $staff_id = $_SESSION['staff']['staff_id'];
 $sql = "SELECT * FROM `staff` WHERE `staff_id` = '$staff_id'";

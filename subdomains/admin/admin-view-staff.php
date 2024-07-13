@@ -39,10 +39,7 @@ if (isset($_GET['staff_id'])) {
                         <div class="card-header pb-0">
                             <div class="d-flex justify-content-between">
                                 <h6 class="text-gradient text-warning">Profile Information</h6>
-                                <form action="admin-edit-staff.php" method="get">
-                                    <input type="hidden" name="staff_id" value="<?php echo $staff['staff_id']; ?>">
-                                    <button type="submit" class="btn bg-gradient-dark btn-sm">Edit</button>
-                                </form>
+                                <a href="admin-edit-staff.php?staff_id=<?php echo $staff['staff_id']; ?>" class="btn bg-gradient-dark btn-sm">Edit <i class="ms-2 fa fa-edit" style="font-size: 12px;"></i></a>
                             </div>
                         </div>
                         <hr class="horizontal dark">
