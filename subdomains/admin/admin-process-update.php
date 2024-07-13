@@ -1,18 +1,18 @@
 <?php
 session_start();
 include '../../config/database.php';
-// Updating staff information
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Function to capitalize names
+
     function capitalize($string)
     {
         return ucwords(strtolower(trim($string)));
     }
 
-    $staff_id = mysqli_real_escape_string($conn, $_POST['staff_id']);
-
+    
     // Update Biodata
     if (isset($_POST['updateStaffBioData'])) {
+        // Hiddent Staff ID input
+        $staff_id = mysqli_real_escape_string($conn, $_POST['staff_id']);
+
         $first_name = capitalize(mysqli_real_escape_string($conn, $_POST['first_name']));
         $last_name = capitalize(mysqli_real_escape_string($conn, $_POST['last_name']));
         $birth_date = mysqli_real_escape_string($conn, $_POST['birth_date']);
@@ -79,6 +79,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Update Other Information
     if (isset($_POST['updateOtherData'])) {
+        // Hiddent Staff ID input
+        $staff_id = mysqli_real_escape_string($conn, $_POST['staff_id']);
+
         $class_id = mysqli_real_escape_string($conn, $_POST['class_id']);
         $subject_id = mysqli_real_escape_string($conn, $_POST['subject_id']);
         $position_id = mysqli_real_escape_string($conn, $_POST['position_id']);
@@ -116,6 +119,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Update Account Information
     if (isset($_POST['updateStaffAccount'])) {
+
+        // Hiddent Staff ID input
+        $staff_id = mysqli_real_escape_string($conn, $_POST['staff_id']);
+
         $username = mysqli_real_escape_string($conn, $_POST['username']);
         $email = mysqli_real_escape_string($conn, $_POST['email']);
 
@@ -138,6 +145,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Update Staff Password
     if (isset($_POST['updateStaffPassword'])) {
+
+        // Hiddent Staff ID input
+        $staff_id = mysqli_real_escape_string($conn, $_POST['staff_id']);
+
         $newPassword = mysqli_real_escape_string($conn, $_POST['newPassword']);
 
         if (empty($newPassword)) {
@@ -166,6 +177,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Erase Staff
     if (isset($_POST['eraseStaffData'])) {
+        // Hiddent Staff ID input
+        $staff_id = mysqli_real_escape_string($conn, $_POST['staff_id']);
+
         $stmt = $conn->prepare("DELETE FROM staff WHERE staff_id=?");
         $stmt->bind_param("i", $staff_id);
 
@@ -181,9 +195,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Redirect to the appropriate page after processing
-    header("Location:" . $_SERVER['PHP_SELF']);
-    exit();
-}
+    // header("Location:" . $_SERVER['PHP_SELF']);
+    // exit();
+
+
+
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
