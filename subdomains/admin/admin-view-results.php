@@ -39,7 +39,7 @@ function addOrdinalSuffix($num) {
                     <div class="card mb-4">
 
                         <div class="card-header">
-                            <h5 class="mb-0 text-gradient text-danger">Results Uploads Table</h5>
+                            <h5 class="mb-0 text-gradient text-info">Results Uploads Table</h5>
                             <p class="text-sm mb-0">
                                 Here is the complete list of uploaded students result.
                             </p>
@@ -51,6 +51,9 @@ function addOrdinalSuffix($num) {
                                         <th
                                             class="text-uppercase text-left text-secondary text-xxs font-weight-bolder opacity-7">
                                             Full Name</th>
+                                        <th
+                                            class="text-uppercase text-left text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Admission ID</th>
                                         <th
                                             class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
                                             Class</th>
@@ -80,9 +83,15 @@ function addOrdinalSuffix($num) {
                                             $students = mysqli_fetch_assoc($result_students);
                                             ?>
                                             <tr>
+                                                <!--  -->
                                                 <td class="text-sm text-left font-weight-normal">
                                                     <?php echo $students['first_name'] . ' ' . $students['second_name'] . ' ' . $students['last_name']; ?>
                                                 </td>
+                                                <!--  -->
+                                                <td class="text-sm text-left font-weight-normal">
+                                                    <?php echo $students['admission_id']; ?>
+                                                </td>
+                                                <!--  -->
                                                 <td class="text-sm text-center font-weight-normal">
                                                     <?php
                                                     $class_id = $row['class_id'];
