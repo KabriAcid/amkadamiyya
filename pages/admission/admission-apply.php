@@ -17,13 +17,13 @@ include "admission-process.php";
                 <h3 class="text-gradient text-dark">Enrol your child now!</h3>
                 <p>Please note that all details entered are saved in the database and may become permanent. Ensure accuracy in letter casing, spelling, and data validity. Review all inputs carefully before submitting.
                 </p>
-                <p class="text-primary text-sm">NB: Input fields with asterisks (*) are compulsory.</p>
+                <p class="text-danger text-gradient text-sm">NB: Input fields with asterisks (*) are compulsory.</p>
             </div>
             <div class="container">
                 <div class="row">
                     <div class="col">
                         <div class="mt-5">
-                            <h6 class="text-sm text-primary text-gradient">Section A: Student's Bio Data</h6>
+                            <h6 class="text-sm text-info text-gradient">Section A: Student's Bio Data</h6>
                         </div>
                         <form action="" method="post">
                             <div class="card">
@@ -102,7 +102,7 @@ include "admission-process.php";
                                             <div class="input-group">
                                                 <select class="form-select" name="class_id">
                                                     <?php
-                                                    $sql = "SELECT * FROM `school_class`";
+                                                    $sql = "SELECT * FROM `general_class`";
                                                     $result = mysqli_query($conn, $sql);
 
                                                     while ($class = mysqli_fetch_assoc($result)) {
@@ -120,7 +120,7 @@ include "admission-process.php";
                             </div>
                             <!--  -->
                             <div class="mt-5">
-                                <h6 class="text-sm text-primary text-gradient">Section B: Parent's Bio Data</h6>
+                                <h6 class="text-sm text-info text-gradient">Section B: Parent's Bio Data</h6>
                             </div>
                             <!-- PARENT OR GUARDIAN SECTION -->
                             <div class="card">
@@ -180,7 +180,7 @@ include "admission-process.php";
                                                 <!-- Submit Button -->
                                                 <div class="col-4 col-md-6">
                                                     <div class="text-end">
-                                                        <input type="submit" value="Apply" class="btn bg-gradient-primary" name="applyAdmission">
+                                                        <input type="submit" value="Apply" class="btn bg-gradient-info" name="applyAdmission">
                                                     </div>
                                                 </div>
                                             </div>

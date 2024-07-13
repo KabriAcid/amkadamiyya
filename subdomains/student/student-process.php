@@ -1,38 +1,48 @@
 <?php
-    # Start the session
-    session_start();
-    include "../../config/database.php";
+session_start();
+include "../../config/database.php";
 
-    # Function to sanitize input data
-    function sanitize_input($data) {
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        return $data;
-    }
+# Function to sanitize input data
+function sanitize_input($input)
+{
+    $input = trim($input);
+    $input = stripslashes($input);
+    $input = htmlspecialchars($input);
+    return $input;
+}
 
-    # Check if form is submitted
-    if (isset($_POST['studentLogin'])) {
-        # Sanitize and validate registration number
-        $admission_number = sanitize_input($_POST["admission_number"]);
+//  Login Process
+if (isset($_POST['login'])) {
+    if (empty($_POST['admission_id']) || empty($_POST['password'])) {
+        $_SESSION['error_message'] = "Both admission number and password are required";
+    } else {
+        // Sanitize user inputs
+        $admission_id = sanitize_input(mysqli_real_escape_string($conn, $_POST['admission_id']));
+        $password = sanitize_input(mysqli_real_escape_string($conn, $_POST['password']));
 
-        # Sanitize and validate password
-        $password = sanitize_input($_POST["password"]);
-
-        # Checking and verifying user inputs
-        $sql = "SELECT * FROM `students` WHERE `admission_number` = '$admission_number' AND `password` = '$password'";
+        // Fetch user data from the database
+        $sql = "SELECT * FROM `students` WHERE `student_id` = '$admission_id'";
         $result = mysqli_query($conn, $sql);
 
-        if($row = mysqli_fetch_assoc($result)){
-            $_SESSION['student'] = $row;
-            $_SESSION['loggedin'] = true;
-            header("Location: student-profile.php");
-            // sleep(3);
+        if ($result) {
+            // Check if user exists
+            if (mysqli_num_rows($result) == 1) {
+                $row = mysqli_fetch_assoc($result);
+                // Verify the password using BCRYPT
+                if (password_verify($password, $row['password'])) {
+                    // Password is correct, set session variables and redirect to dashboard
+                    $_SESSION['students'] = $row;
+                    $_SESSION['success_message'] = "Login Successful.";
+                    header("Location: student-dashboard.php");
+                    exit();
+                } else {
+                    $_SESSION['error_message'] = "Incorrect password!";
+                }
+            } else {
+                $_SESSION['error_message'] = "Student does not exist!";
+            }
         } else {
-            $_GET['error'] = "Invalid login details";
-        }
-        if(mysqli_num_rows($result) == 0){
-            $_GET['error'] = "User Not Found. Contact Admin";
+            $_SESSION['error_message'] = "Database query failed: " . mysqli_error($conn);
         }
     }
-?>
+}

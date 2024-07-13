@@ -175,7 +175,7 @@ include_once "admin-process.php";
                                                 <div class="d-flex align-items-center">
                                                     <div>
                                                         <div class="form-check form-switch mb-0">
-                                                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" required>
+                                                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked>
                                                         </div>
                                                     </div>
                                                     <div class="ms-2">

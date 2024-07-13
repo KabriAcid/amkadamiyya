@@ -102,13 +102,13 @@ if (isset($_GET['staff_id'])) {
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Qualification: </strong>&nbsp;
                                     <?php
-                                    $q_id = $staff['q_id'];
-                                    $sql = "SELECT * FROM `qualifications` WHERE `q_id` = '$q_id'";
+                                    $qualification_name = $staff['qualification_name'];
+                                    $sql = "SELECT * FROM `qualifications` WHERE `qualification_name` = '$qualification_name'";
                                     $result = mysqli_query($conn, $sql);
                                     $qual = mysqli_fetch_assoc($result);
 
-                                    $discipline_id = $staff['discipline_id'];
-                                    $sql = "SELECT * FROM `university_disciplines` WHERE `discipline_id` = '$discipline_id'";
+                                    $discipline_name = $staff['discipline_name'];
+                                    $sql = "SELECT * FROM `university_disciplines` WHERE `discipline_name` = '$discipline_name'";
                                     $result = mysqli_query($conn, $sql);
                                     $discipline = mysqli_fetch_assoc($result);
                                     echo $qual['qualification_name'] . '. ' . $discipline['discipline_name'];
@@ -132,8 +132,8 @@ if (isset($_GET['staff_id'])) {
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Bank Name: </strong>&nbsp;
                                     <?php
-                                    $bank_id = $staff['bank_id'];
-                                    $sql = "SELECT `bank_name` FROM `nigerian_banks` WHERE `bank_id` = '$bank_id'";
+                                    $bank_name = $staff['bank_name'];
+                                    $sql = "SELECT `bank_name` FROM `nigerian_banks` WHERE `bank_name` = '$bank_name'";
                                     $banks = mysqli_query($conn, $sql);
                                     $bank = mysqli_fetch_assoc($banks);
                                     echo $bank['bank_name'];

@@ -156,7 +156,7 @@ if (isset($_SESSION['registration_success'])) {
 
                                                             while ($qualification = mysqli_fetch_assoc($result)) {
                                                             ?>
-                                                                <option value="<?php echo $qualification['q_id']; ?>">
+                                                                <option value="<?php echo $qualification['qualification_name']; ?>">
                                                                     <?php echo $qualification['qualification_name'] ?></option>
                                                             <?php
                                                             }
@@ -174,7 +174,7 @@ if (isset($_SESSION['registration_success'])) {
 
                                                             while ($discipline = mysqli_fetch_assoc($result)) {
                                                             ?>
-                                                                <option value="<?php echo $discipline['discipline_id']; ?>">
+                                                                <option value="<?php echo $discipline['discipline_name']; ?>">
                                                                     <?php echo $discipline['discipline_name'] ?></option>
                                                             <?php
                                                             }
@@ -252,7 +252,7 @@ if (isset($_SESSION['registration_success'])) {
                                     <!-- Profile -->
                                     <div class="card multisteps-form__panel p-3 border-radius-xl bg-white" data-animation="FadeIn">
                                         <h5 class="font-weight-bolder mb-0">Account</h5>
-                                        <p class="mb-0 text-sm">Leave the fields empty if no account details are available..</p>
+                                        <p class="mb-0 text-sm">Leave the fields empty if no account details are available.</p>
                                         <div class="multisteps-form__content">
                                             <div class="row">
                                                 <div class="col-md-6 mt-3">
@@ -261,14 +261,14 @@ if (isset($_SESSION['registration_success'])) {
                                                 </div>
                                                 <div class="col-md-6 mt-3">
                                                     <label>Bank Name</label>
-                                                    <select class="form-select" name="bank_id">
+                                                    <select class="form-select" name="bank_name">
                                                         <?php
                                                         $sql = "SELECT * FROM `nigerian_banks`;";
                                                         $result = mysqli_query($conn, $sql);
 
                                                         while ($bank = mysqli_fetch_assoc($result)) {
                                                         ?>
-                                                            <option value="<?php echo $bank['bank_id']; ?>">
+                                                            <option value="<?php echo $bank['bank_name']; ?>">
                                                                 <?php echo $bank['bank_name'] ?></option>
                                                         <?php
                                                         }

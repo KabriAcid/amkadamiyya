@@ -113,7 +113,7 @@
                                     <a href="../../subdomains/student/student-login.php" ; class="btn btn-sm bg-gradient-info btn-round text-uppercase mb-0 me-1">students portal</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="../../subdomains/admin/login.php" ; class="btn btn-sm bg-gradient-dark btn-round text-uppercase mb-0 me-1">admin portal</a>
+                                    <a href="../../subdomains/admin/admin-login.php" ; class="btn btn-sm bg-gradient-dark btn-round text-uppercase mb-0 me-1">admin portal</a>
                                 </li>
                             </ul>
                         <?php

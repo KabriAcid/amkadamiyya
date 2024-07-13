@@ -113,18 +113,7 @@ $row = mysqli_fetch_assoc($result);
                                     <strong class="text-dark">Gender: </strong>&nbsp; <?php echo $_SESSION['staff']['gender']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Qualification: </strong>&nbsp;
-                                    <?php
-                                    $q_id = $_SESSION['staff']['q_id'];
-                                    $sql = "SELECT * FROM `qualifications` WHERE `q_id` = '$q_id'";
-                                    $result = mysqli_query($conn, $sql);
-                                    $qual = mysqli_fetch_assoc($result);
-
-                                    $discipline_id = $_SESSION['staff']['discipline_id'];
-                                    $sql = "SELECT * FROM `university_disciplines` WHERE `discipline_id` = '$discipline_id'";
-                                    $result = mysqli_query($conn, $sql);
-                                    $discipline = mysqli_fetch_assoc($result);
-                                    echo $qual['qualification_name'] . '. ' . $discipline['discipline_name'];
+                                    <strong class="text-dark">Qualification: </strong>&nbsp;<?php $_SESSION['staff']['qualification_name'] . '. ' . $_SESSION['staff']['discipline_name'];
                                     ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
@@ -144,13 +133,7 @@ $row = mysqli_fetch_assoc($result);
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Bank Name: </strong>&nbsp;
-                                    <?php
-                                    $bank_id = $_SESSION['staff']['bank_id'];
-                                    $sql = "SELECT `bank_name` FROM `nigerian_banks` WHERE `bank_id` = '$bank_id'";
-                                    $banks = mysqli_query($conn, $sql);
-                                    $bank = mysqli_fetch_assoc($banks);
-                                    echo $bank['bank_name'];
-                                    ?>
+                                    <?php echo $_SESSION['staff']['bank_name'];?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Join Date: </strong>&nbsp; <?php echo date("j F, Y", strtotime($_SESSION['staff']['timestamp'])); ?>

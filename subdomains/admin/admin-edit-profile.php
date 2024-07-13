@@ -257,7 +257,7 @@ if (isset($_GET['staff_id'])) {
 
                                                     while ($qualification = mysqli_fetch_assoc($qualifications)) {
                                                     ?>
-                                                        <option value="<?php echo $qualification['q_id']; ?>" <?php if ($staff['q_id'] == $qualification['q_id']) echo 'selected'; ?>><?php echo $qualification['qualification_name'] ?></option>
+                                                        <option value="<?php echo $qualification['qualification_name']; ?>" <?php if ($staff['qualification_name'] == $qualification['qualification_name']) echo 'selected'; ?>><?php echo $qualification['qualification_name'] ?></option>
                                                     <?php
                                                     }
                                                     ?>
@@ -277,7 +277,7 @@ if (isset($_GET['staff_id'])) {
 
                                                     while ($discipline = mysqli_fetch_assoc($disciplines)) {
                                                     ?>
-                                                        <option value="<?php echo $discipline['discipline_id']; ?>" <?php if ($staff['discipline_id'] == $discipline['discipline_id']) echo 'selected'; ?>><?php echo $discipline['discipline_name'] ?></option>
+                                                        <option value="<?php echo $discipline['discipline_name']; ?>" <?php if ($staff['discipline_name'] == $discipline['discipline_name']) echo 'selected'; ?>><?php echo $discipline['discipline_name'] ?></option>
                                                     <?php
                                                     }
                                                     ?>
@@ -303,14 +303,14 @@ if (isset($_GET['staff_id'])) {
                                     <div class="col-md-6">
                                         <label>Bank Name</label>
                                         <div class="input-group mb-3">
-                                            <select name="bank_id" class="form-control">
+                                            <select name="bank_name" class="form-control">
                                                 <?php
                                                 $sql = "SELECT * FROM `nigerian_banks`;";
                                                 $banks = mysqli_query($conn, $sql);
 
                                                 while ($bank = mysqli_fetch_assoc($banks)) {
                                                 ?>
-                                                    <option value="<?php echo $bank['bank_id']; ?>" <?php if ($staff['bank_id'] == $bank['bank_id']) echo 'selected'; ?>><?php echo $bank['bank_name']; ?></option>
+                                                    <option value="<?php echo $bank['bank_name']; ?>" <?php if ($staff['bank_name'] == $bank['bank_name']) echo 'selected'; ?>><?php echo $bank['bank_name']; ?></option>
                                                 <?php
                                                 }
                                                 ?>
