@@ -1,5 +1,5 @@
 <?php
-include "admin-process-update.php";
+include "admin-process.php";
 
 if (isset($_GET['applicant_id'])) {
     $applicant_id = $_GET['applicant_id'];
@@ -119,7 +119,7 @@ else {
 
                                                 while ($class = mysqli_fetch_assoc($classes)) {
                                                 ?>
-                                                    <option value="<?php echo $class['class_id']; ?>" <?php if ($applicant['class_id'] == $class['class_id']) echo 'selected'; ?>><?php echo $class['class_name'] ?></option>
+                                                    <option value="<?php echo $class['class_id']; ?>" <?php if ($applicant['enrolling_class'] == $class['class_id']) echo 'selected'; ?>><?php echo $class['class_name'] ?></option>
                                                 <?php
                                                 }
                                                 ?>
@@ -132,7 +132,7 @@ else {
                             </div>
                             <!-- card body -->
                             <div class="card-footer text-end pt-0">
-                                <input type="submit" value="update" name="updateApplicantBioData" class="btn bg-gradient-primary mb-0">
+                                <input type="submit" value="Change" name="updateApplicantBioData" class="btn bg-gradient-primary mb-0">
                             </div>
                         </div>
                     </form>
@@ -182,23 +182,13 @@ else {
                                             <input type="text" name="parent_address" placeholder="Parent Address" value="<?php echo ucfirst($applicant['parent_address']); ?>" class="form-control">
                                         </div>
                                     </div>
-                                    <!-- Status -->
-                                    <div class="col-md-6">
-                                        <label>Status</label>
-                                        <div class="input-group mb-3">
-                                            <select class="form-select" name="status">
-                                                <option value="1" <?php if ($applicant['status'] == 1) echo 'selected'; ?>>Active</option>
-                                                <option value="0" <?php if ($applicant['status'] == 0) echo 'selected'; ?>>Inactive</option>
-                                            </select>
-                                        </div>
-                                    </div>
                                     <!-- Hidden Input Field -->
                                     <input type="hidden" name="applicant_id" value="<?php echo $applicant['applicant_id']; ?>">
                                 </div>
                             </div>
                             <!-- card body -->
                             <div class="card-footer text-end pt-0">
-                                <input type="submit" value="update" name="updateParentData" class="btn bg-gradient-primary mb-0">
+                                <input type="submit" value="Change" name="updateParentData" class="btn bg-gradient-primary mb-0">
                             </div>
                         </div>
                     </form>
@@ -226,7 +216,7 @@ else {
                             </div>
                             <form action="" method="post">
                                 <input type="hidden" name="applicant_id" value="<?php echo $applicant['applicant_id']; ?>">
-                                <button class="btn bg-gradient-danger btn-sm mb-0 ms-2" type="submit" name="eraseApplicantData">
+                                <button class="btn bg-gradient-danger btn-sm mb-0 ms-2" type="submit" name="declineBtn">
                                     Delete Account
                                 </button>
                             </form>
