@@ -1,6 +1,7 @@
 <?php
 session_start();
 include "../../config/database.php";
+$_SESSION['success_message'] = true;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,45 +24,48 @@ include "../../config/database.php";
         <?php require "inc/admin-navbar.php"; ?>
         <!-- Main content  -->
         <div class="container-fluid py-4">
-            <h1>
-                <?php
-
-               $database = array(
-                    'tables' => array (
-                        'users' => array(
-                            'user_id' => 100,
-                            'name' => 'Kabri',
-                            'age' => 23,
-                            'dob' => date('d-M-Y'),
-                            'status' => true,
-                        ),
-                        'payments' => array(
-                            'payment_id' => 100,
-                            'amount' => 530.54,
-                            'user_id' => 1,
-                        ),
-                        'orders' => array(
-                            'order_id' => 1,
-                            'quantity' => 5,
-                            'address' => '123 Main Street'
-                        )
-                    )
-               );
-
-               $count = 0;
-               while($database){
-                   print_r($database[0][0]) . "<br>";
-                } $count++;
                 
-                
-                ?>
-            </h1>
         </div>
     </main>
 
     <script src="../../js/plugins/sweetalert.min.js"></script>
     <script src="../../js/plugins/datatables.js"></script>
     <?php include "inc/admin-scripts.php"; ?>
+
+    <?php
+    if (isset($_SESSION['success_message'])) {
+    ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: "Successful",
+                    text: "<?php echo $_SESSION['success_message']; ?>",
+                    timer: 3000,
+                    showConfirmButton: true,
+                    icon: 'success'
+                })
+            })
+        </script>
+    <?php
+        unset($_SESSION['success_message']);
+    }
+    if (isset($_SESSION['error_message'])) {
+    ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: "Error",
+                    text: "<?php echo $_SESSION['error_message']; ?>",
+                    timer: 3000,
+                    showConfirmButton: true,
+                    icon: 'error'
+                })
+            })
+        </script>
+    <?php
+        unset($_SESSION['error_message']);
+    }
+    ?>
 
 </body>
 

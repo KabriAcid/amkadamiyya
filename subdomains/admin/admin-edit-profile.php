@@ -346,18 +346,27 @@ $staff = mysqli_fetch_assoc($staff_result);
                             </div>
                             <hr class="horizontal dark my-0">
                             <div class="card-body">
-                                <label>Change Password</label>
-                                <div class="input-group">
-                                    <input type="password" name="newPassword" placeholder="Enter New Password" class="form-control">
-                                </div>
+                                <div class="form-group">
+                                    <label>Change Password</label>
+                                    <div class="input-group">
+                                        <input type="password" name="newPassword" placeholder="Enter New Password" class="form-control">
+                                    </div>
 
-                            </div>
-                            <div class="card-footer text-end pt-0">
-                                <input type="submit" value="update" name="updateStaffPassword" class="btn bg-gradient-dark mb-0">
+                                </div>
+                                <div class="form-group">
+                                    <label>Confirm Password</label>
+                                    <div class="input-group">
+                                        <input type="password" name="confirmNewPassword" placeholder="Confirm New Password" class="form-control">
+                                    </div>
+
+                                </div>
                             </div>
                             <!-- Hidden Input Field -->
                             <input type="hidden" name="staff_id" value="<?php echo $staff_id; ?>">
                             <!--  -->
+                            <div class="card-footer text-end pt-0">
+                                <input type="submit" value="update" name="updateStaffPassword" class="btn bg-gradient-info mb-0">
+                            </div>
                         </div>
                     </form>
                     <div class="container py-7">

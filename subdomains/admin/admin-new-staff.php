@@ -313,7 +313,8 @@ if (isset($_SESSION['registration_success'])) {
                                                 <button class="btn bg-gradient-light mb-0 js-btn-prev" type="button" title="Prev">Prev</button>
 
                                                 <!-- Submit Button -->
-                                                <button type="submit" focusable name="register" class="btn bg-gradient-success ms-auto mb-0" onclick="soft.showSwal('success-message')">Proceed</button>
+                                                <button type="submit" focusable name="register" class="btn bg-gradient-success ms-auto mb-0">Proceed</button>
+                                                <!-- <button type="submit" focusable name="register" class="btn bg-gradient-success ms-auto mb-0" onclick="soft.showSwal('success-message')">Proceed</button> -->
                                             </div>
                                         </div>
                                     </div>
@@ -325,11 +326,12 @@ if (isset($_SESSION['registration_success'])) {
                                             <div class="modal-body text-center">
                                                 <i class="fa fa-check fa-3x text-success mb-3"></i>
                                                 <h4>Registration Successful</h4>
+                                                <hr class="horizontal dark">
                                                 <p>Dear <?php echo $first_name . ' ' . $last_name; ?>, your login details are as follows:</p>
                                                 <p>Username: <strong><?php echo $username; ?></strong></p>
                                                 <p>Password: <strong><i>amka123</i></strong></p>
                                                 <p class="text-sm mb-0">Note: Please change your password immediately after logging in.</p>
-                                                <button type="button" class="btn btn-success mt-3" data-bs-dismiss="modal">Okay</button>
+                                                <button type="button" class="btn bg-gradient-info mt-3" data-bs-dismiss="modal">Ok</button>
                                             </div>
                                         </div>
                                     </div>

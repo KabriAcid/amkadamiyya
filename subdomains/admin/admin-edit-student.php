@@ -172,7 +172,7 @@ if (isset($_GET['student_id'])) {
                                     <div class="col-md-6">
                                         <label>Parent Phone Number</label>
                                         <div class="input-group mb-3">
-                                            <input type="text" name="parent_phone_number" placeholder="Parent Phone Number" value="<?php echo ucfirst($student['parent_phone_number']); ?>" class="form-control">
+                                            <input type="text" name="parent_phone_number" placeholder="Parent Phone Number" value="<?php echo ucfirst($student['parent_phone_number']); ?>" class="form-control" maxlength="11">
                                         </div>
                                     </div>
                                     <!--  -->
@@ -239,11 +239,20 @@ if (isset($_GET['student_id'])) {
                             </div>
                             <hr class="horizontal dark my-0">
                             <div class="card-body">
-                                <label>Change Password</label>
-                                <div class="input-group">
-                                    <input type="password" name="newPassword" placeholder="Enter New Password" class="form-control">
-                                </div>
+                                <div class="form-group">
+                                    <label>Change Password</label>
+                                    <div class="input-group">
+                                        <input type="password" name="newPassword" placeholder="Enter New Password" class="form-control">
+                                    </div>
 
+                                </div>
+                                <div class="form-group">
+                                    <label>Confirm Password</label>
+                                    <div class="input-group">
+                                        <input type="password" name="confirmNewPassword" placeholder="Confirm New Password" class="form-control">
+                                    </div>
+
+                                </div>
                             </div>
                             <div class="card-footer text-end pt-0">
                                 <input type="submit" value="update" name="updateStudentPassword" class="btn bg-gradient-info mb-0">
@@ -255,20 +264,31 @@ if (isset($_GET['student_id'])) {
                     </form>
 
                     <!-- Delete Account -->
-                    <div class="card mt-3">
+                    <div class="card mt-3" id="delete">
                         <div class="card-header">
-                            <h6 class="mb-0 text-danger">Erase Student</h6>
-                            <p class="text-secondary text-sm mb-0">Once you erase student, all associated data will be removed from the database and will never be restored.</p>
+                            <h6 class="text-danger">Delete Student</h6>
+                            <p class="text-sm mb-0">
+                                Once you erase student, all associated data will be removed from the database and will never be restored.
+                            </p>
                         </div>
-                        <div class="card-body">
-                            <div class="d-flex justify-content-end align-items-center my-0 py-0">
-                                <div class="text-end">
-                                    <form action="" method="post">
-                                        <input type="hidden" name="student_id" value="<?php echo $student['student_id']; ?>">
-                                        <input type="submit" class="btn bg-gradient-danger btn-sm" value="erase" name="eraseStudentData">
-                                    </form>
+                        <div class="card-body justify-content-between d-flex pt-0">
+                            <div class="d-flex align-items-center mb-sm-0 mb-4">
+                                <div>
+                                    <div class="form-check form-switch mb-0">
+                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault0" />
+                                    </div>
+                                </div>
+                                <div class="ms-2">
+                                    <span class="text-dark font-weight-bold d-block text-sm">Confirm</span>
+                                    <span class="text-xs d-block">I want to erase student account data.</span>
                                 </div>
                             </div>
+                            <form action="" method="post">
+                                <input type="hidden" name="student_id" value="<?php echo $student['student_id']; ?>">
+                                <button class="btn bg-gradient-danger btn-sm mb-0 ms-2" type="submit" name="eraseStudentData">
+                                    Delete Account
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -144,34 +144,37 @@ if (isset($_POST['updateStaffAccount'])) {
 
 // Update Staff Password
 if (isset($_POST['updateStaffPassword'])) {
+    // Declare student_id from hidden input field
+    $staff_id = $_POST['staff_id'];
 
-    // Hiddent Staff ID input
-    $staff_id = mysqli_real_escape_string($conn, $_POST['staff_id']);
+    $newPassword = $_POST['newPassword'];
+    $confirmNewPassword = $_POST['confirmNewPassword'];
 
-    $newPassword = mysqli_real_escape_string($conn, $_POST['newPassword']);
-
-    if (empty($newPassword)) {
-        $_SESSION['error_message'] = "Password cannot be empty";
-    } else if (strlen($newPassword) < 3) {
-        $_SESSION['error_message'] = "Password must be greater than 3 characters";
-    } else {
-        $password = password_hash($newPassword, PASSWORD_BCRYPT);
-
-        $stmt = $conn->prepare("UPDATE staff SET password=? WHERE staff_id=?");
-        $stmt->bind_param("si", $password, $staff_id);
-
-        if ($stmt->execute()) {
-            if ($_SESSION['staff']['staff_id'] == $staff_id) {
-                $_SESSION['staff']['password'] = $password;
-            }
-            // Success Message
-            $_SESSION['success_message'] = "Password updated successfully!";
-        } else {
-            $_SESSION['error_message'] = "Error updating password: " . $stmt->error;
+    if($newPassword != $confirmNewPassword){
+        $_SESSION['error_message'] = "Password does not match";
+    } 
+    else {
+        if (empty($newPassword) || empty($confirmNewPassword)) {
+            $_SESSION['error_message'] = "Password cannot be empty";
+        } 
+        else if (strlen($newPassword) < 3) {
+            $_SESSION['error_message'] = "Password must be greater than 3 characters";
         }
-
-        $stmt->close();
+         else {
+            $password = password_hash($confirmNewPassword, PASSWORD_BCRYPT);
+    
+            $sql = "UPDATE staff SET password = ? WHERE staff_id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param('si', $password, $staff_id);
+            if ($stmt->execute()) {
+                $_SESSION['success_message'] = "Password updated successfully!";
+            } else {
+                $_SESSION['error_message'] = "Error updating password: " . $stmt->error;
+            }
+            $stmt->close();
+        }
     }
+
 }
 
 // Erase Staff
@@ -234,7 +237,7 @@ if (isset($_POST['updateParentData'])) {
     $parent_address = capitalize($_POST['parent_address']);
     $status = $_POST['status'];
 
-    $sql = "UPDATE parents SET first_name = ?, last_name = ?, email = ?, phone_number = ?, address = ?, status = ? WHERE student_id = ?";
+    $sql = "UPDATE students SET parent_first_name = ?, parent_last_name = ?, parent_email = ?, parent_phone_number = ?, parent_address = ?, status = ? WHERE student_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('sssssii', $parent_first_name, $parent_last_name, $parent_email, $parent_phone_number, $parent_address, $status, $student_id);
     if ($stmt->execute()) {
@@ -277,23 +280,31 @@ if (isset($_POST['updateStudentPassword'])) {
     $student_id = $_POST['student_id'];
 
     $newPassword = $_POST['newPassword'];
+    $confirmNewPassword = $_POST['confirmNewPassword'];
 
-    if (empty($newPassword)) {
-        $_SESSION['error_message'] = "Password cannot be empty";
-    } else if (strlen($newPassword) < 3) {
-        $_SESSION['error_message'] = "Password must be greater than 3 characters";
-    } else {
-        $password = password_hash($newPassword, PASSWORD_BCRYPT);
-
-        $sql = "UPDATE students SET password = ? WHERE student_id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param('si', $password, $student_id);
-        if ($stmt->execute()) {
-            $_SESSION['success_message'] = "Password updated successfully!";
-        } else {
-            $_SESSION['error_message'] = "Error updating password: " . $stmt->error;
+    if($newPassword != $confirmNewPassword){
+        $_SESSION['error_message'] = "Password does not match";
+    } 
+    else {
+        if (empty($newPassword) || empty($confirmNewPassword)) {
+            $_SESSION['error_message'] = "Password cannot be empty";
+        } 
+        else if (strlen($newPassword) < 3) {
+            $_SESSION['error_message'] = "Password must be greater than 3 characters";
         }
-        $stmt->close();
+         else {
+            $password = password_hash($confirmNewPassword, PASSWORD_BCRYPT);
+    
+            $sql = "UPDATE students SET password = ? WHERE student_id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param('si', $password, $student_id);
+            if ($stmt->execute()) {
+                $_SESSION['success_message'] = "Password updated successfully!";
+            } else {
+                $_SESSION['error_message'] = "Error updating password: " . $stmt->error;
+            }
+            $stmt->close();
+        }
     }
 }
 

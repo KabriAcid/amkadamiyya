@@ -35,7 +35,32 @@ if (isset($_GET['staff_id'])) {
         <div class="container-fluid pt-3">
             <div class="row">
                 <div class="col-12 mb-3">
-                    <div class="card">
+                    <!--  -->
+                    <div class="card card-body" id="profile">
+                        <div class="row align-items-center">
+                            <div class="col-sm-auto col-4">
+                                <div class="avatar avatar-xl position-relative">
+                                    <img src="<?php echo $staff['photo']; ?>" alt="bruce" class="w-100 border-radius-lg shadow-sm" />
+                                </div>
+                            </div>
+                            <div class="col-8 my-auto">
+                                <div class="h-100">
+                                    <h5 class="mb-1 font-weight-bolder"><?php echo ucfirst($staff['first_name']) . '&nbsp;' . ucfirst($staff['last_name']); ?></h5>
+                                    <p class="mb-0 font-weight-bold text-sm">
+                                        <?php
+                                        $position_id = $staff['position_id'];
+                                        $sql = "SELECT `position_name` FROM `school_post` WHERE `position_id` = '$position_id'";
+                                        $positions = mysqli_query($conn, $sql);
+                                        $position = mysqli_fetch_assoc($positions);
+                                        echo $position['position_name'];
+                                        ?>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="card mt-3">
                         <div class="card-header pb-0">
                             <div class="d-flex justify-content-between">
                                 <h6 class="text-gradient text-warning">Profile Information</h6>
@@ -98,7 +123,7 @@ if (isset($_GET['staff_id'])) {
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Qualification: </strong>&nbsp;<?php $_SESSION['staff']['qualification'] . '. ' . $_SESSION['staff']['discipline'];
-                                    ?>
+                                                                                            ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Home Address: </strong>&nbsp; <?php echo $staff['address']; ?>
