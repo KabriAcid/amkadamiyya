@@ -21,7 +21,6 @@ if (isset($_GET['student_id'])) {
 if (isset($_SESSION['staff']['position_id'])) {
     $position_id = $_SESSION['staff']['position_id'];
 } else {
-    $position_id = 0;
     header('Location: admin-logout.php');
 }
 ?>
@@ -233,7 +232,8 @@ if (isset($_SESSION['staff']['position_id'])) {
                                 </div>
 
                                 <!-- Hidden Input Field -->
-                                <input type="hidden" name="student_id" value="<?php echo $student_id; ?>">
+                                <input type="hidden" name="admission_id" value="<?php echo $student['admission_id']; ?>">
+                                <input type="hidden" name="student_id" value="<?php echo $student['student_id']; ?>">
 
                                 <!--  -->
                                 <div class="text-end">

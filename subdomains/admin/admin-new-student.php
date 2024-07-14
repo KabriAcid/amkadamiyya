@@ -188,7 +188,7 @@
                                             <div class="col-4 col-md-6">
                                                 <!-- Submit Button -->
                                                 <div class="text-end">
-                                                    <input type="submit" class="btn bg-gradient-info" name="addStudent">
+                                                    <input type="submit" class="btn bg-gradient-info" name="addStudent" tabindex="1">
                                                 </div>
                                             </div>
                                         </div>

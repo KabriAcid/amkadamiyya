@@ -281,10 +281,8 @@ if (isset($_POST['addStudent'])) {
     exit();
 }
 
+
 # Check if the form is submitted
-
-
-
 if (isset($_POST['uploadBlog'])) {
 
     // Function to generate a unique filename

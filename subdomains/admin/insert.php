@@ -229,8 +229,9 @@ if (isset($_POST['addStudent'])) {
         VALUES ('$class_id', '$section_id', '$admission_id', 1, '$password', '$first_name', '$second_name', '$last_name', '$birth_date', '$state', '$lga', '$gender', '$parent_first_name', '$parent_last_name', '$parent_email', '$parent_address', '$parent_phone_number')";
 
         if (mysqli_query($conn, $sql)) {
-            $_SESSION['success_message'] = "Student added successfully!";
-            // echo 
+            $_SESSION['success_message'] = "Student added successfully!"; 
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
         } else {
             $_SESSION['error_message'] = "Error: " . mysqli_error($conn);
         }
@@ -409,6 +410,7 @@ if (isset($_POST['approveBtn'])) {
     if ($applicant) {
 
         $class_id = $applicant['enrolling_class'];
+        
         $entry_year = date('y');
         // Determing section base on class
         $sql = "SELECT * FROM `classes` WHERE `class_id` = '$class_id'";

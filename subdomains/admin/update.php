@@ -81,7 +81,15 @@ if (isset($_POST['updateOtherData'])) {
     // Hiddent Staff ID input
     $staff_id = mysqli_real_escape_string($conn, $_POST['staff_id']);
 
+    // Determing section from class
     $class_id = mysqli_real_escape_string($conn, $_POST['class_id']);
+    $sql = "SELECT * FROM classes WHERE class_id = '$class_id'";
+    $classes = mysqli_query($conn, $sql);
+    $class = mysqli_fetch_assoc($classes);
+
+    $section_id = $class['section_id'];
+
+
     $subject_id = mysqli_real_escape_string($conn, $_POST['subject_id']);
     $position_id = mysqli_real_escape_string($conn, $_POST['position_id']);
     $qualification = mysqli_real_escape_string($conn, $_POST['qualification']);
@@ -92,12 +100,13 @@ if (isset($_POST['updateOtherData'])) {
     $status = mysqli_real_escape_string($conn, $_POST['status']);
 
 
-    $stmt = $conn->prepare("UPDATE staff SET class_id=?, subject_id=?, position_id=?, qualification=?, discipline=?, salary=?, account_number=?, bank_name=?, status=? WHERE staff_id=?");
-    $stmt->bind_param("iiississsi", $class_id, $subject_id, $position_id, $qualification, $discipline, $salary, $account_number, $bank_name, $status, $staff_id);
+    $stmt = $conn->prepare("UPDATE staff SET class_id=?, section_id=?, subject_id=?, position_id=?, qualification=?, discipline=?, salary=?, account_number=?, bank_name=?, status=? WHERE staff_id=?");
+    $stmt->bind_param("iiiississsi", $class_id, $section_id, $subject_id, $position_id, $qualification, $discipline, $salary, $account_number, $bank_name, $status, $staff_id);
 
     if ($stmt->execute()) {
         if ($_SESSION['staff']['staff_id'] == $staff_id) {
             $_SESSION['staff']['class_id'] = $class_id;
+            $_SESSION['staff']['section_id'] = $section_id;
             $_SESSION['staff']['subject_id'] = $subject_id;
             $_SESSION['staff']['position_id'] = $position_id;
             $_SESSION['staff']['qualification'] = $qualification;
@@ -211,7 +220,15 @@ UPDATE STUDENTS INFORMATION
 // Update Student Biodata
 if (isset($_POST['updateStudentBioData'])) {
     // Declare student_id from hidden input field
-    $student_id = $_POST['student_id'];
+    $student_id = mysqli_real_escape_string($conn, $_POST['student_id']);
+
+    // Determining section from class
+    $class_id = mysqli_real_escape_string($conn, $_POST['class_id']);
+    $sql = "SELECT * FROM classes WHERE class_id = '$class_id'";
+    $classes = mysqli_query($conn, $sql);
+    $class = mysqli_fetch_assoc($classes);
+
+    $section_id = $class['section_id'];
 
     $first_name = capitalize($_POST['first_name']);
     $second_name = capitalize($_POST['second_name']);
@@ -220,11 +237,11 @@ if (isset($_POST['updateStudentBioData'])) {
     $gender = $_POST['gender'];
     $state = $_POST['state'];
     $lga = $_POST['lga'];
-    $class_id = $_POST['class_id'];
 
-    $sql = "UPDATE students SET first_name = ?, second_name = ?, last_name = ?, birth_date = ?, gender = ?, state = ?, lga = ?, class_id = ? WHERE student_id = ?";
+
+    $sql = "UPDATE students SET first_name = ?, second_name = ?, last_name = ?, birth_date = ?, gender = ?, state = ?, lga = ?, class_id = ?, section_id = ? WHERE student_id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param('sssssssii', $first_name, $second_name, $last_name, $birth_date, $gender, $state, $lga, $class_id, $student_id);
+    $stmt->bind_param('sssssssiii', $first_name, $second_name, $last_name, $birth_date, $gender, $state, $lga, $class_id, $section_id, $student_id);
     if ($stmt->execute()) {
         $_SESSION['success_message'] = "Student biodata updated successfully!";
     } else {
@@ -236,7 +253,7 @@ if (isset($_POST['updateStudentBioData'])) {
 // Update Parent Information
 if (isset($_POST['updateParentData'])) {
     // Declare student_id from hidden input field
-    $student_id = $_POST['student_id'];
+    $student_id = mysqli_real_escape_string($conn, $_POST['student_id']);
 
     $parent_first_name = capitalize($_POST['parent_first_name']);
     $parent_last_name = capitalize($_POST['parent_last_name']);
@@ -259,32 +276,51 @@ if (isset($_POST['updateParentData'])) {
 // Update Student Account Information
 if (isset($_POST['updateStudentAdmission'])) {
     // Declare student_id from hidden input field
-    $student_id = $_POST['student_id'];
+    $student_id = mysqli_real_escape_string($conn, $_POST['student_id']);
 
-    $admission_id = $_POST['admission_id'];
+    $admission_id = trim($_POST['admission_id']);
 
-    $sql = "SELECT `admission_id` * FROM `students` WHERE `admission_id` = '$admission_id'";
-    $result = mysqli_query($conn, $sql);
-
-    if (mysqli_num_rows($result) == 1) {
-        $_SESSION['error_message'] = "Admission ID already taken!";
-    } else {
-        $sql = "UPDATE students SET admission_id = ? WHERE student_id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param('si', $admission_id, $student_id);
-        if ($stmt->execute()) {
-            $_SESSION['success_message'] = "Student ID updated successfully!";
+    function validate_id($admission_id) {
+        // Define the pattern
+        $pattern = '/^AMK\/\d{2}\/\d{4}$/';
+    
+        // Check if the ID matches the pattern
+        if (preg_match($pattern, $admission_id)) {
+            return true;
         } else {
-            $_SESSION['error_message'] = "Error updating student ID: " . $stmt->error;
+            return false;
         }
-        $stmt->close();
     }
+
+    if(validate_id($admission_id) == false){
+        $_SESSION['error_message'] = "Invalid admission ID format. Please enter a valid ID";
+        exit;
+
+    } else {
+        $sql = "SELECT `admission_id` * FROM `students` WHERE `admission_id` = '$admission_id'";
+        $result = mysqli_query($conn, $sql);
+    
+        if (mysqli_num_rows($result) > 0) {
+            $_SESSION['error_message'] = "Admission ID already taken!";
+        } else {
+            $sql = "UPDATE students SET admission_id = ? WHERE student_id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param('si', $admission_id, $student_id);
+            if ($stmt->execute()) {
+                $_SESSION['success_message'] = "Student ID updated successfully!";
+            } else {
+                $_SESSION['error_message'] = "Error updating student ID: " . $stmt->error;
+            }
+            $stmt->close();
+        }
+    }
+
 }
 
 // Update Student Password
 if (isset($_POST['updateStudentPassword'])) {
     // Declare student_id from hidden input field
-    $student_id = $_POST['student_id'];
+    $student_id = mysqli_real_escape_string($conn, $_POST['student_id']);
 
     $newPassword = $_POST['newPassword'];
     $confirmNewPassword = $_POST['confirmNewPassword'];
@@ -315,7 +351,7 @@ if (isset($_POST['updateStudentPassword'])) {
 // Erase Student
 if (isset($_POST['eraseStudentData'])) {
     // Declare student_id from hidden input field
-    $student_id = $_POST['student_id'];
+    $student_id = mysqli_real_escape_string($conn, $_POST['student_id']);
 
     $stmt = $conn->prepare("DELETE FROM students WHERE student_id=?");
     $stmt->bind_param("i", $student_id);

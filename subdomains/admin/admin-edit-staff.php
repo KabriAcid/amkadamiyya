@@ -21,7 +21,6 @@ if (isset($_GET['staff_id'])) {
 if (isset($_SESSION['staff']['position_id'])) {
     $position_id = $_SESSION['staff']['position_id'];
 } else {
-    $position_id = 0;
     header('Location: admin-logout.php');
 }
 ?>
