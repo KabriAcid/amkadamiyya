@@ -4,7 +4,7 @@
     include "../../config/database.php";
 
     if (isset($_POST['submit'])) {
-        $sql = "UPDATE `classes` SET `class_name` = \'null\' WHERE `classes`.`class_id` = 25;";
+        $sql = "ALTER TABLE `blogs` CHANGE `blog_categor` `blog_category` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;";
         if (mysqli_query($conn, $sql)) {
             echo "Record updated successfully";
         } else {
