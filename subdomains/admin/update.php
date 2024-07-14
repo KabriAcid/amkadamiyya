@@ -273,7 +273,6 @@ if (isset($_POST['updateParentData'])) {
     $stmt->close();
 }
 
-
 // Update Student Account Information
 if (isset($_POST['updateStudentAdmission'])) {
     // Declare student_id from hidden input field
@@ -291,7 +290,7 @@ if (isset($_POST['updateStudentAdmission'])) {
     // Validate admission ID
     if (!validate_id($admission_id)) {
         $_SESSION['error_message'] = "Invalid admission ID format. Please enter a valid ID";
-        header('Location: ' . $_SERVER['PHP_SELF']);
+        header('Location: ' . $_SERVER['PHP_SELF'] . '?student_id=' . $student_id);
         exit();
     }
 
@@ -305,7 +304,7 @@ if (isset($_POST['updateStudentAdmission'])) {
     if ($stmt->num_rows > 0) {
         $_SESSION['error_message'] = "Admission ID already taken!";
         $stmt->close();
-        header('Location: ' . $_SERVER['PHP_SELF']);
+        header('Location: ' . $_SERVER['PHP_SELF'] . '?student_id=' . $student_id);
         exit();
     }
     $stmt->close();
@@ -321,9 +320,10 @@ if (isset($_POST['updateStudentAdmission'])) {
     }
     $stmt->close();
     
-    header('Location: ' . $_SERVER['PHP_SELF']);
+    header('Location: ' . $_SERVER['PHP_SELF'] . '?student_id=' . $student_id);
     exit();
 }
+
 
 // Update Student Password
 if (isset($_POST['updateStudentPassword'])) {

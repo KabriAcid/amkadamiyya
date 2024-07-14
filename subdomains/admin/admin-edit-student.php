@@ -12,9 +12,6 @@ if (isset($_GET['student_id'])) {
     $stmt->bind_param("i", $student_id);
     $stmt->execute();
     $student = $stmt->get_result()->fetch_assoc();
-} else {
-    header('Location: admin-student-list.php');
-    exit();
 }
 
 // Check if staff position ID is set
@@ -237,7 +234,7 @@ if (isset($_SESSION['staff']['position_id'])) {
 
                                 <!--  -->
                                 <div class="text-end">
-                                    <input type="submit" value="update" name="updateStudentAdmission" class="btn bg-gradient-info mb-0">
+                                    <input type="submit" value="update" name="updateStudentID" class="btn bg-gradient-info mb-0">
                                 </div>
                             </form>
                         </div>
