@@ -223,5 +223,15 @@
                 </div>
             </div>
         </div>
+        <div class="card z-index-2">
+            <div class="card-header p-3 pb-0">
+              <h6>Bar chart</h6>
+            </div>
+            <div class="card-body p-3">
+              <div class="chart">
+                <canvas id="bar-chart" class="chart-canvas" height="300"></canvas>
+              </div>
+            </div>
+          </div>
     </div>
 </div>
