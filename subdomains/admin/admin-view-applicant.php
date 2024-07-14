@@ -1,6 +1,5 @@
 <?php
-session_start();
-include "../../config/database.php";
+include "admin-process.php";
 
 if (isset($_GET['applicant_id'])) {
     $applicant_id = $_GET['applicant_id'];
@@ -13,7 +12,7 @@ if (isset($_GET['applicant_id'])) {
 <html lang="en">
 
 <head>
-    <title>View Student</title>
+    <title>View Applicant</title>
     <?php include "inc/admin-header.php"; ?>
 </head>
 
@@ -63,6 +62,15 @@ if (isset($_GET['applicant_id'])) {
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Application Date: </strong>&nbsp; <?php echo date("j F, Y. H:m", strtotime($applicant['timestamp'])); ?>
                                 </div>
+                                <div class="col-xxl-4 col-6 text-sm mb-4">
+                                    <strong class="text-dark">Enrolling Class: </strong>&nbsp; 
+                                    <?php  $class_id = $applicant['enrolling_class'];
+
+                                    $sql = "SELECT `class_name` FROM `classes` WHERE `class_id` = '$class_id'";
+                                    $clasess = mysqli_query($conn, $sql);
+                                    $class = mysqli_fetch_assoc($clasess);
+                                    echo $class['class_name']; ?>
+                                </div>
                                 <!--  -->
                                 <h6 class="mt-4 mb-3 text-gradient text-primary">Parent's Data</h6>
 
@@ -91,11 +99,13 @@ if (isset($_GET['applicant_id'])) {
                 <div class="row justify-content-center align-items-center">
                     <div class="col-6 text-end">
                         <form action="" method="post">
+                            <input type="hidden" name="applicant_id" value="<?php echo $applicant['applicant_id'] ?>">
                             <button type="submit" class="btn bg-gradient-danger btn-round" name="declineBtn">Decline</button>
                         </form>
                     </div>
                     <div class="col-6 text-">
                         <form action="" method="post">
+                            <input type="hidden" name="applicant_id" value="<?php echo $applicant['applicant_id'] ?>">
                             <button type="submit" class="btn bg-gradient-success btn-round" name="approveBtn">Approve</button>
                         </form>
                     </div>

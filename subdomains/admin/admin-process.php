@@ -416,6 +416,105 @@ if (isset($_POST['addalumni'])) {
 }
 
 
+// Approving Applicant's Admission
+if (isset($_POST['approveBtn'])) {
+    $applicant_id = mysqli_real_escape_string($conn, $_POST['applicant_id']);
+
+    // Generate Student ID function
+    function generateStudentID($conn, $section_id, $entry_year)
+    {
+
+        $sql = "SELECT * FROM `sections` WHERE `section_id` = '$section_id'";
+        $result = mysqli_query($conn, $sql);
+        $section = mysqli_fetch_assoc($result);
+
+        $sql = "SELECT * FROM `serial_numbers` WHERE `section_id` = '$section_id' AND `entry_year` = '$entry_year'";
+        $result = mysqli_query($conn, $sql);
+        $serial = mysqli_fetch_assoc($result);
+
+        if ($serial) {
+            $current_serial = $serial['current_serial'] + 1;
+            $sql = "UPDATE `serial_numbers` SET `current_serial` = '$current_serial' WHERE `section_id` = '$section_id' AND `entry_year` = '$entry_year'";
+            mysqli_query($conn, $sql);
+        } else {
+            $current_serial = $section['serial_start'];
+            $sql = "INSERT INTO serial_numbers (section_id, entry_year, current_serial) VALUES ('$section_id', '$entry_year', '$current_serial')";
+            mysqli_query($conn, $sql);
+        }
+
+        $admission_id = sprintf('AMK/%d/%d', $entry_year, $current_serial);
+        return $admission_id;
+    }
+
+    // Fetch applicant data from the database
+    $query = "SELECT * FROM applicants WHERE applicant_id = $applicant_id";
+    $result = mysqli_query($conn, $query);
+    $applicant = mysqli_fetch_assoc($result);
+
+    if ($applicant) {
+
+        $class_id = $applicant['enrolling_class'];
+        $entry_year = date('y');
+        // Determing section base on class
+        $sql = "SELECT * FROM `classes` WHERE `class_id` = '$class_id'";
+        $clasess = mysqli_query($conn, $sql);
+        $class = mysqli_fetch_assoc($clasess);
+        $section_id = $class['section_id'];
+
+        // Insert applicant data into students table
+        $first_name = mysqli_real_escape_string($conn, $applicant['first_name']);
+        $last_name = mysqli_real_escape_string($conn, $applicant['last_name']);
+        $birth_date = mysqli_real_escape_string($conn, $applicant['birth_date']);
+        $gender = mysqli_real_escape_string($conn, $applicant['gender']);
+        $state = mysqli_real_escape_string($conn, $applicant['state']);
+        $lga = mysqli_real_escape_string($conn, $applicant['lga']);
+        $parent_first_name = mysqli_real_escape_string($conn, $applicant['parent_first_name']);
+        $parent_last_name = mysqli_real_escape_string($conn, $applicant['parent_last_name']);
+        $parent_phone_number = mysqli_real_escape_string($conn, $applicant['parent_phone_number']);
+        $parent_email = mysqli_real_escape_string($conn, $applicant['parent_email']);
+        $parent_address = mysqli_real_escape_string($conn, $applicant['parent_address']);
+
+        $admission_id = generateStudentID($conn, $section_id, $entry_year);
+        // Hash the password using BCRYPT
+        $default_password = $admission_id;
+        $password = password_hash($default_password, PASSWORD_BCRYPT);
+
+        $insert_query = "INSERT INTO students (
+            class_id, section_id, admission_id, first_name, last_name, status,
+            password, birth_date, gender, state, lga, parent_first_name,
+            parent_last_name, parent_phone_number, parent_email, parent_address
+            ) VALUES (
+            '$class_id', '$section_id', '$admission_id', '$first_name', '$last_name', 1,
+            '$password', '$birth_date', '$gender', '$state', '$lga', '$parent_first_name',
+            '$parent_last_name', '$parent_phone_number', '$parent_email', '$parent_address')";
+
+        if (mysqli_query($conn, $insert_query)) {
+            $_SESSION['success_message'] = 'Applicant has been approved and added to the students database successfully.';
+            header('Location: admin-new-applicant.php'); // Redirect to the applicants page
+            exit();
+        } else {
+            $_SESSION['error_message'] = 'An error occurred while approving the applicant. Please try again.';
+        }
+    } else {
+        $_SESSION['error_message'] = 'Applicant not found.';
+    }
+
+    mysqli_free_result($result);
+} elseif (isset($_POST['declineBtn'])) {
+    $applicant_id = mysqli_real_escape_string($conn, $_POST['applicant_id']);
+
+    // Delete applicant from the database
+    $delete_query = "DELETE FROM applicants WHERE applicant_id = $applicant_id";
+
+    if (mysqli_query($conn, $delete_query)) {
+        $_SESSION['success_message'] = 'Applicant has been declined and removed from the database successfully.';
+        header('Location: admin-new-applicant.php'); // Redirect to the applicants page
+        exit();
+    } else {
+        $_SESSION['error_message'] = 'An error occurred while declining the applicant. Please try again.';
+    }
+}
+
 # Uploading subjects
 if (isset($_POST['addSubject'])) {
 
