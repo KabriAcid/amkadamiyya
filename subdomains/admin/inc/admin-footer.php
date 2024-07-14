@@ -22,7 +22,7 @@
                         <a href="../../pages/admission/admission-requirements.php" class="nav-link text-muted" target="_blank">Admissions</a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link pe-0 text-muted" target="_blank">Blog</a>
+                        <a href="queries.php" class="nav-link pe-0 text-muted">Queries</a>
                     </li>
                 </ul>
             </div>
