@@ -72,7 +72,10 @@
                                             <?php echo $row['index_no'];?>
                                         </td>
                                         <td class="text-sm text-center font-weight-normal">
-                                            <a href="admin-view-alumni.php?alumni_id=<?php echo $row['alumni_id']; ?>">View</a>
+                                            <form action="admin-view-alumni.php" method="get">
+                                                <input type="hidden" name="alumni_id" value="<?php echo $row['alumni_id']; ?>">
+                                                <button type="submit" class="badge badge-sm rounded bg-gradient-light text-dark border-0">View</button>
+                                            </form>
                                         </td>
                                     </tr>
 

@@ -1,10 +1,5 @@
 <?php
-session_start();
-include "../../config/database.php";
-
-$sql = "SELECT * FROM `defaults`;";
-$result = mysqli_query($conn, $sql);
-$default = mysqli_fetch_assoc($result);
+include_once "admin-process.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,7 +36,7 @@ $default = mysqli_fetch_assoc($result);
                                 </h6>
                                 <p class="text-muted mb-3">Truncating this table will remove all student records.</p>
                                 <div class="form-check form-switch ps-0">
-                                    <input class="form-check-input ms-auto" type="checkbox" id="students" name="tables[]" value="students" />
+                                    <input class="form-check-input ms-auto" type="checkbox" id="students" name="tables[students]" value="students" />
                                     <label class="form-check-label null-label text-body ms-3 text-truncate w-80 mb-0" for="students">Truncate Students Table</label>
                                 </div>
                                 <!-- Staff -->
@@ -50,7 +45,7 @@ $default = mysqli_fetch_assoc($result);
                                 </h6>
                                 <p class="text-muted mb-3">Truncating this table will remove all staff records.</p>
                                 <div class="form-check form-switch ps-0">
-                                    <input class="form-check-input ms-auto" type="checkbox" id="staff" name="tables[]" value="staff" />
+                                    <input class="form-check-input ms-auto" type="checkbox" id="staff" name="tables[staff]" value="staff" />
                                     <label class="form-check-label null-label text-body ms-3 text-truncate w-80 mb-0" for="staff">Truncate Staff Table</label>
                                 </div>
                                 <!-- Alumni -->
@@ -59,7 +54,7 @@ $default = mysqli_fetch_assoc($result);
                                 </h6>
                                 <p class="text-muted mb-3">Truncating this table will remove all alumni records.</p>
                                 <div class="form-check form-switch ps-0">
-                                    <input class="form-check-input ms-auto" type="checkbox" id="alumni" name="tables[]" value="alumni" />
+                                    <input class="form-check-input ms-auto" type="checkbox" id="alumni" name="tables[alumni]" value="alumni" />
                                     <label class="form-check-label null-label text-body ms-3 text-truncate w-80 mb-0" for="alumni">Truncate Alumni Table</label>
                                 </div>
                                 <!-- Blog -->
@@ -68,8 +63,17 @@ $default = mysqli_fetch_assoc($result);
                                 </h6>
                                 <p class="text-muted mb-3">Truncating this table will remove all blog posts.</p>
                                 <div class="form-check form-switch ps-0">
-                                    <input class="form-check-input ms-auto" type="checkbox" id="blog" name="tables[]" value="blog" />
+                                    <input class="form-check-input ms-auto" type="checkbox" id="blog" name="tables[blogs]" value="blogs" />
                                     <label class="form-check-label null-label text-body ms-3 text-truncate w-80 mb-0" for="blog">Truncate Blog Table</label>
+                                </div>
+                                <!-- Uploads -->
+                                <h6 class="text-uppercase font-weight-bolder mt-4">
+                                    Uploads
+                                </h6>
+                                <p class="text-muted mb-3">Truncating this table will remove all result uploads records.</p>
+                                <div class="form-check form-switch ps-0">
+                                    <input class="form-check-input ms-auto" type="checkbox" id="results" name="tables[uploads]" value="uploads" />
+                                    <label class="form-check-label null-label text-body ms-3 text-truncate w-80 mb-0" for="results">Truncate Uploads Table</label>
                                 </div>
                                 <!-- Results -->
                                 <h6 class="text-uppercase font-weight-bolder mt-4">
@@ -77,7 +81,7 @@ $default = mysqli_fetch_assoc($result);
                                 </h6>
                                 <p class="text-muted mb-3">Truncating this table will remove all results records.</p>
                                 <div class="form-check form-switch ps-0">
-                                    <input class="form-check-input ms-auto" type="checkbox" id="results" name="tables[]" value="results" />
+                                    <input class="form-check-input ms-auto" type="checkbox" id="results" name="tables[results]" value="results" />
                                     <label class="form-check-label null-label text-body ms-3 text-truncate w-80 mb-0" for="results">Truncate Results Table</label>
                                 </div>
                                 <!-- Notifications -->
@@ -86,7 +90,7 @@ $default = mysqli_fetch_assoc($result);
                                 </h6>
                                 <p class="text-muted mb-3">Truncating this table will remove all notifications records.</p>
                                 <div class="form-check form-switch ps-0">
-                                    <input class="form-check-input ms-auto" type="checkbox" id="notifications" name="tables[]" value="notifications" />
+                                    <input class="form-check-input ms-auto" type="checkbox" id="notifications" name="tables[admin_notification]" value="admin_notification" />
                                     <label class="form-check-label null-label text-body ms-3 text-truncate w-80 mb-0" for="notifications">Truncate Notifications Table</label>
                                 </div>
                                 <!-- Submit Button -->

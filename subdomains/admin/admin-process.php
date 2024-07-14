@@ -293,7 +293,8 @@ if (isset($_POST['uploadBlog'])) {
         return uniqid('thumb_', true) . '.' . $extension;
     }
 
-    function sanitizeBlog($string){
+    function sanitizeBlog($string)
+    {
         $string = ucwords(strtolower($string));
 
         return $string;
@@ -484,15 +485,20 @@ if (isset($_POST['truncateData'])) {
         $truncated_tables = [];
         foreach ($tables as $table) {
             // Simulating truncation
-            $truncated_tables[] = $table;
+            $sql = "TRUNCATE TABLE `$table`";
+            if (mysqli_query($conn, $sql)) {
+                $truncated_tables[] = $table;
+                $_SESSION['success_message'] = "Operation successfully.";
+            }
         }
-        $_SESSION['success_message'] = "Operation successfully.";
     } else {
         $_SESSION['error_message'] = "No tables selected.";
     }
+
     header("Location: " . $_SERVER['PHP_SELF']);
     exit;
 }
+
 
 // Uploading Results base on subject
 if (isset($_POST['uploadSubject'])) {

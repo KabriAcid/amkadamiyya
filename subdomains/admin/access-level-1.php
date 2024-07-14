@@ -124,7 +124,7 @@
                     while ($row = mysqli_fetch_assoc($result)) {
                 ?>
                         <div class="">
-                            <div class="card mb-3">
+                            <div class="card">
                                 <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
                                     <a href="javascript:;" class="d-block">
                                         <img src="<?php echo $row['blog_thumbnail'] ?>" style="height: 300px; width: 100%;object-fit:cover;" class="img-fluid border-radius-lg">
@@ -166,7 +166,11 @@
                     }
                 } else {
                     ?>
-                    <p class="text-center text-secondary">No blogs found.</p>
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="text-center text-secondary">No blogs found.</p>
+                        </div>
+                    </div>
                 <?php
                 }
                 ?>

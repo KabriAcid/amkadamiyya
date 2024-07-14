@@ -34,18 +34,39 @@ if (isset($_GET['alumni_id'])) {
         <div class="container-fluid pt-3">
             <div class="row">
                 <div class="col-lg-10 mb-3 mb-lg-0">
-                    <div class="card">
+                    <div class="card card-body" id="profile">
+                        <div class="row align-items-center">
+                            <div class="col-sm-auto col-4">
+                                <div class="avatar avatar-xl position-relative">
+                                    <img src="<?php echo $row['photo']; ?>" alt="bruce" class="w-100 border-radius-lg shadow-sm" />
+                                </div>
+                            </div>
+                            <div class="col-8 my-auto">
+                                <div class="h-100">
+                                    <h5 class="mb-1 font-weight-bolder"><?php echo ucfirst($row['first_name']) . '&nbsp;' . ucfirst($row['last_name']); ?></h5>
+                                    <p class="mb-0 font-weight-bold text-sm">
+                                        <?php
+                                        // $position_id = $row['position_id'];
+                                        // $sql = "SELECT `position_name` FROM `school_post` WHERE `position_id` = '$position_id'";
+                                        // $positions = mysqli_query($conn, $sql);
+                                        // $position = mysqli_fetch_assoc($positions);
+                                        // echo $position['position_name'];
+                                        ?>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
                         <div class="card-header pb-0">
                             <div class="d-flex justify-content-between">
-                                <h6>Profile Information</h6>
-                                <a href="admin-edit-alumni.php?alumni_id=<?php echo $row['alumni_id']; ?>"
-                                    class="btn bg-gradient-dark btn-sm">Edit <i class="fa fa-edit text-sm ms-1"></i></a>
+                                <h6 class="text-gradient text-primary">Profile Information</h6>
+                                <a href="admin-edit-alumni.php?alumni_id=<?php echo $row['alumni_id']; ?>" class="btn bg-gradient-primary btn-sm">Edit <i class="fa fa-edit text-sm ms-1"></i></a>
                             </div>
                         </div>
                         <hr class="horizontal dark">
                         <div class="card-body">
                             <div class="row">
-                                <h6 class="mb-4 text-gradient text-warning">Personal Data</h6>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">First Name: </strong>&nbsp;
                                     <?php echo ucfirst($row['first_name']); ?>
@@ -80,12 +101,8 @@ if (isset($_GET['alumni_id'])) {
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Graduation Year: </strong>&nbsp;
                                     <?php
-                                     $year_id =  $row['graduation_year'];
-                                     $sql = "SELECT * FROM graduation_year WHERE `year_id` = '$year_id'";
-                                     $year_result = mysqli_query($conn, $sql);
-                                     $year = mysqli_fetch_assoc($year_result);
-                                     echo $year['year'];
-                                      ?>
+                                    echo $row['graduation_year'];
+                                    ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Position Held: </strong>&nbsp;
@@ -115,7 +132,7 @@ if (isset($_GET['alumni_id'])) {
                 </div>
             </div>
         </div>
-        <?php include "inc/admin-footer.php";?>
+        <?php include "inc/admin-footer.php"; ?>
     </main>
 
 
