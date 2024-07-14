@@ -44,8 +44,8 @@ include "admin-process.php";
                                             <div class="col-md-6 ps-md-2">
                                                 <label>Blog Category</label>
                                                 <div class="input-group">
-                                                    <select id="blog_subtitle" name="blog_subtitle" class="form-control">
-                                                        <option value="academic" selected>Academic</option>
+                                                    <select id="blog_category" name="blog_category" class="form-control">
+                                                        <option value="academic">Academic</option>
                                                         <option value="sports">Notice</option>
                                                         <option value="events">Events</option>
                                                         <option value="news">News</option>

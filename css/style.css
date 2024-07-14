@@ -58,3 +58,22 @@ label::after {
   background-attachment: fixed;
   height: 100vh;
 }
+.notification-icon {
+  position: relative;
+  display: inline-block;
+}
+
+.notification-dot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 8px;
+  width: 8px;
+  background-color: #82d616;
+  border-radius: 50%;
+  display: none; /* Hidden by default */
+}
+
+.notification-dot.active {
+  display: block; /* Show when active */
+}

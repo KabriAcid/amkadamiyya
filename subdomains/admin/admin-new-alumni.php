@@ -5,7 +5,7 @@ include "admin-process.php";
 <html lang="en">
 
 <head>
-    <title>Add Alumni</title>
+    <title>Add New Alumni</title>
     <?php include "inc/admin-header.php"; ?>
 </head>
 
@@ -22,7 +22,7 @@ include "admin-process.php";
         <?php require "inc/admin-navbar.php"; ?>
         <div class="container-fluid pt-3">
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-10">
                     <div class="card mb-4">
                         <div class="card-header">
                             <h5 class="mb-0 text-gradient text-primary">Add Alumni</h5>

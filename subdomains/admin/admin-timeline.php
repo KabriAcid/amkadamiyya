@@ -1,6 +1,6 @@
 <?php
-    session_start();
-    include "../../config/database.php";
+session_start();
+include "../../config/database.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,12 +27,12 @@
                 </div>
                 <div class="row">
                     <?php
-                    $sql = "SELECT * FROM `blogs` ORDER BY `blog_id` DESC";
+                    $sql = "SELECT * FROM `blogs`";
                     $result = mysqli_query($conn, $sql);
 
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
-                            ?>
+                    ?>
                             <div class="col-lg-4 mb-lg-0 mb-4">
                                 <div class="card mb-3">
                                     <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
@@ -42,8 +42,7 @@
                                     </div>
 
                                     <div class="card-body pt-3">
-                                        <span
-                                            class="text-gradient text-warning text-uppercase text-xs font-weight-bold my-2"><?php echo $row['blog_subtitle']; ?></span>
+                                        <span class="text-gradient text-warning text-uppercase text-xs font-weight-bold my-2"><?php echo $row['blog_category']; ?></span>
                                         <a href="javascript:;" class="card-title h5 d-block text-darker">
                                             <?php echo $row['blog_title']; ?>
                                         </a>
@@ -52,10 +51,18 @@
                                         </p>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="author align-items-center">
-                                                <img src="<?php echo $row['staff_photo']; ?>"
-                                                    alt="<?php echo $row['staff_first_name']; ?>" class="avatar shadow">
+                                                <?php
+                                                
+                                                $staff_id = $row['staff_id'];
+                                                $sql = "SELECT * FROM `staff` WHERE `staff_id` = '$staff_id'";
+                                                $staff_result = mysqli_query($conn, $sql);
+                                                $staff = mysqli_fetch_assoc($staff_result);
+                                                ?>
+
+                                                <img src="<?php echo $staff['photo']; ?>" class="avatar shadow">
+                                                
                                                 <div class="name ps-3">
-                                                    <span><?php echo $row['staff_first_name'] . " " . $row['staff_last_name']; ?></span>
+                                                    <span><?php echo $staff['first_name'] . " " . $staff['last_name']; ?></span>
                                                     <div class="stats">
                                                         <small><?php echo date("j F, Y h:m", strtotime($row['blog_timestamp'])); ?></small>
                                                     </div>
@@ -63,8 +70,7 @@
                                             </div>
                                             <!-- Delete Icon -->
                                             <div class="text-end">
-                                                <a href="?delete_blog=<?php echo $row['id']; ?>&blog+title=<?php echo $row['blog_title']; ?>" class="toast-btn">
-                                                    <i class="fa fa-trash" data-target="successToast"></i>
+                                                    <i class="fa fa-trash text-secondary cursor-pointer" data-target="successToast"></i>
                                                 </a>
                                             </div>
                                             <!-- Modal -->
@@ -72,20 +78,19 @@
                                     </div>
                                 </div>
                             </div>
-                            <?php
+                        <?php
                         }
                     } else {
                         ?>
                         <p class="text-center text-secondary">No blogs found.</p>
-                        <?php
+                    <?php
                     }
                     ?>
                 </div>
             </div>
         </div>
         <div class="position-fixed bottom-1 end-1 z-index-2">
-            <div class="toast fade hide p-2 bg-white" role="alert" aria-live="assertive" id="successToast"
-                aria-atomic="true">
+            <div class="toast fade hide p-2 bg-white" role="alert" aria-live="assertive" id="successToast" aria-atomic="true">
                 <div class="toast-header border-0">
                     <i class="ni ni-check-bold text-success me-2"></i>
                     <span class="me-auto font-weight-bold">Soft UI Dashboard</span>
@@ -106,9 +111,9 @@
 
     <?php
     if (isset($_SESSION['success_message'])) {
-        ?>
+    ?>
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
                     title: "Successful",
                     text: "<?php echo $_SESSION['success_message']; ?>",
@@ -118,7 +123,7 @@
                 })
             })
         </script>
-        <?php
+    <?php
         unset($_SESSION['success_message']);
     }
     ?>

@@ -208,8 +208,8 @@ if (isset($_POST['addStudent'])) {
     $second_name = changeCase(trim($_POST['second_name']));
     $last_name = changeCase(trim($_POST['last_name']));
     $birth_date = trim($_POST['birth_date']);
-    $state = changeCase(trim($_POST['state']));
-    $lga = changeCase(trim($_POST['lga']));
+    $state = trim($_POST['state']);
+    $lga = trim($_POST['lga']);
     $gender = trim($_POST['gender']);
     $parent_first_name = changeCase(trim($_POST['parent_first_name']));
     $parent_last_name = changeCase(trim($_POST['parent_last_name']));
@@ -300,14 +300,14 @@ if (isset($_POST['uploadBlog'])) {
     }
     $staff_id = $_POST['staff_id'];
     $blogTitle = sanitizeBlog($_POST['blog_title']);
-    $blogSubTitle = sanitizeBlog($_POST['blog_subtitle']);
+    $blogCategory = sanitizeBlog($_POST['blog_category']);
     $blogContent = htmlspecialchars($_POST['blog_content']);
 
 
 
-    if(str_word_count($blogContent) < 10){
-        $_SESSION['error_message'] = "Blog content must contain at least 10 words";
-    }
+    // if(str_word_count($blogContent) < 10){
+    //     $_SESSION['error_message'] = "Blog content must contain at least 10 words";
+    // }
 
     // Thumbnail upload handling
     if (isset($_FILES['blog_thumbnail']) && $_FILES['blog_thumbnail']['error'] == UPLOAD_ERR_OK) {
@@ -338,20 +338,18 @@ if (isset($_POST['uploadBlog'])) {
     }
 
     // Insert blog post into database
-    $stmt = $conn->prepare("INSERT INTO blogs (staff_id, blog_title, blog_subtitle, blog_content, blog_thumbnail) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("issss", $staff_id, $blogTitle, $blogSubtitle, $blogContent, $thumbnailDestination);
+    $stmt = $conn->prepare("INSERT INTO blogs (staff_id, blog_title, blog_category, blog_content, blog_thumbnail) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("issss", $staff_id, $blogTitle, $blogCategory, $blogContent, $thumbnailDestination);
 
     if ($stmt->execute()) {
         $_SESSION['success_message'] = "Blog post uploaded successfully.";
+        header("Location: admin-timeline.php");
     } else {
         $_SESSION['error_message'] = "There was an error uploading the blog post.";
     }
 
     $stmt->close();
     $conn->close();
-
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit();
 }
 
 
@@ -369,13 +367,13 @@ if (isset($_POST['addalumni'])) {
     $last_name = changeCase($_POST['last_name']);
     $index_no = trim($_POST['index_no']);
     $date_of_birth = trim($_POST['date_of_birth']);
-    $gender = changeCase($_POST['gender']);
+    $gender = $_POST['gender'];
     $graduation_year = trim($_POST['graduation_year']);
-    $position_held = changeCase($_POST['position_held']);
+    $position_held = $_POST['position_held'];
     $email = trim($_POST['email']);
     $phone_number = trim($_POST['phone_number']);
-    $state = changeCase($_POST['state']);
-    $lga = changeCase($_POST['lga']);
+    $state = $_POST['state'];
+    $lga = $_POST['lga'];
     $address = changeCase($_POST['address']);
     $nin_number = trim($_POST['nin_number']);
 

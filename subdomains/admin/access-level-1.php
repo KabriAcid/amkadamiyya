@@ -115,15 +115,67 @@
 <div class="container-fluid pt-3">
     <div class="row">
         <div class="col-lg-8">
-            <div class="card z-index-2">
-                <div class="card-header p-3 pb-0">
-                    <h6>Line chart for student and staff</h6>
-                </div>
-                <div class="card-body p-3">
-                    <div class="chart">
-                        <canvas id="line-chart-gradient" class="chart-canvas" height="300"></canvas>
-                    </div>
-                </div>
+            <div class="">
+                <?php
+                $sql = "SELECT * FROM `blogs` ORDER BY `blog_timestamp` DESC LIMIT 1";
+                $result = mysqli_query($conn, $sql);
+
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                ?>
+                        <div class="">
+                            <div class="card mb-3">
+                                <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
+                                    <a href="javascript:;" class="d-block">
+                                        <img src="<?php echo $row['blog_thumbnail'] ?>" class="img-fluid border-radius-lg object-fit-cover">
+                                    </a>
+                                </div>
+
+                                <div class="card-body pt-3">
+                                    <span class="text-gradient text-warning text-uppercase text-xs font-weight-bold my-2"><?php echo $row['blog_category']; ?></span>
+                                    <a href="javascript:;" class="card-title h5 d-block text-darker">
+                                        <?php echo $row['blog_title']; ?>
+                                    </a>
+                                    <p class="card-description mb-4">
+                                        <?php echo $row['blog_content']; ?>
+                                    </p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="author align-items-center">
+                                            <?php
+
+                                            $staff_id = $row['staff_id'];
+                                            $sql = "SELECT * FROM `staff` WHERE `staff_id` = '$staff_id'";
+                                            $staff_result = mysqli_query($conn, $sql);
+                                            $staff = mysqli_fetch_assoc($staff_result);
+                                            ?>
+
+                                            <img src="<?php echo $staff['photo']; ?>" class="avatar shadow">
+
+                                            <div class="name ps-3">
+                                                <span><?php echo $staff['first_name'] . " " . $staff['last_name']; ?></span>
+                                                <div class="stats">
+                                                    <small><?php echo date("j F, Y h:m", strtotime($row['blog_timestamp'])); ?></small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Delete Icon -->
+                                        <div class="text-end">
+                                            <i class="fa fa-trash text-secondary cursor-pointer" data-target="successToast"></i>
+                                            </a>
+                                        </div>
+                                        <!-- Modal -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php
+                    }
+                } else {
+                    ?>
+                    <p class="text-center text-secondary">No blogs found.</p>
+                <?php
+                }
+                ?>
             </div>
         </div>
         <div class="col-lg-4">

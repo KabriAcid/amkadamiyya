@@ -1,3 +1,12 @@
+<?php
+function hasNewNotifications()
+{
+    // Your logic to check for new notifications
+    // This is just an example, replace it with your actual logic
+    $newNotifications = true; // Assume we have new notifications
+    return $newNotifications;
+}
+?>
 <nav class="navbar navbar-main navbar-expand-lg mt-4 top-1 px-0 mx-4 shadow border-radius-xl z-index-sticky" data-scroll="true">
     <div class="container-fluid py-1 px-3">
         <div class="sidenav-toggler sidenav-toggler-inner d-xl-block d-none ">
@@ -31,7 +40,7 @@
                 </li>
                 <li class="nav-item dropdown pe-2 px-3 d-flex align-items-center">
                     <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa fa-cog cursor-pointer" aria-hidden="true"></i>
+                        <i class="ni ni-settings-gear-65 cursor-pointer" aria-hidden="true"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end px-2 me-sm-n4" aria-labelledby="dropdownMenuButton">
                         <li class="">
@@ -45,6 +54,14 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+                <li class="nav-item ps-1 d-flex align-items-center">
+                    <?php $hasNewNotifications = hasNewNotifications(); ?>
+                    <div class="notification-icon">
+                        <i class="ni ni-bell-55 cursor-pointer text-sm" aria-hidden="true"></i>
+                        <div class="notification-dot <?php echo $hasNewNotifications ? 'active' : ''; ?>"></div>
+                    </div>
+
                 </li>
             </ul>
         </div>
