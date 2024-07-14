@@ -274,21 +274,21 @@ if (isset($_POST['updateParentData'])) {
 }
 
 // Update Student Account Information
-if (isset($_POST['updateStudentAdmission'])) {
+if (isset($_POST['updateStudentID'])) {
     // Declare student_id from hidden input field
     $student_id = mysqli_real_escape_string($conn, $_POST['student_id']);
     $admission_id = trim($_POST['admission_id']);
 
-    // Function to validate admission ID
-    function validate_id($admission_id) {
+    // Validate admission ID using a closure function
+    $validate_id = function ($admission_id) {
         // Define the pattern
         $pattern = '/^AMK\/\d{2}\/\d{4}$/';
         // Check if the ID matches the pattern
         return preg_match($pattern, $admission_id) === 1;
-    }
+    };
 
     // Validate admission ID
-    if (!validate_id($admission_id)) {
+    if (!$validate_id($admission_id)) {
         $_SESSION['error_message'] = "Invalid admission ID format. Please enter a valid ID";
         header('Location: ' . $_SERVER['PHP_SELF'] . '?student_id=' . $student_id);
         exit();
@@ -319,7 +319,7 @@ if (isset($_POST['updateStudentAdmission'])) {
         $_SESSION['error_message'] = "Error updating student ID: " . $stmt->error;
     }
     $stmt->close();
-    
+
     header('Location: ' . $_SERVER['PHP_SELF'] . '?student_id=' . $student_id);
     exit();
 }
