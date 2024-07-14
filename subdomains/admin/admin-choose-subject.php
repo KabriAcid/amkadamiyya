@@ -2,8 +2,6 @@
 session_start();
 require_once '../../config/database.php';
 
-var_dump($_SESSION['staff']);
-
 $sectionId = $_SESSION['staff']['section_id'];
 $classId = $_SESSION['staff']['class_id'];
 
@@ -58,7 +56,7 @@ if (isset($_SESSION['staff']['position_id'])) {
             <div class="container-fluid px-0">
                 <div class="card">
                     <div class="card-body">
-                        <form action="admin-upload-subject.php" method="get">
+                        <form action="admin-upload-result.php" method="get">
                             <select name="subject_id" class="form-select" required>
                                 <option value="" class="text-center">-- Choose Subject --</option>
                                 <?php foreach ($subjects as $subject) { ?>

@@ -294,6 +294,7 @@ if (isset($_POST['updateStudentID'])) {
         exit();
     }
 
+
     // Check if the admission ID is already taken
     $sql = "SELECT admission_id FROM students WHERE admission_id = ?";
     $stmt = $conn->prepare($sql);
@@ -306,22 +307,24 @@ if (isset($_POST['updateStudentID'])) {
         $stmt->close();
         header('Location: ' . $_SERVER['PHP_SELF'] . '?student_id=' . $student_id);
         exit();
-    }
-    $stmt->close();
-
-    // Update the student's admission ID
-    $sql = "UPDATE students SET admission_id = ? WHERE student_id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param('si', $admission_id, $student_id);
-    if ($stmt->execute()) {
-        $_SESSION['success_message'] = "Student ID updated successfully!";
     } else {
-        $_SESSION['error_message'] = "Error updating student ID: " . $stmt->error;
+        // Update the student's admission ID
+        $sql = "UPDATE students SET admission_id = ? WHERE student_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('si', $admission_id, $student_id);
+        if ($stmt->execute()) {
+            $_SESSION['success_message'] = "Student ID updated successfully!";
+        } else {
+            $_SESSION['error_message'] = "Error updating student ID: " . $stmt->error;
+        }
+        $stmt->close();
+    
+        header('Location: ' . $_SERVER['PHP_SELF'] . '?student_id=' . $student_id);
+        exit();
+
     }
     $stmt->close();
 
-    header('Location: ' . $_SERVER['PHP_SELF'] . '?student_id=' . $student_id);
-    exit();
 }
 
 

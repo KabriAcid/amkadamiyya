@@ -20,6 +20,9 @@ if (isset($_SESSION['staff']['position_id'])) {
 } else {
     header('Location: admin-logout.php');
 }
+
+str_word_count('Hello World') == 1;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
