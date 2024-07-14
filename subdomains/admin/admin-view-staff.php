@@ -122,7 +122,7 @@ if (isset($_GET['staff_id'])) {
                                     <strong class="text-dark">Gender: </strong>&nbsp; <?php echo $staff['gender']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Qualification: </strong>&nbsp;<?php $_SESSION['staff']['qualification'] . '. ' . $_SESSION['staff']['discipline'];
+                                    <strong class="text-dark">Qualification: </strong>&nbsp;<?php echo $_SESSION['staff']['qualification'] . '. ' . $_SESSION['staff']['discipline'];
                                                                                             ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
