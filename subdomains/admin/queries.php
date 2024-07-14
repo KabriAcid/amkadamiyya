@@ -5,6 +5,7 @@
 
     if (isset($_POST['submit'])) {
         $sql = "UPDATE alumni set graduation_year = 2024";
+        $sql .= "";
         if (mysqli_query($conn, $sql)) {
             echo "Record updated successfully";
         } else {

@@ -30,7 +30,7 @@ if (isset($_POST['register'])) {
         $last_name = capitalize(mysqli_real_escape_string($conn, $_POST['last_name']));
         $birth_date = mysqli_real_escape_string($conn, $_POST['birth_date']);
         $gender = mysqli_real_escape_string($conn, $_POST['gender']);
-        $address = capitalize(mysqli_real_escape_string($conn, $_POST['address']));
+        $address = ucwords(mysqli_real_escape_string($conn, $_POST['address']));
         $state = mysqli_real_escape_string($conn, $_POST['state']);
         $lga = mysqli_real_escape_string($conn, $_POST['lga']);
         $qualification = mysqli_real_escape_string($conn, $_POST['qualification']);
@@ -374,7 +374,7 @@ if (isset($_POST['addalumni'])) {
     $phone_number = trim($_POST['phone_number']);
     $state = $_POST['state'];
     $lga = $_POST['lga'];
-    $address = changeCase($_POST['address']);
+    $address = ucwords($_POST['address']);
     $nin_number = trim($_POST['nin_number']);
 
     // function isValidPhoneNumber($phone_number)
