@@ -127,7 +127,7 @@
                             <div class="card mb-3">
                                 <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
                                     <a href="javascript:;" class="d-block">
-                                        <img src="<?php echo $row['blog_thumbnail'] ?>" class="img-fluid border-radius-lg object-fit-cover">
+                                        <img src="<?php echo $row['blog_thumbnail'] ?>" style="height: 300px; width: 100%;object-fit:cover;" class="img-fluid border-radius-lg">
                                     </a>
                                 </div>
 
@@ -158,12 +158,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- Delete Icon -->
-                                        <div class="text-end">
-                                            <i class="fa fa-trash text-secondary cursor-pointer" data-target="successToast"></i>
-                                            </a>
-                                        </div>
-                                        <!-- Modal -->
                                     </div>
                                 </div>
                             </div>
@@ -223,15 +217,19 @@
                 </div>
             </div>
         </div>
-        <div class="card z-index-2">
-            <div class="card-header p-3 pb-0">
-              <h6>Bar chart</h6>
+    </div>
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card z-index-2">
+                <div class="card-header p-3 pb-0">
+                    <h6>Bar chart</h6>
+                </div>
+                <div class="card-body p-3">
+                    <div class="chart">
+                        <canvas id="bar-chart" class="chart-canvas" height="300"></canvas>
+                    </div>
+                </div>
             </div>
-            <div class="card-body p-3">
-              <div class="chart">
-                <canvas id="bar-chart" class="chart-canvas" height="300"></canvas>
-              </div>
-            </div>
-          </div>
+        </div>
     </div>
 </div>
