@@ -4,7 +4,7 @@
     include "../../config/database.php";
 
     if (isset($_POST['submit'])) {
-        $sql = "UPDATE `subjects` SET `subject_name` = 'null' WHERE `subjects`.`subject_id` = 34;";
+        $sql = "UPDATE `classes` SET `class_name` = \'null\' WHERE `classes`.`class_id` = 25;";
         if (mysqli_query($conn, $sql)) {
             echo "Record updated successfully";
         } else {
