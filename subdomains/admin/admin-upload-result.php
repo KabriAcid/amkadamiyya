@@ -182,31 +182,7 @@ $default = mysqli_fetch_assoc($default_result);
     </main>
 
     <script src="../../js/plugins/sweetalert.min.js"></script>
-    <script src="../../js/plugins/datatables.js"></script>
     <?php include "inc/admin-scripts.php"; ?>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const dataTableBasic = new simpleDatatables.DataTable("#datatable-basic", {
-                searchable: false,
-                fixedHeight: true,
-                labels: {
-                    placeholder: "Search...", // Placeholder text for search input
-                    noRows: "No Students Found", // Text shown when no rows found
-                    info: "Showing {start} to {end} of {rows} entries" // Info text shown below the table
-                },
-                // Callback function called after the table is initialized
-                onDraw: function() {
-                    // Hide the entries selection input field
-                    const entriesInput = document.querySelector('#datatable-basic_length');
-                    if (entriesInput) {
-                        entriesInput.style.display = 'none';
-                    }
-                }
-            });
-        });
-    </script>
-
 
     <?php
     if (isset($_SESSION['error_message'])) {
