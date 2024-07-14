@@ -150,19 +150,16 @@ if (isset($_POST['updateStaffPassword'])) {
     $newPassword = $_POST['newPassword'];
     $confirmNewPassword = $_POST['confirmNewPassword'];
 
-    if($newPassword != $confirmNewPassword){
+    if ($newPassword != $confirmNewPassword) {
         $_SESSION['error_message'] = "Password does not match";
-    } 
-    else {
+    } else {
         if (empty($newPassword) || empty($confirmNewPassword)) {
             $_SESSION['error_message'] = "Password cannot be empty";
-        } 
-        else if (strlen($newPassword) < 3) {
+        } else if (strlen($newPassword) < 3) {
             $_SESSION['error_message'] = "Password must be greater than 3 characters";
-        }
-         else {
+        } else {
             $password = password_hash($confirmNewPassword, PASSWORD_BCRYPT);
-    
+
             $sql = "UPDATE staff SET password = ? WHERE staff_id = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param('si', $password, $staff_id);
@@ -174,7 +171,6 @@ if (isset($_POST['updateStaffPassword'])) {
             $stmt->close();
         }
     }
-
 }
 
 // Erase Staff
@@ -196,9 +192,21 @@ if (isset($_POST['eraseStaffData'])) {
     $stmt->close();
 }
 
-// Redirect to the appropriate page after processing
-// header("Location:" . $_SERVER['PHP_SELF']);
-// exit();
+
+
+
+
+
+
+/* ======================================================================================================== 
+
+UPDATE STUDENTS INFORMATION
+
+======================================================================================================== */
+
+
+
+
 
 // Update Student Biodata
 if (isset($_POST['updateStudentBioData'])) {
@@ -260,8 +268,7 @@ if (isset($_POST['updateStudentAdmission'])) {
 
     if (mysqli_num_rows($result) == 1) {
         $_SESSION['error_message'] = "Admission ID already taken!";
-    } 
-    else {
+    } else {
         $sql = "UPDATE students SET admission_id = ? WHERE student_id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('si', $admission_id, $student_id);
@@ -282,19 +289,16 @@ if (isset($_POST['updateStudentPassword'])) {
     $newPassword = $_POST['newPassword'];
     $confirmNewPassword = $_POST['confirmNewPassword'];
 
-    if($newPassword != $confirmNewPassword){
+    if ($newPassword != $confirmNewPassword) {
         $_SESSION['error_message'] = "Password does not match";
-    } 
-    else {
+    } else {
         if (empty($newPassword) || empty($confirmNewPassword)) {
             $_SESSION['error_message'] = "Password cannot be empty";
-        } 
-        else if (strlen($newPassword) < 3) {
+        } else if (strlen($newPassword) < 3) {
             $_SESSION['error_message'] = "Password must be greater than 3 characters";
-        }
-         else {
+        } else {
             $password = password_hash($confirmNewPassword, PASSWORD_BCRYPT);
-    
+
             $sql = "UPDATE students SET password = ? WHERE student_id = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param('si', $password, $student_id);

@@ -1,16 +1,29 @@
 <?php
-include "admin-process-update.php";
 
+include "update.php";
+
+// Check if student ID is set
 if (isset($_GET['student_id'])) {
     $student_id = $_GET['student_id'];
-    $sql = "SELECT * FROM `students` WHERE `student_id` = '$student_id'";
-    $students = mysqli_query($conn, $sql);
-    $student = mysqli_fetch_assoc($students);
+
+    // Prepare SQL query with parameterized query
+    $sql = "SELECT * FROM `students` WHERE `student_id` = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $student_id);
+    $stmt->execute();
+    $student = $stmt->get_result()->fetch_assoc();
+} else {
+    header('Location: admin-student-list.php');
+    exit();
 }
-// else {
-//     header('Location: admin-student-list.php');
-//     exit();
-// }
+
+// Check if staff position ID is set
+if (isset($_SESSION['staff']['position_id'])) {
+    $position_id = $_SESSION['staff']['position_id'];
+} else {
+    $position_id = 0;
+    header('Location: admin-logout.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +35,7 @@ if (isset($_GET['student_id'])) {
 
 <body class="g-sidenav-show bg-info-soft">
     <?php
-    if ($_SESSION['staff']['position_id'] == 1) {
+    if ($position_id == 1) {
         include "inc/admin-sidebar.php";
     } else {
         include "";

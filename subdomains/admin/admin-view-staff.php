@@ -155,7 +155,7 @@ if (isset($_GET['staff_id'])) {
                 </div>
                 <!-- sTudents -->
                 <?php
-                if ($_SESSION['staff']['class_id'] != 'Null') {
+                if ($class['class_name'] != 'null') {
                 ?>
                     <div class="col-12 mb-3">
                         <div class="card">

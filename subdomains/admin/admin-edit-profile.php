@@ -1,5 +1,5 @@
 <?php
-include_once "admin-process-update.php";
+include_once "update.php";
 
 $staff_id = $_SESSION['staff']['staff_id'];
 $sql = "SELECT * FROM `staff` WHERE `staff_id` = '$staff_id'";
@@ -341,7 +341,7 @@ $staff = mysqli_fetch_assoc($staff_result);
                     <form action="" method="post" class="mt-3">
                         <div class="card">
                             <div class="card-header">
-                                <h6 class="mb-0 text-gradient text-info">Change Password</h6>
+                                <h6 class="mb-0 text-gradient text-dark">Change Password</h6>
                                 <p class="text-sm mb-0">Change your account password.</p>
                             </div>
                             <hr class="horizontal dark my-0">
@@ -365,7 +365,7 @@ $staff = mysqli_fetch_assoc($staff_result);
                             <input type="hidden" name="staff_id" value="<?php echo $staff_id; ?>">
                             <!--  -->
                             <div class="card-footer text-end pt-0">
-                                <input type="submit" value="update" name="updateStaffPassword" class="btn bg-gradient-info mb-0">
+                                <input type="submit" value="update" name="updateStaffPassword" class="btn bg-gradient-dark mb-0">
                             </div>
                         </div>
                     </form>

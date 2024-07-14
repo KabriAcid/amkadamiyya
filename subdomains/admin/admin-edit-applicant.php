@@ -1,15 +1,27 @@
 <?php
-include "admin-process.php";
+include "update.php";
 
+// Check if applicant ID is set
 if (isset($_GET['applicant_id'])) {
     $applicant_id = $_GET['applicant_id'];
-    $sql = "SELECT * FROM `applicants` WHERE `applicant_id` = '$applicant_id'";
-    $applicants = mysqli_query($conn, $sql);
-    $applicant = mysqli_fetch_assoc($applicants);
-}
-else {
+
+    // Prepare SQL query with parameterized query
+    $sql = "SELECT * FROM `applicants` WHERE `applicant_id` = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $applicant_id);
+    $stmt->execute();
+    $applicant = $stmt->get_result()->fetch_assoc();
+} else {
     header('Location: admin-new-applicant.php');
     exit();
+}
+
+// Check if staff position ID is set
+if (isset($_SESSION['staff']['position_id'])) {
+    $position_id = $_SESSION['staff']['position_id'];
+} else {
+    $position_id = 0;
+    header('Location: admin-logout.php');
 }
 ?>
 <!DOCTYPE html>
@@ -22,7 +34,7 @@ else {
 
 <body class="g-sidenav-show bg-info-soft">
     <?php
-    if ($_SESSION['staff']['position_id'] == 1) {
+    if ($position_id == 1) {
         include "inc/admin-sidebar.php";
     } else {
         include "";
@@ -137,9 +149,8 @@ else {
                         </div>
                     </form>
 
-                    <div class="my-3"></div>
                     <!--  -->
-                    <form action="" method="post">
+                    <form action="" method="post" class="mt-3">
                         <div class="card">
                             <div class="card-header">
                                 <h6 class="mb-0 text-gradient text-primary">Parent Information</h6>

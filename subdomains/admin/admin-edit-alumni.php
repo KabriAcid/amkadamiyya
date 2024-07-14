@@ -1,16 +1,28 @@
 <?php
-include "admin-process-update.php";
+include "update.php";
 
+// Check if alumni ID is set
 if (isset($_GET['alumni_id'])) {
     $alumni_id = $_GET['alumni_id'];
-    $sql = "SELECT * FROM `alumni` WHERE `alumni_id` = '$alumni_id'";
-    $result = mysqli_query($conn, $sql);
-    $alumni = mysqli_fetch_assoc($result);
+
+    // Prepare SQL query with parameterized query
+    $sql = "SELECT * FROM `alumni` WHERE `alumni_id` = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $alumni_id);
+    $stmt->execute();
+    $alumni = $stmt->get_result()->fetch_assoc();
+} else {
+    header('Location: admin-alumni-list.php');
+    exit();
 }
-// else {
-//     header('Location: admin-alumni-list.php');
-//     exit();
-// }
+
+// Check if staff position ID is set
+if (isset($_SESSION['staff']['position_id'])) {
+    $position_id = $_SESSION['staff']['position_id'];
+} else {
+    $position_id = 0;
+    header('Location: admin-logout.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,9 +32,9 @@ if (isset($_GET['alumni_id'])) {
     <?php include "inc/admin-header.php"; ?>
 </head>
 
-<body class="g-sidenav-show bg-primary-soft">
+<body class="g-sidenav-show bg-info-soft">
     <?php
-    if ($_SESSION['staff']['position_id'] == 1) {
+    if ($position_id == 1) {
         include "inc/admin-sidebar.php";
     } else {
         include "";
