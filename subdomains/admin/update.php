@@ -273,48 +273,56 @@ if (isset($_POST['updateParentData'])) {
     $stmt->close();
 }
 
+
 // Update Student Account Information
 if (isset($_POST['updateStudentAdmission'])) {
     // Declare student_id from hidden input field
     $student_id = mysqli_real_escape_string($conn, $_POST['student_id']);
-
     $admission_id = trim($_POST['admission_id']);
 
+    // Function to validate admission ID
     function validate_id($admission_id) {
         // Define the pattern
         $pattern = '/^AMK\/\d{2}\/\d{4}$/';
-    
         // Check if the ID matches the pattern
-        if (preg_match($pattern, $admission_id)) {
-            return true;
-        } else {
-            return false;
-        }
+        return preg_match($pattern, $admission_id) === 1;
     }
 
-    if(validate_id($admission_id) == false){
+    // Validate admission ID
+    if (!validate_id($admission_id)) {
         $_SESSION['error_message'] = "Invalid admission ID format. Please enter a valid ID";
-        exit;
-
-    } else {
-        $sql = "SELECT `admission_id` * FROM `students` WHERE `admission_id` = '$admission_id'";
-        $result = mysqli_query($conn, $sql);
-    
-        if (mysqli_num_rows($result) > 0) {
-            $_SESSION['error_message'] = "Admission ID already taken!";
-        } else {
-            $sql = "UPDATE students SET admission_id = ? WHERE student_id = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param('si', $admission_id, $student_id);
-            if ($stmt->execute()) {
-                $_SESSION['success_message'] = "Student ID updated successfully!";
-            } else {
-                $_SESSION['error_message'] = "Error updating student ID: " . $stmt->error;
-            }
-            $stmt->close();
-        }
+        header('Location: ' . $_SERVER['PHP_SELF']);
+        exit();
     }
 
+    // Check if the admission ID is already taken
+    $sql = "SELECT admission_id FROM students WHERE admission_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('s', $admission_id);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        $_SESSION['error_message'] = "Admission ID already taken!";
+        $stmt->close();
+        header('Location: ' . $_SERVER['PHP_SELF']);
+        exit();
+    }
+    $stmt->close();
+
+    // Update the student's admission ID
+    $sql = "UPDATE students SET admission_id = ? WHERE student_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('si', $admission_id, $student_id);
+    if ($stmt->execute()) {
+        $_SESSION['success_message'] = "Student ID updated successfully!";
+    } else {
+        $_SESSION['error_message'] = "Error updating student ID: " . $stmt->error;
+    }
+    $stmt->close();
+    
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit();
 }
 
 // Update Student Password
