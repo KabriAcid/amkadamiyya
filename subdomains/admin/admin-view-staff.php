@@ -154,79 +154,85 @@ if (isset($_GET['staff_id'])) {
                     </div>
                 </div>
                 <!-- sTudents -->
-                <div class="col-12 mb-3">
-                    <div class="card">
+                <?php
+                if ($_SESSION['staff']['class_id'] != 'Null') {
+                ?>
+                    <div class="col-12 mb-3">
+                        <div class="card">
 
-                        <div class="card-header">
-                            <h6 class="mb-0 text-gradient text-info">Student's Table</h6>
-                            <p class="text-sm mb-0">
-                                Here is the complete list of students from this class.
-                            </p>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table table-flush" id="datatable-basic">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th class="text-uppercase text-left text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Full Name</th>
-                                        <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Class</th>
-                                        <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Gender</th>
-                                        <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
-                                            State</th>
-                                        <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
-                                            LGA</th>
-                                        <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $sql = "SELECT * FROM `students` WHERE `class_id` = '$class_id'";
-                                    $students = mysqli_query($conn, $sql);
-                                    while ($student = mysqli_fetch_assoc($students)) {
-                                    ?>
+                            <div class="card-header">
+                                <h6 class="mb-0 text-gradient text-info">Student's Table</h6>
+                                <p class="text-sm mb-0">
+                                    Here is the complete list of students from this class.
+                                </p>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-flush" id="datatable-basic">
+                                    <thead class="thead-light">
                                         <tr>
-                                            <!-- Names -->
-                                            <td class="text-sm font-weight-normal">
-                                                <?php echo $student['first_name'] . " " . $student['second_name'] . " " . $student['last_name']; ?>
-                                            </td>
-                                            <!-- Class -->
-                                            <td class="text-sm text-center font-weight-normal">
-                                                <?php
-                                                $query = "SELECT * FROM `classes` WHERE `class_id` = '$class_id' ";
-                                                $res = mysqli_query($conn, $query);
-                                                $class = mysqli_fetch_assoc($res);
-
-                                                echo $class['class_name'];
-                                                ?>
-
-                                            </td>
-                                            <!-- Gender -->
-                                            <td class="text-sm text-center font-weight-normal">
-                                                <?php echo $student['gender']; ?>
-                                            </td>
-                                            <!-- State -->
-                                            <td class="text-sm text-center font-weight-normal">
-                                                <?php echo $student['state']; ?>
-                                            </td>
-                                            <!-- LGA -->
-                                            <td class="text-sm text-center font-weight-normal">
-                                                <?php echo $student['lga']; ?>
-                                            </td>
-                                            <td class="text-sm text-center font-weight-normal">
-                                                <a href="admin-view-student.php?student_id=<?php echo $student['student_id']; ?>">View</a>
-                                            </td>
+                                            <th class="text-uppercase text-left text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Full Name</th>
+                                            <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Class</th>
+                                            <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Gender</th>
+                                            <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+                                                State</th>
+                                            <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+                                                LGA</th>
+                                            <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+                                                Action</th>
                                         </tr>
-                                    <?php
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $sql = "SELECT * FROM `students` WHERE `class_id` = '$class_id'";
+                                        $students = mysqli_query($conn, $sql);
+                                        while ($student = mysqli_fetch_assoc($students)) {
+                                        ?>
+                                            <tr>
+                                                <!-- Names -->
+                                                <td class="text-sm font-weight-normal">
+                                                    <?php echo $student['first_name'] . " " . $student['second_name'] . " " . $student['last_name']; ?>
+                                                </td>
+                                                <!-- Class -->
+                                                <td class="text-sm text-center font-weight-normal">
+                                                    <?php
+                                                    $query = "SELECT * FROM `classes` WHERE `class_id` = '$class_id' ";
+                                                    $res = mysqli_query($conn, $query);
+                                                    $class = mysqli_fetch_assoc($res);
+
+                                                    echo $class['class_name'];
+                                                    ?>
+
+                                                </td>
+                                                <!-- Gender -->
+                                                <td class="text-sm text-center font-weight-normal">
+                                                    <?php echo $student['gender']; ?>
+                                                </td>
+                                                <!-- State -->
+                                                <td class="text-sm text-center font-weight-normal">
+                                                    <?php echo $student['state']; ?>
+                                                </td>
+                                                <!-- LGA -->
+                                                <td class="text-sm text-center font-weight-normal">
+                                                    <?php echo $student['lga']; ?>
+                                                </td>
+                                                <td class="text-sm text-center font-weight-normal">
+                                                    <a href="admin-view-student.php?student_id=<?php echo $student['student_id']; ?>">View</a>
+                                                </td>
+                                            </tr>
+                                        <?php
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
+                <?php
+                }
+                ?>
             </div>
         </div>
         <?php include "inc/admin-footer.php"; ?>
