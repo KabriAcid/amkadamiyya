@@ -164,7 +164,7 @@ if (isset($_POST['updateStaffPassword'])) {
     } else {
         if (empty($newPassword) || empty($confirmNewPassword)) {
             $_SESSION['error_message'] = "Password cannot be empty";
-        } else if (strlen($newPassword) < 3) {
+        } else if (strlen($newPassword) <= 3) {
             $_SESSION['error_message'] = "Password must be greater than 3 characters";
         } else {
             $password = password_hash($confirmNewPassword, PASSWORD_BCRYPT);
