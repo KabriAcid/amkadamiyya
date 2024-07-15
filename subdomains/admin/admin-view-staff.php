@@ -135,13 +135,10 @@ if (isset($_GET['staff_id'])) {
                                     <strong class="text-dark">LGA: </strong>&nbsp; <?php echo ucfirst($staff['lga']); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Salary: </strong>&nbsp;&#8358; <?php echo number_format($staff['salary']); ?>.00
+                                    <strong class="text-dark">Salary: </strong>&nbsp;&#8358; <?php echo number_format($staff['salary']) ?? 0; ?>.00
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Account Number: </strong>&nbsp; <?php echo $staff['account_number']; ?>
-                                </div>
-                                <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">LGA: </strong>&nbsp; <?php echo ucfirst($staff['bank_name']); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Join Date: </strong>&nbsp; <?php echo date("j F, Y", strtotime($staff['timestamp'])); ?>

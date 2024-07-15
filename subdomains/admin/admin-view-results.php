@@ -2,15 +2,19 @@
 session_start();
 include "../../config/database.php";
 
-function addOrdinalSuffix($num) {
-    if (!in_array(($num % 100), array(11, 12, 13))){
+function addOrdinalSuffix($num)
+{
+    if (!in_array(($num % 100), array(11, 12, 13))) {
         switch ($num % 10) {
-            case 1: return $num.'<sup>st</sup>';
-            case 2: return $num.'<sup>nd</sup>';
-            case 3: return $num.'<sup>rd</sup>';
+            case 1:
+                return $num . '<sup>st</sup>';
+            case 2:
+                return $num . '<sup>nd</sup>';
+            case 3:
+                return $num . '<sup>rd</sup>';
         }
     }
-    return $num.'<sup>th</sup>';
+    return $num . '<sup>th</sup>';
 }
 
 ?>
@@ -48,26 +52,19 @@ function addOrdinalSuffix($num) {
                             <table class="table table-flush" id="datatable-basic">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th
-                                            class="text-uppercase text-left text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th class="text-uppercase text-left text-secondary text-xxs font-weight-bolder opacity-7">
                                             Full Name</th>
-                                        <th
-                                            class="text-uppercase text-left text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th class="text-uppercase text-left text-secondary text-xxs font-weight-bolder opacity-7">
                                             Admission ID</th>
-                                        <th
-                                            class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
                                             Class</th>
-                                        <th
-                                            class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
                                             Grand Total</th>
-                                        <th
-                                            class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
                                             Average</th>
-                                        <th
-                                            class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
                                             Position</th>
-                                        <th
-                                            class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">
                                             Action</th>
                                     </tr>
                                 </thead>
@@ -75,29 +72,29 @@ function addOrdinalSuffix($num) {
                                     <?php
                                     if ($_SESSION['staff']['position_id'] == 1) {
                                         $sql = "SELECT * FROM `uploads` ORDER BY `class_id` DESC, `position` ASC";
-                                        $result = mysqli_query($conn, $sql);
-                                        while ($row = mysqli_fetch_assoc($result)) {
+                                        $uploads = mysqli_query($conn, $sql);
+                                        while ($row = mysqli_fetch_assoc($uploads)) {
                                             $student_id = $row['student_id'];
                                             $sql = "SELECT * FROM `students` WHERE `student_id` = '$student_id'";
-                                            $result_students = mysqli_query($conn, $sql);
-                                            $students = mysqli_fetch_assoc($result_students);
-                                            ?>
+                                            $students = mysqli_query($conn, $sql);
+                                            $student = mysqli_fetch_assoc($students);
+                                    ?>
                                             <tr>
                                                 <!--  -->
                                                 <td class="text-sm text-left font-weight-normal">
-                                                    <?php echo $students['first_name'] . ' ' . $students['second_name'] . ' ' . $students['last_name']; ?>
+                                                    <?php echo $student['first_name'] . ' ' . $student['second_name'] . ' ' . $student['last_name']; ?>
                                                 </td>
                                                 <!--  -->
                                                 <td class="text-sm text-left font-weight-normal">
-                                                    <?php echo $students['admission_id']; ?>
+                                                    <?php echo $student['admission_id']; ?>
                                                 </td>
                                                 <!--  -->
                                                 <td class="text-sm text-center font-weight-normal">
                                                     <?php
                                                     $class_id = $row['class_id'];
                                                     $sql = "SELECT * FROM `classes` WHERE `class_id` = '$class_id'";
-                                                    $result_classes = mysqli_query($conn, $sql);
-                                                    $class = mysqli_fetch_assoc($result_classes);
+                                                    $classes = mysqli_query($conn, $sql);
+                                                    $class = mysqli_fetch_assoc($classes);
                                                     echo $class['class_name'];
                                                     ?>
                                                 </td>
@@ -116,17 +113,18 @@ function addOrdinalSuffix($num) {
                                                 <td class="text-sm text-center font-weight-normal">
                                                     <?php echo addOrdinalSuffix($foreach_upload['position']); ?></td>
                                                 <td class="text-sm text-center font-weight-normal">
-                                                    <a href="admin-print-result.php?student_id=<?php echo $students['student_id']; ?>"
-                                                        class="font-weight-bold">Print</a>
+                                                    <form action="admin-print-result.php" method="get">
+                                                        <input type="hidden" name="student_id" value="<?php echo $row['student_id']; ?>">
+                                                        <button type="submit" class="badge badge-sm rounded bg-gradient-light text-dark border-0">print</button>
+                                                    </form>
                                                 </td>
                                             </tr>
 
-                                            <?php
+                                        <?php
                                         }
                                     }
                                     if ($_SESSION['staff']['position_id'] == 2) {
-                                        $class_id = $_SESSION['staff']
-['class_id'];
+                                        $class_id = $_SESSION['staff']['class_id'];
                                         $sql = "SELECT * FROM `uploads` WHERE `class_id` = '$class_id' ORDER BY `position`";
                                         $uploads = mysqli_query($conn, $sql);
 
@@ -136,7 +134,7 @@ function addOrdinalSuffix($num) {
                                             $result_students = mysqli_query($conn, $sql);
                                             $students = mysqli_fetch_assoc($result_students);
                                             $class_id = $students['class_id'];
-                                            ?>
+                                        ?>
                                             <tr>
                                                 <!-- Full Name -->
                                                 <td class="text-sm text-left font-weight-normal">
@@ -166,12 +164,14 @@ function addOrdinalSuffix($num) {
                                                 <td class="text-sm text-center font-weight-normal">
                                                     <?php echo addOrdinalSuffix($foreach_upload['position']); ?></td>
                                                 <td class="text-sm text-center font-weight-normal">
-                                                    <a href="admin-print-result.php?student_id=<?php echo $students['student_id']; ?>"
-                                                        class="text-decoration-underline">Print</a>
+                                                    <form action="admin-print-result.php" method="get">
+                                                        <input type="hidden" name="student_id" value="<?php echo $row['student_id']; ?>">
+                                                        <button type="submit" class="badge badge-sm rounded bg-gradient-light text-dark border-0">print</button>
+                                                    </form>
                                                 </td>
                                             </tr>
 
-                                            <?php
+                                    <?php
                                         }
                                     }
 
@@ -183,7 +183,7 @@ function addOrdinalSuffix($num) {
                 </div>
             </div>
         </div>
-        <?php include "inc/admin-footer.php";?>
+        <?php include "inc/admin-footer.php"; ?>
     </main>
 
     <script src="../../js/plugins/sweetalert.min.js"></script>
@@ -192,7 +192,7 @@ function addOrdinalSuffix($num) {
 
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const dataTableBasic = new simpleDatatables.DataTable("#datatable-basic", {
                 searchable: true,
                 fixedHeight: true,
@@ -204,7 +204,6 @@ function addOrdinalSuffix($num) {
                 }
             });
         });
-
     </script>
 
 </body>

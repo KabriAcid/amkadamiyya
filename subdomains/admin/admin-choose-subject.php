@@ -23,8 +23,6 @@ while ($row = $result->fetch_assoc()) {
     $subjects[] = $subject;
 }
 
-// Close the database connection
-$conn->close();
 // Check if staff position ID is set
 if (isset($_SESSION['staff']['position_id'])) {
     $position_id = $_SESSION['staff']['position_id'];
@@ -72,7 +70,7 @@ if (isset($_SESSION['staff']['position_id'])) {
                         </form>
                     </div>
                 </div>
-                <?php if ($_SESSION['staff']['position_id'] != 1) { ?>
+                <?php if ($_SESSION['staff']['class_id'] >= 1) { ?>
                     <!-- Upload Table -->
                     <div class="container-fluid py-3 px-0">
                         <div class="row">
@@ -100,17 +98,10 @@ if (isset($_SESSION['staff']['position_id'])) {
                                                         <!-- Status -->
                                                         <td class="text-sm text-center font-weight-normal">
                                                             <?php
-                                                            $stmt = $conn->prepare('SELECT DISTINCT class_id, subject_id, status FROM results WHERE class_id = ? ORDER BY status DESC');
-                                                            $stmt->bind_param('i', $classId);
-                                                            $stmt->execute();
-                                                            $results = $stmt->get_result();
-                                                            if ($results->num_rows > 0) {
-                                                                $row = $results->fetch_assoc();
-                                                                echo 1;
-                                                            } else {
-                                                                echo 0;
-                                                            }
+                                                          
+
                                                             ?>
+
                                                         </td>
                                                     </tr>
                                                 <?php $count++;

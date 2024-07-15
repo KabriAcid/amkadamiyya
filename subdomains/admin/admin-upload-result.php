@@ -1,7 +1,7 @@
-
 <?php
 session_start();
 include "../../config/database.php";
+
 if (isset($_GET['subject_id'])) {
     $class_id = $_SESSION['staff']['class_id'];
     $sql = "SELECT * FROM `classes` WHERE `class_id` = '$class_id'";
@@ -47,19 +47,24 @@ $default = mysqli_fetch_assoc($default_result);
         <?php require "inc/admin-navbar.php"; ?>
         <!-- Main content  -->
         <div class="container-fluid py-4">
-            <form action="admin-process.php" method="post">
-                <div class="card">
-                    <div class="card-header bg-gradient-dark">
+            <div class="card card-body bg-gradient-dark" id="profile">
+                <div class="row align-items-center">
+                    <div class="col-sm-auto col-2">
+                        <div class="avatar avatar-xl position-relative">
+                            <img src="<?php echo $_SESSION['staff']['photo']; ?>" alt="" class="w-100 border-radius-lg shadow-sm" />
+                        </div>
+                    </div>
+                    <div class="col-10 my-auto">
                         <div class="row">
                             <!-- Form Master -->
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-4 col-6 mb-3">
                                 <h6 class="text-light text-sm font-weight-bold"><span class="text-secondary">Form
                                         Master:
                                     </span><?php echo $_SESSION['staff']['first_name'] . '&nbsp;' . $_SESSION['staff']['last_name']; ?>
                                 </h6>
                             </div>
                             <!-- Subject -->
-                            <div class="col-md-4 mb-3 text-md-center">
+                            <div class="col-md-4 col-6 mb-3 text-md-center">
                                 <h6 class="font-weight-bold text-light text-sm">
                                     <span class="text-secondary">Subject:</span>
                                     <?php
@@ -72,24 +77,27 @@ $default = mysqli_fetch_assoc($default_result);
                                 </h6>
                             </div>
                             <!-- Class -->
-                            <div class="col-md-4 mb-3 text-md-end">
+                            <div class="col-md-4 col-6 mb-3 text-md-end">
                                 <h6 class="text-light text-sm font-weight-bold"><span class="text-secondary">Class:
                                     </span><?php echo $class['class_name']; ?> </h6>
                             </div>
                         </div>
-
                         <!-- Second Row -->
                         <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 col-6 mb-3">
                                 <h6 class="text-light text-sm font-weight-bold"><span class="text-secondary">Session:
                                     </span><?php echo $default['session_name']; ?> </h6>
                             </div>
-                            <div class="col-md-6 text-md-end">
+                            <div class="col-md-6 col-6 text-md-end">
                                 <h6 class="text-light text-sm font-weight-bold"><span class="text-secondary">Term:
                                     </span><?php echo $default['current_term']; ?> </h6>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <form action="admin-process.php" method="post">
+                <div class="card mt-3">
                     <div class="card-body">
                         <table class="table table-responsive">
                             <thead>
@@ -124,13 +132,13 @@ $default = mysqli_fetch_assoc($default_result);
                                                 <?php echo $student['first_name'] . '&nbsp;' . $student['second_name'] . '&nbsp;' . $student['last_name']; ?>
                                             </td>
                                             <td class="text-center">
-                                                <input type="number" name="first_test[]" class="form-control" required max="20" min="0">
+                                                <input type="number" name="first_test[]" class="form-control" required placeholder="20" max="20" min="0">
                                             </td>
                                             <td class="text-center">
-                                                <input type="number" name="second_test[]" class="form-control" required max="20" min="0">
+                                                <input type="number" name="second_test[]" class="form-control" required placeholder="20" max="20" min="0">
                                             </td>
                                             <td class="text-center">
-                                                <input type="number" name="exam[]" class="form-control" required max="60" min="0">
+                                                <input type="number" name="exam[]" class="form-control" required placeholder="60" max="60" min="0">
                                             </td>
                                         </tr>
                                     <?php

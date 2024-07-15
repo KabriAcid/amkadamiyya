@@ -1,12 +1,6 @@
 <?php
     session_start();
-    include "../../../../config/database.php";
-   // Check if user is logged in
-   if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true){
-    // Redirect to login page if not logged in
-    header("location: student-logout.php");
-    
-   }
+    include "../../config/database.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">

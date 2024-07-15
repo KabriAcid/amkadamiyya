@@ -1,6 +1,9 @@
 <?php
 
 include "update.php";
+$first_name = 'Khadija';
+$last_name = 'Yusuf';
+$_FILES['photo']['name'] = 'sa.jpg';
 
 // Check if staff ID is set
 if (isset($_GET['staff_id'])) {

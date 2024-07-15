@@ -27,7 +27,7 @@ if (isset($_POST['updateStaffBioData'])) {
         if ($_FILES['photo']['size'] > $megabyte) {
             $_SESSION['error_message'] = "Image size should not be more than 3MB";
         } else {
-            $photo = "uploads/" . strtolower(uniqid((substr($first_name, 3) . '-' . $last_name))) . '_' . basename($_FILES['photo']['name']);
+            $photo = "uploads/" . strtoupper(uniqid((substr($first_name, 0) . '-' . $last_name))) . '.' . basename(pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION));
             if (move_uploaded_file($_FILES['photo']['tmp_name'], $photo)) {
                 if ($_SESSION['staff']['staff_id'] == $staff_id) {
                     $_SESSION['staff']['photo'] = $photo;

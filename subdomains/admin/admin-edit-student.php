@@ -115,7 +115,7 @@ str_word_count('Hello World') == 1;
                                     <div class="col-md-6">
                                         <label>Local government Area</label>
                                         <div class="input-group mb-3">
-                                            <select name="lga" id="lga" class="form-select select-lga">
+                                            <select name="lga" id="lga" class="form-select select-lga" required>
                                                 <option value="<?php echo $student['lga']; ?>"><?php echo $student['lga']; ?></option>
                                             </select>
                                         </div>

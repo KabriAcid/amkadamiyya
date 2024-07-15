@@ -21,7 +21,7 @@ if (isset($_POST['login'])) {
         $password = sanitize_input(mysqli_real_escape_string($conn, $_POST['password']));
 
         // Fetch user data from the database
-        $sql = "SELECT * FROM `students` WHERE `student_id` = '$admission_id'";
+        $sql = "SELECT * FROM `students` WHERE `admission_id` = '$admission_id'";
         $result = mysqli_query($conn, $sql);
 
         if ($result) {
@@ -31,7 +31,7 @@ if (isset($_POST['login'])) {
                 // Verify the password using BCRYPT
                 if (password_verify($password, $row['password'])) {
                     // Password is correct, set session variables and redirect to dashboard
-                    $_SESSION['students'] = $row;
+                    $_SESSION['student'] = $row;
                     $_SESSION['success_message'] = "Login Successful.";
                     header("Location: student-dashboard.php");
                     exit();
@@ -45,4 +45,6 @@ if (isset($_POST['login'])) {
             $_SESSION['error_message'] = "Database query failed: " . mysqli_error($conn);
         }
     }
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit();
 }

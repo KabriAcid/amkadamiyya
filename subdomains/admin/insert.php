@@ -50,8 +50,7 @@ if (isset($_POST['register'])) {
 
         // Handle file upload for photo
         if (!empty($_FILES['photo']['name'])) {
-            $photo = "uploads/" . strtoupper(uniqid($first_name . '_' . $last_name . '_')) . '.' . pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
-
+            $photo = "uploads/" . strtoupper(uniqid((substr($first_name, 0) . '-' . $last_name))) . '.' . basename(pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION));
             if (!move_uploaded_file($_FILES['photo']['tmp_name'], $photo)) {
                 $_SESSION['error_message'] = "Photo upload failed!";
                 // Redirect back to the same page
