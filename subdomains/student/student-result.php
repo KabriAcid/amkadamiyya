@@ -1,39 +1,36 @@
 <?php
-    session_start();
+session_start();
+include "../../config/database.php";
+
+if (isset($_SESSION['student'])) {
+    $class_id = $_SESSION['student']['class_id'];
+    $student_id = $_SESSION['student']['student_id'];
+} else {
+    header('Location: student-logout.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <?php  include "inc/student-header.php"; ?>
+    <title>My Result</title>
+    <?php include "inc/student-header.php"; ?>
 </head>
-<body class="g-sidenav-show">
-    <?php  include "./inc/student-sidebar.php"; ?>
-    <div class="main-content" id="panel">
-        <nav class="navbar shadow border-radius-xl mt-3 mx-4 px-0">
-            <div class="container p-2">
-                <div class="d-none d-lg-block">
-                    <a href="" class="navbar-brand">Dashboard</a>
-                </div>
-                <div class="d-lg-none">
-                    <button type="button" class="navbar-toggler-icon navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav">
-                        <span class="sidenav-toggler-line"></span>
-                        <span class="sidenav-toggler-line"></span>
-                        <span class="sidenav-toggler-line"></span>
-                    </button>
-                </div>
-                <div>
-                    <div class="d-flex align-items-center">
-                        <span class="align-text-top">Hi, <?php echo $_SESSION['student']['first_name']; ?>!</span>
-                        <img class="avatar avatar-sm rounded-circle mx-2" style="width: 30px;height: 30px;" src="<?php echo $_SESSION['student']['photo']; ?>">
-                        <i class="fa fa-cog cursor-pointer"></i>
-                    </div>
-                </div>
-            </div>
-        </nav>
+
+<body class="g-sidenav-show bg-info-soft">
+    <?php
+    include "inc/student-sidebar.php";
+    ?>
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+        <?php require "inc/student-navbar.php"; ?>
+        <!-- Profile Information -->
         <div class="container-fluid pt-3">
-            
+           
         </div>
-    </div>
-    <?php include "./inc/student-footer.php";?>
+        <?php include "inc/student-footer.php"; ?>
+    </main>
+
+    <?php include "inc/student-scripts.php"; ?>
 </body>
+
 </html>

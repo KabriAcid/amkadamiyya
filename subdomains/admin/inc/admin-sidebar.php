@@ -125,7 +125,7 @@
          <li class="nav-item">
             <a data-bs-toggle="collapse" href="#alumniMenu" class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'admin-alumni-list.php' || basename($_SERVER['PHP_SELF']) == 'admin-new-alumni.php' ? 'active' : '' ?>" role="button">
                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
-                  <i class="fa fa-graduation-cap
+                  <i class="ni ni-hat-3
                   <?php
                   if (basename($_SERVER['PHP_SELF']) == 'admin-new-alumni.php' || basename($_SERVER['PHP_SELF']) == 'admin-alumni-list.php') {
                      echo 'text-white';
@@ -252,7 +252,7 @@
             }
             ?>" aria-controls="resultsMenu" role="button" aria-expanded="false">
                <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2">
-                  <i class="ni ni-archive-2
+                  <i class="ni ni-paper-diploma
                   <?php
                   if (basename($_SERVER['PHP_SELF']) == 'admin-choose-subject.php' || basename($_SERVER['PHP_SELF']) == 'admin-view-results.php') {
                      echo 'text-white';

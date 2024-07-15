@@ -72,7 +72,7 @@
                         </div>
                         <div class="col-4 text-end">
                             <div class="icon icon-shape bg-gradient-dark shadow text-center border-radius-md">
-                                <i class="fas fa-graduation-cap text-lg opacity-10" aria-hidden="true"></i>
+                                <i class="ni ni-hat-3 text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>

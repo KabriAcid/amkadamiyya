@@ -1,7 +1,7 @@
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 pt-1 fixed-start ms-3 " id="sidenav-main">
    <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-      <a class="navbar-brand m-0" href="admin-dashboard.php">
+      <a class="navbar-brand m-0" href="student-dashboard.php">
          <img src="../../assets/favicon/favicon.png" class="rounded shadow-lg navbar-brand-img h-100" alt="main_logo">
          <span class="ms-1 font-weight-bold">Amkadamiyya</span>
       </a>
@@ -13,7 +13,7 @@
          <li class="nav-item">
             <a data-bs-toggle="collapse" href="#dashboardMenu" class="nav-link 
                <?php
-               if (basename($_SERVER['PHP_SELF']) == 'admin-dashboard.php' || basename($_SERVER['PHP_SELF']) == 'admin-profile.php' || basename($_SERVER['PHP_SELF']) == 'admin-edit-profile.php') {
+               if (basename($_SERVER['PHP_SELF']) == 'student-dashboard.php' || basename($_SERVER['PHP_SELF']) == 'student-profile.php') {
                   echo "active";
                }
                ?>" aria-controls="dashboardMenu" role="button" aria-expanded="false">
@@ -37,33 +37,19 @@
             <div class="collapse " id="dashboardMenu">
                <ul class="nav ms-4 ps-3">
                   <li class="nav-item">
-                     <a class="nav-link" href="admin-dashboard.php">
+                     <a class="nav-link" href="student-dashboard.php">
                         <span class="sidenav-normal"> My Dashboard </span>
                      </a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="admin-profile.php">
+                     <a class="nav-link" href="student-profile.php">
                         <span class="sidenav-normal"> My Profile </span>
-                     </a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="admin-edit-profile.php">
-                        <span class="sidenav-normal"> Edit Profile </span>
                      </a>
                   </li>
                </ul>
             </div>
          </li>
-          <li class="nav-item">
-
-              <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'student-profile.php' ? 'active' : ''; ?> " href="student-profile.php">
-
-                  <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                      <i class="ni ni-circle-08 <?php echo basename($_SERVER['PHP_SELF']) == 'student-profile.php' ? 'text-white' : 'text-dark'; ?>" style="font-size: 12px;"></i>
-                  </div>
-                  <span class="nav-link-text ms-1">Profile</span>
-              </a>
-          </li>
+         
           <li class="nav-item">
               <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'student-payment.php' ? 'active' : ''; ?>" href="student-payment.php">
                   <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -75,9 +61,17 @@
           <li class="nav-item">
               <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'student-result.php' ? 'active' : ''; ?>" href="student-result.php">
                   <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                      <i class="ni ni-folder-17 <?php echo basename($_SERVER['PHP_SELF']) == 'student-result.php' ? 'text-white' : 'text-dark'; ?>" style="font-size: 11px;"></i>
+                      <i class="ni ni-paper-diploma <?php echo basename($_SERVER['PHP_SELF']) == 'student-result.php' ? 'text-white' : 'text-dark'; ?>" style="font-size: 11px;"></i>
                   </div>
                   <span class="nav-link-text ms-1">Results</span>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'student-invoice.php' ? 'active' : ''; ?>" href="student-invoice.php">
+                  <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                      <i class="ni ni-cart <?php echo basename($_SERVER['PHP_SELF']) == 'student-invoice.php' ? 'text-white' : 'text-dark'; ?>" style="font-size: 12px;"></i>
+                  </div>
+                  <span class="nav-link-text ms-1">Generate Invoice</span>
               </a>
           </li>
           <li class="nav-item">
@@ -86,14 +80,6 @@
                       <i class="ni ni-bell-55 <?php echo basename($_SERVER['PHP_SELF']) == 'student-notification.php' ? 'text-white' : 'text-dark'; ?>" style="font-size: 12px;"></i>
                   </div>
                   <span class="nav-link-text ms-1">Notifications</span>
-              </a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'student-invoice.php' ? 'active' : ''; ?>" href="student-invoice.php">
-                  <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                      <i class="ni ni-tag <?php echo basename($_SERVER['PHP_SELF']) == 'student-invoice.php' ? 'text-white' : 'text-dark'; ?>" style="font-size: 12px;"></i>
-                  </div>
-                  <span class="nav-link-text ms-1">Generate Invoice</span>
               </a>
           </li>
           <li class="nav-item">
