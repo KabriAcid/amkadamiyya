@@ -1,38 +1,29 @@
 <?php
-    session_start();
-    include '../../config/database.php';
+session_start();
+include "../../config/database.php";
+
+if (isset($_SESSION['student'])) {
+    $class_id = $_SESSION['student']['class_id'];
+    $student_id = $_SESSION['student']['student_id'];
+} else {
+    header('Location: student-logout.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <?php  include "inc/student-header.php"; ?>
-</head>
-<body class="g-sidenav-show">
-    <?php  include "./inc/student-sidebar.php"; ?>
-    <div class="main-content" id="panel">
-        <nav class="navbar shadow border-radius-xl mt-3 mx-4 px-0">
-            <div class="container p-2">
-                <div class="d-none d-lg-block">
-                    <a href="" class="navbar-brand">Dashboard</a>
-                </div>
-                <div class="d-lg-none">
-                    <button type="button" class="navbar-toggler-icon navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav">
-                        <span class="sidenav-toggler-line"></span>
-                        <span class="sidenav-toggler-line"></span>
-                        <span class="sidenav-toggler-line"></span>
-                    </button>
-                </div>
-                <div>
-                    <div class="d-flex align-items-center">
-                        <span class="align-text-top">Hi, <?php echo $_SESSION['student']['first_name']; ?>!</span>
-                        <img class="avatar avatar-sm rounded-circle mx-2" style="width: 30px;height: 30px;" src="<?php echo $_SESSION['student']['photo']; ?>">
-                        <i class="fa fa-cog cursor-pointer"></i>
-                    </div>
-                </div>
-            </div>
-        </nav>
 
-        <!-- Invoice Container -->
+<head>
+    <title>Dashboard</title>
+    <?php include "inc/student-header.php"; ?>
+</head>
+
+<body class="g-sidenav-show bg-info-soft">
+    <?php
+    include "inc/student-sidebar.php";
+    ?>
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
+        <?php require "inc/student-navbar.php"; ?>
+        <!-- Profile Information -->
         <div class="container-fluid pt-3">
             <div class="row">
                 <div class="col-md-8">
@@ -66,7 +57,7 @@
                                             Invoice ID
                                         </span>
                                         <h6 class="text-start mb-0">
-                                            <?php  echo "AMK_".substr(rand(0, time()), 0, 6); ?>
+                                            <?php echo "AMK_" . substr(rand(0, time()), 0, 6); ?>
                                         </h6>
                                     </div>
                                     <div>
@@ -92,36 +83,35 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                <?php
+                                                    <?php
                                                     $sql = "SELECT * FROM `student_levy`;";
                                                     $result = mysqli_query($conn, $sql);
                                                     $count = 1;
                                                     $total = 0;
 
-                                                    if(mysqli_num_rows($result) > 0){
-                                                        while($row = mysqli_fetch_assoc($result)){
-                                                            ?>
-                                                         <tr>
-                                                            <td class="text-start"><?php echo $count; ?>.</td>
-                                                            <td class="text-start"><?php echo $row['item']; ?></td>
-                                                            <td class="ps-4" colspan="2">&#8358;<?php echo number_format($row['item_amount']); ?>.00</td>
-                                                        </tr>
+                                                    if (mysqli_num_rows($result) > 0) {
+                                                        while ($row = mysqli_fetch_assoc($result)) {
+                                                    ?>
+                                                            <tr>
+                                                                <td class="text-start"><?php echo $count; ?>.</td>
+                                                                <td class="text-start"><?php echo $row['item']; ?></td>
+                                                                <td class="ps-4" colspan="2">&#8358;<?php echo number_format($row['item_amount']); ?>.00</td>
+                                                            </tr>
                                                 </tbody>
-                                                    <?php
-                                                        $total += $row['item_amount'];
-                                                        $count++;
+                                        <?php
+                                                            $total += $row['item_amount'];
+                                                            $count++;
                                                         }
-                                                        
-                                                    }   else {
+                                                    } else {
                                                         echo "No records found.";
                                                     }
-                                                    ?>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th colspan=2" class="font-weight-bold">Total</th>
-                                                        <td class="text-right h4 ps-4" colspan="3" style="font-family:'Trebuchet MS';"> &#8358;<?php echo number_format($total); ?>.00</td>
-                                                    </tr>
-                                                </tfoot>
+                                        ?>
+                                        <tfoot>
+                                            <tr>
+                                                <th colspan=2" class="font-weight-bold">Total</th>
+                                                <td class="text-right h4 ps-4" colspan="3" style="font-family:'Trebuchet MS';"> &#8358;<?php echo number_format($total); ?>.00</td>
+                                            </tr>
+                                        </tfoot>
                                             </table>
                                         </div>
                                     </div>
@@ -139,7 +129,6 @@
                     </form>
                 </div>
                 <!--  -->
-                <!--  -->
                 <div class="col-md-4 mt-3 mt-md-0">
                     <div class="card">
                         <div class="card-body">
@@ -150,14 +139,14 @@
                                         <div class="input-group mb-4">
                                             <select class="form-select" name="currentSession" required>
                                                 <?php
-                                                    $sql = "SELECT * FROM `school_sessions` WHERE active_session = 1";
-                                                    $result = mysqli_query($conn, $sql);
+                                                $sql = "SELECT * FROM `school_sessions` WHERE active_session = 1";
+                                                $result = mysqli_query($conn, $sql);
 
-                                                    while($row = mysqli_fetch_assoc($result)){
-                                                        ?>
-                                                            <option selected value="<?php echo $row['session_year'] ?>"><?php echo $row['session_year']; ?></option>
-                                                        <?php
-                                                    }
+                                                while ($row = mysqli_fetch_assoc($result)) {
+                                                ?>
+                                                    <option selected value="<?php echo $row['session_year'] ?>"><?php echo $row['session_year']; ?></option>
+                                                <?php
+                                                }
                                                 ?>
                                             </select>
                                         </div>
@@ -167,14 +156,14 @@
                                         <div class="input-group">
                                             <select class="form-select" name="currentTerm" required>
                                                 <?php
-                                                    $sql = "SELECT * FROM `school_terms` WHERE active_term = 1;";
-                                                    $result = mysqli_query($conn, $sql);
+                                                $sql = "SELECT * FROM `school_terms` WHERE active_term = 1;";
+                                                $result = mysqli_query($conn, $sql);
 
-                                                    while($row = mysqli_fetch_assoc($result)){
-                                                        ?>
-                                                            <option selected value="<?php echo $row['session_term'] ?>"><?php echo $row['session_term'] ?></option>
-                                                        <?php
-                                                    }
+                                                while ($row = mysqli_fetch_assoc($result)) {
+                                                ?>
+                                                    <option selected value="<?php echo $row['session_term'] ?>"><?php echo $row['session_term'] ?></option>
+                                                <?php
+                                                }
                                                 ?>
                                             </select>
                                         </div>
@@ -189,46 +178,10 @@
                 </div>
             </div>
         </div>
-        <!-- Invoice Container -->
-    </div>
+        <?php include "inc/student-footer.php"; ?>
+    </main>
 
-    <script src="https://checkout.flutterwave.com/v3.js"></script>
-    <script>
-        function makePayment() {
-            FlutterwaveCheckout({
-                public_key: "FLWPUBK_TEST-5c0807c43d956b1b7321432a2b2f63c3-X",
-                tx_ref: "<?php  echo "AMK_".substr(rand(0, time()), 0, 6);?>",
-                amount: <?php echo $total;?>,
-                currency: "NGN",
-                payment_options: " ",
-                customer: {
-                email: "<?php echo $_SESSION['student']['parent_email']; ?>",
-                phone_number: "<?php echo $_SESSION['student']['parent_phoneNumber']; ?>",
-                name: "<?php echo $_SESSION['student']['parent_firstName'] . ' ' . $_SESSION['student']['parent_lastName']; ?>",
-                },
-                customizations: {
-                title: "<?php echo $_SESSION['student']['first_name'] . ' ' . $_SESSION['student']['last_name'];  ?>",
-                description: "Payment for school fees",
-                logo: "http://localhost/amkad/assets/favicon/favicon.jpg",
-                callback: function(data){
-                    console.log(data);
-                    var tx_ref = data.tx_ref;
-                    $.ajax({
-                        type: "POST",
-                        url: "student-process.php",
-                        data: {
-                            "tx_ref" : tx_ref
-                        },
-                        dataType: "dataType",
-                        success: function (response) {
-                            console.log(response);
-                        }
-                    });
-                }
-                }
-            });
-            }
-    </script>
-    <?php include "./inc/student-footer.php";?>
+    <?php include "inc/student-scripts.php"; ?>
 </body>
+
 </html>
