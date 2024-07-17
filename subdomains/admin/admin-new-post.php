@@ -1,5 +1,5 @@
 <?php
-include "admin-process.php";
+    require_once "create.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">

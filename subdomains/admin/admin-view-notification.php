@@ -1,5 +1,8 @@
 <?php
-include "admin-process.php";
+
+session_start();
+require_once "../../config/database.php";
+
 $staff_id = $_SESSION['staff']
 ['staff_id'];
 ?>

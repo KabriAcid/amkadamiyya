@@ -1,23 +1,26 @@
 <?php
-    include "admin-process.php";
-    if (isset($_POST['checkStatus'])) {
-        $application_code = $_POST['application_code'];
-        $sql = "SELECT * FROM `applicants` WHERE `application_code` = '$application_code'";
-        $result = mysqli_query($conn, $sql);
-        print_r($row = mysqli_fetch_assoc($result));
 
-        if ($row = mysqli_fetch_assoc($result)) {
-            if ($application_code == $row['application_code'] and $row['admission_status'] == 0) {
-                $_GET['infoMessage'] = "You application is now pending kindly check later.";
-            } 
-            if ($application_code != $row['application_code']) {
-                $_GET['errorMessage'] = "Invalid application Code";
-            }
-            if ($application_code == $row['application_code'] and $row['admission_status'] == 1) {
-                $_GET['successMessage'] = true;
-            }
+session_start();
+require_once "../../config/database.php";
+
+if (isset($_POST['checkStatus'])) {
+    $application_code = $_POST['application_code'];
+    $sql = "SELECT * FROM `applicants` WHERE `application_code` = '$application_code'";
+    $result = mysqli_query($conn, $sql);
+    print_r($row = mysqli_fetch_assoc($result));
+
+    if ($row = mysqli_fetch_assoc($result)) {
+        if ($application_code == $row['application_code'] and $row['admission_status'] == 0) {
+            $_GET['infoMessage'] = "You application is now pending kindly check later.";
+        }
+        if ($application_code != $row['application_code']) {
+            $_GET['errorMessage'] = "Invalid application Code";
+        }
+        if ($application_code == $row['application_code'] and $row['admission_status'] == 1) {
+            $_GET['successMessage'] = true;
         }
     }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

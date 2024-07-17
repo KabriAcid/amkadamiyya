@@ -1,5 +1,6 @@
 <?php
-include "admin-process.php";
+session_start();
+require_once "../../config/database.php";
 
 // Check if student ID is set
 if (isset($_GET['student_id'])) {

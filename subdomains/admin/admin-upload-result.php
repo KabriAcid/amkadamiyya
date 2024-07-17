@@ -96,7 +96,7 @@ $default = mysqli_fetch_assoc($default_result);
                     </div>
                 </div>
             </div>
-            <form action="admin-process.php" method="post">
+            <form action="create.php" method="post">
                 <div class="card mt-3">
                     <div class="card-body">
                         <table class="table table-responsive">

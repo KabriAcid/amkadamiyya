@@ -18,7 +18,7 @@ if (isset($_POST['register'])) {
             return ucwords(strtolower(trim($string)));
         }
         // Validate mandatory fields
-        $mandatoryFields = ['first_name', 'last_name', 'birth_date', 'gender', 'address', 'state', 'lga', 'email', 'phone_number', 'qualification', 'discipline_name', 'class_id', 'subject_id', 'position_id', 'account_number', 'bank_name', 'salary', 'status'];
+        $mandatoryFields = ['first_name', 'last_name', 'birth_date', 'gender', 'address', 'state', 'lga', 'email', 'phone_number', 'qualification', 'discipline', 'class_id', 'subject_id', 'position_id', 'account_number', 'bank_name', 'salary', 'status'];
         foreach ($mandatoryFields as $field) {
             if (empty($_POST[$field])) {
                 $_SESSION['error_message'] = "Some fields are missing!";
