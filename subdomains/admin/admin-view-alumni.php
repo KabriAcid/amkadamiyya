@@ -52,15 +52,15 @@ if (isset($_SESSION['staff'])) {
                         <div class="row align-items-center">
                             <div class="col-sm-auto col-4">
                                 <div class="avatar avatar-xl position-relative">
-                                    <img src="<?php echo $row['photo']; ?>" alt="bruce" class="w-100 border-radius-lg shadow-sm" />
+                                    <img src="<?php echo $alumni['photo']; ?>" alt="bruce" class="w-100 border-radius-lg shadow-sm" />
                                 </div>
                             </div>
                             <div class="col-8 my-auto">
                                 <div class="h-100">
-                                    <h5 class="mb-1 font-weight-bolder"><?php echo ucfirst($row['first_name']) . '&nbsp;' . ucfirst($row['last_name']); ?></h5>
+                                    <h5 class="mb-1 font-weight-bolder"><?php echo ucfirst($alumni['first_name']) . '&nbsp;' . ucfirst($alumni['last_name']); ?></h5>
                                     <p class="mb-0 font-weight-bold text-sm">
                                         <?php
-                                        // $position_id = $row['position_id'];
+                                        // $position_id = $alumni['position_id'];
                                         // $sql = "SELECT `position_name` FROM `school_post` WHERE `position_id` = '$position_id'";
                                         // $positions = mysqli_query($conn, $sql);
                                         // $position = mysqli_fetch_assoc($positions);
@@ -75,7 +75,7 @@ if (isset($_SESSION['staff'])) {
                         <div class="card-header pb-0">
                             <div class="d-flex justify-content-between">
                                 <h6 class="text-gradient text-primary">Profile Information</h6>
-                                <a href="admin-edit-alumni.php?alumni_id=<?php echo $row['alumni_id']; ?>" class="btn bg-gradient-primary btn-sm">Edit <i class="fa fa-edit text-sm ms-1"></i></a>
+                                <a href="admin-edit-alumni.php?alumni_id=<?php echo $alumni['alumni_id']; ?>" class="btn bg-gradient-primary btn-sm">Edit <i class="fa fa-edit text-sm ms-1"></i></a>
                             </div>
                         </div>
                         <hr class="horizontal dark">
@@ -83,62 +83,62 @@ if (isset($_SESSION['staff'])) {
                             <div class="row">
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">First Name: </strong>&nbsp;
-                                    <?php echo ucfirst($row['first_name']); ?>
+                                    <?php echo ucfirst($alumni['first_name']); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Middle Name: </strong>&nbsp;
-                                    <?php echo ucfirst($row['second_name']); ?>
+                                    <?php echo ucfirst($alumni['second_name']); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Last Name: </strong>&nbsp;
-                                    <?php echo ucfirst($row['last_name']); ?>
+                                    <?php echo ucfirst($alumni['last_name']); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Birth Date: </strong>&nbsp;
                                     <?php
-                                    $date_of_birth = date('d-M-Y', strtotime($row['date_of_birth']));
+                                    $date_of_birth = date('d-M-Y', strtotime($alumni['date_of_birth']));
                                     echo ucfirst($date_of_birth);
                                     ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Index No: </strong>&nbsp;
-                                    <?php echo ucfirst($row['index_no']); ?>
+                                    <?php echo ucfirst($alumni['index_no']); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Email Address: </strong>&nbsp;
-                                    <?php echo ucfirst($row['email']); ?>
+                                    <?php echo ucfirst($alumni['email']); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Phone Number: </strong>&nbsp;
-                                    <?php echo ucfirst($row['phone_number']); ?>
+                                    <?php echo ucfirst($alumni['phone_number']); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Graduation Year: </strong>&nbsp;
                                     <?php
-                                    echo $row['graduation_year'];
+                                    echo $alumni['graduation_year'];
                                     ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Position Held: </strong>&nbsp;
-                                    <?php echo $row['position_held']; ?>
+                                    <?php echo $alumni['position_held']; ?>
                                 </div>
 
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">State: </strong>&nbsp; <?php echo $row['state']; ?>
+                                    <strong class="text-dark">State: </strong>&nbsp; <?php echo $alumni['state']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">LGA: </strong>&nbsp; <?php echo $row['lga']; ?>
+                                    <strong class="text-dark">LGA: </strong>&nbsp; <?php echo $alumni['lga']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Home Address: </strong>&nbsp; <?php echo $row['address']; ?>
+                                    <strong class="text-dark">Home Address: </strong>&nbsp; <?php echo $alumni['address']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Gender: </strong>&nbsp;
-                                    <?php echo ucfirst($row['gender']); ?>
+                                    <?php echo ucfirst($alumni['gender']); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">NIN Number: </strong>&nbsp;
-                                    <?php echo ucfirst($row['nin_number']); ?>
+                                    <?php echo ucfirst($alumni['nin_number']); ?>
                                 </div>
                             </div>
                         </div>

@@ -8,7 +8,7 @@
             <div class="card">
 
                 <div class="card-header">
-                    <h5 class="mb-0 text-gradient text-warning">Alumnus Table</h5>
+                    <h5 class="mb-0 text-gradient text-warning">Alulmni Table</h5>
                     <p class="text-sm mb-0">
                         Here is the complete list of Alumni. You can select how many entries to display on
                         this page.
