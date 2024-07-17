@@ -222,7 +222,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row mt-3">
         <div class="col-lg-8">
             <div class="card z-index-2">
                 <div class="card-header p-3 pb-0">
