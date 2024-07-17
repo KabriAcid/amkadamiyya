@@ -1,11 +1,11 @@
 <h1 style="text-align: center;">
 
     <?php
-    include "../../config/database.php";
+    require_once "../../config/database.php";
 
     if (isset($_POST['submit'])) {
-        $sql = "UPDATE alumni set graduation_year = 2024";
-        $sql .= "";
+        $sql .= "UPDATE `school_post` SET `position_number` = '7' WHERE `school_post`.`position_id` = 12;";
+        $sql .= "INSERT INTO `school_post` (`position_id`, `position_name`, `position_number`) VALUES (NULL, 'Non-Staff', '8');";
         if (mysqli_query($conn, $sql)) {
             echo "Record updated successfully";
         } else {

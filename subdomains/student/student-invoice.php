@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "../../config/database.php";
+require_once "../../config/database.php";
 
 if (isset($_SESSION['student'])) {
     $class_id = $_SESSION['student']['class_id'];
@@ -13,7 +13,7 @@ if (isset($_SESSION['student'])) {
 <html lang="en">
 
 <head>
-    <title>Dashboard</title>
+    <title>Generate Invoice</title>
     <?php include "inc/student-header.php"; ?>
 </head>
 
@@ -24,13 +24,13 @@ if (isset($_SESSION['student'])) {
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         <?php require "inc/student-navbar.php"; ?>
         <!-- Profile Information -->
-        <div class="container-fluid pt-3">
+        <div class="container-fluid py-3">
             <div class="row">
                 <div class="col-md-8">
                     <form class action="" method="post">
                         <div class="card">
                             <div class="card-header">
-                                <img class="mb-2 w-25 p-2 avatar avatar-xl" src="../../assets/favicon/favicon.jpg" alt="Logo">
+                                <img class="mb-2 w-25 p-2 avatar avatar-xl" src="../../assets/favicon/favicon.png" alt="Logo">
                                 <div class="row">
                                     <div class="col-8 col-lg-7">
                                         <h6 class="text-start mb-0">
@@ -39,13 +39,12 @@ if (isset($_SESSION['student'])) {
                                         <span class="mb-0 text-secondary">Samunaka Junction, Along Wuro Sembe Road.</span>
                                     </div>
                                     <div class="col-4 col-lg-5 text-end">
-                                        <span class="mb-0 text-secondary">
+                                        <span class="mb-0 text-secondary text-sm">
                                             Billed for:
                                         </span>
                                         <h6 class="mb-0">
-                                            <?php echo $_SESSION['student']['admission_number']; ?>
+                                            <?php echo $_SESSION['student']['admission_id']; ?>
                                         </h6>
-                                        <span>3<sup>rd</sup> Term Fees</span>
                                     </div>
                                 </div>
                                 <div class="my-3">
@@ -53,16 +52,16 @@ if (isset($_SESSION['student'])) {
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <div>
-                                        <span class="mb-0 text-start text-secondary">
-                                            Invoice ID
+                                        <span class="mb-0 text-start text-secondary text-sm">
+                                            Invoice ID:
                                         </span>
                                         <h6 class="text-start mb-0">
                                             <?php echo "AMK_" . substr(rand(0, time()), 0, 6); ?>
                                         </h6>
                                     </div>
                                     <div>
-                                        <span class="mb-0 text-start text-secondary">
-                                            Invoice Date
+                                        <span class="mb-0 text-start text-secondary text-sm">
+                                            Invoice Date:
                                         </span>
                                         <h6 class="text-start mb-0">
                                             <?php echo date('d-M-Y'); ?>
@@ -84,7 +83,7 @@ if (isset($_SESSION['student'])) {
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                    $sql = "SELECT * FROM `student_levy`;";
+                                                    $sql = "SELECT * FROM `school_levy`;";
                                                     $result = mysqli_query($conn, $sql);
                                                     $count = 1;
                                                     $total = 0;
@@ -109,7 +108,7 @@ if (isset($_SESSION['student'])) {
                                         <tfoot>
                                             <tr>
                                                 <th colspan=2" class="font-weight-bold">Total</th>
-                                                <td class="text-right h4 ps-4" colspan="3" style="font-family:'Trebuchet MS';"> &#8358;<?php echo number_format($total); ?>.00</td>
+                                                <td class="text-right h5 ps-4" colspan="3" style="font-family:'Trebuchet MS';"> &#8358;<?php echo number_format($total); ?>.00</td>
                                             </tr>
                                         </tfoot>
                                             </table>
@@ -139,12 +138,12 @@ if (isset($_SESSION['student'])) {
                                         <div class="input-group mb-4">
                                             <select class="form-select" name="currentSession" required>
                                                 <?php
-                                                $sql = "SELECT * FROM `school_sessions` WHERE active_session = 1";
+                                                $sql = "SELECT * FROM `school_sessions`";
                                                 $result = mysqli_query($conn, $sql);
 
                                                 while ($row = mysqli_fetch_assoc($result)) {
                                                 ?>
-                                                    <option selected value="<?php echo $row['session_year'] ?>"><?php echo $row['session_year']; ?></option>
+                                                    <option selected value="<?php echo $row['session_id'] ?>"><?php echo $row['session_year']; ?></option>
                                                 <?php
                                                 }
                                                 ?>
@@ -156,12 +155,14 @@ if (isset($_SESSION['student'])) {
                                         <div class="input-group">
                                             <select class="form-select" name="currentTerm" required>
                                                 <?php
-                                                $sql = "SELECT * FROM `school_terms` WHERE active_term = 1;";
+                                                $sql = "SELECT * FROM `school_terms`";
                                                 $result = mysqli_query($conn, $sql);
 
                                                 while ($row = mysqli_fetch_assoc($result)) {
+                                                    $term = $row['term_name'];
+                                                    global $term;
                                                 ?>
-                                                    <option selected value="<?php echo $row['session_term'] ?>"><?php echo $row['session_term'] ?></option>
+                                                    <option selected value="<?php echo $row['term_id'] ?>"><?php echo $row['term_name'] ?></option>
                                                 <?php
                                                 }
                                                 ?>
@@ -180,8 +181,45 @@ if (isset($_SESSION['student'])) {
         </div>
         <?php include "inc/student-footer.php"; ?>
     </main>
-
+    <script src="https://checkout.flutterwave.com/v3.js"></script>
+    <script>
+        function makePayment() {
+            FlutterwaveCheckout({
+                public_key: "FLWPUBK_TEST-5c0807c43d956b1b7321432a2b2f63c3-X",
+                tx_ref: "<?php echo "AMK_" . substr(rand(0, time()), 0, 6); ?>",
+                amount: <?php echo $total; ?>,
+                currency: "NGN",
+                payment_options: " ",
+                customer: {
+                    email: "<?php echo $_SESSION['student']['parent_email']; ?>",
+                    phone_number: "<?php echo $_SESSION['student']['parent_phone_number']; ?>",
+                    name: "<?php echo $_SESSION['student']['parent_first_name'] . ' ' . $_SESSION['student']['parent_last_name']; ?>",
+                },
+                customizations: {
+                    title: "<?php echo $_SESSION['student']['first_name'] . ' ' . $_SESSION['student']['last_name'];  ?>",
+                    description: "Payment for school fees",
+                    logo: "http://localhost/amkad/assets/favicon/favicon.jpg",
+                    callback: function(data) {
+                        console.log(data);
+                        var tx_ref = data.tx_ref;
+                        $.ajax({
+                            type: "POST",
+                            url: "student-process.php",
+                            data: {
+                                "tx_ref": tx_ref
+                            },
+                            dataType: "dataType",
+                            success: function(response) {
+                                console.log(response);
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    </script>
     <?php include "inc/student-scripts.php"; ?>
+
 </body>
 
 </html>

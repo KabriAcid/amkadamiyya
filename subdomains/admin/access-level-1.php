@@ -7,14 +7,14 @@
                         <div class="col-8">
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Staff</p>
-                                <h5 class="font-weight-bolder mb-0">
+                                <h6 class="font-weight-bolder mb-0">
                                     <?php
                                     $sql = "SELECT COUNT(*) AS `total_staff` FROM `staff` ";
                                     $total = mysqli_query($conn, $sql);
                                     $row = mysqli_fetch_assoc($total);
                                     ?>
                                     <?php echo $row['total_staff']; ?>
-                                </h5>
+                                </h6>
                             </div>
                         </div>
                         <div class="col-4 text-end">
@@ -33,14 +33,14 @@
                         <div class="col-8">
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Students</p>
-                                <h5 class="font-weight-bolder mb-0">
+                                <h6 class="font-weight-bolder mb-0">
                                     <?php
                                     $sql = "SELECT COUNT(*) AS `total_students` FROM `students` ";
                                     $total = mysqli_query($conn, $sql);
                                     $row = mysqli_fetch_assoc($total);
                                     ?>
                                     <?php echo $row['total_students']; ?>
-                                </h5>
+                                </h6>
                             </div>
                         </div>
                         <div class="col-4 text-end">
@@ -60,14 +60,14 @@
                         <div class="col-8">
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Alumni</p>
-                                <h5 class="font-weight-bolder mb-0">
+                                <h6 class="font-weight-bolder mb-0">
                                     <?php
                                     $sql = "SELECT COUNT(*) AS `total_alumni` FROM `alumni` ";
                                     $total = mysqli_query($conn, $sql);
                                     $classes = mysqli_fetch_assoc($total);
                                     ?>
                                     <?php echo $classes['total_alumni']; ?>
-                                </h5>
+                                </h6>
                             </div>
                         </div>
                         <div class="col-4 text-end">
@@ -87,14 +87,14 @@
                         <div class="col-8">
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Payroll</p>
-                                <h5 class="font-weight-bolder mb-0">
+                                <h6 class="font-weight-bolder mb-0">
                                     <?php
                                     $sql = "SELECT SUM(`salary`) AS `totaL_balance` FROM `staff`";
                                     $total = mysqli_query($conn, $sql);
                                     $row = mysqli_fetch_assoc($total);
                                     ?>
                                     <?php echo '&#8358;' . number_format($row['totaL_balance'], 2); ?>
-                                </h5>
+                                </h6>
                             </div>
                         </div>
                         <div class="col-4 text-end">

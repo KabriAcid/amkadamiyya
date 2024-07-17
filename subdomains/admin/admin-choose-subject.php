@@ -24,9 +24,12 @@ while ($row = $result->fetch_assoc()) {
 }
 
 // Check if staff position ID is set
-if (isset($_SESSION['staff']['position_id'])) {
+if (isset($_SESSION['staff'])) {
     $position_id = $_SESSION['staff']['position_id'];
 } else {
+    header('Location: admin-logout.php');
+}
+if($position_id != 1){
     header('Location: admin-logout.php');
 }
 ?>
@@ -44,7 +47,8 @@ if (isset($_SESSION['staff']['position_id'])) {
     if ($position_id == 1) {
         include "inc/admin-sidebar.php";
     } else {
-        include "";
+        include "inc/admin-sidebar.php";
+        // include "";
     }
     ?>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">

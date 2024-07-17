@@ -1,12 +1,12 @@
 <?php
 session_start();
-include "../../config/database.php";
+require_once "../../config/database.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>Boilerplate</title>
+    <title>General Alerts</title>
     <?php include "inc/admin-header.php"; ?>
 </head>
 

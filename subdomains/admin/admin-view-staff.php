@@ -1,15 +1,27 @@
 <?php
 session_start();
-include "../../config/database.php";
+require_once "../../config/database.php";
 
+// Check if staff ID is set
 if (isset($_GET['staff_id'])) {
     $staff_id = $_GET['staff_id'];
-    $sql = "SELECT * FROM `staff` WHERE `staff_id` = '$staff_id'";
-    $result = mysqli_query($conn, $sql);
-    $staff = mysqli_fetch_assoc($result);
-    $class_id = $staff["class_id"];
+
+    // Prepare SQL query with parameterized query
+    $sql = "SELECT * FROM `staff` WHERE `staff_id` = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $staff_id);
+    $stmt->execute();
+    $staff = $stmt->get_result()->fetch_assoc();
 } else {
     header('Location: admin-staff-list.php');
+    exit();
+}
+
+// Check if staff position ID is set
+if (isset($_SESSION['staff'])) {
+    $position_id = $_SESSION['staff']['position_id'];
+} else {
+    header('Location: admin-logout.php');
 }
 ?>
 <!DOCTYPE html>
@@ -22,11 +34,7 @@ if (isset($_GET['staff_id'])) {
 
 <body class="g-sidenav-show bg-info-soft">
     <?php
-    if ($_SESSION['staff']['position_id'] == 1) {
-        include "inc/admin-sidebar.php";
-    } else {
-        include "inc/admin-sidebar.php";
-    }
+    include "inc/admin-sidebar.php";
     ?>
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">

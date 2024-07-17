@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "../../config/database.php";
+require_once "../../config/database.php";
 
 if (isset($_GET['subject_id'])) {
     $class_id = $_SESSION['staff']['class_id'];

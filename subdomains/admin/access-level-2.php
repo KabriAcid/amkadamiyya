@@ -1,10 +1,7 @@
     <?php
-    if(isset($_SESSION['staff']
-)){
-        $class_id = $_SESSION['staff']
-['class_id'];
-        $subject_id = $_SESSION['staff']
-['subject_id'];
+    if(isset($_SESSION['staff'])){
+        $class_id = $_SESSION['staff']['class_id'];
+        $subject_id = $_SESSION['staff']['subject_id'];
     }
 ?>
 <div class="container-fluid pt-3">

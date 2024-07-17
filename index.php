@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['contactBtn'])) {
             </button>
             <div class="collapse navbar-collapse w-100 pt-3 pb-2 py-lg-0" id="navigation">
                 <ul class="navbar-nav navbar-nav-hover mx-auto">
-                    <li class="nav-item mx-2 dropdown">
+                    <li class="nav-item mx-2">
                         <a href="#" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center">
                             Home
                         </a>
@@ -143,10 +143,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['contactBtn'])) {
                     </li>
                 </ul>
                 <?php
-                if (isset($_SESSION['staff']
-) || isset($_SESSION['student'])) {
-                    $photo = $_SESSION['staff']
-['photo'];
+                if (isset($_SESSION['staff'])) {
+                    $photo = $_SESSION['staff']['photo'];
                 ?>
                     <div class="nav-item dropdown pe-2 px-2 d-flex align-items-center">
                         <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -154,38 +152,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['contactBtn'])) {
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end p-2 me-sm-n4" aria-labelledby="dropdownMenuButton">
                             <!-- If session == Staff -->
-                            <?php if (isset($_SESSION['staff']
-)) {
-                            ?>
-                                <li class="px-2 py-1">
-                                    <a class="dropdown-item border-radius-md" href="subdomains/admin/admin-dashboard.php">
-                                        <span>Dashboard</span>
-                                    </a>
-                                </li>
-                                <li class="px-2 py-1">
-                                    <a class="dropdown-item border-radius-md" href="subdomains/admin/admin-logout.php">
-                                        <span>Logout</span>
-                                    </a>
-                                </li>
-                            <?php
-                            } else {
-                            ?>
-                                <!-- If session == students -->
-                                <li class="px-2 py-1">
-                                    <a class="dropdown-item border-radius-md" href="subdomains/student/student-profile.php">
-                                        <span>Dashboard</span>
-                                    </a>
-                                </li>
-                                <li class="px-2 py-1">
-                                    <a class="dropdown-item border-radius-md" href="subdomains/student/student-logout.php">
-                                        <span>Logout</span>
-                                    </a>
-                                </li>
-                            <?php
-                            } ?>
+                            <li class="px-2 py-1">
+                                <a class="dropdown-item border-radius-md" href="subdomains/admin/admin-dashboard.php">
+                                    <span>Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="px-2 py-1">
+                                <a class="dropdown-item border-radius-md" href="subdomains/admin/admin-logout.php">
+                                    <span>Logout</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
-
+                <?php
+                } else if (isset($_SESSION['student'])) {
+                ?>
+                    <!-- If session == students -->
+                    <div class="nav-item dropdown pe-2 px-2 d-flex align-items-center">
+                        <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="ni ni-settings-gear-65"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end p-2 me-sm-n4" aria-labelledby="dropdownMenuButton">
+                            <!-- If session == Staff -->
+                            <li class="px-2 py-1">
+                                <a class="dropdown-item border-radius-md" href="subdomains/student/student-dashboard.php">
+                                    <span>Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="px-2 py-1">
+                                <a class="dropdown-item border-radius-md" href="subdomains/student/student-logout.php">
+                                    <span>Logout</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 <?php
                 } else {
                 ?>
@@ -689,7 +689,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['contactBtn'])) {
                         </li>
                         <li class="nav-item">
                             <span class="nav-link opacity-8"><span class="font-weight-bold">Tel</span>: 080-3063-1546,
-                            070-1494-8484, 0703-794-3396</span>
+                                070-1494-8484, 0703-794-3396</span>
                         </li>
                         <li class="nav-item">
                             <span class="nav-link opacity-8"><span class="font-weight-bold">Batch No:</span> BN-3293542</span>
@@ -761,7 +761,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['contactBtn'])) {
                                 WAEC
                             </a>
                         </li>
-                        
+
                         <li class="nav-item">
                             <a class="nav-link text-secondary" href="">
                                 FAQs

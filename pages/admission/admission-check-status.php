@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "../../config/database.php";
+require_once "../../config/database.php";
 
 if (isset($_POST['checkStatus'])) {
     $application_code = $_POST['application_code'];

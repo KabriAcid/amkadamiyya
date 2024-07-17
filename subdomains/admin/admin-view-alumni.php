@@ -1,15 +1,29 @@
 <?php
 session_start();
-include "../../config/database.php";
+require_once "../../config/database.php";
 
+// Check if alumni ID is set
 if (isset($_GET['alumni_id'])) {
     $alumni_id = $_GET['alumni_id'];
-    $sql = "SELECT * FROM `alumni` WHERE `alumni_id` = '$alumni_id'";
-    $result = mysqli_query($conn, $sql);
-    $row = mysqli_fetch_assoc($result);
+
+    // Prepare SQL query with parameterized query
+    $sql = "SELECT * FROM `alumni` WHERE `alumni_id` = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $alumni_id);
+    $stmt->execute();
+    $alumni = $stmt->get_result()->fetch_assoc();
 } else {
-    header('Location: alumni-list.php');
+    header('Location: admin-alumni-list.php');
+    exit();
 }
+
+// Check if staff position ID is set
+if (isset($_SESSION['staff'])) {
+    $position_id = $_SESSION['staff']['position_id'];
+} else {
+    header('Location: admin-logout.php');
+}
+?>
 ?>
 <!DOCTYPE html>
 <html lang="en">

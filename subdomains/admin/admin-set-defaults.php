@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include "../../config/database.php";
+    require_once "../../config/database.php";
 
     $sql = "SELECT * FROM `defaults`;";
     $result = mysqli_query($conn, $sql);

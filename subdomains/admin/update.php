@@ -74,6 +74,9 @@ if (isset($_POST['updateStaffBioData'])) {
     }
 
     $stmt->close();
+    // Redirect to the appropriate page after processing
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
 }
 
 // Update Other Information
@@ -123,6 +126,9 @@ if (isset($_POST['updateOtherData'])) {
     }
 
     $stmt->close();
+    // Redirect to the appropriate page after processing
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
 }
 
 // Update Account Information
@@ -149,12 +155,15 @@ if (isset($_POST['updateStaffAccount'])) {
     }
 
     $stmt->close();
+    // Redirect to the appropriate page after processing
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
 }
 
 // Update Staff Password
 if (isset($_POST['updateStaffPassword'])) {
     // Declare student_id from hidden input field
-    $staff_id = $_POST['staff_id'];
+    $staff_id = mysqli_real_escape_string($conn, $_POST['staff_id']);
 
     $newPassword = $_POST['newPassword'];
     $confirmNewPassword = $_POST['confirmNewPassword'];
@@ -180,6 +189,9 @@ if (isset($_POST['updateStaffPassword'])) {
             $stmt->close();
         }
     }
+    // Redirect to the appropriate page after processing
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
 }
 
 // Erase Staff
@@ -199,6 +211,9 @@ if (isset($_POST['eraseStaffData'])) {
     }
 
     $stmt->close();
+    // Redirect to the appropriate page after processing
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
 }
 
 
@@ -248,6 +263,9 @@ if (isset($_POST['updateStudentBioData'])) {
         $_SESSION['error_message'] = "Error updating biodata: " . $stmt->error;
     }
     $stmt->close();
+    // Redirect to the appropriate page after processing
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
 }
 
 // Update Parent Information
@@ -271,6 +289,9 @@ if (isset($_POST['updateParentData'])) {
         $_SESSION['error_message'] = "Error updating parent information: " . $stmt->error;
     }
     $stmt->close();
+    // Redirect to the appropriate page after processing
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
 }
 
 // Update Student Account Information
@@ -318,13 +339,14 @@ if (isset($_POST['updateStudentID'])) {
             $_SESSION['error_message'] = "Error updating student ID: " . $stmt->error;
         }
         $stmt->close();
-    
+
         header('Location: ' . $_SERVER['PHP_SELF'] . '?student_id=' . $student_id);
         exit();
-
     }
     $stmt->close();
-
+    // Redirect to the appropriate page after processing
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
 }
 
 
@@ -357,6 +379,9 @@ if (isset($_POST['updateStudentPassword'])) {
             $stmt->close();
         }
     }
+    // Redirect to the appropriate page after processing
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
 }
 
 // Erase Student
@@ -375,8 +400,7 @@ if (isset($_POST['eraseStudentData'])) {
     }
 
     $stmt->close();
-}
-
     // Redirect to the appropriate page after processing
-    // header("Location: " . $_SERVER['PHP_SELF']);
-    // exit();
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+}

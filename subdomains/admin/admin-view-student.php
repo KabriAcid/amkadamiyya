@@ -1,12 +1,24 @@
 <?php
 session_start();
-include "../../config/database.php";
+require_once "../../config/database.php";
 
+// Check if student ID is set
 if (isset($_GET['student_id'])) {
     $student_id = $_GET['student_id'];
-    $sql = "SELECT * FROM `students` WHERE `student_id` = '$student_id'";
-    $students = mysqli_query($conn, $sql);
-    $student = mysqli_fetch_assoc($students);
+
+    // Prepare SQL query with parameterized query
+    $sql = "SELECT * FROM `students` WHERE `student_id` = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $student_id);
+    $stmt->execute();
+    $student = $stmt->get_result()->fetch_assoc();
+}
+
+// Check if staff position ID is set
+if (isset($_SESSION['staff'])) {
+    $position_id = $_SESSION['staff']['position_id'];
+} else {
+    header('Location: admin-logout.php');
 }
 ?>
 <!DOCTYPE html>

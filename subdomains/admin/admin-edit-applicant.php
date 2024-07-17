@@ -17,7 +17,7 @@ if (isset($_GET['applicant_id'])) {
 }
 
 // Check if staff position ID is set
-if (isset($_SESSION['staff']['position_id'])) {
+if (isset($_SESSION['staff'])) {
     $position_id = $_SESSION['staff']['position_id'];
 } else {
     header('Location: admin-logout.php');

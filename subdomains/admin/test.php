@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "../../config/database.php";
+require_once "../../config/database.php";
 $_SESSION['success_message'] = true;
 ?>
 <!DOCTYPE html>

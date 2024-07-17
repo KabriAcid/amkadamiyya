@@ -1,3 +1,16 @@
+<?php if (isset($_SESSION['staff'])) {
+   // Determing positions from session variable
+   $position_id = $_SESSION['staff']['position_id'];
+   $sql = "SELECT position_number FROM school_post WHERE position_id = '$position_id'";
+   $result = mysqli_query($conn, $sql);
+   $row = mysqli_fetch_assoc($result);
+   $position_number = $row['position_number'];
+
+   // Determing class from session variable
+   $class_id = $_SESSION['staff']['class_id'];
+   $sql = "SELECT class_name FROM classes WHERE class_id = '$class_id'";
+   $class = mysqli_fetch_assoc(mysqli_query($conn, $sql));
+} ?>
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 pt-1 fixed-start ms-3 " id="sidenav-main">
    <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
@@ -76,25 +89,35 @@
                         <span class="sidenav-normal"> Student's List </span>
                      </a>
                   </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="admin-new-student.php">
-                        <span class="sidenav-normal"> Add Student </span>
-                     </a>
-                  </li>
+                  <?php
+                  if ($position_id == 1 || $position_id == 3) {
+                  ?>
+                     <li class="nav-item">
+                        <a class="nav-link" href="admin-new-student.php">
+                           <span class="sidenav-normal"> Add Student </span>
+                        </a>
+                     </li>
+                  <?php
+                  }
+                  ?>
                </ul>
             </div>
          </li>
 
          <!-- Staff -->
-         <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#staffMenu" class="nav-link 
+         <?php
+         $in_array = [1, 2, 3];
+         if (in_array($position_number, $in_array)) {
+         ?>
+            <li class="nav-item">
+               <a data-bs-toggle="collapse" href="#staffMenu" class="nav-link 
                <?php
                if (basename($_SERVER['PHP_SELF']) == 'admin-staff-list.php' || basename($_SERVER['PHP_SELF']) == 'admin-new-staff.php') {
                   echo "active";
                }
                ?>" aria-controls="staffMenu" role="button" aria-expanded="false">
-               <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
-                  <i class="ni ni-circle-08
+                  <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
+                     <i class="ni ni-circle-08
                   <?php
                   if (basename($_SERVER['PHP_SELF']) == 'admin-staff-list.php' || basename($_SERVER['PHP_SELF']) == 'admin-new-staff.php') {
                      echo 'text-white';
@@ -102,30 +125,30 @@
                      echo 'text-dark';
                   }
                   ?>" style="font-size: 12px;"></i>
+                  </div>
+                  <span class="nav-link-text ms-1">Staff</span>
+               </a>
+               <div class="collapse " id="staffMenu">
+                  <ul class="nav ms-4 ps-3">
+                     <li class="nav-item">
+                        <a class="nav-link" href="admin-staff-list.php">
+                           <span class="sidenav-normal"> Staff List </span>
+                        </a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="admin-new-staff.php">
+                           <span class="sidenav-normal"> Add Staff </span>
+                        </a>
+                     </li>
+                  </ul>
                </div>
-               <span class="nav-link-text ms-1">Staff</span>
-            </a>
-            <div class="collapse " id="staffMenu">
-               <ul class="nav ms-4 ps-3">
-                  <li class="nav-item">
-                     <a class="nav-link" href="admin-staff-list.php">
-                        <span class="sidenav-normal"> Staff List </span>
-                     </a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="admin-new-staff.php">
-                        <span class="sidenav-normal"> Add Staff </span>
-                     </a>
-                  </li>
-               </ul>
-            </div>
-         </li>
+            </li>
 
-         <!-- Alumni -->
-         <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#alumniMenu" class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'admin-alumni-list.php' || basename($_SERVER['PHP_SELF']) == 'admin-new-alumni.php' ? 'active' : '' ?>" role="button">
-               <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
-                  <i class="ni ni-hat-3
+            <!-- Alumni -->
+            <li class="nav-item">
+               <a data-bs-toggle="collapse" href="#alumniMenu" class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'admin-alumni-list.php' || basename($_SERVER['PHP_SELF']) == 'admin-new-alumni.php' ? 'active' : '' ?>" role="button">
+                  <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
+                     <i class="ni ni-hat-3
                   <?php
                   if (basename($_SERVER['PHP_SELF']) == 'admin-new-alumni.php' || basename($_SERVER['PHP_SELF']) == 'admin-alumni-list.php') {
                      echo 'text-white';
@@ -133,28 +156,32 @@
                      echo 'text-dark';
                   }
                   ?>" style="font-size: 12px;"></i>
+                  </div>
+                  <span class="nav-link-text ms-1">Alumni</span>
+               </a>
+               <div class="collapse" id="alumniMenu">
+                  <ul class="nav ms-4 ps-3">
+                     <li class="nav-item">
+                        <a class="nav-link" href="admin-alumni-list.php">
+                           <span class="sidenav-normal"> Alumni List </span>
+                        </a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="admin-new-alumni.php">
+                           <span class="sidenav-normal"> Add Alumni </span>
+                        </a>
+                     </li>
+                  </ul>
                </div>
-               <span class="nav-link-text ms-1">Alumni</span>
-            </a>
-            <div class="collapse" id="alumniMenu">
-               <ul class="nav ms-4 ps-3">
-                  <li class="nav-item">
-                     <a class="nav-link" href="admin-alumni-list.php">
-                        <span class="sidenav-normal"> Alumni List </span>
-                     </a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="admin-new-alumni.php">
-                        <span class="sidenav-normal"> Add Alumni </span>
-                     </a>
-                  </li>
-               </ul>
-            </div>
-         </li>
+            </li>
 
+
+         <?php
+         }
+         ?>
          <!--  Blog -->
          <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#postsMenu" class="nav-link  
+            <a data-bs-toggle="collapse" href="#postsMenu" class="nav-link 
                <?php
                if (basename($_SERVER['PHP_SELF']) == 'admin-timeline.php' || basename($_SERVER['PHP_SELF']) == 'admin-new-post.php') {
                   echo "active";
@@ -188,16 +215,19 @@
             </div>
          </li>
 
-         <!--  -->
-         <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#sessionMenu" class="nav-link 
+         <!-- Sessions  -->
+         <?php
+         if ($position_number >= 1 || $position_number <= 5) {
+         ?>
+            <li class="nav-item">
+               <a data-bs-toggle="collapse" href="#sessionMenu" class="nav-link 
             <?php
             if (basename($_SERVER['PHP_SELF']) == 'admin-edit-session.php') {
                echo "active";
             }
             ?>" aria-controls="sessionMenu" role="button" aria-expanded="false">
-               <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
-                  <i class="ni ni-calendar-grid-58 
+                  <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
+                     <i class="ni ni-calendar-grid-58 
                   <?php
                   if (basename($_SERVER['PHP_SELF']) == 'admin-edit-session.php') {
                      echo 'text-white';
@@ -205,24 +235,32 @@
                      echo 'text-dark';
                   }
                   ?>" style="font-size: 12px;"></i>
+                  </div>
+                  <span class="nav-link-text ms-1">Sessions</span>
+               </a>
+               <div class="collapse " id="sessionMenu">
+                  <ul class="nav ms-4 ps-3">
+                     <li class="nav-item">
+                        <a class="nav-link" href="admin-edit-session.php">
+                           <span class="sidenav-normal"> Edit Sessions </span>
+                        </a>
+                     </li>
+                  </ul>
                </div>
-               <span class="nav-link-text ms-1">Sessions</span>
-            </a>
-            <div class="collapse " id="sessionMenu">
-               <ul class="nav ms-4 ps-3">
-                  <li class="nav-item">
-                     <a class="nav-link" href="admin-edit-session.php">
-                        <span class="sidenav-normal"> Edit Sessions </span>
-                     </a>
-                  </li>
-               </ul>
-            </div>
-         </li>
-         <!-- Subjects -->
-         <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#subjectsMenu" class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'admin-add-subject.php' ? 'active' : '' ?>" role="button">
-               <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
-                  <i class="ni ni-single-copy-04
+            </li>
+         <?php
+         }
+         ?>
+
+         <?php
+         $in_array = [1, 3, 5];
+         if (in_array($position_number, $in_array)) {
+         ?>
+            <!-- Subjects -->
+            <li class="nav-item">
+               <a data-bs-toggle="collapse" href="#subjectsMenu" class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'admin-add-subject.php' ? 'active' : '' ?>" role="button">
+                  <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
+                     <i class="ni ni-single-copy-04
                   <?php
                   if (basename($_SERVER['PHP_SELF']) == 'admin-add-subject.php' || basename($_SERVER['PHP_SELF']) == 'remove-subject.php') {
                      echo 'text-white';
@@ -230,20 +268,24 @@
                      echo 'text-dark';
                   }
                   ?>" style="font-size: 12px;"></i>
+                  </div>
+                  <span class="nav-link-text ms-1">Subjects</span>
+               </a>
+               <div class="collapse" id="subjectsMenu">
+                  <ul class="nav ms-4 ps-3">
+                     <li class="nav-item">
+                        <a class="nav-link" href="admin-add-subject.php">
+                           <span class="sidenav-normal"> Add Subject </span>
+                        </a>
+                     </li>
+                  </ul>
                </div>
-               <span class="nav-link-text ms-1">Subjects</span>
-            </a>
-            <div class="collapse" id="subjectsMenu">
-               <ul class="nav ms-4 ps-3">
-                  <li class="nav-item">
-                     <a class="nav-link" href="admin-add-subject.php">
-                        <span class="sidenav-normal"> Add Subject </span>
-                     </a>
-                  </li>
-               </ul>
-            </div>
-         </li>
+            </li>
+         <?php
+         }
+         ?>
          <!--  -->
+
          <li class="nav-item">
             <a data-bs-toggle="collapse" href="#resultsMenu" class="nav-link 
             <?php
@@ -265,11 +307,17 @@
             </a>
             <div class="collapse " id="resultsMenu">
                <ul class="nav ms-4 ps-3">
-                  <li class="nav-item">
-                     <a class="nav-link" href="admin-choose-subject.php">
-                        <span class="sidenav-normal"> Upload Results </span>
-                     </a>
-                  </li>
+                  <?php
+                  if ($class['class_name'] != 'null') {
+                  ?>
+                     <li class="nav-item">
+                        <a class="nav-link" href="admin-choose-subject.php">
+                           <span class="sidenav-normal"> Upload Results </span>
+                        </a>
+                     </li>
+                  <?php
+                  }
+                  ?>
                   <li class="nav-item">
                      <a class="nav-link" href="admin-view-results.php">
                         <span class="sidenav-normal"> View Results </span>
@@ -278,16 +326,19 @@
                </ul>
             </div>
          </li>
-         <!--  -->
-         <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#paymentsMenu" class="nav-link 
+         <!-- Payments and Invoice -->
+         <?php
+         if ($position_number == 1 || $position_number == 2) {
+         ?>
+            <li class="nav-item">
+               <a data-bs-toggle="collapse" href="#paymentsMenu" class="nav-link 
             <?php
             if (basename($_SERVER['PHP_SELF']) == 'admin-invoices.php' || basename($_SERVER['PHP_SELF']) == 'admin-verify-payment.php') {
                echo "active";
             }
             ?>" aria-controls="paymentsMenu" role="button" aria-expanded="false">
-               <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
-                  <i class="ni ni-credit-card 
+                  <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
+                     <i class="ni ni-credit-card 
                   <?php
                   if (basename($_SERVER['PHP_SELF']) == 'admin-invoices.php' || basename($_SERVER['PHP_SELF']) == 'admin-verify-payment.php') {
                      echo 'text-white';
@@ -295,33 +346,40 @@
                      echo 'text-dark';
                   }
                   ?>" style="font-size: 12px;"></i>
+                  </div>
+                  <span class="nav-link-text ms-1">Payments</span>
+               </a>
+               <div class="collapse " id="paymentsMenu">
+                  <ul class="nav ms-4 ps-3">
+                     <li class="nav-item">
+                        <a class="nav-link" href="admin-invoices.php">
+                           <span class="sidenav-normal"> Invoices </span>
+                        </a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="admin-verify-payment.php">
+                           <span class="sidenav-normal"> Verify Payments </span>
+                        </a>
+                     </li>
+                  </ul>
                </div>
-               <span class="nav-link-text ms-1">Payments</span>
-            </a>
-            <div class="collapse " id="paymentsMenu">
-               <ul class="nav ms-4 ps-3">
-                  <li class="nav-item">
-                     <a class="nav-link" href="admin-invoices.php">
-                        <span class="sidenav-normal"> Invoices </span>
-                     </a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="admin-verify-payment.php">
-                        <span class="sidenav-normal"> Verify Payments </span>
-                     </a>
-                  </li>
-               </ul>
-            </div>
-         </li>
-         <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#applicantMenu" class="nav-link 
+            </li>
+         <?php
+         }
+         ?>
+         <!-- New Applicants -->
+         <?php
+         if ($position_number == 1 || $position_number == 4) {
+         ?>
+            <li class="nav-item">
+               <a data-bs-toggle="collapse" href="#applicantMenu" class="nav-link 
             <?php
             if (basename($_SERVER['PHP_SELF']) == 'admin-new-applicant.php' || basename($_SERVER['PHP_SELF']) == 'admin-view-applicant.php' || basename($_SERVER['PHP_SELF']) == 'admin-search-application.php') {
                echo "active";
             }
             ?>" aria-controls="applicantMenu" role="button" aria-expanded="false">
-               <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
-                  <i class="ni ni-single-02 
+                  <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
+                     <i class="ni ni-single-02 
                   <?php
                   if (basename($_SERVER['PHP_SELF']) == 'admin-new-applicant.php' || basename($_SERVER['PHP_SELF']) == 'admin-view-applicant.php' || basename($_SERVER['PHP_SELF']) == 'admin-search-application.php') {
                      echo 'text-white';
@@ -329,24 +387,27 @@
                      echo 'text-dark';
                   }
                   ?>" style="font-size: 12px;"></i>
+                  </div>
+                  <span class="nav-link-text ms-1">Applicants</span>
+               </a>
+               <div class="collapse " id="applicantMenu">
+                  <ul class="nav ms-4 ps-3">
+                     <li class="nav-item">
+                        <a class="nav-link" href="admin-new-applicant.php">
+                           <span class="sidenav-normal"> New Applicants </span>
+                        </a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="admin-search-application.php">
+                           <span class="sidenav-normal"> Search Application Code </span>
+                        </a>
+                     </li>
+                  </ul>
                </div>
-               <span class="nav-link-text ms-1">Applicants</span>
-            </a>
-            <div class="collapse " id="applicantMenu">
-               <ul class="nav ms-4 ps-3">
-                  <li class="nav-item">
-                     <a class="nav-link" href="admin-new-applicant.php">
-                        <span class="sidenav-normal"> New Applicants </span>
-                     </a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="admin-search-application.php">
-                        <span class="sidenav-normal"> Search Application Code </span>
-                     </a>
-                  </li>
-               </ul>
-            </div>
-         </li>
+            </li>
+         <?php
+         }
+         ?>
          <!-- Notifications -->
          <li class="nav-item">
             <a data-bs-toggle="collapse" href="#notificationMenu" class="nav-link 
@@ -369,11 +430,17 @@
             </a>
             <div class="collapse " id="notificationMenu">
                <ul class="nav ms-4 ps-3">
-                  <li class="nav-item">
-                     <a class="nav-link" href="admin-general-alert.php">
-                        <span class="sidenav-normal"> General Alerts </span>
-                     </a>
-                  </li>
+                  <?php
+                  if ($position_number >= 1 || $position_number <= 6) {
+                  ?>
+                     <li class="nav-item">
+                        <a class="nav-link" href="admin-general-alert.php">
+                           <span class="sidenav-normal"> General Alerts </span>
+                        </a>
+                     </li>
+                  <?php
+                  }
+                  ?>
                   <li class="nav-item">
                      <a class="nav-link" href="admin-view-notification.php">
                         <span class="sidenav-normal"> View Notifications </span>
@@ -383,15 +450,19 @@
             </div>
          </li>
          <!-- Defaults -->
-         <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#settingsMenu" class="nav-link 
+         <?php
+         $in_array = [1, 3, 5];
+         if (in_array($position_number, $in_array)) {
+         ?>
+            <li class="nav-item">
+               <a data-bs-toggle="collapse" href="#settingsMenu" class="nav-link 
             <?php
             if (basename($_SERVER['PHP_SELF']) == 'admin-set-defaults.php' || basename($_SERVER['PHP_SELF']) == 'admin-general-settings.php') {
                echo "active";
             }
             ?>" aria-controls="settingsMenu" role="button" aria-expanded="false">
-               <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
-                  <i class="ni ni-settings
+                  <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
+                     <i class="ni ni-settings
                   <?php
                   if (basename($_SERVER['PHP_SELF']) == 'admin-set-defaults.php' || basename($_SERVER['PHP_SELF']) == 'admin-general-settings.php') {
                      echo 'text-white';
@@ -399,24 +470,33 @@
                      echo 'text-dark';
                   }
                   ?>" style="font-size: 12px;"></i>
+                  </div>
+                  <span class="nav-link-text ms-1">Settings</span>
+               </a>
+               <div class="collapse " id="settingsMenu">
+                  <ul class="nav ms-4 ps-3">
+                     <li class="nav-item">
+                        <a class="nav-link" href="admin-set-defaults.php">
+                           <span class="sidenav-normal"> Set Defaults </span>
+                        </a>
+                     </li>
+                     <?php
+                     if ($position_number == 1 || $position_number == 3) {
+                     ?>
+                        <li class="nav-item">
+                           <a class="nav-link" href="admin-general-settings.php">
+                              <span class="sidenav-normal"> General Settings </span>
+                           </a>
+                        </li>
+                     <?php
+                     }
+                     ?>
+                  </ul>
                </div>
-               <span class="nav-link-text ms-1">Settings</span>
-            </a>
-            <div class="collapse " id="settingsMenu">
-               <ul class="nav ms-4 ps-3">
-                  <li class="nav-item">
-                     <a class="nav-link" href="admin-set-defaults.php">
-                        <span class="sidenav-normal"> Set Defaults </span>
-                     </a>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="admin-general-settings.php">
-                        <span class="sidenav-normal"> General Settings </span>
-                     </a>
-                  </li>
-               </ul>
-            </div>
-         </li>
+            </li>
+         <?php
+         }
+         ?>
          <!-- Line Breaker -->
          <li class="nav-item">
             <hr class="horizontal dark">
@@ -441,8 +521,6 @@
                         </g>
                      </g>
                   </svg>
-
-
 
                </div>
                <span class="nav-link-text ms-1">Logout</span>

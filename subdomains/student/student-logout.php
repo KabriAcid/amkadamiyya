@@ -1,6 +1,6 @@
 <?php
 session_start();
-session_unset();
 session_destroy();
+session_unset();
 
-header("Location: student-login.php");
+header("Location: ../../index.php");
