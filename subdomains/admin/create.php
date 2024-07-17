@@ -43,6 +43,7 @@ if (isset($_POST['register'])) {
         $status = mysqli_real_escape_string($conn, $_POST['status']);
         $position_id = mysqli_real_escape_string($conn, $_POST['position_id']);
 
+        // Determing section from class
         $result = mysqli_query($conn, "SELECT * FROM `classes` WHERE `class_id` = '$class_id'");
         $class = mysqli_fetch_assoc($result);
 
