@@ -1,5 +1,5 @@
 <?php
-require 'insert.php';
+require_once 'create.php';
 if (isset($_SESSION['registration_success'])) {
     $first_name = $_SESSION['registration_success']['first_name'];
     $last_name = $_SESSION['registration_success']['last_name'];
