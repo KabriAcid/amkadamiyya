@@ -33,11 +33,7 @@ if (isset($_SESSION['staff'])) {
 
 <body class="g-sidenav-show bg-info-soft">
     <?php
-    if ($position_id == 1) {
         include "inc/admin-sidebar.php";
-    } else {
-        include "";
-    }
     ?>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         <?php require "inc/admin-navbar.php"; ?>
@@ -120,23 +116,6 @@ if (isset($_SESSION['staff'])) {
                                         </div>
                                     </div>
                                     <!--  -->
-                                    <div class="col-md-6">
-                                        <label>Class</label>
-                                        <div class="input-group mb-3">
-                                            <select class="form-select" name="class_id">
-                                                <?php
-                                                $sql = "SELECT * FROM `classes`;";
-                                                $classes = mysqli_query($conn, $sql);
-
-                                                while ($class = mysqli_fetch_assoc($classes)) {
-                                                ?>
-                                                    <option value="<?php echo $class['class_id']; ?>" <?php if ($alumni['class_id'] == $class['class_id']) echo 'selected'; ?>><?php echo $class['class_name'] ?></option>
-                                                <?php
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                    </div>
                                     <!-- Hidden Input Field -->
                                     <input type="hidden" name="alumni_id" value="<?php echo $alumni['alumni_id']; ?>">
                                 </div>
