@@ -324,7 +324,6 @@ if (isset($_SESSION['registration_success'])) {
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
                                             <div class="modal-body text-center">
-                                                <i class="fa fa-check fa-3x text-success mb-3"></i>
                                                 <h4>Registration Successful</h4>
                                                 <hr class="horizontal dark">
                                                 <p>Dear <?php echo $first_name . ' ' . $last_name; ?>, your login details are as follows:</p>

@@ -61,26 +61,26 @@ if (isset($_POST['register'])) {
             $photo = 'uploads/default.png';
         }
 
-        // function isValidPhoneNumber($phone_number)
-        // {
-        //     // Define the regular expression pattern for a Nigerian phone number
-        //     $pattern = '/^((070|080|090|081|091)\d{8})$/';
-        //     trim($phone_number);
+        function isValidPhoneNumber($phone_number)
+        {
+            // Define the regular expression pattern for a Nigerian phone number
+            $pattern = '/^((070|080|090|081|091)\d{8})$/';
+            trim($phone_number);
 
-        //     // Check if the phone number matches the pattern
-        //     if (preg_match($pattern, $phone_number)) {
-        //         return true;
-        //     } else {
-        //         return false;
-        //     }
-        // }
-        // // Validate phone number
-        // if (!isValidPhoneNumber($phone_number)) {
-        //     $_SESSION['error_message'] = "Please enter a valid Nigerian phone number.";
-        //     // Redirect back to the same page
-        //     header("Location: " . $_SERVER['PHP_SELF']);
-        //     exit();
-        // }
+            // Check if the phone number matches the pattern
+            if (preg_match($pattern, $phone_number)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        // Validate phone number
+        if (!isValidPhoneNumber($phone_number)) {
+            $_SESSION['error_message'] = "Please enter a valid Nigerian phone number.";
+            // Redirect back to the same page
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
+        }
 
         // Generate username
         $username = $first_name . substr($phone_number, 9);
@@ -199,26 +199,26 @@ if (isset($_POST['addStudent'])) {
         }
     }
 
-    // function isValidPhoneNumber($parent_phone_number)
-    // {
-    //     // Define the regular expression pattern for a Nigerian phone number
-    //     $pattern = '/^((070|080|090|081|091)\d{8})$/';
-    //     trim($parent_phone_number);
+    function isValidPhoneNumber($parent_phone_number)
+    {
+        // Define the regular expression pattern for a Nigerian phone number
+        $pattern = '/^((070|080|090|081|091)\d{8})$/';
+        trim($parent_phone_number);
 
-    //     // Check if the phone number matches the pattern
-    //     if (preg_match($pattern, $parent_phone_number)) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
-    // // Validate phone number
-    // if (!isValidPhoneNumber($parent_phone_number)) {
-    //     $_SESSION['error_message'] = "Please enter a valid Nigerian phone number.";
-    //     // Redirect back to the same page
-    //     header("Location: " . $_SERVER['PHP_SELF']);
-    //     exit();
-    // }
+        // Check if the phone number matches the pattern
+        if (preg_match($pattern, $parent_phone_number)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    // Validate phone number
+    if (!isValidPhoneNumber($parent_phone_number)) {
+        $_SESSION['error_message'] = "Please enter a valid Nigerian phone number.";
+        // Redirect back to the same page
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
+    }
 
 
     if (empty($errors)) {
@@ -334,26 +334,26 @@ if (isset($_POST['addalumni'])) {
     $address = ucwords($_POST['address']);
     $nin_number = trim($_POST['nin_number']);
 
-    // function isValidPhoneNumber($phone_number)
-    // {
-    //     // Define the regular expression pattern for a Nigerian phone number
-    //     $pattern = '/^((070|080|090|081|091)\d{8})$/';
-    //     trim($phone_number);
+    function isValidPhoneNumber($phone_number)
+    {
+        // Define the regular expression pattern for a Nigerian phone number
+        $pattern = '/^((070|080|090|081|091)\d{8})$/';
+        trim($phone_number);
 
-    //     // Check if the phone number matches the pattern
-    //     if (preg_match($pattern, $phone_number)) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
-    // // Validate phone number
-    // if (!isValidPhoneNumber($phone_number)) {
-    //     $_SESSION['error_message'] = "Please enter a valid Nigerian phone number.";
-    //     // Redirect back to the same page
-    //     header("Location: " . $_SERVER['PHP_SELF']);
-    //     exit();
-    // }
+        // Check if the phone number matches the pattern
+        if (preg_match($pattern, $phone_number)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    // Validate phone number
+    if (!isValidPhoneNumber($phone_number)) {
+        $_SESSION['error_message'] = "Please enter a valid Nigerian phone number.";
+        // Redirect back to the same page
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
+    }
 
     $index_prefix = '4350785';
     $index_prefix .= $index_no;

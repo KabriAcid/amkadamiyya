@@ -271,7 +271,7 @@ if (isset($_POST['updateStudentBioData'])) {
 // Update Parent Information
 if (isset($_POST['updateParentData'])) {
     // Declare student_id from hidden input field
-    $student_id = mysqli_real_escape_string($conn, $_POST['student_id']);
+    $student_id = $_POST['student_id'];
 
     $parent_first_name = capitalize($_POST['parent_first_name']);
     $parent_last_name = capitalize($_POST['parent_last_name']);
@@ -395,6 +395,7 @@ if (isset($_POST['eraseStudentData'])) {
     if ($stmt->execute()) {
         $_SESSION['success_message'] = "Student erased successfully!";
         header('Location: admin-student-list.php');
+        exit();
     } else {
         $_SESSION['error_message'] = "Error erasing student: " . $stmt->error;
     }
