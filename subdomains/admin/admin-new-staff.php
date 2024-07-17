@@ -326,10 +326,8 @@ if (isset($_SESSION['registration_success'])) {
                                             <div class="modal-body text-center">
                                                 <h4>Registration Successful</h4>
                                                 <hr class="horizontal dark">
-                                                <p>Dear <?php echo $first_name . ' ' . $last_name; ?>, your login details are as follows:</p>
-                                                <p>Username: <strong><?php echo $username; ?></strong></p>
-                                                <p>Password: <strong><i>amka123</i></strong></p>
-                                                <p class="text-sm mb-0">Note: Please change your password immediately after logging in.</p>
+                                                <p>Dear <?php echo $first_name . ' ' . $last_name; ?>, your username is: <strong><?php echo $username; ?></strong> and the default password is : <strong><i>amka123</i></strong></p>
+                                                <i class="text-sm mb-0">Note: Please change your password immediately after logging in.</i>
                                                 <button type="button" class="btn bg-gradient-info mt-3" data-bs-dismiss="modal">Ok</button>
                                             </div>
                                         </div>
