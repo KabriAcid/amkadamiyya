@@ -2,13 +2,39 @@
 session_start();
 require_once "../../config/database.php";
 
-if (!isset($_SESSION['staff'])) {
-    header("Location: admin-login.php");
+if (isset($_SESSION['staff'])) {
+    $position_id = $_SESSION['staff']['position_id'];
+} else {
+    header("Location: admin-logout.php");
+    exit;
 }
+
 $class_id = $_SESSION['staff']['class_id'];
 $sql = "SELECT * FROM `classes` WHERE `class_id` = '$class_id'";
 $result = mysqli_query($conn, $sql);
 $class = mysqli_fetch_assoc($result);
+
+// Function to find total count of rows in a given table
+function find_total($conn, $table)
+{
+    $sql = "SELECT COUNT(*) AS `total` FROM `$table`";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($result);
+    return $row['total'];
+}
+
+// Retrieve totals
+$totals = [
+    'students' => find_total($conn, 'students'),
+    'staff' => find_total($conn, 'staff'),
+    'alumni' => find_total($conn, 'alumni'),
+    'applicants' => find_total($conn, 'applicants')
+];
+
+// Determine the maximum total value for scaling the bar heights
+$max_total = max($totals);
+$scale_factor = 300 / $max_total; // Adjust the height scale factor based on the container height (300px)
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +42,56 @@ $class = mysqli_fetch_assoc($result);
 <head>
     <?php include "inc/admin-header.php"; ?>
     <title>Dashboard</title>
-    <script src="../../js/plugins/sweetalert.min.js"></script>
+    <style>
+        .bar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            width: 100%;
+            height: 300px;
+            /* Adjust height as needed */
+        }
+
+        .bars {
+            width: 40px;
+            border-radius: 3px;
+            background-color: #f7f7f7;
+            transition: height 1s ease-in-out;
+            animation-name: barAnimation;
+            animation-duration: 3.5s;
+            animation-iteration-count: 1;
+            animation-timing-function: ease-in;
+        }
+
+        @keyframes barAnimation {
+            to {
+                height: var(--bar-height);
+            }
+        }
+
+        #bar-students {
+            --bar-height: <?php echo find_total($conn, 'students') . 'px'; ?>;
+        }
+
+        #bar-staff {
+            --bar-height: <?php echo find_total($conn, 'staff') . 'px'; ?>;
+        }
+
+        #bar-alumni {
+            --bar-height: <?php echo find_total($conn, 'alumni') . 'px'; ?>;
+        }
+
+        #bar-applicants {
+            --bar-height: <?php echo find_total($conn, 'applicants') . 'px'; ?>;
+        }
+
+        .points {
+            height: 100%;
+            position: relative;
+            bottom: -30px;
+        }
+    </style>
+
 </head>
 
 <body class="g-sidenav-show bg-info-soft">
@@ -39,18 +114,15 @@ $class = mysqli_fetch_assoc($result);
     }
     ?>
     <?php
-    if ($_SESSION['staff']['position_id'] == 1) {
         include "inc/admin-sidebar.php";
-    } else {
-        include "inc/admin-sidebar.php";
-    }
     ?>
     <!--  -->
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <?php include "inc/admin-navbar.php";
-        if ($_SESSION['staff']['position_id'] == 1) {
+        if (in_array($position_id, [1, 2, 3])) {
             include 'access-level-1.php';
-        } else {
+        } 
+        else if(in_array($position_id, [0, 4])) {
             include 'access-level-2.php';
         }
         include "inc/admin-footer.php";
@@ -59,69 +131,43 @@ $class = mysqli_fetch_assoc($result);
 
 
     <script src="../../js/plugins/datatables.js"></script>
+    <script src="../../js/plugins/sweetalert.min.js"></script>
     <script src="../../js/plugins/chartjs.min.js"></script>
     <script src="inc/chart.js"></script>
     <?php include "inc/admin-scripts.php"; ?>
 
+    <script src="../../js/plugins/countup.min.js"></script>
+    <!-- <script src="js/script.js"></script> -->
     <script>
-        // Bar chart
-        var ctx5 = document.getElementById("bar-chart").getContext("2d");
+        // Pass the totals to JavaScript
+        const totals = <?php echo json_encode($totals); ?>;
 
-        new Chart(ctx5, {
-            type: "bar",
-            data: {
-                labels: ["16-20", "21-25", "26-30", "31-36", "36-42", "42+"],
-                datasets: [{
-                    label: "students",
-                    weight: 5,
-                    borderWidth: 0,
-                    borderRadius: 4,
-                    backgroundColor: "#3A416F",
-                    data: [15, 20, 12, 60, 20, 15],
-                    fill: false,
-                    maxBarThickness: 35,
-                }, ],
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false,
-                    },
-                },
-                scales: {
-                    y: {
-                        grid: {
-                            drawBorder: false,
-                            display: true,
-                            drawOnChartArea: true,
-                            drawTicks: false,
-                            borderDash: [5, 5],
-                        },
-                        ticks: {
-                            display: true,
-                            padding: 10,
-                            color: "#9ca2b7",
-                        },
-                    },
-                    x: {
-                        grid: {
-                            drawBorder: false,
-                            display: false,
-                            drawOnChartArea: true,
-                            drawTicks: true,
-                        },
-                        ticks: {
-                            display: true,
-                            color: "#9ca2b7",
-                            padding: 10,
-                        },
-                    },
-                },
-            },
-        });
+        // Function to start count up animation
+        function startCountUp(id) {
+            const element = document.getElementById(id);
+            const countTo = element.getAttribute("countTo");
+            const countUp = new CountUp(id, countTo);
+            if (!countUp.error) {
+                countUp.start();
+            } else {
+                console.error(countUp.error);
+            }
+        }
+
+        // Start count up for each section
+        ['total-students', 'total-staff', 'total-alumni', 'total-applicants'].forEach(startCountUp);
+
+        // Animate bars to rise from the bottom
+        function animateBars() {
+            document.querySelectorAll('.bars').forEach(bar => {
+                bar.style.height = getComputedStyle(bar).getPropertyValue('--bar-height');
+            });
+        }
+
+        // Call function to animate bars after page load
+        window.onload = animateBars;
     </script>
+    
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const dataTableBasic = new simpleDatatables.DataTable("#datatable-basic", {

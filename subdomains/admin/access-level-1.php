@@ -224,13 +224,50 @@
     </div>
     <div class="row mt-3">
         <div class="col-lg-8">
-            <div class="card z-index-2">
-                <div class="card-header p-3 pb-0">
-                    <h6>Bar chart</h6>
+            <!-- Card -->
+            <div class="card p-3">
+                <!-- Card header -->
+                <div class="card-header bg-gradient-dark" style="position: relative;">
+                    <div class="d-flex align-items-end">
+                        <!-- Points -->
+                        <div class="points flex-column pe-3 text-center" id="points-container">
+                            <?php for ($i = 1000; $i >= 0; $i -= 100) : ?>
+                                <p class="chart-canvas text-white font-weight-bold"><?php echo $i; ?></p>
+                            <?php endfor; ?>
+                        </div>
+                        <!-- Bars -->
+                        <div class="bar-container">
+                            <div class="bars" id="bar-students"></div>
+                            <div class="bars" id="bar-staff"></div>
+                            <div class="bars" id="bar-alumni"></div>
+                            <div class="bars" id="bar-applicants"></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body p-3">
-                    <div class="chart">
-                        <canvas id="bar-chart" class="chart-canvas" height="300"></canvas>
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Display Sections Dynamically -->
+                        <?php
+                        $sections = [
+                            'students' => ['icon' => 'ni ni-circle-08', 'bg' => 'bg-gradient-info'],
+                            'staff' => ['icon' => 'ni ni-circle-08', 'bg' => 'bg-gradient-dark'],
+                            'alumni' => ['icon' => 'ni ni-circle-08', 'bg' => 'bg-gradient-warning'],
+                            'applicants' => ['icon' => 'ni ni-circle-08', 'bg' => 'bg-gradient-primary'],
+                        ];
+                        foreach ($sections as $section => $details) {
+                            $total = $totals[$section];
+                        ?>
+                            <div class="col-6 col-lg-3 py-3 ps-0">
+                                <div class="d-flex mb-2">
+                                    <div class="icon icon-shape icon-xxs shadow border-radius-sm <?php echo $details['bg']; ?> text-center me-2 d-flex align-items-center justify-content-center">
+                                        <i class="<?php echo $details['icon']; ?>"></i>
+                                    </div>
+                                    <p class="text-xs mt-1 mb-0 font-weight-bold"><?php echo ucfirst($section); ?></p>
+                                </div>
+                                <h4 class="font-weight-bolder text-uppercase" id="total-<?php echo $section; ?>" countTo="<?php echo $total; ?>"></h4>
+                            </div>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
