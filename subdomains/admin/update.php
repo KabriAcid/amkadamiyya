@@ -482,3 +482,18 @@ if (isset($_POST['updateApplicantParentData'])) {
     header('Location: ' . $_SERVER['PHP_SELF'] . '?applicant_id=' . $applicant_id);
     exit();
 }
+
+if (isset($_POST['declineBtn'])) {
+    $applicant_id = mysqli_real_escape_string($conn, $_POST['applicant_id']);
+
+    // Delete applicant from the database
+    $delete_query = "DELETE FROM applicants WHERE applicant_id = $applicant_id";
+
+    if (mysqli_query($conn, $delete_query)) {
+        $_SESSION['success_message'] = 'Applicant has been declined and removed successfully.';
+        header('Location: admin-new-applicant.php'); // Redirect to the applicants page
+        exit();
+    } else {
+        $_SESSION['error_message'] = 'An error occurred while declining the applicant. Please try again.';
+    }
+}

@@ -209,12 +209,9 @@ if (isset($_SESSION['staff'])) {
                             </p>
                         </div>
                         <div class="card-body justify-content-between d-flex pt-0">
-                            <form action="" method="post">
-                                <input type="hidden" name="applicant_id" value="<?php echo $applicant['applicant_id']; ?>">
-                                <button class="btn bg-gradient-danger text-xs btn-sm mb-0 ms-2" type="button" name="declineBtn" data-bs-toggle="modal" data-bs-target="#modal-notification">
-                                    Delete Account
-                                </button>
-                            </form>
+                            <button class="btn bg-gradient-danger text-xs btn-sm mb-0 ms-2" type="button" data-bs-toggle="modal" data-bs-target="#modal-notification">
+                                Delete Account
+                            </button>
                             <!-- Modal -->
                             <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
                                 <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
@@ -231,7 +228,8 @@ if (isset($_SESSION['staff'])) {
                                         <div class="modal-footer justify-content-end d-flex align-items-center">
                                             <button type="button" class="btn bg-gradient-secondary btn-round" data-bs-dismiss="modal">No, Cancel</button>
                                             <form action="" method="post">
-                                                <button type="submit" class="btn bg-gradient-danger ms-2 btn-round" data-bs-dismiss="modal">Yes, Delete</button>
+                                                <input type="hidden" name="applicant_id" value="<?php echo $applicant['applicant_id']; ?>">
+                                                <button type="submit" name="declineBtn" class="btn bg-gradient-danger ms-2 btn-round" data-bs-dismiss="modal">Yes, Delete</button>
                                             </form>
                                         </div>
                                     </div>
