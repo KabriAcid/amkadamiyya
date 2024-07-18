@@ -2,8 +2,10 @@
 include "admission-process.php";
 if(isset($_SESSION['registration_success'])){
     $registration_id = $_SESSION['registration_success'];
-    $sql = $conn->query("SELECT * FROM applicants WHERE registration_id = '$registration_id'");
-    $registration = $registration->fetch_assoc();
+    $sql = "SELECT registration_id FROM applicants WHERE registration_id = '$registration_id'";
+    $result = mysqli_query($conn, $sql);
+    $registration = mysqli_fetch_assoc($result);
+
     $registration_id = $registration['registration_id'];
 }
 ?>
@@ -198,6 +200,7 @@ if(isset($_SESSION['registration_success'])){
                                                     <div class="modal-body">
                                                         <h4 class="text-gradient text-dark text-center">Registration Successful</h4>
                                                         <hr class="horizontal dark my-1">
+                                                        <p class="text-center"><?php echo isset($registration_id) ? $registration_id : '';?> You have successfully registered for admission. You will be contacted shortly</p>
                                                         <button type="button" class="d-flex justify-content-center btn bg-gradient-info mt-3" data-bs-dismiss="modal">Ok</button>
                                                     </div>
                                                 </div>
