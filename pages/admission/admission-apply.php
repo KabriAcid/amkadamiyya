@@ -1,14 +1,34 @@
 <?php
 include "admission-process.php";
-if(isset($_SESSION['registration_success'])){
-    $registration_id = $_SESSION['registration_success'];
-    $sql = "SELECT registration_id FROM applicants WHERE registration_id = '$registration_id'";
+// Check if registration success flag is set
+if (isset($_SESSION['registration_success']) && $_SESSION['registration_success']) {
+
+    $registration_id = $_SESSION['registration_success']['registration_id'];
+
+    // Query to fetch application details using registration_id
+    $sql = "SELECT application_code, first_name, last_name 
+                FROM applicants 
+                WHERE registration_id = '$registration_id'";
+
     $result = mysqli_query($conn, $sql);
     $registration = mysqli_fetch_assoc($result);
 
-    $registration_id = $registration['registration_id'];
+    $application_code = $registration['application_code'];
+    $first_name = $registration['first_name'];
+    $last_name = $registration['last_name'];
+
+    // Output JavaScript to trigger the modal display
+    echo '<script>
+            $(document).ready(function(){
+                $("#successModal").modal("show");
+            });
+          </script>';
+
+    // Unset the session variable after displaying modal
+    // unset($_SESSION['registration_success']);
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -200,9 +220,13 @@ if(isset($_SESSION['registration_success'])){
                                                     <div class="modal-body">
                                                         <h4 class="text-gradient text-dark text-center">Registration Successful</h4>
                                                         <hr class="horizontal dark my-1">
-                                                        <p class="text-center"><?php echo isset($registration_id) ? $registration_id : '';?> You have successfully registered for admission. You will be contacted shortly</p>
-                                                        <button type="button" class="d-flex justify-content-center btn bg-gradient-info mt-3" data-bs-dismiss="modal">Ok</button>
+                                                        <p class="text-center">Dear <?php echo htmlspecialchars($first_name) . "&nbsp;" . htmlspecialchars($last_name) . ","; ?> You have successfully registered for admission. You will be contacted shortly</p>
+                                                        <p>Your application code is <?php echo htmlspecialchars($application_code); ?></p>
+                                                        <div class="d-flex justify-content-center">
+                                                            <button type="button" class="btn bg-gradient-info mt-3" data-bs-dismiss="modal">Ok</button>
+                                                        </div>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -260,20 +284,6 @@ if(isset($_SESSION['registration_success'])){
         </script>
     <?php
         unset($_SESSION['error_message']);
-    }
-    ?>
-    <?php
-    // Check if registration success flag is set
-    if (isset($_SESSION['registration_success']) && $_SESSION['registration_success']) {
-        // Output JavaScript to trigger the modal display
-        echo '<script>
-            $(document).ready(function(){
-                $("#successModal").modal("show");
-            });
-          </script>';
-
-        // Unset the session variable after displaying modal
-        unset($_SESSION['registration_success']);
     }
     ?>
 

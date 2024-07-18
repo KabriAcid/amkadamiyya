@@ -93,8 +93,8 @@ if (isset($_POST['applyAdmission'])) {
             // $sql = "INSERT INTO `admin_notification` (`not_level`, `not_title`, `not_content`, `not_icon`, `not_icon_color`, `not_bg_color`)
             //             VALUES ('applicant', 'New Applicant received.', '$first_name $last_name from $lga has applied for an admission and is enrolling for ', 'ni ni-single-02', 'text-warning', 'bg-warning-soft');";
             // mysqli_query($conn, $sql);
-            $_SESSION['success_message'] = "Student added successfully!";
-            $_SESSION['registration_success'] = $registration_id;
+            // $_SESSION['success_message'] = "Student added successfully!";
+            $_SESSION['registration_success']['registration_id'] = $registration_id;
 
             header('Location: ' . $_SERVER['PHP_SELF']);
         } else {
