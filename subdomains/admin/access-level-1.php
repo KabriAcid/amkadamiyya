@@ -252,7 +252,7 @@
                         $sections = [
                             'students' => ['icon' => 'ni ni-circle-08', 'bg' => 'bg-gradient-info'],
                             'staff' => ['icon' => 'ni ni-circle-08', 'bg' => 'bg-gradient-dark'],
-                            'alumni' => ['icon' => 'ni ni-circle-08', 'bg' => 'bg-gradient-warning'],
+                            'alumni' => ['icon' => 'ni ni-hat-3', 'bg' => 'bg-gradient-warning'],
                             'applicants' => ['icon' => 'ni ni-circle-08', 'bg' => 'bg-gradient-primary'],
                         ];
                         foreach ($sections as $section => $details) {
