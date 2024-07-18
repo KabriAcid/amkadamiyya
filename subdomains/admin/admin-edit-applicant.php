@@ -208,7 +208,7 @@ if (isset($_SESSION['staff'])) {
                                 Once you erase applicant, all associated data will be removed from the database and will never be restored.
                             </p>
                         </div>
-                        <div class="card-body justify-content-between d-flex pt-0">
+                        <div class="card-body justify-content-end d-flex pt-0">
                             <button class="btn bg-gradient-danger text-xs btn-sm mb-0 ms-2" type="button" data-bs-toggle="modal" data-bs-target="#modal-notification">
                                 Delete Account
                             </button>
@@ -235,6 +235,7 @@ if (isset($_SESSION['staff'])) {
                                     </div>
                                 </div>
                             </div>
+                            <!-- End of Modal -->
                         </div>
                     </div>
                 </div>

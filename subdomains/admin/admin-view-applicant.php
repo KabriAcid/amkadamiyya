@@ -30,8 +30,8 @@ if (isset($_SESSION['staff'])) {
 
 <body class="g-sidenav-show bg-info-soft">
     <?php
-        include "inc/admin-sidebar.php";
-?>
+    include "inc/admin-sidebar.php";
+    ?>
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         <?php require "inc/admin-navbar.php"; ?>
@@ -71,8 +71,8 @@ if (isset($_SESSION['staff'])) {
                                     <strong class="text-dark">Application Date: </strong>&nbsp; <?php echo date("j F, Y. H:m", strtotime($applicant['timestamp'])); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Enrolling Class: </strong>&nbsp; 
-                                    <?php  $class_id = $applicant['enrolling_class'];
+                                    <strong class="text-dark">Enrolling Class: </strong>&nbsp;
+                                    <?php $class_id = $applicant['enrolling_class'];
 
                                     $sql = "SELECT `class_name` FROM `classes` WHERE `class_id` = '$class_id'";
                                     $clasess = mysqli_query($conn, $sql);
@@ -106,10 +106,9 @@ if (isset($_SESSION['staff'])) {
             <div class="container">
                 <div class="row justify-content-center align-items-center">
                     <div class="col-6 text-end">
-                        <form action="" method="post">
-                            <input type="hidden" name="applicant_id" value="<?php echo $applicant['applicant_id'] ?>">
-                            <button type="submit" class="btn bg-gradient-danger btn-round" name="declineBtn">Decline</button>
-                        </form>
+                        <button class="btn bg-gradient-danger text-xs btn-sm mb-0 ms-2" type="button" data-bs-toggle="modal" data-bs-target="#modal-notification">
+                            Delete Account
+                        </button>
                     </div>
                     <div class="col-6 text-">
                         <form action="" method="post">
@@ -119,6 +118,30 @@ if (isset($_SESSION['staff'])) {
                     </div>
                 </div>
             </div>
+            <!-- Modal -->
+            <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+                <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="py-3 text-center">
+                                <div>
+                                    <i class="fas fa-exclamation-triangle bg-danger-soft p-3 text-danger fa-3x" style="border-radius: 100%;"></i>
+                                </div>
+                                <h4 class="text-gradient text-danger mt-4">Delete Account?</h4>
+                                <p class="text-center text-sm">Are you sure you want to delete applicant? <br> This operation cannot be reverted.</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-end d-flex align-items-center">
+                            <button type="button" class="btn bg-gradient-secondary btn-round" data-bs-dismiss="modal">No, Cancel</button>
+                            <form action="" method="post">
+                                <input type="hidden" name="applicant_id" value="<?php echo $applicant['applicant_id']; ?>">
+                                <button type="submit" name="declineBtn" class="btn bg-gradient-danger ms-2 btn-round" data-bs-dismiss="modal">Yes, Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Modal -->
         </div>
         <?php include "inc/admin-footer.php"; ?>
     </main>
