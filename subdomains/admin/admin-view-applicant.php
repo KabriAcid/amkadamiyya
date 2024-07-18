@@ -1,17 +1,16 @@
 <?php
-session_start();
-require_once "../../config/database.php";
+require_once "admin-process.php";
 
-// Check if student ID is set
-if (isset($_GET['student_id'])) {
-    $student_id = $_GET['student_id'];
+// Check if applicant ID is set
+if (isset($_GET['applicant_id'])) {
+    $applicant_id = $_GET['applicant_id'];
 
     // Prepare SQL query with parameterized query
-    $sql = "SELECT * FROM `students` WHERE `student_id` = ?";
+    $sql = "SELECT * FROM `applicants` WHERE `applicant_id` = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $student_id);
+    $stmt->bind_param("i", $applicant_id);
     $stmt->execute();
-    $student = $stmt->get_result()->fetch_assoc();
+    $applicant = $stmt->get_result()->fetch_assoc();
 }
 
 // Check if staff position ID is set

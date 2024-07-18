@@ -489,7 +489,7 @@ if (isset($_POST['approveBtn'])) {
         if (mysqli_query($conn, $insert_query)) {
             $sql = "UPDATE applicants SET admission_status = 1 WHERE `applicant_id` = '$applicant_id'";
             mysqli_query($conn, $sql);
-            $_SESSION['success_message'] = 'Applicant has been approved and added to the students database successfully.';
+            $_SESSION['success_message'] = 'Applicant has been approved successfully.';
             header('Location: admin-new-applicant.php'); // Redirect to the applicants page
             exit();
         } else {

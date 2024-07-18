@@ -1,5 +1,11 @@
 <?php
 include "admission-process.php";
+if(isset($_SESSION['registration_success'])){
+    $registration_id = $_SESSION['registration_success'];
+    $sql = $conn->query("SELECT * FROM applicants WHERE registration_id = '$registration_id'");
+    $registration = $registration->fetch_assoc();
+    $registration_id = $registration['registration_id'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -100,7 +106,7 @@ include "admission-process.php";
                                         <div class="col-md-6 mt-3">
                                             <label>Class</label>
                                             <div class="input-group">
-                                                <select class="form-select" name="class_id">
+                                                <select class="form-select" name="enrolling_class">
                                                     <?php
                                                     $sql = "SELECT * FROM `general_class`";
                                                     $result = mysqli_query($conn, $sql);
@@ -185,6 +191,19 @@ include "admission-process.php";
                                                 </div>
                                             </div>
                                         </div>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModal" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <h4 class="text-gradient text-dark text-center">Registration Successful</h4>
+                                                        <hr class="horizontal dark my-1">
+                                                        <button type="button" class="d-flex justify-content-center btn bg-gradient-info mt-3" data-bs-dismiss="modal">Ok</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End of Modal -->
                                     </div>
                                 </div>
                             </div>
@@ -198,9 +217,13 @@ include "admission-process.php";
     <?php
     include "../../includes/footer.php";
     ?>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="../../js/plugins/state-capital.js"></script>
     <script src="../../js/plugins/sweetalert.min.js"></script>
     <?php include "../../includes/scripts.php"; ?>
+
 
     <?php
     if (isset($_SESSION['success_message'])) {
@@ -218,7 +241,6 @@ include "admission-process.php";
         </script>
     <?php
         unset($_SESSION['success_message']);
-        header("Location: form-success.php");
     }
     if (isset($_SESSION['error_message'])) {
     ?>
@@ -237,6 +259,21 @@ include "admission-process.php";
         unset($_SESSION['error_message']);
     }
     ?>
+    <?php
+    // Check if registration success flag is set
+    if (isset($_SESSION['registration_success']) && $_SESSION['registration_success']) {
+        // Output JavaScript to trigger the modal display
+        echo '<script>
+            $(document).ready(function(){
+                $("#successModal").modal("show");
+            });
+          </script>';
+
+        // Unset the session variable after displaying modal
+        unset($_SESSION['registration_success']);
+    }
+    ?>
+
 </body>
 
 </html>

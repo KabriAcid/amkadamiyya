@@ -11,10 +11,14 @@ function changeCase($data)
 }
 // Adding new student
 if (isset($_POST['applyAdmission'])) {
-    // Input sanitization and validation
-    $class_id = $_POST['class_id'];
 
-    $result = mysqli_query($conn, "SELECT * FROM `classes` WHERE `class_id` = '$class_id'");
+    // Session Registration Unique ID
+    $registration_id = md5(uniqid());
+
+    // Input sanitization and validation
+    $enrolling_class = $_POST['enrolling_class'];
+
+    $result = mysqli_query($conn, "SELECT * FROM `classes` WHERE `class_id` = '$enrolling_class'");
     $class = mysqli_fetch_assoc($result);
 
     $section_id = $class['section_id'];
@@ -81,17 +85,18 @@ if (isset($_POST['applyAdmission'])) {
 
     if (empty($errors)) {
         // Insert data into the database
-        $sql = "INSERT INTO `applicants` (`class_id`, `section_id`, `first_name`, `second_name`, `last_name`, `birth_date`, `state`, `lga`, `gender`, `parent_first_name`, `parent_last_name`, `parent_email`, `parent_address`, `parent_phone_number`, `admission_status`, `application_code`) 
+        $sql = "INSERT INTO `applicants` (`enrolling_class`, `section_id`, `first_name`, `second_name`, `last_name`, `birth_date`, `state`, `lga`, `gender`, `parent_first_name`, `parent_last_name`, `parent_email`, `parent_address`, `parent_phone_number`, `admission_status`, `application_code`, `registration_id`) 
 
-        VALUES ('$class_id', '$section_id', '$first_name', '$second_name', '$last_name', '$birth_date', '$state', '$lga', '$gender', '$parent_first_name', '$parent_last_name', '$parent_email', '$parent_address', '$parent_phone_number', 0, '$application_code')";
+        VALUES ('$enrolling_class', '$section_id', '$first_name', '$second_name', '$last_name', '$birth_date', '$state', '$lga', '$gender', '$parent_first_name', '$parent_last_name', '$parent_email', '$parent_address', '$parent_phone_number', 0, '$application_code', '$registration_id')";
 
         if (mysqli_query($conn, $sql)) {
             // $sql = "INSERT INTO `admin_notification` (`not_level`, `not_title`, `not_content`, `not_icon`, `not_icon_color`, `not_bg_color`)
             //             VALUES ('applicant', 'New Applicant received.', '$first_name $last_name from $lga has applied for an admission and is enrolling for ', 'ni ni-single-02', 'text-warning', 'bg-warning-soft');";
             // mysqli_query($conn, $sql);
             $_SESSION['success_message'] = "Student added successfully!";
+            $_SESSION['registration_success'] = $registration_id;
+
             header('Location: ' . $_SERVER['PHP_SELF']);
-            // echo 
         } else {
             $_SESSION['error_message'] = "Error: " . mysqli_error($conn);
         }
