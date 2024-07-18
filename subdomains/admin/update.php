@@ -69,7 +69,8 @@ if (isset($_POST['updateStaffBioData'])) {
         }
         // Success Message
         $_SESSION['success_message'] = "Biodata updated successfully!";
-    } else {
+    } 
+    else {
         $_SESSION['error_message'] = "Error updating biodata: " . $stmt->error;
     }
 
@@ -264,7 +265,7 @@ if (isset($_POST['updateStudentBioData'])) {
     }
     $stmt->close();
     // Redirect to the appropriate page after processing
-    header("Location: " . $_SERVER['PHP_SELF']);
+    header('Location: ' . $_SERVER['PHP_SELF'] . '?student_id=' . $student_id);
     exit();
 }
 
@@ -290,7 +291,7 @@ if (isset($_POST['updateParentData'])) {
     }
     $stmt->close();
     // Redirect to the appropriate page after processing
-    header("Location: " . $_SERVER['PHP_SELF']);
+    header('Location: ' . $_SERVER['PHP_SELF'] . '?student_id=' . $student_id);
     exit();
 }
 

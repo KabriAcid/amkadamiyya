@@ -32,11 +32,7 @@ if (isset($_SESSION['staff'])) {
 
 <body class="g-sidenav-show bg-info-soft">
     <?php
-    if ($position_id == 1) {
-        include "inc/admin-sidebar.php";
-    } else {
-        include "";
-    }
+    include "inc/admin-sidebar.php";
     ?>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         <?php require "inc/admin-navbar.php"; ?>
@@ -282,24 +278,34 @@ if (isset($_SESSION['staff'])) {
                                 Once you erase student, all associated data will be removed from the database and will never be restored.
                             </p>
                         </div>
-                        <div class="card-body justify-content-between d-flex pt-0">
-                            <div class="d-flex align-items-center mb-sm-0 mb-4">
-                                <div>
-                                    <div class="form-check form-switch mb-0">
-                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault0" />
+                        <div class="card-body justify-content-end d-flex pt-0">
+                        <button class="btn bg-gradient-danger text-xs btn-sm mb-0 ms-2" type="button" data-bs-toggle="modal" data-bs-target="#modal-notification">
+                                Delete Account
+                            </button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+                                <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <div class="py-3 text-center">
+                                                <div>
+                                                    <i class="fas fa-exclamation-triangle bg-danger-soft p-3 text-danger fa-3x" style="border-radius: 100%;"></i>
+                                                </div>
+                                                <h4 class="text-gradient text-danger mt-4">Delete Account?</h4>
+                                                <p class="text-center text-sm">Are you sure you want to delete student? <br> This operation cannot be reverted.</p>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer justify-content-end d-flex align-items-center">
+                                            <button type="button" class="btn bg-gradient-secondary btn-round" data-bs-dismiss="modal">No, Cancel</button>
+                                            <form action="" method="post">
+                                                <input type="hidden" name="student_id" value="<?php echo $student['student_id']; ?>">
+                                                <button type="submit" name="eraseStudentData" class="btn bg-gradient-danger ms-2 btn-round" data-bs-dismiss="modal">Yes, Delete</button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="ms-2">
-                                    <span class="text-dark font-weight-bold d-block text-sm">Confirm</span>
-                                    <span class="text-xs d-block">I want to erase student account data.</span>
-                                </div>
                             </div>
-                            <form action="" method="post">
-                                <input type="hidden" name="student_id" value="<?php echo $student['student_id']; ?>">
-                                <button class="btn bg-gradient-danger btn-sm mb-0 ms-2" type="submit" name="eraseStudentData">
-                                    Delete Account
-                                </button>
-                            </form>
+                            <!-- End of Modal -->
                         </div>
                     </div>
                 </div>
