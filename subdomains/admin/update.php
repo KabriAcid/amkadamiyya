@@ -498,3 +498,144 @@ if (isset($_POST['declineBtn'])) {
         $_SESSION['error_message'] = 'An error occurred while declining the applicant. Please try again.';
     }
 }
+
+
+
+
+
+
+
+
+
+
+/* ======================================================================================================== 
+
+UPDATE ALUMNI INFORMATION
+
+======================================================================================================== */
+
+// Validate and capitalize necessary data
+function validateAndCapitalize($data) {
+    return ucwords(trim(htmlspecialchars($data)));
+}
+
+// Process Alumni Bio Data Update
+if (isset($_POST['updateAlumniBioData'])) {
+    // Get and validate form inputs
+    $alumni_id = $_POST['alumni_id'];
+    $first_name = validateAndCapitalize($_POST['first_name']);
+    $second_name = validateAndCapitalize($_POST['second_name']);
+    $last_name = validateAndCapitalize($_POST['last_name']);
+    $birth_date = $_POST['birth_date'];
+    $gender = $_POST['gender'];
+    $state = $_POST['state'];
+    $lga = $_POST['lga'];
+
+    // Prepare and execute the update query
+    $sql = "UPDATE alumni SET first_name = ?, second_name = ?, last_name = ?, birth_date = ?, gender = ?, state = ?, lga = ? WHERE alumni_id = ?";
+    if ($stmt = mysqli_prepare($conn, $sql)) {
+        mysqli_stmt_bind_param($stmt, "sssssssi", $first_name, $second_name, $last_name, $birth_date, $gender, $state, $lga, $alumni_id);
+        
+        if (mysqli_stmt_execute($stmt)) {
+            $_SESSION['success_message'] = "Alumni biodata updated successfully!";
+        } else {
+            $_SESSION['error_message'] = "Error updating biodata: " . mysqli_stmt_error($stmt);
+        }
+        mysqli_stmt_close($stmt);
+    } else {
+        $_SESSION['error_message'] = "Error preparing statement: " . mysqli_error($conn);
+    }
+
+    // Redirect back to the page with the alumni ID
+    header("Location: admin-edit-alumni.php?alumni_id=" . $alumni_id);
+    exit();
+}
+
+// Process Other Alumni Information Update
+if (isset($_POST['updateAlumniAccount'])) {
+    // Get and validate form inputs
+    $alumni_id = $_POST['alumni_id'];
+    $index_no = trim(htmlspecialchars($_POST['index_no']));
+    $position_held = validateAndCapitalize($_POST['position_held']);
+    $nin_number = trim(htmlspecialchars($_POST['nin_number']));
+    $graduation_year = trim(htmlspecialchars($_POST['graduation_year']));
+
+    // Prepare and execute the update query
+    $sql = "UPDATE alumni SET index_no = ?, position_held = ?, nin_number = ?, graduation_year = ? WHERE alumni_id = ?";
+    if ($stmt = mysqli_prepare($conn, $sql)) {
+        mysqli_stmt_bind_param($stmt, "isssi", $index_no, $position_held, $nin_number, $graduation_year, $alumni_id);
+        
+        if (mysqli_stmt_execute($stmt)) {
+            $_SESSION['success_message'] = "Other alumni information updated successfully!";
+        } else {
+            $_SESSION['error_message'] = "Error updating information: " . mysqli_stmt_error($stmt);
+        }
+        mysqli_stmt_close($stmt);
+    } else {
+        $_SESSION['error_message'] = "Error preparing statement: " . mysqli_error($conn);
+    }
+
+    // Redirect back to the page with the alumni ID
+    header("Location: admin-edit-alumni.php?alumni_id=" . $alumni_id);
+    exit();
+}
+
+// Process Alumni Password Change
+if (isset($_POST['updateAlumniPassword'])) {
+    // Get and validate form inputs
+    $alumni_id = $_POST['alumni_id'];
+    $newPassword = trim($_POST['newPassword']);
+    $confirmNewPassword = trim($_POST['confirmNewPassword']);
+
+    if ($newPassword !== $confirmNewPassword) {
+        $_SESSION['error_message'] = "Passwords do not match!";
+    } else {
+        // Hash the new password
+        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+
+        // Prepare and execute the update query
+        $sql = "UPDATE alumni SET password = ? WHERE alumni_id = ?";
+        if ($stmt = mysqli_prepare($conn, $sql)) {
+            mysqli_stmt_bind_param($stmt, "si", $hashedPassword, $alumni_id);
+            
+            if (mysqli_stmt_execute($stmt)) {
+                $_SESSION['success_message'] = "Password updated successfully!";
+            } else {
+                $_SESSION['error_message'] = "Error updating password: " . mysqli_stmt_error($stmt);
+            }
+            mysqli_stmt_close($stmt);
+        } else {
+            $_SESSION['error_message'] = "Error preparing statement: " . mysqli_error($conn);
+        }
+    }
+
+    // Redirect back to the page with the alumni ID
+    header("Location: admin-edit-alumni.php?alumni_id=" . $alumni_id);
+    exit();
+}
+
+// Process Alumni Data Deletion
+if (isset($_POST['eraseAlumniData'])) {
+    // Get and validate form inputs
+    $alumni_id = $_POST['alumni_id'];
+
+    // Prepare and execute the delete query
+    $sql = "DELETE FROM alumni WHERE alumni_id = ?";
+    if ($stmt = mysqli_prepare($conn, $sql)) {
+        mysqli_stmt_bind_param($stmt, "i", $alumni_id);
+        
+        if (mysqli_stmt_execute($stmt)) {
+            $_SESSION['success_message'] = "Alumni data deleted successfully!";
+        } else {
+            $_SESSION['error_message'] = "Error deleting alumni data: " . mysqli_stmt_error($stmt);
+        }
+        mysqli_stmt_close($stmt);
+    } else {
+        $_SESSION['error_message'] = "Error preparing statement: " . mysqli_error($conn);
+    }
+
+    // Redirect back to the alumni list page
+    header("Location: admin-alumni-list.php");
+    exit();
+}
+?>

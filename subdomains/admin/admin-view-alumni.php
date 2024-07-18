@@ -5,8 +5,6 @@ require_once "../../config/database.php";
 // Check if alumni ID is set
 if (isset($_GET['alumni_id'])) {
     $alumni_id = $_GET['alumni_id'];
-
-    // Prepare SQL query with parameterized query
     $sql = "SELECT * FROM `alumni` WHERE `alumni_id` = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $alumni_id);
@@ -24,10 +22,9 @@ if (isset($_SESSION['staff'])) {
     header('Location: admin-logout.php');
 }
 ?>
-?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>View Alumni</title>
     <?php include "inc/admin-header.php"; ?>
@@ -35,13 +32,8 @@ if (isset($_SESSION['staff'])) {
 
 <body class="g-sidenav-show bg-info-soft">
     <?php
-    if ($_SESSION['staff']['position_id'] == 1) {
         include "inc/admin-sidebar.php";
-    } else {
-        include "";
-    }
     ?>
-
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         <?php require "inc/admin-navbar.php"; ?>
         <!-- Profile Information -->
@@ -52,12 +44,16 @@ if (isset($_SESSION['staff'])) {
                         <div class="row align-items-center">
                             <div class="col-sm-auto col-4">
                                 <div class="avatar avatar-xl position-relative">
-                                    <img src="<?php echo $alumni['photo']; ?>" alt="bruce" class="w-100 border-radius-lg shadow-sm" />
+                                    <img src="<?php echo $alumni['photo']; ?>" alt="user" class="w-100 border-radius-lg shadow-sm" />
                                 </div>
                             </div>
                             <div class="col-8 my-auto">
                                 <div class="h-100">
-                                    <h5 class="mb-1 font-weight-bolder"><?php echo ucfirst($alumni['first_name']) . '&nbsp;' . ucfirst($alumni['last_name']); ?></h5>
+                                    <h5 class="mb-0">
+                                        <span class="font-weight-bold text-capitalize">
+                                            <?php echo ucfirst($alumni['first_name']) . ' ' . ucfirst($alumni['last_name']); ?>
+                                        </span>
+                                    </h5>
                                     <p class="mb-0 font-weight-bold text-sm">
                                         <?php
                                         // $position_id = $alumni['position_id'];
@@ -82,59 +78,86 @@ if (isset($_SESSION['staff'])) {
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">First Name: </strong>&nbsp;
-                                    <?php echo ucfirst($alumni['first_name']); ?>
+                                    <strong class="text-dark">First Name:</strong>
+                                    <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                        <?php echo ucfirst($alumni['first_name']); ?>
+                                    </span>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Middle Name: </strong>&nbsp;
-                                    <?php echo ucfirst($alumni['second_name']); ?>
+                                    <strong class="text-dark">Middle Name:</strong>
+                                    <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                        <?php echo ucfirst($alumni['second_name']); ?>
+                                    </span>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Last Name: </strong>&nbsp;
-                                    <?php echo ucfirst($alumni['last_name']); ?>
+                                    <strong class="text-dark">Last Name:</strong>
+                                    <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                        <?php echo ucfirst($alumni['last_name']); ?>
+                                    </span>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Birth Date: </strong>&nbsp;
-                                    <?php
-                                    $date_of_birth = date('d-M-Y', strtotime($alumni['birth_date']));
-                                    echo $date_of_birth;
-                                    ?>
+                                    <strong class="text-dark">Birth Date:</strong>
+                                    <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                        <?php
+                                        $date_of_birth = date('d-M-Y', strtotime($alumni['birth_date']));
+                                        echo $date_of_birth;
+                                        ?>
+</span>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Index No: </strong>&nbsp;
-                                    <?php echo ucfirst($alumni['index_no']); ?>
+                                    <strong class="text-dark">Index No:</strong>
+                                    <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                        <?php echo ucfirst($alumni['index_no']); ?>
+                                    </span>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Email Address: </strong>&nbsp;
-                                    <?php echo ucfirst($alumni['email']); ?>
+                                    <strong class="text-dark">Email Address:</strong>
+                                    <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                        <?php echo ucfirst($alumni['email']); ?>
+                                    </span>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Phone Number: </strong>&nbsp;
-                                    <?php echo substr($alumni['phone_number'], 0, 3) . '-' . substr($alumni['phone_number'], 3, 4) . '-' . substr($alumni['phone_number'], 7); ?>
+                                    <strong class="text-dark">Phone Number:</strong>
+                                    <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                        <?php echo substr($alumni['phone_number'], 0, 3) . '-' . substr($alumni['phone_number'], 3, 4) . '-' . substr($alumni['phone_number'], 7); ?>
+                                    </span>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Graduation Year: </strong>&nbsp;
-                                    <?php
-                                    echo $alumni['graduation_year'];
-                                    ?>
+                                    <strong class="text-dark">Graduation Year:</strong>
+                                    <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                        <?php echo $alumni['graduation_year']; ?>
+                                    </span>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Position Held: </strong>&nbsp;
-                                    <?php echo $alumni['position_held']; ?>
+                                    <strong class="text-dark">Position Held:</strong>
+                                    <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                        <?php echo $alumni['position_held']; ?>
+                                    </span>
                                 </div>
 
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">State: </strong>&nbsp; <?php echo $alumni['state']; ?>
+                                    <strong class="text-dark">State:</strong>
+                                    <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                        <?php echo $alumni['state']; ?>
+                                    </span>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">LGA: </strong>&nbsp; <?php echo $alumni['lga']; ?>
+                                    <strong class="text-dark">LGA:</strong>
+                                    <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                        <?php echo $alumni['lga']; ?>
+                                    </span>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Home Address: </strong>&nbsp; <?php echo $alumni['address']; ?>
+                                    <strong class="text-dark">Home Address:</strong>
+                                    <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                        <?php echo $alumni['address']; ?>
+                                    </span>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Gender: </strong>&nbsp;
-                                    <?php echo ucfirst($alumni['gender']); ?>
+                                    <strong class="text-dark">Gender:</strong>
+                                    <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                        <?php echo ucfirst($alumni['gender']); ?>
+                                    </span>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">NIN Number: </strong>&nbsp;

@@ -33,7 +33,7 @@ if (isset($_SESSION['staff'])) {
 
 <body class="g-sidenav-show bg-info-soft">
     <?php
-        include "inc/admin-sidebar.php";
+    include "inc/admin-sidebar.php";
     ?>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         <?php require "inc/admin-navbar.php"; ?>
@@ -132,93 +132,52 @@ if (isset($_SESSION['staff'])) {
                     <form action="" method="post">
                         <div class="card">
                             <div class="card-header">
-                                <h6 class="mb-0 text-gradient text-primary">Parent Information</h6>
-                                <p class="text-sm mb-0">Modify or edit a alumni's parent information.</p>
+                                <h6 class="mb-0 text-gradient text-primary">Other Information</h6>
+                                <p class="text-sm mb-0">Edit alumni other information.</p>
                             </div>
                             <hr class="horizontal dark">
+
                             <div class="card-body">
-                                <!-- Form inputs groups -->
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label>Parent First Name</label>
+                                        <!--  -->
+                                        <label>Index No</label>
                                         <div class="input-group mb-3">
-                                            <input type="text" name="parent_first_name" placeholder="Parent First Name" value="<?php echo ucfirst($alumni['parent_first_name']); ?>" class="form-control">
+                                            <input type="number" value="<?php echo $alumni['index_no']; ?>" class="form-control" name="index_no">
                                         </div>
                                     </div>
                                     <!--  -->
                                     <div class="col-md-6">
-                                        <label>Parent Last Name</label>
+                                        <label>Position Held</label>
                                         <div class="input-group mb-3">
-                                            <input type="text" name="parent_last_name" placeholder="Parent Last Name" value="<?php echo ucfirst($alumni['parent_last_name']); ?>" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Parent Email Address</label>
-                                        <div class="input-group mb-3">
-                                            <input type="text" name="parent_email" placeholder="Parent Email Address" value="<?php echo ucfirst($alumni['parent_email']); ?>" class="form-control">
+                                            <input type="text" value="<?php echo $alumni['position_held']; ?>" class="form-control" placeholder="e.g Head Boy" name="position_held">
                                         </div>
                                     </div>
                                     <!--  -->
                                     <div class="col-md-6">
-                                        <label>Parent Phone Number</label>
+                                        <label>NIN Number</label>
                                         <div class="input-group mb-3">
-                                            <input type="text" name="parent_phone_number" placeholder="Parent Phone Number" value="<?php echo ucfirst($alumni['parent_phone_number']); ?>" class="form-control" maxlength="11">
+                                            <input type="number" value="<?php echo $alumni['nin_number']; ?>" class="form-control" name="nin_number">
                                         </div>
                                     </div>
-                                    <!--  -->
                                     <div class="col-md-6">
-                                        <label>Parent Home Address</label>
+                                        <label>Graduation Year</label>
                                         <div class="input-group mb-3">
-                                            <input type="text" name="parent_address" placeholder="Parent Address" value="<?php echo ucfirst($alumni['parent_address']); ?>" class="form-control">
+                                            <input type="number" value="<?php echo $alumni['graduation_year']; ?>" class="form-control" name="graduation_year">
                                         </div>
                                     </div>
-                                    <!-- Status -->
-                                    <div class="col-md-6">
-                                        <label>Status</label>
-                                        <div class="input-group mb-3">
-                                            <select class="form-select" name="status">
-                                                <option value="1" <?php if ($alumni['status'] == 1) echo 'selected'; ?>>Active</option>
-                                                <option value="0" <?php if ($alumni['status'] == 0) echo 'selected'; ?>>Inactive</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <!-- Hidden Input Field -->
-                                    <input type="hidden" name="alumni_id" value="<?php echo $alumni['alumni_id']; ?>">
                                 </div>
+                                <!-- Hidden Input Field -->
+                                <input type="hidden" name="alumni_id" value="<?php echo $alumni_id; ?>">
+                                <!--  -->
                             </div>
-                            <!-- card body -->
                             <div class="card-footer text-end pt-0">
-                                <input type="submit" value="update" name="updateParentData" class="btn bg-gradient-primary mb-0">
+                                <input type="submit" value="update" name="updateAlumniAccount" class="btn bg-gradient-primary mb-0">
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="col-lg-12 col-xl-5 mt-3 mt-xl-0">
-                    <div class="card">
-                        <div class="card-header">
-                            <h6 class="mb-0 text-gradient text-primary">Account Information</h6>
-                            <p class="text-sm mb-0">Edit alumni&apos;s account information.</p>
-                        </div>
-                        <hr class="horizontal dark">
-
-                        <div class="card-body">
-                            <form action="" method="post">
-                                <!--  -->
-                                <label>Admission ID</label>
-                                <div class="input-group mb-3">
-                                    <input type="text" value="<?php echo $alumni['admission_id']; ?>" class="form-control" name="admission_id">
-                                </div>
-
-                                <!-- Hidden Input Field -->
-                                <input type="hidden" name="alumni_id" value="<?php echo $alumni_id; ?>">
-
-                                <!--  -->
-                                <div class="text-end">
-                                    <input type="submit" value="update" name="updateAlumniAdmission" class="btn bg-gradient-primary mb-0">
-                                </div>
-                            </form>
-                        </div>
-                    </div>
 
                     <!-- Change Passowrd -->
                     <form action="" method="post" class="mt-3">
@@ -261,25 +220,35 @@ if (isset($_SESSION['staff'])) {
                                 Once you erase alumni, all associated data will be removed from the database and will never be restored.
                             </p>
                         </div>
-                        <div class="card-body justify-content-between d-flex pt-0">
-                            <div class="d-flex align-items-center mb-sm-0 mb-4">
-                                <div>
-                                    <div class="form-check form-switch mb-0">
-                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault0" />
+                        <div class="card-body justify-content-end d-flex pt-0">
+                            <button class="btn bg-gradient-danger text-xs btn-sm mb-0 ms-2" type="button" data-bs-toggle="modal" data-bs-target="#modal-notification">
+                                Delete Account
+                            </button>
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+                            <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class="py-3 text-center">
+                                            <div>
+                                                <i class="fas fa-exclamation-triangle bg-danger-soft p-3 text-danger fa-3x" style="border-radius: 100%;"></i>
+                                            </div>
+                                            <h4 class="text-gradient text-danger mt-4">Delete Account?</h4>
+                                            <p class="text-center text-sm">Are you sure you want to delete alumni? <br> This operation cannot be reverted.</p>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer justify-content-end d-flex align-items-center">
+                                        <button type="button" class="btn bg-gradient-secondary btn-round" data-bs-dismiss="modal">No, Cancel</button>
+                                        <form action="" method="post">
+                                            <input type="hidden" name="alumni_id" value="<?php echo $alumni['alumni_id']; ?>">
+                                            <button type="submit" name="eraseAlumniData" class="btn bg-gradient-danger ms-2 btn-round" data-bs-dismiss="modal">Yes, Delete</button>
+                                        </form>
                                     </div>
                                 </div>
-                                <div class="ms-2">
-                                    <span class="text-dark font-weight-bold d-block text-sm">Confirm</span>
-                                    <span class="text-xs d-block">I want to erase alumni account data.</span>
-                                </div>
                             </div>
-                            <form action="" method="post">
-                                <input type="hidden" name="alumni_id" value="<?php echo $alumni['alumni_id']; ?>">
-                                <button class="btn bg-gradient-danger btn-sm mb-0 ms-2" type="submit" name="eraseAlumniData">
-                                    Delete Account
-                                </button>
-                            </form>
                         </div>
+                        <!-- End of Modal -->
                     </div>
                 </div>
             </div>
