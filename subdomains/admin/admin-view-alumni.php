@@ -96,8 +96,8 @@ if (isset($_SESSION['staff'])) {
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Birth Date: </strong>&nbsp;
                                     <?php
-                                    $date_of_birth = date('d-M-Y', strtotime($alumni['date_of_birth']));
-                                    echo ucfirst($date_of_birth);
+                                    $date_of_birth = date('d-M-Y', strtotime($alumni['birth_date']));
+                                    echo $date_of_birth;
                                     ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
@@ -110,7 +110,7 @@ if (isset($_SESSION['staff'])) {
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Phone Number: </strong>&nbsp;
-                                    <?php echo ucfirst($alumni['phone_number']); ?>
+                                    <?php echo substr($alumni['phone_number'], 0, 3) . '-' . substr($alumni['phone_number'], 3, 4) . '-' . substr($alumni['phone_number'], 7); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Graduation Year: </strong>&nbsp;

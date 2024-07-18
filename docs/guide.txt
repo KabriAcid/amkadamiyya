@@ -1,6 +1,7 @@
-Color Codes
+-------Color Codes---------
 
 - Admin: Dark Color
 - Staff: Warning Color
 - Student: Info Color
 - Alumni: Primary Color
+- Applicant: Danger Color

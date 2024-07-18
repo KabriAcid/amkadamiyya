@@ -1,12 +1,11 @@
 <?php
 
-    if(isset($_SESSION['staff'])){
-        $position_id = $_SESSION['staff']['position_id'];
-    }
-    else {
-        header("Location: admin-logout.php");
-        exit;
-    }
+if (isset($_SESSION['staff'])) {
+    $position_id = $_SESSION['staff']['position_id'];
+} else {
+    header("Location: admin-logout.php");
+    exit;
+}
 ?>
 <div class="container-fluid py-4">
     <div class="row">
@@ -44,7 +43,7 @@
                         </thead>
                         <tbody>
                             <?php
-                            if (isset($_SESSION['staff']) && $_SESSION['staff']['position_id'] == 1) {
+                            if (in_array($position_id, [1, 2, 3])) {
                                 $sql = "SELECT * FROM `alumni` ORDER BY `first_name` ASC, `second_name` ASC, `index_no` ASC, `last_name` ASC, `gender` ASC, `state` ASC";
                                 $result = mysqli_query($conn, $sql);
                                 while ($row = mysqli_fetch_assoc($result)) {
@@ -62,13 +61,13 @@
                                         </td>
                                         <td class="align-middle text-center text-sm">
                                             <span class="text-secondary text-xs font-weight-bold text-capitalize">
-                                                <?php echo $row['phone_number']; ?>
+                                                <?php echo substr($row['phone_number'], 0, 3) . '-' . substr($row['phone_number'], 3, 4) . '-' . substr($row['phone_number'], 7); ?>
                                             </span>
                                         </td>
                                         <td class="align-middle text-center text-sm">
                                             <span class="text-secondary text-xs font-weight-bold text-capitalize">
                                                 <?php
-                                                $date_of_birth = date('d-M-Y', strtotime($row['date_of_birth']));
+                                                $date_of_birth = date('d-M-Y', strtotime($row['birth_date']));
                                                 echo ucfirst($date_of_birth);
                                                 ?>
                                             </span>
