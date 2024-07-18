@@ -34,50 +34,61 @@
                             <?php
                             if ($_SESSION['staff']['position_id'] == 1) {
                                 $sql = "SELECT * FROM `students` ORDER BY `admission_id` ASC, `first_name` ASC, `second_name` ASC, `last_name` ASC, `gender` ASC, `state` ASC";
-
                                 $result = mysqli_query($conn, $sql);
                                 while ($row = mysqli_fetch_assoc($result)) {
                             ?>
                                     <tr>
                                         <!-- Fullname -->
-                                        <td class="text-sm text-left font-weight-normal">
-                                            <?php echo $row['first_name'] . '&nbsp;' . $row['second_name'] . '&nbsp;' . $row['last_name'];; ?>
-                                        </td>
-                                        <!-- Admission Number -->
-                                        <td class="text-sm text-center font-weight-normal">
-                                            <?php echo $row['admission_id']; ?>
-                                        </td>
-                                        <!-- Class -->
-                                        <td class="text-sm text-center font-weight-normal">
-                                            <?php
-                                            $class_id = $row['class_id'];
-                                            $sql = "SELECT * FROM `classes` WHERE `class_id` = '$class_id'";
-                                            $classes = mysqli_query($conn, $sql);
-                                            $class = mysqli_fetch_assoc($classes);
-                                            echo $class['class_name'];
-                                            ?>
-                                        </td>
-                                        <td class="text-sm text-center font-weight-normal"><?php echo $row['gender']; ?></td>
-                                        <td class="text-sm text-center font-weight-normal"><?php echo $row['state']; ?></td>
-                                        <td class="text-sm text-center font-weight-normal"><?php echo $row['lga']; ?></td>
-                                        <td class="text-sm text-center font-weight-normal">
-                                            <span class="badge badge-sm rounded
-                                                    <?php
-                                                        echo $row['status'] == 1 ? 'bg-gradient-success' : "bg-gradient-secondary";
-                                                    ?>">
-                                                     <?php
-                                                        echo $row['status'] == 1 ? 'Active' : "Inactive";
-                                                    ?>
+                                        <td class="align-middle text-left text-sm">
+                                            <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                                <?php echo $row['first_name'] . '&nbsp;' . $row['second_name'] . '&nbsp;' . $row['last_name']; ?>
                                             </span>
                                         </td>
-                                        <td class="text-sm text-center font-weight-normal">
+                                        <!-- Admission Number -->
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                                <?php echo $row['admission_id']; ?>
+                                            </span>
+                                        </td>
+                                        <!-- Class -->
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                                <?php
+                                                $class_id = $row['class_id'];
+                                                $sql = "SELECT * FROM `classes` WHERE `class_id` = '$class_id'";
+                                                $classes = mysqli_query($conn, $sql);
+                                                $class = mysqli_fetch_assoc($classes);
+                                                echo $class['class_name'];
+                                                ?>
+                                            </span>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                                <?php echo $row['gender']; ?>
+                                            </span>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                                <?php echo $row['state']; ?>
+                                            </span>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                                <?php echo $row['lga']; ?>
+                                            </span>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="badge badge-sm rounded <?php echo $row['status'] == 1 ? 'bg-gradient-success' : "bg-gradient-secondary"; ?>">
+                                                <?php echo $row['status'] == 1 ? 'Active' : "Inactive"; ?>
+                                            </span>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
                                             <form action="admin-view-student.php" method="get">
                                                 <input type="hidden" name="student_id" value="<?php echo $row['student_id']; ?>">
                                                 <button type="submit" class="badge badge-sm rounded bg-gradient-light text-dark border-0">View</button>
                                             </form>
                                         </td>
                                     </tr>
-
                                 <?php
                                 }
                             } else if ($_SESSION['staff']['position_id'] == 2) {
@@ -91,27 +102,46 @@
                                 while ($row = mysqli_fetch_assoc($result)) {
                                 ?>
                                     <tr>
-                                        <td class="text-sm text-left font-weight-normal">
-                                            <?php echo $row['first_name'] . '&nbsp;' . $row['second_name'] . '&nbsp;' . $row['last_name'];; ?>
+                                        <!-- Fullname -->
+                                        <td class="align-middle text-left text-sm">
+                                            <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                                <?php echo $row['first_name'] . '&nbsp;' . $row['second_name'] . '&nbsp;' . $row['last_name']; ?>
+                                            </span>
                                         </td>
-                                        <td class="text-sm text-center font-weight-normal"><?php echo $class['class_name']; ?>
+                                        <!-- Class -->
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                                <?php echo $class['class_name']; ?>
+                                            </span>
                                         </td>
-                                        <td class="text-sm text-center font-weight-normal"><?php echo $row['gender']; ?></td>
-                                        <td class="text-sm text-center font-weight-normal"><?php echo $row['state']; ?></td>
-                                        <td class="text-sm text-center font-weight-normal"><?php echo $row['lga']; ?></td>
-                                        <td class="text-sm text-center font-weight-normal">
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                                <?php echo $row['gender']; ?>
+                                            </span>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                                <?php echo $row['state']; ?>
+                                            </span>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                                <?php echo $row['lga']; ?>
+                                            </span>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
                                             <form action="admin-view-student.php" method="get">
                                                 <input type="hidden" name="student_id" value="<?php echo $row['student_id']; ?>">
-                                                <button type="submit" class="border-0 bg-gradient-light rounded text-sm">View</button>
+                                                <button type="submit" class="badge badge-sm rounded bg-gradient-light text-dark border-0">View</button>
                                             </form>
                                         </td>
                                     </tr>
-
                             <?php
                                 }
                             }
                             ?>
                         </tbody>
+
                     </table>
                 </div>
             </div>
