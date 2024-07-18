@@ -215,17 +215,33 @@ if (isset($_SESSION['staff'])) {
                                         <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault0" />
                                     </div>
                                 </div>
-                                <div class="ms-2">
-                                    <span class="text-dark font-weight-bold d-block text-sm">Confirm</span>
-                                    <span class="text-xs d-block">I want to erase applicant account data.</span>
-                                </div>
                             </div>
                             <form action="" method="post">
                                 <input type="hidden" name="applicant_id" value="<?php echo $applicant['applicant_id']; ?>">
-                                <button class="btn bg-gradient-danger btn-sm mb-0 ms-2" type="submit" name="declineBtn">
+                                <button class="btn bg-gradient-danger btn-sm mb-0 ms-2" type="submit" name="declineBtn" data-bs-toggle="modal" data-bs-target="#deleteModal">
                                     Delete Account
                                 </button>
                             </form>
+                            <!-- Modal -->
+                            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteModalLabel">Modal title</h5>
+                                            <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            ...
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn bg-gradient-primary">Save changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
