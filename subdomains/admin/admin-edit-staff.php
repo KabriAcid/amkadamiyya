@@ -33,7 +33,7 @@ if (isset($_SESSION['staff'])) {
 </head>
 
 <body class="g-sidenav-show bg-info-soft">
-<?php
+    <?php
     if ($position_id == 1) {
         include "inc/admin-sidebar.php";
     } else {
@@ -394,55 +394,41 @@ if (isset($_SESSION['staff'])) {
                                 Once you erase staff, all associated data will be removed from the database and will never be restored.
                             </p>
                         </div>
-                        <div class="card-body justify-content-between d-flex pt-0">
-                            <div class="d-flex align-items-center mb-sm-0 mb-4">
-                                <div>
-                                    <div class="form-check form-switch mb-0">
-                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault0" />
-                                    </div>
-                                </div>
-                                <div class="ms-2">
-                                    <span class="text-dark font-weight-bold d-block text-sm">Confirm</span>
-                                    <span class="text-xs d-block">I want to erase staff account data.</span>
-                                </div>
-                            </div>
-                            <form action="" method="post">
-                                <input type="hidden" name="staff_id" value="<?php echo $staff['staff_id']; ?>">
-                                <button class="btn bg-gradient-danger btn-sm mb-0 ms-2" type="submit" name="eraseStaffData">
-                                    Delete Account
-                                </button>
-                            </form>
+                        <div class="card-body justify-content-end d-flex pt-0">
+                            
+                            <button class="btn bg-gradient-danger text-xs btn-sm mb-0 ms-2" type="button" data-bs-toggle="modal" data-bs-target="#modal-notification">
+                                Delete Account
+                            </button>
                         </div>
                     </div>
                     <!--  -->
                     <div class="container py-7">
                         <div class="row mt-5">
                             <div class="col-sm-3 col-6 mx-auto">
-                                <!-- Button trigger modal -->
-                                <!-- <button type="button" class="btn bg-gradient-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                    Launch demo modal
-                                </button> -->
-
                                 <!-- Modal -->
-                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
+                                <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+                                    <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
                                         <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Your modal title</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
                                             <div class="modal-body">
-                                                Society has put up so many boundaries, so many limitations on what’s right and wrong that it’s almost impossible to get a pure thought out.
-                                                <br><br>
-                                                It’s like a little kid, a little boy, looking at colors, and no one told him what colors are good, before somebody tells you you shouldn’t like pink because that’s for girls, or you’d instantly become a gay two-year-old.
+                                                <div class="py-3 text-center">
+                                                    <div>
+                                                        <i class="fas fa-exclamation-triangle bg-danger-soft p-3 text-danger fa-3x" style="border-radius: 100%;"></i>
+                                                    </div>
+                                                    <h4 class="text-gradient text-danger mt-4">Delete Account?</h4>
+                                                    <p class="text-center text-sm">Are you sure you want to delete staff? <br> This operation cannot be reverted.</p>
+                                                </div>
                                             </div>
-                                            <div class="modal-footer justify-content-between">
-                                                <button type="button" class="btn bg-gradient-warning" data-bs-dismiss="modal">Close</button>
-                                                <button type="button" class="btn bg-gradient-warning">Save changes</button>
+                                            <div class="modal-footer justify-content-end d-flex align-items-center">
+                                                <button type="button" class="btn bg-gradient-secondary btn-round" data-bs-dismiss="modal">No, Cancel</button>
+                                                <form action="" method="post">
+                                                <input type="hidden" name="staff_id" value="<?php echo $staff['staff_id']; ?>">
+                                                    <button type="submit" name="eraseStaffData" class="btn bg-gradient-danger ms-2 btn-round" data-bs-dismiss="modal">Yes, Delete</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <!-- End of Modal -->
                             </div>
                         </div>
                     </div>

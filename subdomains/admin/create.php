@@ -143,7 +143,8 @@ if (isset($_POST['addStudent'])) {
             $current_serial = $serial['current_serial'] + 1;
             $sql = "UPDATE `serial_numbers` SET `current_serial` = '$current_serial' WHERE `section_id` = '$section_id' AND `entry_year` = '$entry_year'";
             mysqli_query($conn, $sql);
-        } else {
+        } 
+        else {
             $current_serial = $section['serial_start'];
             $sql = "INSERT INTO serial_numbers (section_id, entry_year, current_serial) VALUES ('$section_id', '$entry_year', '$current_serial')";
             mysqli_query($conn, $sql);
