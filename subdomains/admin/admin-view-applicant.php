@@ -106,8 +106,8 @@ if (isset($_SESSION['staff'])) {
             <div class="container">
                 <div class="row justify-content-center align-items-center">
                     <div class="col-6 text-end">
-                        <button class="btn bg-gradient-danger text-xs btn-sm mb-0 ms-2" type="button" data-bs-toggle="modal" data-bs-target="#modal-notification">
-                            Delete Account
+                        <button class="btn bg-gradient-danger btn-round" type="button" data-bs-toggle="modal" data-bs-target="#modal-notification">
+                            Decline
                         </button>
                     </div>
                     <div class="col-6 text-">

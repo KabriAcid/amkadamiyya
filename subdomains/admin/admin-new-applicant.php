@@ -19,7 +19,7 @@ require_once "../../config/database.php";
         <div class="container-fluid pt-3">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="text-gradient text-info">New Applicants</h5>
+                    <h5 class="text-gradient text-primary">New Applicants</h5>
                     <p class="text-sm">
                         Here's a list of pending applications. Click 'View' to see the complete details.
                     </p>

@@ -1,5 +1,5 @@
 <?php
-include "update.php";
+include_once "update.php";
 
 // Check if applicant ID is set
 if (isset($_GET['applicant_id'])) {

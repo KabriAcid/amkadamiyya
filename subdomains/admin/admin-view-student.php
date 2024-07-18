@@ -58,6 +58,9 @@ if (isset($_SESSION['staff'])) {
                                     <strong class="text-dark">First Name: </strong>&nbsp; <?php echo ucfirst($student['first_name']); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
+                                    <strong class="text-dark">Second Name: </strong>&nbsp; <?php echo ucfirst($student['second_name']); ?>
+                                </div>
+                                <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Last Name: </strong>&nbsp; <?php echo ucfirst($student['last_name']); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
