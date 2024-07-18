@@ -405,3 +405,80 @@ if (isset($_POST['eraseStudentData'])) {
     header("Location: " . $_SERVER['PHP_SELF']);
     exit();
 }
+
+
+
+
+
+
+
+
+/* ======================================================================================================== 
+
+UPDATE APPLICANT INFORMATION
+
+======================================================================================================== */
+
+
+
+// Update applicant Biodata
+if (isset($_POST['updateApplicantBioData'])) {
+    // Declare student_id from hidden input field
+    $applicant_id = mysqli_real_escape_string($conn, $_POST['applicant_id']);
+
+    // Determining section from class
+    $class_id = mysqli_real_escape_string($conn, $_POST['enrolling_class']);
+    $sql = "SELECT * FROM classes WHERE class_id = '$class_id'";
+    $classes = mysqli_query($conn, $sql);
+    $class = mysqli_fetch_assoc($classes);
+
+    $section_id = $class['section_id'];
+
+    $first_name = capitalize($_POST['first_name']);
+    $second_name = capitalize($_POST['second_name']);
+    $last_name = capitalize($_POST['last_name']);
+    $birth_date = $_POST['birth_date'];
+    $gender = $_POST['gender'];
+    $state = $_POST['state'];
+    $lga = $_POST['lga'];
+
+
+    $sql = "UPDATE applicants SET first_name = ?, second_name = ?, last_name = ?, birth_date = ?, gender = ?, state = ?, lga = ?, enrolling_class = ?, section_id = ? WHERE applicant_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('sssssssiii', $first_name, $second_name, $last_name, $birth_date, $gender, $state, $lga, $class_id, $section_id, $applicant_id);
+    if ($stmt->execute()) {
+        $_SESSION['success_message'] = "Applicants biodata updated successfully!";
+    } else {
+        $_SESSION['error_message'] = "Error updating biodata: " . $stmt->error;
+    }
+    $stmt->close();
+    // Redirect to the appropriate page after processing
+    header('Location: ' . $_SERVER['PHP_SELF'] . '?applicant_id=' . $applicant_id);
+    exit();
+}
+
+// Update Parent Information
+if (isset($_POST['updateApplicantParentData'])) {
+    // Declare applicant_id from hidden input field
+    $applicant_id = $_POST['applicant_id'];
+
+    $parent_first_name = capitalize($_POST['parent_first_name']);
+    $parent_last_name = capitalize($_POST['parent_last_name']);
+    $parent_email = $_POST['parent_email'];
+    $parent_phone_number = $_POST['parent_phone_number'];
+    $parent_address = capitalize($_POST['parent_address']);
+    $status = $_POST['status'];
+
+    $sql = "UPDATE students SET parent_first_name = ?, parent_last_name = ?, parent_email = ?, parent_phone_number = ?, parent_address = ?, status = ? WHERE applicant_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('sssssii', $parent_first_name, $parent_last_name, $parent_email, $parent_phone_number, $parent_address, $status, $applicant_id);
+    if ($stmt->execute()) {
+        $_SESSION['success_message'] = "Parent information updated successfully!";
+    } else {
+        $_SESSION['error_message'] = "Error updating parent information: " . $stmt->error;
+    }
+    $stmt->close();
+    // Redirect to the appropriate page after processing
+    header('Location: ' . $_SERVER['PHP_SELF'] . '?applicant_id=' . $applicant_id);
+    exit();
+}

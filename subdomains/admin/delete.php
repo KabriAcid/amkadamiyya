@@ -53,3 +53,10 @@ if (isset($_GET['delete_notification'])) {
  * To delete all notifications:
  * `http://example.com/delete.php?delete_notification=1`
  */
+if (isset($_GET['delete_notification'])) {
+    $staff_id = $_GET['delete_notification'];
+    $sql = "DELETE FROM `admin_notification`";
+    if (mysqli_query($conn, $sql)) {
+        $_SESSION['success_message'] = "Notifications Deleted Successfully";
+    }
+}

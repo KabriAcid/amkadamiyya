@@ -33,11 +33,7 @@ if (isset($_SESSION['staff'])) {
 
 <body class="g-sidenav-show bg-info-soft">
     <?php
-    if ($position_id == 1) {
-        include "inc/admin-sidebar.php";
-    } else {
-        include "";
-    }
+    include "inc/admin-sidebar.php";
     ?>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         <?php require "inc/admin-navbar.php"; ?>
@@ -123,9 +119,9 @@ if (isset($_SESSION['staff'])) {
                                     <div class="col-md-6">
                                         <label>Class</label>
                                         <div class="input-group mb-3">
-                                            <select class="form-select" name="class_id">
+                                            <select class="form-select" name="enrolling_class">
                                                 <?php
-                                                $sql = "SELECT * FROM `classes`;";
+                                                $sql = "SELECT * FROM `classes` WHERE `class_name` != 'null';";
                                                 $classes = mysqli_query($conn, $sql);
 
                                                 while ($class = mysqli_fetch_assoc($classes)) {
@@ -198,7 +194,7 @@ if (isset($_SESSION['staff'])) {
                             </div>
                             <!-- card body -->
                             <div class="card-footer text-end pt-0">
-                                <input type="submit" value="Change" name="updateParentData" class="btn bg-gradient-primary mb-0">
+                                <input type="submit" value="Change" name="updateApplicantParentData" class="btn bg-gradient-primary mb-0">
                             </div>
                         </div>
                     </form>

@@ -13,6 +13,7 @@
 12- Students Portal
 13- Fix the issue of school term
 14- Make profile image pop up using modal
+15- Fixing the classes of <td> to be of the applicants table
 
 ---------------- AMKA WEBSITE --------------------
 1- Retrieve contents from the posts on amka website

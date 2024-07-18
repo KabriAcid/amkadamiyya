@@ -2,7 +2,7 @@
 require_once "admission-process.php";
 
 // <!-- Modal for Registration Success -->
-if(isset($_SESSION['registration_success'])){
+if (isset($_SESSION['registration_success'])) {
     if (isset($_SESSION['registration_success'])) {
         $registration_id = $_SESSION['registration_success']['registration_id'];
         // Fetch application details using registration_id
@@ -15,7 +15,6 @@ if(isset($_SESSION['registration_success'])){
         $first_name = $registration['first_name'];
         $last_name = $registration['last_name'];
     }
-    
 }
 ?>
 <!DOCTYPE html>
@@ -47,7 +46,7 @@ if(isset($_SESSION['registration_success'])){
                                     <div class="row">
                                         <!-- First Name -->
                                         <div class="col-md-6 mt-3">
-                                            <label>First Name *</label>
+                                            <label>First Name</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" placeholder="First Name" name="first_name" required>
                                             </div>
@@ -61,21 +60,21 @@ if(isset($_SESSION['registration_success'])){
                                         </div>
                                         <!-- Last Name -->
                                         <div class="col-md-6 mt-3">
-                                            <label>Last Name *</label>
+                                            <label>Last Name</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" placeholder="Last Name" name="last_name" required>
                                             </div>
                                         </div>
                                         <!-- Date of Birth -->
                                         <div class="col-md-6 mt-3">
-                                            <label>Date of Birth *</label>
+                                            <label>Date of Birth</label>
                                             <div class="input-group">
                                                 <input type="date" class="form-control text-uppercase" name="birth_date" required>
                                             </div>
                                         </div>
                                         <!-- State of Origin -->
                                         <div class="col-md-6 mt-3">
-                                            <label>State of Origin *</label>
+                                            <label>State of Origin</label>
                                             <div class="input-group">
                                                 <select required onchange="toggleLGA(this);" name="state" id="state" class="form-select select-state">
                                                     <option value="" selected="selected">-- State --</option>
@@ -92,7 +91,7 @@ if(isset($_SESSION['registration_success'])){
                                         </div>
                                         <!-- Local Government Area -->
                                         <div class="col-md-6 mt-3">
-                                            <label>Local Government Area *</label>
+                                            <label>Local Government Area</label>
                                             <div class="input-group">
                                                 <select name="lga" id="lga" class="form-select select-lga" required>
                                                     <option value="">LGA</option>
@@ -101,7 +100,7 @@ if(isset($_SESSION['registration_success'])){
                                         </div>
                                         <!-- Gender -->
                                         <div class="col-md-6 mt-3">
-                                            <label>Gender *</label>
+                                            <label>Gender</label>
                                             <div class="input-group">
                                                 <select class="form-select" name="gender" required>
                                                     <option selected disabled>-- Select Gender --</option>
@@ -112,7 +111,7 @@ if(isset($_SESSION['registration_success'])){
                                         </div>
                                         <!-- Class -->
                                         <div class="col-md-6 mt-3">
-                                            <label>Class *</label>
+                                            <label>Class</label>
                                             <div class="input-group">
                                                 <select class="form-select" name="enrolling_class">
                                                     <?php
@@ -138,14 +137,14 @@ if(isset($_SESSION['registration_success'])){
                                     <div class="row">
                                         <!-- Parent's First Name -->
                                         <div class="col-md-6 mt-3">
-                                            <label>Parent's First Name *</label>
+                                            <label>Parent's First Name</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" placeholder="Parent's First Name" name="parent_first_name" required>
                                             </div>
                                         </div>
                                         <!-- Parent's Last Name -->
                                         <div class="col-md-6 mt-3">
-                                            <label>Parent's Last Name *</label>
+                                            <label>Parent's Last Name</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" placeholder="Parent's Last Name" name="parent_last_name" required>
                                             </div>
@@ -159,14 +158,14 @@ if(isset($_SESSION['registration_success'])){
                                         </div>
                                         <!-- Parent's Phone Number -->
                                         <div class="col-md-4 mt-3">
-                                            <label>Phone Number *</label>
+                                            <label>Phone Number</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" name="parent_phone_number" placeholder="e.g., 08012345678" required maxlength="11">
                                             </div>
                                         </div>
                                         <!-- Parent's Home Address -->
                                         <div class="col-md-12 mt-3">
-                                            <label>Home Address *</label>
+                                            <label>Home Address</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" placeholder="e.g., Samunaka Junction Along Wuro Sembe Road, Jalingo." name="parent_address" required>
                                             </div>
@@ -176,9 +175,9 @@ if(isset($_SESSION['registration_success'])){
                                             <div class="row align-items-center">
                                                 <div class="col-8 col-md-6">
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" required>
-                                                        <label class="form-check-label" for="flexSwitchCheckDefault">
-                                                            Form Attestation
+                                                        <input class="form-check-input null-label" type="checkbox" id="flexSwitchCheckDefault" required>
+                                                        <label class="form-check-label null-label text-xs" for="flexCheckDefault">
+                                                            I hereby attest and confirm that all the above data is correct.
                                                         </label>
                                                     </div>
                                                 </div>
@@ -188,6 +187,25 @@ if(isset($_SESSION['registration_success'])){
                                                         <button type="submit" class="btn bg-gradient-info" name="applyAdmission">Apply</button>
                                                     </div>
                                                 </div>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModal" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-body">
+                                                                <h4 class="text-gradient text-dark text-center">Registration Successful</h4>
+                                                                <hr class="horizontal dark my-1">
+                                                                <p class="my-3">Dear <i class="font-weight-bold"><?php echo htmlspecialchars($first_name . ' ' . $last_name); ?></i>, your application has been successfully submitted.</p>
+                                                                <p class="mb-0">Your application code is: <strong><?php echo htmlspecialchars($application_code); ?></strong>. You can check your application status later by visiting <a href="admission-check-status.php" class="text-sm font-weight-bold text-decoration: underline">Admission Status Check</a></p>
+                                                                <p class="text-warning mt-3 text-sm">NB: Please copy and save your application code for future reference regarding your admission status.</p>
+                                                                <div class="d-flex justify-content-center">
+                                                                    <button type="button" class="btn bg-gradient-info mt-3" data-bs-dismiss="modal">Ok</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- End of Modal -->
                                             </div>
                                         </div>
                                     </div>
