@@ -1,16 +1,33 @@
 <?php
 require_once "admission-process.php";
+
+// <!-- Modal for Registration Success -->
+if(isset($_SESSION['registration_success'])){
+    if (isset($_SESSION['registration_success'])) {
+        $registration_id = $_SESSION['registration_success']['registration_id'];
+        // Fetch application details using registration_id
+        $sql = "SELECT application_code, first_name, last_name 
+                FROM applicants 
+                WHERE registration_id = '$registration_id'";
+        $result = mysqli_query($conn, $sql);
+        $registration = mysqli_fetch_assoc($result);
+        $application_code = $registration['application_code'];
+        $first_name = $registration['first_name'];
+        $last_name = $registration['last_name'];
+    }
+    
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <?php include_once "/../../includes/header.php"; ?>
+    <?php include_once "../../includes/header.php"; ?>
     <title>Apply For Admission</title>
 </head>
 
 <body class="bg-info-soft" style="font-family: 'Open Sans'">
-    <?php include_once "/../../includes/navbar.php"; ?>
+    <?php include_once "../../includes/navbar.php"; ?>
     <main>
         <section>
             <div class="container pt-5">
@@ -183,28 +200,18 @@ require_once "admission-process.php";
         </section>
     </main>
     <!-- Footer -->
-    <?php include_once "/../../includes/footer.php"; ?>
+    <?php include_once "../../includes/footer.php"; ?>
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="../../js/plugins/state-capital.js"></script>
     <script src="../../js/plugins/sweetalert.min.js"></script>
-    <?php include_once "/../../includes/scripts.php"; ?>
+    <?php include_once "../../includes/scripts.php"; ?>
 
     <!-- Modal for Registration Success -->
     <?php
     if (isset($_SESSION['registration_success'])) {
-        $registration_id = $_SESSION['registration_success']['registration_id'];
-        // Fetch application details using registration_id
-        $sql = "SELECT application_code, first_name, last_name 
-                FROM applicants 
-                WHERE registration_id = '$registration_id'";
-        $result = mysqli_query($conn, $sql);
-        $registration = mysqli_fetch_assoc($result);
-        $application_code = $registration['application_code'];
-        $first_name = $registration['first_name'];
-        $last_name = $registration['last_name'];
         // JavaScript to trigger modal display
         echo '<script>
             $(document).ready(function(){
