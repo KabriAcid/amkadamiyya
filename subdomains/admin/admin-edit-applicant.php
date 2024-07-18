@@ -209,35 +209,30 @@ if (isset($_SESSION['staff'])) {
                             </p>
                         </div>
                         <div class="card-body justify-content-between d-flex pt-0">
-                            <div class="d-flex align-items-center mb-sm-0 mb-4">
-                                <div>
-                                    <div class="form-check form-switch mb-0">
-                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault0" />
-                                    </div>
-                                </div>
-                            </div>
                             <form action="" method="post">
                                 <input type="hidden" name="applicant_id" value="<?php echo $applicant['applicant_id']; ?>">
-                                <button class="btn bg-gradient-danger btn-sm mb-0 ms-2" type="submit" name="declineBtn" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                <button class="btn bg-gradient-danger text-xs btn-sm mb-0 ms-2" type="button" name="declineBtn" data-bs-toggle="modal" data-bs-target="#modal-notification">
                                     Delete Account
                                 </button>
                             </form>
                             <!-- Modal -->
-                            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+                                <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
                                     <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="deleteModalLabel">Modal title</h5>
-                                            <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
                                         <div class="modal-body">
-                                            ...
+                                            <div class="py-3 text-center">
+                                                <div>
+                                                    <i class="fas fa-exclamation-triangle bg-danger-soft p-3 text-danger fa-3x" style="border-radius: 100%;"></i>
+                                                </div>
+                                                <h4 class="text-gradient text-danger mt-4">Delete Account?</h4>
+                                                <p class="text-center text-sm">Are you sure you want to delete applicant? <br> This operation cannot be reverted.</p>
+                                            </div>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="button" class="btn bg-gradient-primary">Save changes</button>
+                                        <div class="modal-footer justify-content-end d-flex align-items-center">
+                                            <button type="button" class="btn bg-gradient-secondary btn-round" data-bs-dismiss="modal">No, Cancel</button>
+                                            <form action="" method="post">
+                                                <button type="submit" class="btn bg-gradient-danger ms-2 btn-round" data-bs-dismiss="modal">Yes, Delete</button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
