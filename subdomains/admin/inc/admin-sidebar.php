@@ -106,8 +106,7 @@
 
          <!-- Staff -->
          <?php
-         $in_array = [1, 2, 3];
-         if (in_array($position_number, $in_array)) {
+         if (in_array($position_number, [1, 2, 3])) {
          ?>
             <li class="nav-item">
                <a data-bs-toggle="collapse" href="#staffMenu" class="nav-link 
@@ -253,8 +252,7 @@
          ?>
 
          <?php
-         $in_array = [1, 3, 5];
-         if (in_array($position_number, $in_array)) {
+         if (in_array($position_number, [1, 3, 5])) {
          ?>
             <!-- Subjects -->
             <li class="nav-item">
@@ -451,8 +449,7 @@
          </li>
          <!-- Defaults -->
          <?php
-         $in_array = [1, 3, 5];
-         if (in_array($position_number, $in_array)) {
+         if (in_array($position_number, [1, 3, 5])) {
          ?>
             <li class="nav-item">
                <a data-bs-toggle="collapse" href="#settingsMenu" class="nav-link 

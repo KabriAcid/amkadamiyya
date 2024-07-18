@@ -1,3 +1,13 @@
+<?php
+
+    if(isset($_SESSION['staff'])){
+        $position_id = $_SESSION['staff']['position_id'];
+    }
+    else {
+        header("Location: admin-logout.php");
+        exit;
+    }
+?>
 <div class="container-fluid pt-3">
     <div class="row">
         <div class="col-12">
@@ -32,8 +42,8 @@
                         </thead>
                         <tbody>
                             <?php
-                            if ($_SESSION['staff']['position_id'] == 1) {
-                                $sql = "SELECT * FROM `students` ORDER BY `admission_id` ASC, `first_name` ASC, `second_name` ASC, `last_name` ASC, `gender` ASC, `state` ASC";
+                            if (in_array($position, [1, 2, 3])) {
+                                $sql = "SELECT * FROM `students` ORDER BY `admission_id` ASC, `first_name` ASC, `second_name` ASC, `last_name` ASC, `gender` ASC, `class_id` ASC";
                                 $result = mysqli_query($conn, $sql);
                                 while ($row = mysqli_fetch_assoc($result)) {
                             ?>
@@ -91,11 +101,11 @@
                                     </tr>
                                 <?php
                                 }
-                            } else if ($_SESSION['staff']['position_id'] == 2) {
+                            } else {
                                 $class_id = $_SESSION['staff']['class_id'];
                                 $sql = "SELECT * FROM `classes` WHERE `class_id` = '$class_id'";
-                                $result = mysqli_query($conn, $sql);
-                                $class = mysqli_fetch_assoc($result);
+                                $classes = mysqli_query($conn, $sql);
+                                $class = mysqli_fetch_assoc($classes);
 
                                 $sql = "SELECT * FROM `students` WHERE `class_id` = '$class_id' ORDER BY `first_name` ASC, `second_name` ASC, `last_name` ASC";
                                 $result = mysqli_query($conn, $sql);

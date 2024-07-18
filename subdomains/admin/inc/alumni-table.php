@@ -38,7 +38,7 @@
                         </thead>
                         <tbody>
                             <?php
-                            if ($_SESSION['staff']['position_id'] == 1) {
+                            if (isset($_SESSION['staff']) && $_SESSION['staff']['position_id'] == 1) {
                                 $sql = "SELECT * FROM `alumni` ORDER BY `first_name` ASC, `second_name` ASC, `index_no` ASC, `last_name` ASC, `gender` ASC, `state` ASC";
                                 $result = mysqli_query($conn, $sql);
                                 while ($row = mysqli_fetch_assoc($result)) {
