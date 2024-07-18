@@ -1,6 +1,12 @@
 <?php
 
-
+    if(isset($_SESSION['staff'])){
+        $position_id = $_SESSION['staff']['position_id'];
+    }
+    else {
+        header("Location: admin-logout.php");
+        exit;
+    }
 ?>
 <div class="container-fluid py-4">
     <div class="row">

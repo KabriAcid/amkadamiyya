@@ -95,7 +95,7 @@ if (isset($_SESSION['staff'])) {
                                     <strong class="text-dark">Status: </strong>&nbsp; <?php echo $student['status'] == "" ? "Not Active" : "Active"; ?>
                                 </div>
                                 <!--  -->
-                                <h6 class="mt-4 mb-3 text-gradient text-primary">Parent's Data</h6>
+                                <h6 class="mt-4 mb-3 text-gradient text-warning">Parent's Data</h6>
 
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Par. First Name: </strong>&nbsp; <?php echo ucfirst($student['parent_first_name']); ?>
@@ -104,7 +104,7 @@ if (isset($_SESSION['staff'])) {
                                     <strong class="text-dark">Par. Last Name: </strong>&nbsp; <?php echo ucfirst($student['parent_last_name']); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Par. Phone Number: </strong>&nbsp; <?php echo $student['parent_phone_number']; ?>
+                                    <strong class="text-dark">Par. Phone Number: </strong>&nbsp; <?php echo substr($student['parent_phone_number'], 0, 3) . '-' . substr($student['parent_phone_number'], 3, 4) . '-' . substr($student['parent_phone_number'], 7); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Par. Email Address: </strong>&nbsp; <?php echo $student['parent_email']; ?>

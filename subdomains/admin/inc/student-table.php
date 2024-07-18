@@ -42,7 +42,7 @@
                         </thead>
                         <tbody>
                             <?php
-                            if (in_array($position, [1, 2, 3])) {
+                            if (in_array($position_id, [1, 2, 3])) {
                                 $sql = "SELECT * FROM `students` ORDER BY `admission_id` ASC, `first_name` ASC, `second_name` ASC, `last_name` ASC, `gender` ASC, `class_id` ASC";
                                 $result = mysqli_query($conn, $sql);
                                 while ($row = mysqli_fetch_assoc($result)) {
