@@ -720,7 +720,69 @@ if (isset($_POST['approveBtn'])) {
 
 ========================================*/
 
+// Function to sanitize input
+function sanitize_input($data, $conn) {
+    return $conn->real_escape_string(trim($data));
+}
 
+// Check if any form was submitted
+if (isset($_POST['addbankname']) || isset($_POST['adddiscipline']) || isset($_POST['addqualification'])) {
+    // Sanitize and validate input
+    if (isset($_POST['addbankname'])) {
+        $bank_name = sanitize_input($_POST['bank_name'], $conn);
+
+        // Prepare and execute SQL query for Bank Name
+        $sql = "INSERT INTO bank_names (name) VALUES (?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $bank_name);
+
+        if ($stmt->execute()) {
+            $_SESSION['success_message'] = "Bank name added successfully.";
+        } else {
+            $_SESSION['error_message'] = "Error: " . $stmt->error;
+        }
+
+        $stmt->close();
+    }
+
+    if (isset($_POST['adddiscipline'])) {
+        $discipline = sanitize_input($_POST['discipline'], $conn);
+
+        // Prepare and execute SQL query for Discipline
+        $sql = "INSERT INTO disciplines (name) VALUES (?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $discipline);
+
+        if ($stmt->execute()) {
+            $_SESSION['success_message'] = "Discipline added successfully.";
+        } else {
+            $_SESSION['error_message'] = "Error: " . $stmt->error;
+        }
+
+        $stmt->close();
+    }
+
+    if (isset($_POST['addqualification'])) {
+        $qualification = sanitize_input($_POST['qualification'], $conn);
+
+        // Prepare and execute SQL query for Qualification
+        $sql = "INSERT INTO qualifications (name) VALUES (?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $qualification);
+
+        if ($stmt->execute()) {
+            $_SESSION['success_message'] = "Qualification added successfully.";
+        } else {
+            $_SESSION['error_message'] = "Error: " . $stmt->error;
+        }
+
+        $stmt->close();
+    }
+
+    // Redirect to the current page
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+}
 
 // Checking if form was submitted
 if (isset($_POST['addstudentlevy'])) {
@@ -734,13 +796,13 @@ if (isset($_POST['addstudentlevy'])) {
     }
     // Sanitize and validate input
     $item = sanitize_input($_POST['item']);
-    $amount = sanitize_input($_POST['amount']);
+    $item_amount = sanitize_input($_POST['item_amount']);
     $section = sanitize_input($_POST['section']);
 
     // Prepare and execute SQL query
-    $sql = "INSERT INTO student_levy (item, amount, section_id) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO student_levy (item, item_amount, section_id) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssi", $item, $amount, $section);
+    $stmt->bind_param("ssi", $item, $item_amount, $section);
 
     // Execute the statement and store message in session
     if ($stmt->execute()) {

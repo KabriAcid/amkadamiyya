@@ -34,10 +34,10 @@ require_once "../../config/database.php";
                                     <form action="" method="post">
                                         <div class="form-group">
                                             <label for="bank_name" class="form-label">Bank Name</label>
-                                            <input type="text" class="form-control" id="bank_name" name="bank_name" placeholder="e.g Fidelity Bank" required>
+                                            <input type="text" class="form-control" name="bank_name" placeholder="e.g Fidelity Bank" required>
                                         </div>
                                         <div class="form-group mb-3 text-end">
-                                            <button type="submit" class="btn bg-gradient-success btn-sm" name="add">Add</button>
+                                            <button type="submit" class="btn bg-gradient-success btn-sm" name="addbankname">Add</button>
                                         </div>
                                     </form>
                                 </div>
@@ -48,7 +48,7 @@ require_once "../../config/database.php";
                                             <input type="text" class="form-control" name="discipline" placeholder="e.g Statistics" required>
                                         </div>
                                         <div class="form-group mb-3 text-end">
-                                            <button type="submit" class="btn bg-gradient-success btn-sm" name="add">Add</button>
+                                            <button type="submit" class="btn bg-gradient-success btn-sm" name="adddiscipline">Add</button>
                                         </div>
                                     </form>
                                 </div>
@@ -59,7 +59,7 @@ require_once "../../config/database.php";
                                             <input type="text" class="form-control" name="qualification" placeholder="e.g Bsc." required>
                                         </div>
                                         <div class="form-group text-end">
-                                            <button type="submit" class="btn bg-gradient-success btn-sm" name="add">Add</button>
+                                            <button type="submit" class="btn bg-gradient-success btn-sm" name="addqualification">Add</button>
                                         </div>
                                     </form>
                                 </div>
@@ -85,21 +85,21 @@ require_once "../../config/database.php";
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="item" class="form-label">Item</label>
-                                            <input type="text" class="form-control" id="item" name="item" placeholder="e.g. Library Fee" required>
+                                            <input type="text" class="form-control" name="item" placeholder="e.g. Medical Fee" required>
                                         </div>
                                     </div>
                                     <!-- Form Group for Amount -->
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label for="amount" class="form-label">Amount</label>
-                                            <input type="number" class="form-control" id="amount" name="amount" placeholder="e.g. 1000" required>
+                                            <label for="item amount" class="form-label">Item Amount</label>
+                                            <input type="number" class="form-control" name="item_amount" placeholder="e.g. 1000" required>
                                         </div>
                                     </div>
                                     <!-- Form Group for Section -->
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="section" class="form-label">Section</label>
-                                            <select class="form-control" id="section" name="section" required>
+                                            <select class="form-control" name="section" required>
                                                 <option value="" class="text-center">--Select Section--</option>
                                                 <?php
 
