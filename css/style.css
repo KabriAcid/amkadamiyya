@@ -29,28 +29,49 @@ label::after {
   content: "";
 }
 
-.jumbotron {
+#jumbotron {
   width: 100%;
+  height: 100vh; /* Adjust the height as needed */
+  position: relative;
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  animation: fade 9s infinite; /* Full cycle duration */
 }
 
-@keyframes fade {
-  0% {
-      background-image: url('../assets/images/buildings/entrance.jpg');
+#jumbotron::before, #jumbotron::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+#jumbotron::before {
+  background-image: url('../assets/images/buildings/building-1.jpg');
+  animation: fade-in-out 9s infinite;
+}
+
+#jumbotron::after {
+  background-image: url('../assets/images/buildings/laboratory-3.jpg');
+  animation: fade-in-out 9s infinite;
+  animation-delay: 4.5s; /* Half of the full cycle duration */
+}
+
+@keyframes fade-in-out {
+  0%, 100% {
+      opacity: 0;
   }
-  33% {
-      background-image: url('../assets/images/buildings/entrance2.jpg');
-  }
-  66% {
-      background-image: url('../assets/images/buildings/entrance3.jpg');
-  }
-  100% {
-      background-image: url('../assets/images/buildings/entrance.jpg');
+  50% {
+      opacity: 1;
   }
 }
+
 
 
 .ordered-list {

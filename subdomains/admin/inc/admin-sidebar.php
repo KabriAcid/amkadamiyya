@@ -321,6 +321,11 @@
                         <span class="sidenav-normal"> View Results </span>
                      </a>
                   </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="admin-approve-result.php">
+                        <span class="sidenav-normal"> Manage Results </span>
+                     </a>
+                  </li>
                </ul>
             </div>
          </li>
