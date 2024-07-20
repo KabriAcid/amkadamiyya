@@ -29,8 +29,8 @@
                 <div class="col-lg-8">
                     <div class="card mb-4">
                         <div class="card-header mb-0">
-                            <h6 class="text-info">Set Defaults</h6>
-                            <p class="mb-0">Here you can set the general default settings of the result.</p>
+                            <h6 class="text-dark text-gradient">Set Defaults</h6>
+                            <p class="mb-0 text-sm">Here you can set the general default settings of the result.</p>
                         </div>
                         <hr class="horizontal dark my-0 py-0">
                         <div class="card-body">
