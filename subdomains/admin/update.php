@@ -650,10 +650,10 @@ if (isset($_POST['eraseAlumniData'])) {
 */
 
 
-if (isset($_GET['approve'])) {
-    $subject_id = $_GET['approve'];
+if (isset($_POST['approve'])) {
+    $subject_id = $_POST['approve'];
     // Perform the approve operation
-    $sql = "UPDATE `subjects` SET `status` = 1 WHERE `subject_id` = ?";
+    $sql = "UPDATE `results` SET `status` = 1 WHERE `subject_id` = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $subject_id);
 
@@ -664,13 +664,12 @@ if (isset($_GET['approve'])) {
     }
 
     $stmt->close();
-    header('Location: ' . $_SERVER['PHP_SELF']);
-    exit();
 }
-if (isset($_GET['truncate'])) {
-    $subject_id = $_GET['truncate'];
+
+if (isset($_POST['truncate'])) {
+    $subject_id = $_POST['truncate'];
     // Perform the truncate operation
-    $sql = "UPDATE `subjects` SET `status` = 0 WHERE `subject_id` = ?";
+    $sql = "DELETE FROM `results` WHERE `subject_id` = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $subject_id);
 
@@ -681,6 +680,4 @@ if (isset($_GET['truncate'])) {
     }
 
     $stmt->close();
-    header('Location: ' . $_SERVER['PHP_SELF']);
-    exit();
 }

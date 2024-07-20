@@ -1,6 +1,6 @@
 <?php
-session_start();
-require_once "../../config/database.php";
+
+require_once "update.php";
 
 if (isset($_SESSION['staff'])) {
     $staff_id = $_SESSION['staff']['staff_id'];
@@ -50,7 +50,7 @@ if (isset($_SESSION['staff'])) {
                                 $sql = "SELECT DISTINCT r.class_id, r.subject_id, c.class_name, s.subject_name 
                                         FROM `results` r
                                         JOIN `classes` c ON r.class_id = c.class_id
-                                        JOIN `subjects` s ON r.subject_id = s.subject_id WHERE status = 1";
+                                        JOIN `subjects` s ON r.subject_id = s.subject_id WHERE status = 0";
                                 $stmt = $conn->prepare($sql);
                                 $stmt->execute();
                                 $result = $stmt->get_result();
@@ -74,14 +74,13 @@ if (isset($_SESSION['staff'])) {
                                                 </span>
                                             </td>
                                             <td class="align-middle text-center d-flex align-items-center justify-content-center">
-                                                <form action="update.php" method="get" class="me-2">
+                                                <form action="" method="post" class="me-2">
                                                     <input type="hidden" name="approve" value="<?php echo htmlspecialchars($row['subject_id']); ?>">
                                                     <button type="submit" class="badge badge-sm rounded bg-gradient-success text-white border-0">Approve</button>
                                                 </form>
-                                                <form action="update.php" method="get">
-                                                    <input type="hidden" name="truncate" value="<?php echo htmlspecialchars($row['subject_id']); ?>">
-                                                    <button type="submit" class="badge badge-sm rounded bg-gradient-danger text-white border-0">truncate</button>
-                                                </form>
+                                                <button class="badge badge-sm rounded bg-gradient-danger text-white border-0" type="button" data-bs-toggle="modal" data-bs-target="#modal-notification">
+                                                    Truncate
+                                                </button>
                                             </td>
                                         </tr>
                                     <?php
@@ -94,6 +93,30 @@ if (isset($_SESSION['staff'])) {
                                 }
                         ?>
                         </table>
+                        <!-- Modal -->
+                        <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+                            <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class="py-3 text-center">
+                                            <div>
+                                                <i class="fas fa-exclamation-triangle bg-danger-soft p-3 text-danger fa-3x" style="border-radius: 100%;"></i>
+                                            </div>
+                                            <h4 class="text-gradient text-danger mt-4">Delete Account?</h4>
+                                            <p class="text-center text-sm">Are you sure you want to delete subject? <br> This operation cannot be reverted.</p>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer justify-content-end d-flex align-items-center">
+                                        <button type="button" class="btn bg-gradient-secondary btn-round" data-bs-dismiss="modal">No, Cancel</button>
+                                        <form action="" method="post">
+                                            <input type="hidden" name="truncate" value="<?php echo htmlspecialchars($row['subject_id']); ?>">
+                                            <button type="submit" class="btn bg-gradient-danger btn-round">truncate</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End of Modal -->
                     </div>
                 </div>
 
