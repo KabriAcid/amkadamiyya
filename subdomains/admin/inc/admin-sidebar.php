@@ -477,6 +477,11 @@
                            <span class="sidenav-normal"> Set Defaults </span>
                         </a>
                      </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="admin-manage-data.php">
+                           <span class="sidenav-normal"> Manage Data </span>
+                        </a>
+                     </li>
                      <?php
                      if ($position_number == 1 || $position_number == 3) {
                      ?>

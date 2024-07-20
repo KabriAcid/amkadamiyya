@@ -34,7 +34,8 @@
                         </div>
                         <hr class="horizontal dark my-0 py-0">
                         <div class="card-body">
-                            <form action="create.php" method="post">
+                            <form action="create
+                            .php" method="post">
                                 <div class="form-group">
                                     <label for="">Session</label>
                                     <input type="text" name="session" class="form-control" value="<?php echo $default['session_name'] ?>" placeholder="Enter session year">
