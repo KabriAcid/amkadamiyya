@@ -722,7 +722,7 @@ if (isset($_POST['approveBtn'])) {
 
 // Function to sanitize input
 function sanitize_input($data, $conn) {
-    return $conn->real_escape_string(trim($data));
+    return $conn->real_escape_string(htmlspecialchars(ucwords(strtolower(trim($data)))));
 }
 
 // Check if any form was submitted
@@ -732,7 +732,7 @@ if (isset($_POST['addbankname']) || isset($_POST['adddiscipline']) || isset($_PO
         $bank_name = sanitize_input($_POST['bank_name'], $conn);
 
         // Prepare and execute SQL query for Bank Name
-        $sql = "INSERT INTO bank_names (name) VALUES (?)";
+        $sql = "INSERT INTO nigerian_banks (bank_name) VALUES (?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $bank_name);
 
@@ -749,7 +749,7 @@ if (isset($_POST['addbankname']) || isset($_POST['adddiscipline']) || isset($_PO
         $discipline = sanitize_input($_POST['discipline'], $conn);
 
         // Prepare and execute SQL query for Discipline
-        $sql = "INSERT INTO disciplines (name) VALUES (?)";
+        $sql = "INSERT INTO university_disciplines (discipline_name) VALUES (?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $discipline);
 
@@ -766,7 +766,7 @@ if (isset($_POST['addbankname']) || isset($_POST['adddiscipline']) || isset($_PO
         $qualification = sanitize_input($_POST['qualification'], $conn);
 
         // Prepare and execute SQL query for Qualification
-        $sql = "INSERT INTO qualifications (name) VALUES (?)";
+        $sql = "INSERT INTO qualifications (qualification_name) VALUES (?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $qualification);
 
@@ -787,20 +787,13 @@ if (isset($_POST['addbankname']) || isset($_POST['adddiscipline']) || isset($_PO
 // Checking if form was submitted
 if (isset($_POST['addstudentlevy'])) {
 
-    function sanitize_inputs($input){
-        $input = trim($input);
-        $input = stripslashes($input);
-        $input = htmlspecialchars($input);
-
-        return $input;
-    }
     // Sanitize and validate input
-    $item = sanitize_input($_POST['item']);
-    $item_amount = sanitize_input($_POST['item_amount']);
-    $section = sanitize_input($_POST['section']);
+    $item = sanitize_input(ucwords(strtolower($_POST['item'])), $conn);
+    $item_amount = sanitize_input($_POST['item_amount'], $conn);
+    $section = sanitize_input($_POST['section'], $conn);
 
     // Prepare and execute SQL query
-    $sql = "INSERT INTO student_levy (item, item_amount, section_id) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO school_levy (item, item_amount, section_id) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ssi", $item, $item_amount, $section);
 
