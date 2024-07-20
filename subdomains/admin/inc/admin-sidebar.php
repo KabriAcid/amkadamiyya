@@ -322,7 +322,7 @@
                      </a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="admin-approve-result.php">
+                     <a class="nav-link" href="admin-manage-result.php">
                         <span class="sidenav-normal"> Manage Results </span>
                      </a>
                   </li>
