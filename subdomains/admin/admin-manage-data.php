@@ -25,7 +25,6 @@ require_once "../../config/database.php";
                             <h6 class="text-dark text-gradient">Manage Data</h6>
                             <p class="mb-0 text-sm">Here you can add and update various data entries such as bank names, disciplines, and qualifications.</p>
                         </div>
-
                     </div>
                 </div>
             </div>

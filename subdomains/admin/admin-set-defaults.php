@@ -1,20 +1,21 @@
 <?php
-    session_start();
-    require_once "../../config/database.php";
+session_start();
+require_once "../../config/database.php";
 
-    $sql = "SELECT * FROM `defaults`;";
-    $result = mysqli_query($conn, $sql);
-    $default = mysqli_fetch_assoc($result);
+$sql = "SELECT * FROM `defaults`;";
+$result = mysqli_query($conn, $sql);
+$default = mysqli_fetch_assoc($result);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Set Defaults</title>
     <?php include "inc/admin-header.php"; ?>
 </head>
 
 <body class="g-sidenav-show bg-info-soft">
-     <?php
+    <?php
     if ($_SESSION['staff']['position_id'] == 1) {
         include "inc/admin-sidebar.php";
     } else {
@@ -30,8 +31,9 @@
                     <div class="card mb-4">
                         <div class="card-header mb-0">
                             <h6 class="text-dark text-gradient">Set Defaults</h6>
-                            <p class="mb-0 text-sm">Here you can set the general default settings of the result.</p>
+                            <p class="mb-0 text-sm">Here you can configure the default settings and values for various data entries and system preferences.</p>
                         </div>
+
                         <hr class="horizontal dark my-0 py-0">
                         <div class="card-body">
                             <form action="create
@@ -61,7 +63,7 @@
                 </div>
             </div>
         </div>
-        <?php include "inc/admin-footer.php";?>
+        <?php include "inc/admin-footer.php"; ?>
     </main>
 
 
@@ -70,37 +72,38 @@
 
     <?php
     if (isset($_SESSION['success_message'])) {
-        ?>
+    ?>
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
                     title: "Successful",
-                    text: "<?php echo $_SESSION['success_message'];?>",
+                    text: "<?php echo $_SESSION['success_message']; ?>",
                     timer: 3000,
                     showConfirmButton: true,
                     icon: 'success'
                 })
             })
         </script>
-        <?php
+    <?php
         unset($_SESSION['success_message']);
-    } else if(isset($_SESSION['error_message'])){
-        ?>
+    } else if (isset($_SESSION['error_message'])) {
+    ?>
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
                     title: "Error",
-                    text: "<?php echo $_SESSION['error_message'];?>",
+                    text: "<?php echo $_SESSION['error_message']; ?>",
                     timer: 3000,
                     showConfirmButton: true,
                     icon: 'error'
                 })
             })
         </script>
-        <?php
+    <?php
         unset($_SESSION['error_message']);
     }
     ?>
 
 </body>
+
 </html>
