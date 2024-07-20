@@ -21,9 +21,27 @@ require_once "../../config/database.php";
             <div class="row">
                 <div class="col-lg-6">
                     <div class="card mb-4">
+                        <!-- Card Header -->
                         <div class="card-header">
                             <h6 class="text-dark text-gradient">Manage Data</h6>
                             <p class="mb-0 text-sm">Here you can add and update various data entries such as bank names, disciplines, and qualifications.</p>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="bank_name" class="form-label">Bank Name</label>
+                                        <input type="text" class="form-control" id="bank_name" name="bank_name" placeholder="Bank Name">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label for="discipline" class="form-label">Disciplines</label>
+                                        <input type="text" class="form-control" name="discipline" placeholder="e.g Bsc.">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
