@@ -709,3 +709,48 @@ if (isset($_POST['approveBtn'])) {
         $_SESSION['error_message'] = 'An error occurred while declining the applicant. Please try again.';
     }
 }
+
+
+
+
+
+/* ========================================
+
+                Managing data
+
+========================================*/
+
+
+
+// Checking if form was submitted
+if (isset($_POST['addstudentlevy'])) {
+
+    function sanitize_inputs($input){
+        $input = trim($input);
+        $input = stripslashes($input);
+        $input = htmlspecialchars($input);
+
+        return $input;
+    }
+    // Sanitize and validate input
+    $item = sanitize_input($_POST['item']);
+    $amount = sanitize_input($_POST['amount']);
+    $section = sanitize_input($_POST['section']);
+
+    // Prepare and execute SQL query
+    $sql = "INSERT INTO student_levy (item, amount, section_id) VALUES (?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssi", $item, $amount, $section);
+
+    // Execute the statement and store message in session
+    if ($stmt->execute()) {
+        $_SESSION['success_message'] = "Record added successfully.";
+    } else {
+        $_SESSION['error_message'] = "Error: " . $stmt->error;
+    }
+
+    header('Location' . $_SERVER['PHP_SELF']);
+
+    // Close statement
+    $stmt->close();
+}
