@@ -650,37 +650,37 @@ if (isset($_POST['eraseAlumniData'])) {
 */
 
 
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    if (isset($_GET['approve'])) {
-        $subject_id = $_GET['approve'];
-        // Perform the approve operation
-        $sql = "UPDATE `subjects` SET `status` = 1 WHERE `subject_id` = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $subject_id);
+if (isset($_GET['approve'])) {
+    $subject_id = $_GET['approve'];
+    // Perform the approve operation
+    $sql = "UPDATE `subjects` SET `status` = 1 WHERE `subject_id` = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $subject_id);
 
-        if ($stmt->execute()) {
-            $_SESSION['success_message'] = "Subject approved successfully.";
-        } else {
-            $_SESSION['error_message'] = "Error approving subject.";
-        }
-
-        $stmt->close();
-    } elseif (isset($_GET['truncate'])) {
-        $subject_id = $_GET['truncate'];
-        // Perform the truncate operation
-        $sql = "UPDATE `subjects` SET `status` = 0 WHERE `subject_id` = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $subject_id);
-
-        if ($stmt->execute()) {
-            $_SESSION['success_message'] = "Subject truncated successfully.";
-        } else {
-            $_SESSION['error_message'] = "Error truncating subject.";
-        }
-
-        $stmt->close();
+    if ($stmt->execute()) {
+        $_SESSION['success_message'] = "Subject approved successfully.";
+    } else {
+        $_SESSION['error_message'] = "Error approving subject.";
     }
 
+    $stmt->close();
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit();
+}
+if (isset($_GET['truncate'])) {
+    $subject_id = $_GET['truncate'];
+    // Perform the truncate operation
+    $sql = "UPDATE `subjects` SET `status` = 0 WHERE `subject_id` = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $subject_id);
+
+    if ($stmt->execute()) {
+        $_SESSION['success_message'] = "Subject truncated successfully.";
+    } else {
+        $_SESSION['error_message'] = "Error truncating subject.";
+    }
+
+    $stmt->close();
     header('Location: ' . $_SERVER['PHP_SELF']);
     exit();
 }

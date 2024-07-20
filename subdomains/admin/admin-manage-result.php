@@ -48,9 +48,9 @@ if (isset($_SESSION['staff'])) {
                             <tbody>
                                 <?php
                                 $sql = "SELECT DISTINCT r.class_id, r.subject_id, c.class_name, s.subject_name 
-                        FROM `results` r
-                        JOIN `classes` c ON r.class_id = c.class_id
-                        JOIN `subjects` s ON r.subject_id = s.subject_id";
+                                        FROM `results` r
+                                        JOIN `classes` c ON r.class_id = c.class_id
+                                        JOIN `subjects` s ON r.subject_id = s.subject_id WHERE status = 1";
                                 $stmt = $conn->prepare($sql);
                                 $stmt->execute();
                                 $result = $stmt->get_result();
@@ -74,11 +74,11 @@ if (isset($_SESSION['staff'])) {
                                                 </span>
                                             </td>
                                             <td class="align-middle text-center d-flex align-items-center justify-content-center">
-                                                <form action="admin-view-applicant.php" method="get" class="me-2">
+                                                <form action="update.php" method="get" class="me-2">
                                                     <input type="hidden" name="approve" value="<?php echo htmlspecialchars($row['subject_id']); ?>">
                                                     <button type="submit" class="badge badge-sm rounded bg-gradient-success text-white border-0">Approve</button>
                                                 </form>
-                                                <form action="admin-view-applicant.php" method="get">
+                                                <form action="update.php" method="get">
                                                     <input type="hidden" name="truncate" value="<?php echo htmlspecialchars($row['subject_id']); ?>">
                                                     <button type="submit" class="badge badge-sm rounded bg-gradient-danger text-white border-0">truncate</button>
                                                 </form>
@@ -90,13 +90,6 @@ if (isset($_SESSION['staff'])) {
                                 } else {
                                     ?>
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td class="align-middle text-center py-5" colspan="8">
-                                        <span class="text-secondary text-xs font-weight-bold text-capitalize">No new applicants found.</span>
-                                    </td>
-                                </tr>
-                            </tfoot>
                         <?php
                                 }
                         ?>
