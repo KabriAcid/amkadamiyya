@@ -641,8 +641,8 @@ if (isset($_POST['uploadSubject'])) {
         }
 
         // Insert scores into the results table
-        $sql = "INSERT INTO `results` (`student_id`, `subject_id`, `class_id`, `first_test`, `second_test`, `exam`, `total`, `grade`, `remark`, `status`)
-                VALUES ('$student_id', '$subject_id', '$class_id', '$first_test', '$second_test', '$exam', '$total', '$grade', '$remark', 1)";
+        $sql = "INSERT INTO `results` (`student_id`, `subject_id`, `class_id`, `first_test`, `second_test`, `exam`, `total`, `grade`, `remark`)
+                VALUES ('$student_id', '$subject_id', '$class_id', '$first_test', '$second_test', '$exam', '$total', '$grade', '$remark')";
         if (!mysqli_query($conn, $sql)) {
             $_SESSION['error_message'] = "Error inserting scores: " . mysqli_error($conn);
             header("Location: " . $_SERVER['PHP_SELF']);
