@@ -1,6 +1,14 @@
 <?php
 session_start();
 require_once "../../config/database.php";
+
+if (isset($_SESSION['staff'])) {
+    $staff_id = $_SESSION['staff']['staff_id'];
+
+    $sql = "SELECT * FROM staff WHERE staff_id = '$staff_id'";
+    $staff_result = mysqli_query($conn, $sql);
+    $staff = mysqli_fetch_assoc($staff_result);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,61 +39,48 @@ require_once "../../config/database.php";
                             <thead class="thead-light">
                                 <tr>
                                     <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7" spellcheck="false">#</th>
-                                    <th class="text-uppercase text-left text-secondary text-xxs font-weight-bolder opacity-7" spellcheck="false">Class</th>
+                                    <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7" spellcheck="false">Class</th>
                                     <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">Subject</th>
-                                    <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">Upload Date</th>
                                     <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7" spellcheck="false">Action</th>
                                 </tr>
                             </thead>
 
                             <tbody>
                                 <?php
-                                $sql = "SELECT * FROM `applicants` WHERE `admission_status` = 0 ORDER BY `timestamp` DESC";
-                                $applicants = mysqli_query($conn, $sql);
+                                $sql = "SELECT DISTINCT r.class_id, r.subject_id, c.class_name, s.subject_name 
+                        FROM `results` r
+                        JOIN `classes` c ON r.class_id = c.class_id
+                        JOIN `subjects` s ON r.subject_id = s.subject_id";
+                                $stmt = $conn->prepare($sql);
+                                $stmt->execute();
+                                $result = $stmt->get_result();
                                 $count = 1;
 
-                                if (mysqli_num_rows($applicants) > 0) {
-                                    while ($applicant = mysqli_fetch_assoc($applicants)) {
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
                                 ?>
                                         <tr>
                                             <td class="align-middle text-center text-sm">
                                                 <span class="text-secondary text-xs font-weight-bold text-capitalize"><?php echo $count; ?></span>
                                             </td>
-                                            <td>
-                                                <div class="d-flex px-2 py-1">
-                                                    <div class="d-flex align-items-center justify-content-center">
-                                                        <span class="mb-0 text-secondary text-xs font-weight-bold text-capitalize text-left"><?php echo $applicant['first_name'] . " " . $applicant['second_name'] . " " . $applicant['last_name']  ?></span>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <p class="text-secondary text-xs text-center font-weight-bold mb-0"><?php echo $applicant['application_code']; ?></p>
+                                            <td class="align-middle text-center text-sm">
+                                                <span class="mb-0 text-secondary text-xs font-weight-bold text-capitalize text-left">
+                                                    <?php echo htmlspecialchars($row['class_name']); ?>
+                                                </span>
                                             </td>
                                             <td class="align-middle text-center text-sm">
                                                 <span class="text-secondary text-xs font-weight-bold text-capitalize">
-                                                    <?php
-                                                    $class_id = $applicant['enrolling_class'];
-                                                    $sql = "SELECT `class_name` FROM `classes` WHERE `class_id` = '$class_id'";
-                                                    $clasess = mysqli_query($conn, $sql);
-                                                    $class = mysqli_fetch_assoc($clasess);
-                                                    echo $class['class_name'];
-                                                    ?>
+                                                    <?php echo htmlspecialchars($row['subject_name']); ?>
                                                 </span>
                                             </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs font-weight-bold text-capitalize"><?php echo $applicant['gender']; ?></span>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs font-weight-bold text-capitalize"><?php echo date("j F, Y", strtotime($applicant['birth_date'])); ?></span>
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs font-weight-bold text-capitalize"><?php echo date("j F, Y H:m", strtotime($applicant['timestamp'])); ?></span>
-                                            </td>
-
-                                            <td class="align-middle text-center">
+                                            <td class="align-middle text-center d-flex align-items-center justify-content-center">
+                                                <form action="admin-view-applicant.php" method="get" class="me-2">
+                                                    <input type="hidden" name="approve" value="<?php echo htmlspecialchars($row['subject_id']); ?>">
+                                                    <button type="submit" class="badge badge-sm rounded bg-gradient-success text-white border-0">Approve</button>
+                                                </form>
                                                 <form action="admin-view-applicant.php" method="get">
-                                                    <input type="hidden" name="applicant_id" value="<?php echo $applicant['applicant_id']; ?>">
-                                                    <button type="submit" class="badge badge-sm rounded bg-gradient-light text-dark border-0">View</button>
+                                                    <input type="hidden" name="truncate" value="<?php echo htmlspecialchars($row['subject_id']); ?>">
+                                                    <button type="submit" class="badge badge-sm rounded bg-gradient-danger text-white border-0">truncate</button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -98,7 +93,7 @@ require_once "../../config/database.php";
                             <tfoot>
                                 <tr>
                                     <td class="align-middle text-center py-5" colspan="8">
-                                        <span class="text-secondary text-xs font-weight-bold text-capitalize"><?php echo "No new applicants found."; ?></span>
+                                        <span class="text-secondary text-xs font-weight-bold text-capitalize">No new applicants found.</span>
                                     </td>
                                 </tr>
                             </tfoot>
@@ -108,6 +103,7 @@ require_once "../../config/database.php";
                         </table>
                     </div>
                 </div>
+
             </div>
         </div>
 
