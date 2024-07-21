@@ -3,6 +3,14 @@
 if (isset($_SESSION['staff'])) {
     $position_id = $_SESSION['staff']['position_id'];
     $class_id = $_SESSION['staff']['class_id'];
+
+    $stmt = $conn->prepare("SELECT position_number FROM school_post WHERE position_id = ?");
+    $stmt->bind_param("i", $position_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $position_number = $row['position_number'];
+    
 } else {
     header("Location: admin-logout.php");
     exit;
@@ -42,7 +50,7 @@ if (isset($_SESSION['staff'])) {
                         </thead>
                         <tbody>
                             <?php
-                            if (in_array($position_id, [1, 2, 3])) {
+                            if (in_array($position_number, [1, 2, 3, 4, 5])) {
                                 $sql = "SELECT * FROM `students` ORDER BY `admission_id` ASC, `first_name` ASC, `second_name` ASC, `last_name` ASC, `gender` ASC, `class_id` ASC";
                                 $result = mysqli_query($conn, $sql);
                                 while ($row = mysqli_fetch_assoc($result)) {

@@ -277,7 +277,7 @@ if (isset($_SESSION['staff'])) {
          ?>
 
          <?php
-         if (in_array($position_number, [1, 3, 5])) {
+         if (in_array($position_number, [1, 3, 5, 6])) {
          ?>
             <!-- Subjects -->
             <li class="nav-item">
@@ -490,7 +490,7 @@ if (isset($_SESSION['staff'])) {
          </li>
          <!-- Defaults -->
          <?php
-         if (in_array($position_number, [1, 2, 3, 4, 5])) {
+         if (in_array($position_number, [1, 2, 3, 5])) {
          ?>
             <li class="nav-item">
                <a data-bs-toggle="collapse" href="#settingsMenu" class="nav-link 
