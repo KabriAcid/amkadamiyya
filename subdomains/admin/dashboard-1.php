@@ -115,6 +115,102 @@
 <div class="container-fluid pt-3">
     <div class="row">
         <div class="col-lg-8">
+            <!-- Card -->
+            <div class="card p-3">
+                <!-- Card header -->
+                <div class="card-header bg-gradient-dark" style="position: relative;">
+                    <div class="d-flex align-items-end">
+                        <!-- Points -->
+                        <div class="points flex-column pe-3 text-center" id="points-container">
+                            <?php for ($i = 1000; $i >= 0; $i -= 100) : ?>
+                                <p class="chart-canvas text-white font-weight-bold"><?php echo $i; ?></p>
+                            <?php endfor; ?>
+                        </div>
+                        <!-- Bars -->
+                        <div class="bar-container">
+                            <div class="bars" id="bar-students"></div>
+                            <div class="bars" id="bar-staff"></div>
+                            <div class="bars" id="bar-alumni"></div>
+                            <div class="bars" id="bar-applicants"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Display Sections Dynamically -->
+                        <?php
+                        $sections = [
+                            'students' => ['icon' => 'ni ni-circle-08', 'bg' => 'bg-gradient-info'],
+                            'staff' => ['icon' => 'ni ni-circle-08', 'bg' => 'bg-gradient-dark'],
+                            'alumni' => ['icon' => 'ni ni-hat-3', 'bg' => 'bg-gradient-warning'],
+                            'applicants' => ['icon' => 'ni ni-circle-08', 'bg' => 'bg-gradient-primary'],
+                        ];
+                        foreach ($sections as $section => $details) {
+                            $total = $totals[$section];
+                        ?>
+                            <div class="col-6 col-lg-3 py-3 ps-0">
+                                <div class="d-flex mb-2">
+                                    <div class="icon icon-shape icon-xxs shadow border-radius-sm <?php echo $details['bg']; ?> text-center me-2 d-flex align-items-center justify-content-center">
+                                        <i class="<?php echo $details['icon']; ?>"></i>
+                                    </div>
+                                    <p class="text-xs mt-1 mb-0 font-weight-bold"><?php echo ucfirst($section); ?></p>
+                                </div>
+                                <h4 class="font-weight-bolder text-uppercase" id="total-<?php echo $section; ?>" countTo="<?php echo $total; ?>"></h4>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <!--  -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-6 d-flex align-items-center">
+                            <h6 class="mb-0">Notifications</h6>
+                        </div>
+                        <div class="col-6 text-end">
+                            <a class="badge badge-sm rounded bg-gradient-light text-dark border-0" href="admin-view-notification.php">View All</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body border-radius-lg p-3 pt-0">
+                    <?php
+                    $sql = "SELECT * FROM `admin_notification` ORDER BY `not_timestamp` DESC LIMIT 4";
+                    $result = mysqli_query($conn, $sql);
+
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                    ?>
+                            <a href="admin-view-notification.php">
+                                <div class="d-flex mt-4">
+                                    <div>
+                                        <div class="icon icon-shape <?php echo $row['not_bg_color']; ?> shadow text-center border-radius-md shadow-none">
+                                            <i class="<?php echo $row['not_icon']; ?> <?php echo $row['not_icon_color']; ?> text-lg text-gradient opacity-10" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ms-3">
+                                        <div class="numbers">
+                                            <h6 class="mb-1 text-dark text-sm"><?php echo $row['not_title']; ?></h6>
+                                            <span class="text-sm"><?php echo date("j F, Y h:m", strtotime($row['not_timestamp'])); ?></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                    <?php
+                        }
+                    } else {
+                        echo "<p class='text-center text-sm'>No notification available.</p>";
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-lg-8">
             <div class="">
                 <?php
                 $sql = "SELECT * FROM `blogs` ORDER BY `blog_timestamp` DESC LIMIT 1";
@@ -174,102 +270,6 @@
                 <?php
                 }
                 ?>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <!--  -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-6 d-flex align-items-center">
-                            <h6 class="mb-0">Notifications</h6>
-                        </div>
-                        <div class="col-6 text-end">
-                            <a class="badge badge-sm rounded bg-gradient-light text-dark border-0" href="admin-view-notification.php">View All</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body border-radius-lg p-3 pt-0">
-                    <?php
-                    $sql = "SELECT * FROM `admin_notification` ORDER BY `not_timestamp` DESC LIMIT 4";
-                    $result = mysqli_query($conn, $sql);
-
-                    if (mysqli_num_rows($result) > 0) {
-                        while ($row = mysqli_fetch_assoc($result)) {
-                    ?>
-                            <a href="admin-view-notification.php">
-                                <div class="d-flex mt-4">
-                                    <div>
-                                        <div class="icon icon-shape <?php echo $row['not_bg_color']; ?> shadow text-center border-radius-md shadow-none">
-                                            <i class="<?php echo $row['not_icon']; ?> <?php echo $row['not_icon_color']; ?> text-lg text-gradient opacity-10" aria-hidden="true"></i>
-                                        </div>
-                                    </div>
-                                    <div class="ms-3">
-                                        <div class="numbers">
-                                            <h6 class="mb-1 text-dark text-sm"><?php echo $row['not_title']; ?></h6>
-                                            <span class="text-sm"><?php echo date("j F, Y h:m", strtotime($row['not_timestamp'])); ?></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                    <?php
-                        }
-                    } else {
-                        echo "<p class='text-center text-sm'>No notification available.</p>";
-                    }
-                    ?>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row mt-3">
-        <div class="col-lg-8">
-            <!-- Card -->
-            <div class="card p-3">
-                <!-- Card header -->
-                <div class="card-header bg-gradient-dark" style="position: relative;">
-                    <div class="d-flex align-items-end">
-                        <!-- Points -->
-                        <div class="points flex-column pe-3 text-center" id="points-container">
-                            <?php for ($i = 1000; $i >= 0; $i -= 100) : ?>
-                                <p class="chart-canvas text-white font-weight-bold"><?php echo $i; ?></p>
-                            <?php endfor; ?>
-                        </div>
-                        <!-- Bars -->
-                        <div class="bar-container">
-                            <div class="bars" id="bar-students"></div>
-                            <div class="bars" id="bar-staff"></div>
-                            <div class="bars" id="bar-alumni"></div>
-                            <div class="bars" id="bar-applicants"></div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card body -->
-                <div class="card-body">
-                    <div class="row">
-                        <!-- Display Sections Dynamically -->
-                        <?php
-                        $sections = [
-                            'students' => ['icon' => 'ni ni-circle-08', 'bg' => 'bg-gradient-info'],
-                            'staff' => ['icon' => 'ni ni-circle-08', 'bg' => 'bg-gradient-dark'],
-                            'alumni' => ['icon' => 'ni ni-hat-3', 'bg' => 'bg-gradient-warning'],
-                            'applicants' => ['icon' => 'ni ni-circle-08', 'bg' => 'bg-gradient-primary'],
-                        ];
-                        foreach ($sections as $section => $details) {
-                            $total = $totals[$section];
-                        ?>
-                            <div class="col-6 col-lg-3 py-3 ps-0">
-                                <div class="d-flex mb-2">
-                                    <div class="icon icon-shape icon-xxs shadow border-radius-sm <?php echo $details['bg']; ?> text-center me-2 d-flex align-items-center justify-content-center">
-                                        <i class="<?php echo $details['icon']; ?>"></i>
-                                    </div>
-                                    <p class="text-xs mt-1 mb-0 font-weight-bold"><?php echo ucfirst($section); ?></p>
-                                </div>
-                                <h4 class="font-weight-bolder text-uppercase" id="total-<?php echo $section; ?>" countTo="<?php echo $total; ?>"></h4>
-                            </div>
-                        <?php } ?>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
