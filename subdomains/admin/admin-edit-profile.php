@@ -1,11 +1,25 @@
 <?php
 include_once "update.php";
 
-$staff_id = $_SESSION['staff']['staff_id'];
-$sql = "SELECT * FROM `staff` WHERE `staff_id` = '$staff_id'";
-$staff_result = mysqli_query($conn, $sql);
-$staff = mysqli_fetch_assoc($staff_result);
+if (isset($_SESSION['staff'])) {
+    $staff_id = $_SESSION['staff']['staff_id'];
+    $position_id = $_SESSION['staff']['position_id'];
 
+    $stmt = $conn->prepare("SELECT * FROM `staff` WHERE `staff_id` = ?");
+    $stmt->bind_param("i", $staff_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $staff = $result->fetch_assoc();
+
+    // Hindering staff from editing part of their profile
+    $disabled = ''; // Default to no disabled attribute
+
+    if (!in_array($position_id, [1, 2, 3, 5])) {
+        $disabled = 'disabled';
+    }
+} else {
+    header('Location: admin-logout.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,11 +31,7 @@ $staff = mysqli_fetch_assoc($staff_result);
 
 <body class="g-sidenav-show bg-info-soft">
     <?php
-    if ($_SESSION['staff']['position_id'] == 1) {
-        include "inc/admin-sidebar.php";
-    } else {
-        include "inc/admin-sidebar.php";
-    }
+    include "inc/admin-sidebar.php";
     ?>
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
@@ -83,17 +93,23 @@ $staff = mysqli_fetch_assoc($staff_result);
                                     <div class="col-md-6">
                                         <label>Date of Birth</label>
                                         <div class="input-group mb-3">
-                                            <input type="date" value="<?php echo $staff['birth_date']; ?>" class="form-control text-uppercase cursor-pointer" placeholder="DOB" name="birth_date">
+                                            <input type="date" value="<?php echo $staff['birth_date']; ?>" class="form-control text-uppercase cursor-pointer" placeholder="DOB" name="birth_date" <?php echo $disabled; ?>>
+                                            <?php if ($disabled) : ?>
+                                                <input type="hidden" name="birth_date" value="<?php echo $staff['birth_date']; ?>">
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <!--  -->
                                     <div class="col-md-6">
                                         <label>Gender</label>
                                         <div class="input-group mb-3">
-                                            <select class="form-select" name="gender">
+                                            <select class="form-select" name="gender" <?php echo $disabled; ?>>
                                                 <option value="Male" <?php if ($staff['gender'] == 'Male') echo 'selected'; ?>>Male</option>
                                                 <option value="Female" <?php if ($staff['gender'] == 'Female') echo 'selected'; ?>>Female</option>
                                             </select>
+                                            <?php if ($disabled) : ?>
+                                                <input type="hidden" name="gender" value="<?php echo $staff['gender']; ?>">
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <!-- State of Origin  -->
@@ -164,7 +180,7 @@ $staff = mysqli_fetch_assoc($staff_result);
                                     <div class="col-md-6">
                                         <label>Class</label>
                                         <div class="input-group mb-3">
-                                            <select class="form-select" name="class_id">
+                                            <select class="form-select" name="class_id" <?php echo $disabled; ?>>
                                                 <?php
                                                 $sql = "SELECT * FROM `classes`;";
                                                 $classes = mysqli_query($conn, $sql);
@@ -176,12 +192,15 @@ $staff = mysqli_fetch_assoc($staff_result);
                                                 }
                                                 ?>
                                             </select>
+                                            <?php if ($disabled) : ?>
+                                                <input type="hidden" name="class_id" value="<?php echo $staff['class_id']; ?>">
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <label>Subject</label>
                                         <div class="input-group mb-3">
-                                            <select class="form-select" name="subject_id">
+                                            <select class="form-select" name="subject_id" <?php echo $disabled; ?>>
                                                 <?php
                                                 $sql = "SELECT * FROM `subjects`;";
                                                 $subjects = mysqli_query($conn, $sql);
@@ -193,12 +212,16 @@ $staff = mysqli_fetch_assoc($staff_result);
                                                 }
                                                 ?>
                                             </select>
+                                            <?php if ($disabled) : ?>
+                                                <input type="hidden" name="subject_id" value="<?php echo $staff['subject_id']; ?>">
+                                            <?php endif; ?>
                                         </div>
                                     </div>
+                                    <!-- Repeat similar structure for other fields -->
                                     <div class="col-md-6">
                                         <label>Position</label>
                                         <div class="input-group mb-3">
-                                            <select class="form-select" name="position_id">
+                                            <select class="form-select" name="position_id" <?php echo $disabled; ?>>
                                                 <?php
                                                 $sql = "SELECT * FROM `school_post`;";
                                                 $positions = mysqli_query($conn, $sql);
@@ -210,6 +233,9 @@ $staff = mysqli_fetch_assoc($staff_result);
                                                 }
                                                 ?>
                                             </select>
+                                            <?php if ($disabled) : ?>
+                                                <input type="hidden" name="position_id" value="<?php echo $staff['position_id']; ?>">
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <!--  -->
@@ -217,7 +243,7 @@ $staff = mysqli_fetch_assoc($staff_result);
                                         <div class="input-group mb-3">
                                             <label>Qualification</label>
                                             <div class="input-group">
-                                                <select class="form-select" name="qualification">
+                                                <select class="form-select" name="qualification" <?php echo $disabled; ?>>
                                                     <?php
                                                     $sql = "SELECT * FROM `qualifications`;";
                                                     $qualifications = mysqli_query($conn, $sql);
@@ -229,6 +255,9 @@ $staff = mysqli_fetch_assoc($staff_result);
                                                     }
                                                     ?>
                                                 </select>
+                                                <?php if ($disabled) : ?>
+                                                    <input type="hidden" name="qualification" value="<?php echo $staff['qualification']; ?>">
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
@@ -237,7 +266,7 @@ $staff = mysqli_fetch_assoc($staff_result);
                                         <div class="input-group mb-3">
                                             <label>Discipline</label>
                                             <div class="input-group">
-                                                <select class="form-select" name="discipline">
+                                                <select class="form-select" name="discipline" <?php echo $disabled; ?>>
                                                     <?php
                                                     $sql = "SELECT * FROM `university_disciplines`;";
                                                     $disciplines = mysqli_query($conn, $sql);
@@ -249,6 +278,9 @@ $staff = mysqli_fetch_assoc($staff_result);
                                                     }
                                                     ?>
                                                 </select>
+                                                <?php if ($disabled) : ?>
+                                                    <input type="hidden" name="discipline" value="<?php echo $staff['discipline']; ?>">
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
@@ -256,7 +288,10 @@ $staff = mysqli_fetch_assoc($staff_result);
                                     <div class="col-md-6">
                                         <label>Salary</label>
                                         <div class="input-group mb-3">
-                                            <input type="text" value="&#8358;<?php echo number_format($staff['salary']); ?>.00" class="form-control" name="salary">
+                                            <input type="text" value="&#8358;<?php echo number_format($staff['salary']); ?>.00" class="form-control" name="salary" <?php echo $disabled; ?>>
+                                            <?php if ($disabled) : ?>
+                                                <input type="hidden" name="salary" value="<?php echo $staff['salary']; ?>">
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <!--  -->
@@ -288,10 +323,13 @@ $staff = mysqli_fetch_assoc($staff_result);
                                     <div class="col-md-6">
                                         <label>Status</label>
                                         <div class="input-group mb-3">
-                                            <select class="form-select" name="status">
+                                            <select class="form-select" name="status" <?php echo $disabled; ?>>
                                                 <option value="1" <?php if ($staff['status'] == 1) echo 'selected'; ?>>Active</option>
                                                 <option value="0" <?php if ($staff['status'] == 0) echo 'selected'; ?>>Inactive</option>
                                             </select>
+                                            <?php if ($disabled) : ?>
+                                                <input type="hidden" name="status" value="<?php echo $staff['status']; ?>">
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <!-- Hidden Input Field -->
@@ -311,18 +349,23 @@ $staff = mysqli_fetch_assoc($staff_result);
                     <!-- Account Info form -->
                     <form action="" method="post">
                         <div class="card">
-                            <div class="card-header">
+                            <div class="card-header">`
                                 <h6 class="mb-0 text-gradient text-dark">Account Information</h6>
                                 <p class="text-sm mb-0">Edit your account information.</p>
                             </div>
                             <hr class="horizontal dark">
-
                             <div class="card-body">
                                 <!--  -->
                                 <label>Username</label>
                                 <div class="input-group mb-3">
-                                    <input type="text" value="<?php echo $staff['username']; ?>" class="form-control" name="username">
+                                    <?php if ($disabled) : ?>
+                                        <input type="hidden" name="username" value="<?php echo $staff['username']; ?>">
+                                        <input type="text" value="<?php echo $staff['username']; ?>" class="form-control" disabled>
+                                    <?php else : ?>
+                                        <input type="text" value="<?php echo $staff['username']; ?>" class="form-control" name="username">
+                                    <?php endif; ?>
                                 </div>
+
                                 <!--  -->
                                 <label>Email Address</label>
                                 <div class="input-group mb-3">

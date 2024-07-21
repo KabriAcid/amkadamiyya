@@ -216,7 +216,7 @@
 
          <!-- Sessions  -->
          <?php
-         if ($position_number >= 1 || $position_number <= 5) {
+         if ($position_number >= 1 && $position_number <= 5) {
          ?>
             <li class="nav-item">
                <a data-bs-toggle="collapse" href="#sessionMenu" class="nav-link 
@@ -321,11 +321,17 @@
                         <span class="sidenav-normal"> View Results </span>
                      </a>
                   </li>
-                  <li class="nav-item">
-                     <a class="nav-link" href="admin-manage-result.php">
-                        <span class="sidenav-normal"> Manage Results </span>
-                     </a>
-                  </li>
+                  <?php
+                  if ($position_number == 1 || $position_number == 3) {
+                  ?>
+                     <li class="nav-item">
+                        <a class="nav-link" href="admin-manage-result.php">
+                           <span class="sidenav-normal"> Manage Results </span>
+                        </a>
+                     </li>
+                  <?php
+                  }
+                  ?>
                </ul>
             </div>
          </li>
@@ -434,7 +440,7 @@
             <div class="collapse " id="notificationMenu">
                <ul class="nav ms-4 ps-3">
                   <?php
-                  if ($position_number >= 1 || $position_number <= 6) {
+                  if ($position_number >= 1 && $position_number <= 6) {
                   ?>
                      <li class="nav-item">
                         <a class="nav-link" href="admin-general-alert.php">

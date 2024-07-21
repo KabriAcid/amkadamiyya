@@ -29,9 +29,6 @@ if (isset($_SESSION['staff'])) {
 } else {
     header('Location: admin-logout.php');
 }
-if($position_id != 1){
-    header('Location: admin-logout.php');
-}
 ?>
 <!-- HTML -->
 <!DOCTYPE html>
@@ -44,12 +41,7 @@ if($position_id != 1){
 
 <body class="g-sidenav-show bg-info-soft">
     <?php
-    if ($position_id == 1) {
-        include "inc/admin-sidebar.php";
-    } else {
-        include "inc/admin-sidebar.php";
-        // include "";
-    }
+    include "inc/admin-sidebar.php";
     ?>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         <?php require "inc/admin-navbar.php"; ?>
@@ -74,50 +66,47 @@ if($position_id != 1){
                         </form>
                     </div>
                 </div>
-                <?php if ($_SESSION['staff']['class_id'] >= 1) { ?>
-                    <!-- Upload Table -->
-                    <div class="container-fluid py-3 px-0">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="table-responsive">
-                                        <table class="table table-flush" id="datatable-basic">
-                                            <thead class="thead-light">
+                <!-- Upload Table -->
+                <div class="container-fluid py-3 px-0">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="table-responsive">
+                                    <table class="table table-flush" id="datatable-basic">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">S/N</th>
+                                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Subject</th>
+                                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php $count = 1;
+                                            foreach ($subjects as $subject) { ?>
                                                 <tr>
-                                                    <th class="text-left text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">S/N</th>
-                                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Subject</th>
-                                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                                                    <!-- S/N -->
+                                                    <td class="text-sm text-left font-weight-normal"><?php echo $count; ?></td>
+                                                    <!-- Subject -->
+                                                    <td class="text-sm text-center font-weight-normal">
+                                                        <?php echo htmlspecialchars($subject['subject_name']); ?>
+                                                    </td>
+                                                    <!-- Status -->
+                                                    <td class="text-sm text-center font-weight-normal">
+                                                        <?php
+                                                            
+
+                                                        ?>
+                                                    </td>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php $count = 1;
-                                                foreach ($subjects as $subject) { ?>
-                                                    <tr>
-                                                        <!-- S/N -->
-                                                        <td class="ps-4 text-sm text-left font-weight-normal"><?php echo $count; ?></td>
-                                                        <!-- Subject -->
-                                                        <td class="text-sm text-center font-weight-normal">
-                                                            <?php echo htmlspecialchars($subject['subject_name']); ?>
-                                                        </td>
-                                                        <!-- Status -->
-                                                        <td class="text-sm text-center font-weight-normal">
-                                                            <?php
-                                                          
-
-                                                            ?>
-
-                                                        </td>
-                                                    </tr>
-                                                <?php $count++;
-                                                } ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                            <?php $count++;
+                                            } ?>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
-                <?php } ?>
+                </div>
             </div>
         </div>
         <?php include "inc/admin-footer.php"; ?>

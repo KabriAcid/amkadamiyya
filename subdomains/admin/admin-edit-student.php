@@ -17,6 +17,14 @@ if (isset($_GET['student_id'])) {
 // Check if staff position ID is set
 if (isset($_SESSION['staff'])) {
     $position_id = $_SESSION['staff']['position_id'];
+
+
+    // Hindering staff from editing part of their profile
+    $disabled = ''; // Default to no disabled attribute
+
+    if (!in_array($position_id, [1, 2, 3, 5])) {
+        $disabled = 'disabled';
+    }
 } else {
     header('Location: admin-logout.php');
 }
@@ -73,17 +81,23 @@ if (isset($_SESSION['staff'])) {
                                     <div class="col-md-6">
                                         <label>Date of Birth</label>
                                         <div class="input-group mb-3">
-                                            <input type="date" value="<?php echo $student['birth_date']; ?>" class="form-control text-uppercase cursor-pointer" placeholder="DOB" name="birth_date">
+                                            <input type="date" value="<?php echo $student['birth_date']; ?>" class="form-control text-uppercase cursor-pointer" placeholder="DOB" name="birth_date" <?php echo $disabled; ?>>
+                                            <?php if ($disabled) : ?>
+                                                <input type="hidden" name="birth_date" value="<?php echo $student['birth_date']; ?>">
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <!--  -->
                                     <div class="col-md-6">
                                         <label>Gender</label>
                                         <div class="input-group mb-3">
-                                            <select class="form-select" name="gender">
+                                            <select class="form-select" name="gender" <?php echo $disabled; ?>>
                                                 <option value="Male" <?php if ($student['gender'] == 'Male') echo 'selected'; ?>>Male</option>
                                                 <option value="Female" <?php if ($student['gender'] == 'Female') echo 'selected'; ?>>Female</option>
                                             </select>
+                                            <?php if ($disabled) : ?>
+                                                <input type="hidden" name="gender" value="<?php echo $student['gender']; ?>">
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <!-- State of Origin  -->
@@ -118,7 +132,7 @@ if (isset($_SESSION['staff'])) {
                                     <div class="col-md-6">
                                         <label>Class</label>
                                         <div class="input-group mb-3">
-                                            <select class="form-select" name="class_id">
+                                            <select class="form-select" name="class_id" <?php echo $disabled; ?>>
                                                 <?php
                                                 $sql = "SELECT * FROM `classes`;";
                                                 $classes = mysqli_query($conn, $sql);
@@ -130,6 +144,11 @@ if (isset($_SESSION['staff'])) {
                                                 }
                                                 ?>
                                             </select>
+
+                                            <?php if ($disabled) : ?>
+                                                <input type="hidden" name="class_id" value="<?php echo $student['class_id']; ?>">
+                                            <?php endif; ?>
+
                                         </div>
                                     </div>
                                     <!-- Hidden Input Field -->
@@ -171,31 +190,51 @@ if (isset($_SESSION['staff'])) {
                                     <div class="col-md-6">
                                         <label>Parent Email Address</label>
                                         <div class="input-group mb-3">
-                                            <input type="text" name="parent_email" placeholder="Parent Email Address" value="<?php echo ucfirst($student['parent_email']); ?>" class="form-control">
+                                            <input type="text" name="parent_email" placeholder="Parent Email Address" value="<?php echo ucfirst($student['parent_email']); ?>" class="form-control" <?php echo $disabled; ?>>
+
+
+                                            <?php if ($disabled) : ?>
+                                                <input type="hidden" name="parent_email" value="<?php echo $student['parent_email']; ?>">
+                                            <?php endif; ?>
                                         </div>
+
                                     </div>
                                     <!--  -->
                                     <div class="col-md-6">
                                         <label>Parent Phone Number</label>
                                         <div class="input-group mb-3">
-                                            <input type="text" name="parent_phone_number" placeholder="Parent Phone Number" value="<?php echo ucfirst($student['parent_phone_number']); ?>" class="form-control" maxlength="11">
+                                            <input type="text" name="parent_phone_number" placeholder="Parent Phone Number" value="<?php echo ucfirst($student['parent_phone_number']); ?>" class="form-control" maxlength="11" <?php echo $disabled; ?>>
+
+
+                                            <?php if ($disabled) : ?>
+                                                <input type="hidden" name="parent_phone_number" value="<?php echo $student['parent_phone_number']; ?>">
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <!--  -->
                                     <div class="col-md-6">
                                         <label>Parent Home Address</label>
                                         <div class="input-group mb-3">
-                                            <input type="text" name="parent_address" placeholder="Parent Address" value="<?php echo ucfirst($student['parent_address']); ?>" class="form-control">
+                                            <input type="text" name="parent_address" placeholder="Parent Address" value="<?php echo ucfirst($student['parent_address']); ?>" class="form-control" <?php echo $disabled; ?>>
+
+
+                                            <?php if ($disabled) : ?>
+                                                <input type="hidden" name="parent_address" value="<?php echo $student['parent_address']; ?>">
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <!-- Status -->
                                     <div class="col-md-6">
                                         <label>Status</label>
                                         <div class="input-group mb-3">
-                                            <select class="form-select" name="status">
+                                            <select class="form-select" name="status" <?php echo $disabled; ?>>
                                                 <option value="1" <?php if ($student['status'] == 1) echo 'selected'; ?>>Active</option>
                                                 <option value="0" <?php if ($student['status'] == 0) echo 'selected'; ?>>Inactive</option>
                                             </select>
+
+                                            <?php if ($disabled) : ?>
+                                                <input type="hidden" name="status" value="<?php echo $student['status']; ?>">
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <!-- Hidden Input Field -->
@@ -231,8 +270,13 @@ if (isset($_SESSION['staff'])) {
 
                                 <!--  -->
                                 <div class="text-end">
-                                    <input type="submit" value="update" name="updateStudentID" class="btn bg-gradient-info mb-0">
+                                    <input type="submit" value="update" name="updateStudentID" class="btn bg-gradient-info mb-0" <?php echo $disabled; ?>>
                                 </div>
+
+
+                                <?php if ($disabled) : ?>
+                                    <input type="hidden" name="admission_id" value="<?php echo $student['admission_id']; ?>">
+                                <?php endif; ?>
                             </form>
                         </div>
                     </div>
@@ -262,7 +306,7 @@ if (isset($_SESSION['staff'])) {
                                 </div>
                             </div>
                             <div class="card-footer text-end pt-0">
-                                <input type="submit" value="update" name="updateStudentPassword" class="btn bg-gradient-info mb-0">
+                                <input type="submit" value="update" name="updateStudentPassword" class="btn bg-gradient-info mb-0" <?php echo $disabled; ?>>
                             </div>
                             <!-- Hidden Input Field -->
                             <input type="hidden" name="student_id" value="<?php echo $student_id; ?>">
@@ -271,43 +315,49 @@ if (isset($_SESSION['staff'])) {
                     </form>
 
                     <!-- Delete Account -->
-                    <div class="card mt-3" id="delete">
-                        <div class="card-header">
-                            <h6 class="text-danger">Delete Student</h6>
-                            <p class="text-sm mb-0">
-                                Once you erase student, all associated data will be removed from the database and will never be restored.
-                            </p>
-                        </div>
-                        <div class="card-body justify-content-end d-flex pt-0">
-                        <button class="btn bg-gradient-danger text-xs btn-sm mb-0 ms-2" type="button" data-bs-toggle="modal" data-bs-target="#modal-notification">
-                                Delete Account
-                            </button>
-                            <!-- Modal -->
-                            <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
-                                <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-body">
-                                            <div class="py-3 text-center">
-                                                <div>
-                                                    <i class="fas fa-exclamation-triangle bg-danger-soft p-3 text-danger fa-3x" style="border-radius: 100%;"></i>
+                    <?php
+                    if (in_array($position_id, [1, 2, 3])) {
+                    ?>
+                        <div class="card mt-3" id="delete">
+                            <div class="card-header">
+                                <h6 class="text-danger">Delete Student</h6>
+                                <p class="text-sm mb-0">
+                                    Once you erase student, all associated data will be removed from the database and will never be restored.
+                                </p>
+                            </div>
+                            <div class="card-body justify-content-end d-flex pt-0">
+                                <button class="btn bg-gradient-danger text-xs btn-sm mb-0 ms-2" type="button" data-bs-toggle="modal" data-bs-target="#modal-notification">
+                                    Delete Account
+                                </button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="modal-notification" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+                                    <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <div class="py-3 text-center">
+                                                    <div>
+                                                        <i class="fas fa-exclamation-triangle bg-danger-soft p-3 text-danger fa-3x" style="border-radius: 100%;"></i>
+                                                    </div>
+                                                    <h4 class="text-gradient text-danger mt-4">Delete Account?</h4>
+                                                    <p class="text-center text-sm">Are you sure you want to delete student? <br> This operation cannot be reverted.</p>
                                                 </div>
-                                                <h4 class="text-gradient text-danger mt-4">Delete Account?</h4>
-                                                <p class="text-center text-sm">Are you sure you want to delete student? <br> This operation cannot be reverted.</p>
                                             </div>
-                                        </div>
-                                        <div class="modal-footer justify-content-end d-flex align-items-center">
-                                            <button type="button" class="btn bg-gradient-secondary btn-round" data-bs-dismiss="modal">No, Cancel</button>
-                                            <form action="" method="post">
-                                                <input type="hidden" name="student_id" value="<?php echo $student['student_id']; ?>">
-                                                <button type="submit" name="eraseStudentData" class="btn bg-gradient-danger ms-2 btn-round" data-bs-dismiss="modal">Yes, Delete</button>
-                                            </form>
+                                            <div class="modal-footer justify-content-end d-flex align-items-center">
+                                                <button type="button" class="btn bg-gradient-secondary btn-round" data-bs-dismiss="modal">No, Cancel</button>
+                                                <form action="" method="post">
+                                                    <input type="hidden" name="student_id" value="<?php echo $student['student_id']; ?>">
+                                                    <button type="submit" name="eraseStudentData" class="btn bg-gradient-danger ms-2 btn-round" data-bs-dismiss="modal">Yes, Delete</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <!-- End of Modal -->
                             </div>
-                            <!-- End of Modal -->
                         </div>
-                    </div>
+                    <?php
+                    }
+                    ?>
                 </div>
             </div>
 

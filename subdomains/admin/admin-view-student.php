@@ -31,11 +31,7 @@ if (isset($_SESSION['staff'])) {
 
 <body class="g-sidenav-show bg-info-soft">
     <?php
-    if ($_SESSION['staff']['position_id'] == 1) {
         include "inc/admin-sidebar.php";
-    } else {
-        include "";
-    }
     ?>
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
@@ -47,7 +43,7 @@ if (isset($_SESSION['staff'])) {
                     <div class="card">
                         <div class="card-header pb-0">
                             <div class="d-flex justify-content-between">
-                                <h6 class="text-gradient text-info">Profile Information</h6>
+                                <h6 class="text-gradient text-info">Student Information</h6>
                                 <a href="admin-edit-student.php?student_id=<?php echo $student['student_id']; ?>" class="btn bg-gradient-dark btn-sm">Edit <i class="ms-2 fa fa-edit" style="font-size: 12px;"></i></a>
                             </div>
                         </div>

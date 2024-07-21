@@ -532,7 +532,7 @@ if (isset($_POST['uploadSubject'])) {
 
         // Insert scores into the results table
         $sql = "INSERT INTO `results` (`student_id`, `subject_id`, `class_id`, `first_test`, `second_test`, `exam`, `total`, `grade`, `remark`, `status`)
-                VALUES ('$student_id', '$subject_id', '$class_id', '$first_test', '$second_test', '$exam', '$total', '$grade', '$remark', 1)";
+                VALUES ('$student_id', '$subject_id', '$class_id', '$first_test', '$second_test', '$exam', '$total', '$grade', '$remark', 0)";
         if (!mysqli_query($conn, $sql)) {
             $_SESSION['error_message'] = "Error inserting scores: " . mysqli_error($conn);
             header("Location: " . $_SERVER['PHP_SELF']);
@@ -608,6 +608,25 @@ if (isset($_POST['uploadSubject'])) {
         exit;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+/*
+=========================================================
+
+APPLICANTS INFORMATION
+
+=========================================================
+
+*/
 
 // Approving Applicant's Admission
 if (isset($_POST['approveBtn'])) {
@@ -808,4 +827,30 @@ if (isset($_POST['addstudentlevy'])) {
 
     // Close statement
     $stmt->close();
+}
+
+
+
+// Truncating Database Tables
+
+if (isset($_POST['truncateData'])) {
+    $tables = isset($_POST['tables']) ? $_POST['tables'] : [];
+
+    if (!empty($tables)) {
+        // Assume truncation logic here, for example purposes only
+        $truncated_tables = [];
+        foreach ($tables as $table) {
+            // Simulating truncation
+            $sql = "TRUNCATE TABLE `$table`";
+            if (mysqli_query($conn, $sql)) {
+                $truncated_tables[] = $table;
+                $_SESSION['success_message'] = "Operation successfully.";
+            }
+        }
+    } else {
+        $_SESSION['error_message'] = "No tables selected.";
+    }
+
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit;
 }

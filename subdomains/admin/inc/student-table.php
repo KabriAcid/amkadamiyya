@@ -1,12 +1,12 @@
 <?php
 
-    if(isset($_SESSION['staff'])){
-        $position_id = $_SESSION['staff']['position_id'];
-    }
-    else {
-        header("Location: admin-logout.php");
-        exit;
-    }
+if (isset($_SESSION['staff'])) {
+    $position_id = $_SESSION['staff']['position_id'];
+    $class_id = $_SESSION['staff']['class_id'];
+} else {
+    header("Location: admin-logout.php");
+    exit;
+}
 ?>
 <div class="container-fluid pt-3">
     <div class="row">
@@ -102,7 +102,6 @@
                                 <?php
                                 }
                             } else {
-                                $class_id = $_SESSION['staff']['class_id'];
                                 $sql = "SELECT * FROM `classes` WHERE `class_id` = '$class_id'";
                                 $classes = mysqli_query($conn, $sql);
                                 $class = mysqli_fetch_assoc($classes);
@@ -116,6 +115,12 @@
                                         <td class="align-middle text-left text-sm">
                                             <span class="text-secondary text-xs font-weight-bold text-capitalize">
                                                 <?php echo $row['first_name'] . '&nbsp;' . $row['second_name'] . '&nbsp;' . $row['last_name']; ?>
+                                            </span>
+                                        </td>
+                                        <!-- Admission ID -->
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                                <?php echo $row['admission_id']; ?>
                                             </span>
                                         </td>
                                         <!-- Class -->
@@ -137,6 +142,11 @@
                                         <td class="align-middle text-center text-sm">
                                             <span class="text-secondary text-xs font-weight-bold text-capitalize">
                                                 <?php echo $row['lga']; ?>
+                                            </span>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span class="badge badge-sm rounded <?php echo $row['status'] == 1 ? 'bg-gradient-success' : "bg-gradient-secondary"; ?>">
+                                                <?php echo $row['status'] == 1 ? 'Active' : "Inactive"; ?>
                                             </span>
                                         </td>
                                         <td class="align-middle text-center text-sm">

@@ -20,11 +20,12 @@ if (isset($_GET['subject_id'])) {
         exit;
     }
 } else {
+    $_SESSION['error_message'] = 'Choose subject first';
     header("Location: admin-choose-subject.php");
 }
 $sql = 'SELECT * FROM `defaults`';
-$default_result = mysqli_query($conn, $sql);
-$default = mysqli_fetch_assoc($default_result);
+$defaults = mysqli_query($conn, $sql);
+$default = mysqli_fetch_assoc($defaults);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,11 +37,7 @@ $default = mysqli_fetch_assoc($default_result);
 
 <body class="g-sidenav-show bg-info-soft">
     <?php
-    if ($_SESSION['staff']['position_id'] == 1) {
         include "inc/admin-sidebar.php";
-    } else {
-        include "inc/admin-sidebar.php";
-    }
     ?>
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
@@ -158,7 +155,7 @@ $default = mysqli_fetch_assoc($default_result);
                                             <!-- Checkbox -->
                                             <div class="col-md-6">
                                                 <div class="form-check form-switch">
-                                                    <input class="form-check-input" type="checkbox" required>
+                                                    <input class="form-check-input" type="checkbox">
                                                     <label class="form-check-label null-label" for="verify">I have checked an verified
                                                         the above inputs.</label>
                                                 </div>

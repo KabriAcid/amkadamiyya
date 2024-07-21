@@ -4,15 +4,17 @@ require_once "../../config/database.php";
 
 if (isset($_SESSION['staff'])) {
     $position_id = $_SESSION['staff']['position_id'];
-} else {
+    $class_id = $_SESSION['staff']['class_id'];
+    
+    $sql = "SELECT * FROM `classes` WHERE `class_id` = '$class_id'";
+    $result = mysqli_query($conn, $sql);
+    $class = mysqli_fetch_assoc($result);
+}
+ else {
     header("Location: admin-logout.php");
     exit;
 }
 
-$class_id = $_SESSION['staff']['class_id'];
-$sql = "SELECT * FROM `classes` WHERE `class_id` = '$class_id'";
-$result = mysqli_query($conn, $sql);
-$class = mysqli_fetch_assoc($result);
 
 // Function to find total count of rows in a given table
 function find_total($conn, $table)
@@ -96,6 +98,34 @@ $scale_factor = 300 / $max_total; // Adjust the height scale factor based on the
 
 <body class="g-sidenav-show bg-info-soft">
     <?php
+    include "inc/admin-sidebar.php";
+    ?>
+    <!--  -->
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <?php include "inc/admin-navbar.php";
+        if (in_array($position_id, [1, 2])) {
+            require 'dashboard-1.php';
+        } else if (in_array($position_id, [3])) {
+            require 'dashboard-2.php';
+        } else if (in_array($position_id, [4])) {
+            require 'dashboard-3.php';
+        } else if (in_array($position_id, [5])) {
+            require 'dashboard-4.php';
+        } else {
+            require 'dashboard-general.php';
+        }
+        include "inc/admin-footer.php";
+        ?>
+    </main>
+
+
+    <script src="../../js/plugins/datatables.js"></script>
+    <script src="../../js/plugins/sweetalert.min.js"></script>
+    <?php include "inc/admin-scripts.php"; ?>
+
+    <script src="../../js/plugins/countup.min.js"></script>
+
+    <?php
     if (isset($_SESSION['success_message'])) {
     ?>
         <script>
@@ -113,31 +143,7 @@ $scale_factor = 300 / $max_total; // Adjust the height scale factor based on the
         unset($_SESSION['success_message']);
     }
     ?>
-    <?php
-        include "inc/admin-sidebar.php";
-    ?>
-    <!--  -->
-    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-        <?php include "inc/admin-navbar.php";
-        if (in_array($position_id, [1, 2, 3])) {
-            include 'access-level-1.php';
-        } 
-        else if(in_array($position_id, [0, 4])) {
-            include 'access-level-2.php';
-        }
-        include "inc/admin-footer.php";
-        ?>
-    </main>
 
-
-    <script src="../../js/plugins/datatables.js"></script>
-    <script src="../../js/plugins/sweetalert.min.js"></script>
-    <script src="../../js/plugins/chartjs.min.js"></script>
-    <script src="inc/chart.js"></script>
-    <?php include "inc/admin-scripts.php"; ?>
-
-    <script src="../../js/plugins/countup.min.js"></script>
-    <!-- <script src="js/script.js"></script> -->
     <script>
         // Pass the totals to JavaScript
         const totals = <?php echo json_encode($totals); ?>;
@@ -167,7 +173,7 @@ $scale_factor = 300 / $max_total; // Adjust the height scale factor based on the
         // Call function to animate bars after page load
         window.onload = animateBars;
     </script>
-    
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const dataTableBasic = new simpleDatatables.DataTable("#datatable-basic", {

@@ -16,11 +16,7 @@ $default = mysqli_fetch_assoc($result);
 
 <body class="g-sidenav-show bg-info-soft">
     <?php
-    if ($_SESSION['staff']['position_id'] == 1) {
         include "inc/admin-sidebar.php";
-    } else {
-        include "";
-    }
     ?>
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">

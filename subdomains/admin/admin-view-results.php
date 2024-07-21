@@ -16,6 +16,16 @@ function addOrdinalSuffix($num)
     }
     return $num . '<sup>th</sup>';
 }
+if (isset($_SESSION['staff'])) {
+    $position_id = $_SESSION['staff']['position_id'];
+    $class_id = $_SESSION['staff']['class_id'];
+
+    $sql = "SELECT class_name FROM classes WHERE class_id = '$class_id'";
+    $classes = mysqli_query($conn, $sql);
+    $class = mysqli_fetch_assoc($classes);
+} else {
+    header('Location: admin-logout.php');
+}
 
 ?>
 <!DOCTYPE html>
@@ -28,11 +38,7 @@ function addOrdinalSuffix($num)
 
 <body class="g-sidenav-show bg-info-soft">
     <?php
-    if ($_SESSION['staff']['position_id'] == 1) {
-        include "inc/admin-sidebar.php";
-    } else {
-        include "inc/admin-sidebar.php";
-    }
+    include "inc/admin-sidebar.php";
     ?>
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
@@ -43,9 +49,9 @@ function addOrdinalSuffix($num)
                     <div class="card mb-4">
 
                         <div class="card-header">
-                            <h5 class="mb-0 text-gradient text-info">Results Uploads Table</h5>
+                            <h5 class="mb-0 text-gradient text-dark">Results Upload Table</h5>
                             <p class="text-sm mb-0">
-                                Here is the complete list of uploaded students result.
+                                Here is the complete list of students uploaded result.
                             </p>
                         </div>
                         <div class="table-responsive">
@@ -70,7 +76,7 @@ function addOrdinalSuffix($num)
                                 </thead>
                                 <tbody>
                                     <?php
-                                    if ($_SESSION['staff']['position_id'] == 1) {
+                                    if (in_array($position_id, [1, 2, 3, 4, 5])) {
                                         $sql = "SELECT * FROM `uploads` ORDER BY `class_id` DESC, `position` ASC";
                                         $uploads = mysqli_query($conn, $sql);
                                         while ($row = mysqli_fetch_assoc($uploads)) {
@@ -122,9 +128,7 @@ function addOrdinalSuffix($num)
 
                                         <?php
                                         }
-                                    }
-                                    if ($_SESSION['staff']['position_id'] == 2) {
-                                        $class_id = $_SESSION['staff']['class_id'];
+                                    } else {
                                         $sql = "SELECT * FROM `uploads` WHERE `class_id` = '$class_id' ORDER BY `position`";
                                         $uploads = mysqli_query($conn, $sql);
 
@@ -139,6 +143,10 @@ function addOrdinalSuffix($num)
                                                 <!-- Full Name -->
                                                 <td class="text-sm text-left font-weight-normal">
                                                     <?php echo $students['first_name'] . ' ' . $students['second_name'] . ' ' . $students['last_name']; ?>
+                                                </td>
+                                                <!-- Full Name -->
+                                                <td class="text-sm text-left font-weight-normal">
+                                                    <?php echo $students['admission_id']; ?>
                                                 </td>
                                                 <!-- Class -->
                                                 <td class="text-sm text-center font-weight-normal">

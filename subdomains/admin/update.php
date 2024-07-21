@@ -75,7 +75,7 @@ if (isset($_POST['updateStaffBioData'])) {
 
     $stmt->close();
     // Redirect to the appropriate page after processing
-    header("Location: " . $_SERVER['PHP_SELF']);
+    header("Location: " . $_SERVER['PHP_SELF'] . '?staff_id=' . $staff_id);
     exit();
 }
 
@@ -127,7 +127,7 @@ if (isset($_POST['updateOtherData'])) {
 
     $stmt->close();
     // Redirect to the appropriate page after processing
-    header("Location: " . $_SERVER['PHP_SELF']);
+    header("Location: " . $_SERVER['PHP_SELF'] . '?staff_id=' . $staff_id);
     exit();
 }
 
@@ -156,7 +156,7 @@ if (isset($_POST['updateStaffAccount'])) {
 
     $stmt->close();
     // Redirect to the appropriate page after processing
-    header("Location: " . $_SERVER['PHP_SELF']);
+    header("Location: " . $_SERVER['PHP_SELF'] . '?staff_id=' . $staff_id);
     exit();
 }
 
@@ -190,7 +190,7 @@ if (isset($_POST['updateStaffPassword'])) {
         }
     }
     // Redirect to the appropriate page after processing
-    header("Location: " . $_SERVER['PHP_SELF']);
+    header("Location: " . $_SERVER['PHP_SELF'] . '?staff_id=' . $staff_id);
     exit();
 }
 
@@ -211,9 +211,6 @@ if (isset($_POST['eraseStaffData'])) {
     }
 
     $stmt->close();
-    // Redirect to the appropriate page after processing
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit();
 }
 
 
@@ -547,7 +544,7 @@ if (isset($_POST['updateAlumniBioData'])) {
     }
 
     // Redirect back to the page with the alumni ID
-    header("Location: admin-edit-alumni.php?alumni_id=" . $alumni_id);
+    header("Location: " . $_SERVER['PHP_SELF'] . '?alumni_id='. $alumni_id);
     exit();
 }
 
@@ -576,7 +573,7 @@ if (isset($_POST['updateAlumniAccount'])) {
     }
 
     // Redirect back to the page with the alumni ID
-    header("Location: admin-edit-alumni.php?alumni_id=" . $alumni_id);
+    header("Location: " . $_SERVER['PHP_SELF'] . '?alumni_id='. $alumni_id);
     exit();
 }
 
@@ -610,7 +607,7 @@ if (isset($_POST['updateAlumniPassword'])) {
     }
 
     // Redirect back to the page with the alumni ID
-    header("Location: admin-edit-alumni.php?alumni_id=" . $alumni_id);
+    header("Location: " . $_SERVER['PHP_SELF'] . '?alumni_id='. $alumni_id);
     exit();
 }
 
@@ -633,25 +630,20 @@ if (isset($_POST['eraseAlumniData'])) {
     } else {
         $_SESSION['error_message'] = "Error preparing statement: " . mysqli_error($conn);
     }
-
-    // Redirect back to the alumni list page
-    header("Location: admin-alumni-list.php");
-    exit();
 }
 
 
 
 
 /*
-
 =============================================
         Managing Data 
 ============================================
 */
 
 
-if (isset($_POST['approve'])) {
-    $subject_id = $_POST['approve'];
+if (isset($_POST['approveSubject'])) {
+    $subject_id = $_POST['subject_id'];
     // Perform the approve operation
     $sql = "UPDATE `results` SET `status` = 1 WHERE `subject_id` = ?";
     $stmt = $conn->prepare($sql);
@@ -664,20 +656,36 @@ if (isset($_POST['approve'])) {
     }
 
     $stmt->close();
+    header('Location:' . $_SERVER['PHP_SELF']);
+    exit;
 }
 
-if (isset($_POST['truncate'])) {
-    $subject_id = $_POST['truncate'];
-    // Perform the truncate operation
-    $sql = "DELETE FROM `results` WHERE `subject_id` = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $subject_id);
 
-    if ($stmt->execute()) {
+if (isset($_POST['truncatesubject'])) {
+    $subject_id = $_POST['subject_id'];
+    $conn->begin_transaction();
+
+    try {
+        // Perform the truncate operation for results
+        $sql1 = "DELETE FROM `results` WHERE `subject_id` = ?";
+        $stmt1 = $conn->prepare($sql1);
+        $stmt1->bind_param("i", $subject_id);
+        $stmt1->execute();
+        $stmt1->close();
+
+        // Perform the truncate operation for uploads
+        $sql2 = "DELETE FROM `uploads` WHERE `subject_id` = ?";
+        $stmt2 = $conn->prepare($sql2);
+        $stmt2->bind_param("i", $subject_id);
+        $stmt2->execute();
+        $stmt2->close();
+
+        $conn->commit();
         $_SESSION['success_message'] = "Subject truncated successfully.";
-    } else {
+    } catch (Exception $e) {
+        $conn->rollback();
         $_SESSION['error_message'] = "Error truncating subject.";
     }
-
-    $stmt->close();
+    header('Location:' . $_SERVER['PHP_SELF']);
+    exit;
 }

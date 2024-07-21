@@ -4,10 +4,13 @@ require_once "update.php";
 
 if (isset($_SESSION['staff'])) {
     $staff_id = $_SESSION['staff']['staff_id'];
-
     $sql = "SELECT * FROM staff WHERE staff_id = '$staff_id'";
     $staff_result = mysqli_query($conn, $sql);
     $staff = mysqli_fetch_assoc($staff_result);
+
+} else {
+    header('Location: admin-logout.php');
+    exit;
 }
 ?>
 <!DOCTYPE html>
@@ -16,6 +19,11 @@ if (isset($_SESSION['staff'])) {
 <head>
     <title>Manage Results</title>
     <?php include "inc/admin-header.php"; ?>
+    <script>
+        function setSubjectId(subjectId) {
+            document.getElementById('subject_id_input').value = subjectId;
+        }
+    </script>
 </head>
 
 <body class="g-sidenav-show bg-info-soft">
@@ -74,13 +82,17 @@ if (isset($_SESSION['staff'])) {
                                                 </span>
                                             </td>
                                             <td class="align-middle text-center d-flex align-items-center justify-content-center">
-                                                <form action="" method="post" class="me-2">
-                                                    <input type="hidden" name="approve" value="<?php echo htmlspecialchars($row['subject_id']); ?>">
-                                                    <button type="submit" class="badge badge-sm rounded bg-gradient-success text-white border-0">Approve</button>
-                                                </form>
-                                                <button class="badge badge-sm rounded bg-gradient-danger text-white border-0" type="button" data-bs-toggle="modal" data-bs-target="#modal-notification">
-                                                    Truncate
-                                                </button>
+                                                <div>
+                                                    <form action="" method="post" class="me-2">
+                                                        <input type="hidden" name="subject_id" value="<?php echo htmlspecialchars($row['subject_id']); ?>">
+                                                        <button name="approveSubject" type="submit" class="badge badge-sm rounded bg-gradient-success text-white border-0">Approve</button>
+                                                    </form>
+                                                </div>
+                                                <div>
+                                                    <button class="badge badge-sm rounded bg-gradient-danger text-white border-0" type="button" data-bs-toggle="modal" data-bs-target="#modal-notification" onclick="setSubjectId('<?php echo htmlspecialchars($row['subject_id']); ?>')">
+                                                        Truncate
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     <?php
@@ -102,15 +114,15 @@ if (isset($_SESSION['staff'])) {
                                             <div>
                                                 <i class="fas fa-exclamation-triangle bg-danger-soft p-3 text-danger fa-3x" style="border-radius: 100%;"></i>
                                             </div>
-                                            <h4 class="text-gradient text-danger mt-4">Delete Account?</h4>
+                                            <h4 class="text-gradient text-danger mt-4">Delete Subject?</h4>
                                             <p class="text-center text-sm">Are you sure you want to delete subject? <br> This operation cannot be reverted.</p>
                                         </div>
                                     </div>
                                     <div class="modal-footer justify-content-end d-flex align-items-center">
                                         <button type="button" class="btn bg-gradient-secondary btn-round" data-bs-dismiss="modal">No, Cancel</button>
                                         <form action="" method="post">
-                                            <input type="hidden" name="truncate" value="<?php echo htmlspecialchars($row['subject_id']); ?>">
-                                            <button type="submit" class="btn bg-gradient-danger btn-round">truncate</button>
+                                            <input type="hidden" name="subject_id" id="subject_id_input">
+                                            <button type="submit" class="btn bg-gradient-danger btn-round" name="truncatesubject">truncate</button>
                                         </form>
                                     </div>
                                 </div>
@@ -122,10 +134,8 @@ if (isset($_SESSION['staff'])) {
 
             </div>
         </div>
-
         <?php include 'inc/admin-footer.php';  ?>
     </main>
-
     <script src="../../js/plugins/sweetalert.min.js"></script>
     <script src="../../js/plugins/datatables.js"></script>
     <?php include "inc/admin-scripts.php"; ?>
@@ -147,6 +157,23 @@ if (isset($_SESSION['staff'])) {
     <?php
         unset($_SESSION['success_message']);
     }
+    if (isset($_SESSION['error_message'])) {
+    ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: "Error",
+                    text: "<?php echo $_SESSION['error_message']; ?>",
+                    timer: 3000,
+                    showConfirmButton: true,
+                    icon: 'error'
+                })
+            })
+        </script>
+    <?php
+        unset($_SESSION['error_message']);
+    }
+
     ?>
 
     <script>

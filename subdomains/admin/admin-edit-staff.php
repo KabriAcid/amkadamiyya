@@ -5,6 +5,7 @@ include "update.php";
 // Check if staff ID is set
 if (isset($_GET['staff_id'])) {
     $staff_id = $_GET['staff_id'];
+    $position_id = $_SESSION['staff']['position_id'];
 
     // Prepare SQL query with parameterized query
     $sql = "SELECT * FROM `staff` WHERE `staff_id` = ?";
@@ -12,6 +13,14 @@ if (isset($_GET['staff_id'])) {
     $stmt->bind_param("i", $staff_id);
     $stmt->execute();
     $staff = $stmt->get_result()->fetch_assoc();
+
+
+    // Hindering staff from editing part of their profile
+    $disabled = ''; // Default to no disabled attribute
+
+    if (!in_array($position_id, [1, 2, 3, 5])) {
+        $disabled = 'disabled';
+    }
 } else {
     header('Location: admin-staff-list.php');
     exit();
@@ -34,11 +43,7 @@ if (isset($_SESSION['staff'])) {
 
 <body class="g-sidenav-show bg-info-soft">
     <?php
-    if ($position_id == 1) {
-        include "inc/admin-sidebar.php";
-    } else {
-        include "";
-    }
+    include "inc/admin-sidebar.php";
     ?>
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
@@ -181,7 +186,7 @@ if (isset($_SESSION['staff'])) {
                                     <div class="col-md-6">
                                         <label>Class</label>
                                         <div class="input-group mb-3">
-                                            <select class="form-select" name="class_id">
+                                            <select class="form-select" name="class_id" <?php echo $disabled; ?>>
                                                 <?php
                                                 $sql = "SELECT * FROM `classes`;";
                                                 $classes = mysqli_query($conn, $sql);
@@ -193,12 +198,15 @@ if (isset($_SESSION['staff'])) {
                                                 }
                                                 ?>
                                             </select>
+                                            <?php if ($disabled) : ?>
+                                                <input type="hidden" name="class_id" value="<?php echo $staff['class_id']; ?>">
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <label>Subject</label>
                                         <div class="input-group mb-3">
-                                            <select class="form-select" name="subject_id">
+                                            <select class="form-select" name="subject_id" <?php echo $disabled; ?>>
                                                 <?php
                                                 $sql = "SELECT * FROM `subjects`;";
                                                 $subjects = mysqli_query($conn, $sql);
@@ -210,12 +218,16 @@ if (isset($_SESSION['staff'])) {
                                                 }
                                                 ?>
                                             </select>
+                                            <?php if ($disabled) : ?>
+                                                <input type="hidden" name="subject_id" value="<?php echo $staff['subject_id']; ?>">
+                                            <?php endif; ?>
                                         </div>
                                     </div>
+                                    <!-- Repeat similar structure for other fields -->
                                     <div class="col-md-6">
                                         <label>Position</label>
                                         <div class="input-group mb-3">
-                                            <select class="form-select" name="position_id">
+                                            <select class="form-select" name="position_id" <?php echo $disabled; ?>>
                                                 <?php
                                                 $sql = "SELECT * FROM `school_post`;";
                                                 $positions = mysqli_query($conn, $sql);
@@ -227,6 +239,9 @@ if (isset($_SESSION['staff'])) {
                                                 }
                                                 ?>
                                             </select>
+                                            <?php if ($disabled) : ?>
+                                                <input type="hidden" name="position_id" value="<?php echo $staff['position_id']; ?>">
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <!--  -->
@@ -234,7 +249,7 @@ if (isset($_SESSION['staff'])) {
                                         <div class="input-group mb-3">
                                             <label>Qualification</label>
                                             <div class="input-group">
-                                                <select class="form-select" name="qualification">
+                                                <select class="form-select" name="qualification" <?php echo $disabled; ?>>
                                                     <?php
                                                     $sql = "SELECT * FROM `qualifications`;";
                                                     $qualifications = mysqli_query($conn, $sql);
@@ -246,6 +261,9 @@ if (isset($_SESSION['staff'])) {
                                                     }
                                                     ?>
                                                 </select>
+                                                <?php if ($disabled) : ?>
+                                                    <input type="hidden" name="qualification" value="<?php echo $staff['qualification']; ?>">
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
@@ -254,7 +272,7 @@ if (isset($_SESSION['staff'])) {
                                         <div class="input-group mb-3">
                                             <label>Discipline</label>
                                             <div class="input-group">
-                                                <select class="form-select" name="discipline">
+                                                <select class="form-select" name="discipline" <?php echo $disabled; ?>>
                                                     <?php
                                                     $sql = "SELECT * FROM `university_disciplines`;";
                                                     $disciplines = mysqli_query($conn, $sql);
@@ -266,6 +284,9 @@ if (isset($_SESSION['staff'])) {
                                                     }
                                                     ?>
                                                 </select>
+                                                <?php if ($disabled) : ?>
+                                                    <input type="hidden" name="discipline" value="<?php echo $staff['discipline']; ?>">
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
@@ -273,7 +294,7 @@ if (isset($_SESSION['staff'])) {
                                     <div class="col-md-6">
                                         <label>Salary</label>
                                         <div class="input-group mb-3">
-                                            <input type="text" value="&#8358;<?php echo number_format($staff['salary']); ?>.00" class="form-control" name="salary">
+                                            <input type="text" value="&#8358;<?php echo number_format($staff['salary']); ?>.00" class="form-control" name=" salary">
                                         </div>
                                     </div>
                                     <!--  -->
@@ -281,6 +302,7 @@ if (isset($_SESSION['staff'])) {
                                         <label>Account Number</label>
                                         <div class="input-group mb-3">
                                             <input type="text" value="<?php echo $staff['account_number']; ?>" class="form-control" name="account_number" maxlength="10">
+
                                         </div>
                                     </div>
                                     <!-- Bank Name -->
@@ -305,10 +327,13 @@ if (isset($_SESSION['staff'])) {
                                     <div class="col-md-6">
                                         <label>Status</label>
                                         <div class="input-group mb-3">
-                                            <select class="form-select" name="status">
+                                            <select class="form-select" name="status" <?php echo $disabled; ?>>
                                                 <option value="1" <?php if ($staff['status'] == 1) echo 'selected'; ?>>Active</option>
                                                 <option value="0" <?php if ($staff['status'] == 0) echo 'selected'; ?>>Inactive</option>
                                             </select>
+                                            <?php if ($disabled) : ?>
+                                                <input type="hidden" name="status" value="<?php echo $staff['status']; ?>">
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <!-- Hidden Input Field -->
@@ -395,7 +420,7 @@ if (isset($_SESSION['staff'])) {
                             </p>
                         </div>
                         <div class="card-body justify-content-end d-flex pt-0">
-                            
+
                             <button class="btn bg-gradient-danger text-xs btn-sm mb-0 ms-2" type="button" data-bs-toggle="modal" data-bs-target="#modal-notification">
                                 Delete Account
                             </button>
@@ -421,7 +446,7 @@ if (isset($_SESSION['staff'])) {
                                             <div class="modal-footer justify-content-end d-flex align-items-center">
                                                 <button type="button" class="btn bg-gradient-secondary btn-round" data-bs-dismiss="modal">No, Cancel</button>
                                                 <form action="" method="post">
-                                                <input type="hidden" name="staff_id" value="<?php echo $staff['staff_id']; ?>">
+                                                    <input type="hidden" name="staff_id" value="<?php echo $staff['staff_id']; ?>">
                                                     <button type="submit" name="eraseStaffData" class="btn bg-gradient-danger ms-2 btn-round" data-bs-dismiss="modal">Yes, Delete</button>
                                                 </form>
                                             </div>
