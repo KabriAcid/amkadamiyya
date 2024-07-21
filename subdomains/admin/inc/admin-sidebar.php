@@ -1,16 +1,23 @@
-<?php if (isset($_SESSION['staff'])) {
-   // Determing positions from session variable
+<?php
+if (isset($_SESSION['staff'])) {
+   // Determine position from session variable
    $position_id = $_SESSION['staff']['position_id'];
-   $sql = "SELECT position_number FROM school_post WHERE position_id = '$position_id'";
-   $result = mysqli_query($conn, $sql);
-   $row = mysqli_fetch_assoc($result);
+   $stmt = $conn->prepare("SELECT position_number FROM school_post WHERE position_id = ?");
+   $stmt->bind_param("i", $position_id);
+   $stmt->execute();
+   $result = $stmt->get_result();
+   $row = $result->fetch_assoc();
    $position_number = $row['position_number'];
 
-   // Determing class from session variable
+   // Determine class from session variable
    $class_id = $_SESSION['staff']['class_id'];
-   $sql = "SELECT class_name FROM classes WHERE class_id = '$class_id'";
-   $class = mysqli_fetch_assoc(mysqli_query($conn, $sql));
-} ?>
+   $stmt = $conn->prepare("SELECT class_name FROM classes WHERE class_id = ?");
+   $stmt->bind_param("i", $class_id);
+   $stmt->execute();
+   $class = $stmt->get_result()->fetch_assoc();
+}
+?>
+
 <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 pt-1 fixed-start ms-3 " id="sidenav-main">
    <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
@@ -67,46 +74,53 @@
                </ul>
             </div>
          </li>
-
-         <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#studentsMenu" class="nav-link 
+         <?php
+         if (in_array($position_number, [1, 2, 3, 4, 5, 6, 7, 8])) {
+         ?>
+            <li class="nav-item">
+               <a data-bs-toggle="collapse" href="#studentsMenu" class="nav-link 
             <?php
             if (basename($_SERVER['PHP_SELF']) == 'admin-student-list.php' || basename($_SERVER['PHP_SELF']) == 'admin-new-student.php') {
                echo "active";
             }
             ?>" aria-controls="studentsMenu" role="button" aria-expanded="false">
-               <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" width="22px" height="22px">
-                     <path class="color-background" d="M144 0a80 80 0 1 1 0 160A80 80 0 1 1 144 0zM512 0a80 80 0 1 1 0 160A80 80 0 1 1 512 0zM0 298.7C0 239.8 47.8 192 106.7 192h42.7c15.9 0 31 3.5 44.6 9.7c-1.3 7.2-1.9 14.7-1.9 22.3c0 38.2 16.8 72.5 43.3 96c-.2 0-.4 0-.7 0H21.3C9.6 320 0 310.4 0 298.7zM405.3 320c-.2 0-.4 0-.7 0c26.6-23.5 43.3-57.8 43.3-96c0-7.6-.7-15-1.9-22.3c13.6-6.3 28.7-9.7 44.6-9.7h42.7C592.2 192 640 239.8 640 298.7c0 11.8-9.6 21.3-21.3 21.3H405.3zM224 224a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zM128 485.3C128 411.7 187.7 352 261.3 352H378.7C452.3 352 512 411.7 512 485.3c0 14.7-11.9 26.7-26.7 26.7H154.7c-14.7 0-26.7-11.9-26.7-26.7z" opacity="0.598981585" />
-                  </svg>
-               </div>
-               <span class="nav-link-text ms-1">Students</span>
-            </a>
-            <div class="collapse " id="studentsMenu">
-               <ul class="nav ms-4 ps-3">
-                  <li class="nav-item">
-                     <a class="nav-link" href="admin-student-list.php">
-                        <span class="sidenav-normal"> Student's List </span>
-                     </a>
-                  </li>
-                  <?php
-                  if ($position_id == 1 || $position_id == 3) {
-                  ?>
+                  <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center  me-2">
+                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" width="22px" height="22px">
+                        <path class="color-background" d="M144 0a80 80 0 1 1 0 160A80 80 0 1 1 144 0zM512 0a80 80 0 1 1 0 160A80 80 0 1 1 512 0zM0 298.7C0 239.8 47.8 192 106.7 192h42.7c15.9 0 31 3.5 44.6 9.7c-1.3 7.2-1.9 14.7-1.9 22.3c0 38.2 16.8 72.5 43.3 96c-.2 0-.4 0-.7 0H21.3C9.6 320 0 310.4 0 298.7zM405.3 320c-.2 0-.4 0-.7 0c26.6-23.5 43.3-57.8 43.3-96c0-7.6-.7-15-1.9-22.3c13.6-6.3 28.7-9.7 44.6-9.7h42.7C592.2 192 640 239.8 640 298.7c0 11.8-9.6 21.3-21.3 21.3H405.3zM224 224a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zM128 485.3C128 411.7 187.7 352 261.3 352H378.7C452.3 352 512 411.7 512 485.3c0 14.7-11.9 26.7-26.7 26.7H154.7c-14.7 0-26.7-11.9-26.7-26.7z" opacity="0.598981585" />
+                     </svg>
+                  </div>
+                  <span class="nav-link-text ms-1">Students</span>
+               </a>
+               <div class="collapse " id="studentsMenu">
+                  <ul class="nav ms-4 ps-3">
                      <li class="nav-item">
-                        <a class="nav-link" href="admin-new-student.php">
-                           <span class="sidenav-normal"> Add Student </span>
+                        <a class="nav-link" href="admin-student-list.php">
+                           <span class="sidenav-normal"> Student's List </span>
                         </a>
                      </li>
-                  <?php
-                  }
-                  ?>
-               </ul>
-            </div>
-         </li>
+                     <?php
+                     if ($position_number == 1 || $position_number == 3) {
+                     ?>
+                        <li class="nav-item">
+                           <a class="nav-link" href="admin-new-student.php">
+                              <span class="sidenav-normal"> Add Student </span>
+                           </a>
+                        </li>
+                     <?php
+                     }
+                     ?>
+                  </ul>
+               </div>
+            </li>
+
+         <?php
+         }
+         ?>
+
 
          <!-- Staff -->
          <?php
-         if (in_array($position_number, [1, 2, 3])) {
+         if (in_array($position_number, [1, 2, 3, 5])) {
          ?>
             <li class="nav-item">
                <a data-bs-toggle="collapse" href="#staffMenu" class="nav-link 
@@ -134,11 +148,17 @@
                            <span class="sidenav-normal"> Staff List </span>
                         </a>
                      </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="admin-new-staff.php">
-                           <span class="sidenav-normal"> Add Staff </span>
-                        </a>
-                     </li>
+                     <?php
+                     if (in_array($position_number, [1, 2, 3, 5])) {
+                     ?>
+                        <li class="nav-item">
+                           <a class="nav-link" href="admin-new-staff.php">
+                              <span class="sidenav-normal"> Add Staff </span>
+                           </a>
+                        </li>
+                     <?php
+                     }
+                     ?>
                   </ul>
                </div>
             </li>
@@ -165,11 +185,16 @@
                            <span class="sidenav-normal"> Alumni List </span>
                         </a>
                      </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="admin-new-alumni.php">
-                           <span class="sidenav-normal"> Add Alumni </span>
-                        </a>
-                     </li>
+                     <?php
+                     if (in_array($position_number, [1, 2, 3, 5])) {
+                     ?>
+                        <li class="nav-item">
+                           <a class="nav-link" href="admin-new-alumni.php">
+                              <span class="sidenav-normal"> Add Alumni </span>
+                           </a>
+                        </li>
+                     <?php
+                     } ?>
                   </ul>
                </div>
             </li>
@@ -216,7 +241,7 @@
 
          <!-- Sessions  -->
          <?php
-         if ($position_number >= 1 && $position_number <= 5) {
+         if (in_array($position_number, [1, 2, 3, 4, 5])) {
          ?>
             <li class="nav-item">
                <a data-bs-toggle="collapse" href="#sessionMenu" class="nav-link 
@@ -284,15 +309,18 @@
          ?>
          <!--  -->
 
-         <li class="nav-item">
-            <a data-bs-toggle="collapse" href="#resultsMenu" class="nav-link 
+         <?php
+         if (in_array($position_number, [1, 2, 3, 4, 5, 6, 7, 8])) {
+         ?>
+            <li class="nav-item">
+               <a data-bs-toggle="collapse" href="#resultsMenu" class="nav-link 
             <?php
             if (basename($_SERVER['PHP_SELF']) == 'admin-choose-subject.php' || basename($_SERVER['PHP_SELF']) == 'admin-view-results.php') {
                echo "active";
             }
             ?>" aria-controls="resultsMenu" role="button" aria-expanded="false">
-               <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2">
-                  <i class="ni ni-paper-diploma
+                  <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center d-flex align-items-center justify-content-center me-2">
+                     <i class="ni ni-paper-diploma
                   <?php
                   if (basename($_SERVER['PHP_SELF']) == 'admin-choose-subject.php' || basename($_SERVER['PHP_SELF']) == 'admin-view-results.php') {
                      echo 'text-white';
@@ -300,41 +328,43 @@
                      echo 'text-dark';
                   }
                   ?>" style="font-size: 12px;"></i>
+                  </div>
+                  <span class="nav-link-text ms-1">Results</span>
+               </a>
+               <div class="collapse " id="resultsMenu">
+                  <ul class="nav ms-4 ps-3">
+                     <?php
+                     if ($class['class_name'] != 'null') {
+                     ?>
+                        <li class="nav-item">
+                           <a class="nav-link" href="admin-choose-subject.php">
+                              <span class="sidenav-normal"> Upload Results </span>
+                           </a>
+                        </li>
+                     <?php
+                     }
+                     ?>
+                     <li class="nav-item">
+                        <a class="nav-link" href="admin-view-results.php">
+                           <span class="sidenav-normal"> View Results </span>
+                        </a>
+                     </li>
+                     <?php
+                     if ($position_number == 1 || $position_number == 3) {
+                     ?>
+                        <li class="nav-item">
+                           <a class="nav-link" href="admin-manage-result.php">
+                              <span class="sidenav-normal"> Manage Results </span>
+                           </a>
+                        </li>
+                     <?php
+                     }
+                     ?>
+                  </ul>
                </div>
-               <span class="nav-link-text ms-1">Results</span>
-            </a>
-            <div class="collapse " id="resultsMenu">
-               <ul class="nav ms-4 ps-3">
-                  <?php
-                  if ($class['class_name'] != 'null') {
-                  ?>
-                     <li class="nav-item">
-                        <a class="nav-link" href="admin-choose-subject.php">
-                           <span class="sidenav-normal"> Upload Results </span>
-                        </a>
-                     </li>
-                  <?php
-                  }
-                  ?>
-                  <li class="nav-item">
-                     <a class="nav-link" href="admin-view-results.php">
-                        <span class="sidenav-normal"> View Results </span>
-                     </a>
-                  </li>
-                  <?php
-                  if ($position_number == 1 || $position_number == 3) {
-                  ?>
-                     <li class="nav-item">
-                        <a class="nav-link" href="admin-manage-result.php">
-                           <span class="sidenav-normal"> Manage Results </span>
-                        </a>
-                     </li>
-                  <?php
-                  }
-                  ?>
-               </ul>
-            </div>
-         </li>
+            </li>
+         <?php
+         } ?>
          <!-- Payments and Invoice -->
          <?php
          if ($position_number == 1 || $position_number == 2) {
@@ -460,7 +490,7 @@
          </li>
          <!-- Defaults -->
          <?php
-         if (in_array($position_number, [1, 3, 5])) {
+         if (in_array($position_number, [1, 2, 3, 4, 5])) {
          ?>
             <li class="nav-item">
                <a data-bs-toggle="collapse" href="#settingsMenu" class="nav-link 
@@ -483,16 +513,30 @@
                </a>
                <div class="collapse " id="settingsMenu">
                   <ul class="nav ms-4 ps-3">
-                     <li class="nav-item">
-                        <a class="nav-link" href="admin-set-defaults.php">
-                           <span class="sidenav-normal"> Set Defaults </span>
-                        </a>
-                     </li>
-                     <li class="nav-item">
-                        <a class="nav-link" href="admin-manage-data.php">
-                           <span class="sidenav-normal"> Manage Data </span>
-                        </a>
-                     </li>
+                     <?php
+                     if (in_array($position_number, [1, 2, 3, 5])) {
+                     ?>
+                        <?php
+                        if ($position_number == 1 || $position_number == 3) {
+                        ?>
+                           <li class="nav-item">
+                              <a class="nav-link" href="admin-set-defaults.php">
+                                 <span class="sidenav-normal"> Set Defaults </span>
+                              </a>
+                           </li>
+                        <?php
+                        }
+                        ?>
+
+                        <li class="nav-item">
+                           <a class="nav-link" href="admin-manage-data.php">
+                              <span class="sidenav-normal"> Manage Data </span>
+                           </a>
+                        </li>
+                     <?php
+                     }
+                     ?>
+
                      <?php
                      if ($position_number == 1 || $position_number == 3) {
                      ?>

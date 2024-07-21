@@ -1,6 +1,5 @@
 <?php
 include_once "update.php";
-
 if (isset($_SESSION['staff'])) {
     $staff_id = $_SESSION['staff']['staff_id'];
     $position_id = $_SESSION['staff']['position_id'];
@@ -11,10 +10,21 @@ if (isset($_SESSION['staff'])) {
     $result = $stmt->get_result();
     $staff = $result->fetch_assoc();
 
+    $sql = $conn->prepare("SELECT * FROM `school_post` WHERE `position_id` = ?");
+    $sql->bind_param("i", $position_id);
+    $sql->execute();
+    $positions = $sql->get_result();
+    $position = $positions->fetch_assoc();
+
+    $position_number = $position['position_number'];
+    echo $position_number;
+
+
+
     // Hindering staff from editing part of their profile
     $disabled = ''; // Default to no disabled attribute
 
-    if (!in_array($position_id, [1, 2, 3, 5])) {
+    if (in_array($position_number, [9])) {
         $disabled = 'disabled';
     }
 } else {
