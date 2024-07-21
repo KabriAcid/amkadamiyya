@@ -14,17 +14,13 @@ if (isset($_GET['staff_id'])) {
     $stmt->execute();
     $staff = $stmt->get_result()->fetch_assoc();
 
-
-    // Hindering staff from editing part of their profile
-    $disabled = ''; // Default to no disabled attribute
-
     if (!in_array($position_id, [1, 2, 3, 5])) {
-        $disabled = 'disabled';
+        header('Location: admin-staff-list.php');
     }
 } else {
     header('Location: admin-staff-list.php');
-    exit();
 }
+
 
 // Check if staff position ID is set
 if (isset($_SESSION['staff'])) {
@@ -186,7 +182,7 @@ if (isset($_SESSION['staff'])) {
                                     <div class="col-md-6">
                                         <label>Class</label>
                                         <div class="input-group mb-3">
-                                            <select class="form-select" name="class_id" <?php echo $disabled; ?>>
+                                            <select class="form-select" name="class_id">
                                                 <?php
                                                 $sql = "SELECT * FROM `classes`;";
                                                 $classes = mysqli_query($conn, $sql);
@@ -198,15 +194,12 @@ if (isset($_SESSION['staff'])) {
                                                 }
                                                 ?>
                                             </select>
-                                            <?php if ($disabled) : ?>
-                                                <input type="hidden" name="class_id" value="<?php echo $staff['class_id']; ?>">
-                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <label>Subject</label>
                                         <div class="input-group mb-3">
-                                            <select class="form-select" name="subject_id" <?php echo $disabled; ?>>
+                                            <select class="form-select" name="subject_id">
                                                 <?php
                                                 $sql = "SELECT * FROM `subjects`;";
                                                 $subjects = mysqli_query($conn, $sql);
@@ -218,16 +211,13 @@ if (isset($_SESSION['staff'])) {
                                                 }
                                                 ?>
                                             </select>
-                                            <?php if ($disabled) : ?>
-                                                <input type="hidden" name="subject_id" value="<?php echo $staff['subject_id']; ?>">
-                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <!-- Repeat similar structure for other fields -->
                                     <div class="col-md-6">
                                         <label>Position</label>
                                         <div class="input-group mb-3">
-                                            <select class="form-select" name="position_id" <?php echo $disabled; ?>>
+                                            <select class="form-select" name="position_id">
                                                 <?php
                                                 $sql = "SELECT * FROM `school_post`;";
                                                 $positions = mysqli_query($conn, $sql);
@@ -239,9 +229,6 @@ if (isset($_SESSION['staff'])) {
                                                 }
                                                 ?>
                                             </select>
-                                            <?php if ($disabled) : ?>
-                                                <input type="hidden" name="position_id" value="<?php echo $staff['position_id']; ?>">
-                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <!--  -->
@@ -249,7 +236,7 @@ if (isset($_SESSION['staff'])) {
                                         <div class="input-group mb-3">
                                             <label>Qualification</label>
                                             <div class="input-group">
-                                                <select class="form-select" name="qualification" <?php echo $disabled; ?>>
+                                                <select class="form-select" name="qualification">
                                                     <?php
                                                     $sql = "SELECT * FROM `qualifications`;";
                                                     $qualifications = mysqli_query($conn, $sql);
@@ -261,9 +248,6 @@ if (isset($_SESSION['staff'])) {
                                                     }
                                                     ?>
                                                 </select>
-                                                <?php if ($disabled) : ?>
-                                                    <input type="hidden" name="qualification" value="<?php echo $staff['qualification']; ?>">
-                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
@@ -272,7 +256,7 @@ if (isset($_SESSION['staff'])) {
                                         <div class="input-group mb-3">
                                             <label>Discipline</label>
                                             <div class="input-group">
-                                                <select class="form-select" name="discipline" <?php echo $disabled; ?>>
+                                                <select class="form-select" name="discipline">
                                                     <?php
                                                     $sql = "SELECT * FROM `university_disciplines`;";
                                                     $disciplines = mysqli_query($conn, $sql);
@@ -284,9 +268,6 @@ if (isset($_SESSION['staff'])) {
                                                     }
                                                     ?>
                                                 </select>
-                                                <?php if ($disabled) : ?>
-                                                    <input type="hidden" name="discipline" value="<?php echo $staff['discipline']; ?>">
-                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
@@ -327,13 +308,10 @@ if (isset($_SESSION['staff'])) {
                                     <div class="col-md-6">
                                         <label>Status</label>
                                         <div class="input-group mb-3">
-                                            <select class="form-select" name="status" <?php echo $disabled; ?>>
+                                            <select class="form-select" name="status">
                                                 <option value="1" <?php if ($staff['status'] == 1) echo 'selected'; ?>>Active</option>
                                                 <option value="0" <?php if ($staff['status'] == 0) echo 'selected'; ?>>Inactive</option>
                                             </select>
-                                            <?php if ($disabled) : ?>
-                                                <input type="hidden" name="status" value="<?php echo $staff['status']; ?>">
-                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <!-- Hidden Input Field -->

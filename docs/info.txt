@@ -1,0 +1,1 @@
+On the staff update page, a single `isset` function is currently being used for both staff and admin. This issue will be addressed and corrected soon.
