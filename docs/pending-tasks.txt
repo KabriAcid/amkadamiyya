@@ -1,0 +1,32 @@
+---------------- AMKADAMIYYA WEBSITE --------------------
+    ---ALL SECTIONS----
+        - Add all relevant documents to the website
+        - Make all hompage footer link to designated webpages. 
+        - Fix News sections and make it dynamic
+
+
+    ---ADMIN SECTION----
+        - Examination officer should manage the results upload
+        - Make the notification bell dynamic
+        - Show a highlight of notification on the notification bell
+        - Show notifications base on the notification level
+        - Improve the general alert section
+        - Fix the chart graph in the admin dashboard
+        - Improve the school session table
+        - Improve payments functionality
+        - Application search section should work properly
+        - Optimize the blog section
+        - Improve the functionality of the results upload status
+        - Fix the issue of school term
+        - Make profile image pop up using modal
+
+
+    --- STUDENTS SECTION----
+    - Improve payments functionality
+    - Improve results functionality
+    - Get response from the payment gateway API
+    - Make the notification bell dynamic
+    - Show a highlight of notification on the notification bell
+    - Show notifications base on the notification level
+
+- Debugging of AMKADAMIYYA SCHOOL E-SYSTEM
