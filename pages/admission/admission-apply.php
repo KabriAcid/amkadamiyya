@@ -1,5 +1,5 @@
 <?php
-require_once "admission-process.php";
+require "admission-process.php";
 
 // <!-- Modal for Registration Success -->
 if (isset($_SESSION['registration_success'])) {
