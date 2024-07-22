@@ -73,18 +73,13 @@ if (isset($_SESSION['student'])) {
                             <div class="row">
                                 <div class="col-8">
                                     <div class="numbers">
-                                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Position</p>
+                                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Current Session</p>
                                         <h6 class="font-weight-bolder mb-0">
                                             <?php
-                                            $sql = "SELECT `position` FROM `uploads` WHERE `student_id` = '$student_id' ";
-                                            $uploads = mysqli_query($conn, $sql);
-                                            if (mysqli_num_rows($uploads) > 0) {
-                                                $row = mysqli_fetch_assoc($uploads);
-                                                $position = addOrdinalSuffix($row['position']);
-                                                echo $position;
-                                            } else {
-                                                echo "NIL";
-                                            }
+                                            $sql = "SELECT `session_name` FROM `defaults`";
+                                            $defaults = mysqli_query($conn, $sql);
+                                            $row = mysqli_fetch_assoc($defaults);
+                                            echo $row['session_name'];
 
                                             ?>
                                         </h6>
@@ -92,7 +87,7 @@ if (isset($_SESSION['student'])) {
                                 </div>
                                 <div class="col-4 text-end">
                                     <div class="icon icon-shape bg-gradient-info shadow text-center border-radius-md">
-                                        <i class="ni ni-trophy text-lg opacity-10" aria-hidden="true"></i>
+                                        <i class="ni ni-calendar-grid-58 text-lg opacity-10" aria-hidden="true"></i>
                                     </div>
                                 </div>
                             </div>
@@ -105,7 +100,7 @@ if (isset($_SESSION['student'])) {
                             <div class="row">
                                 <div class="col-8">
                                     <div class="numbers">
-                                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Class</p>
+                                        <p class="text-sm mb-0 text-capitalize font-weight-bold">Current Class</p>
                                         <h6 class="font-weight-bolder mb-0">
                                             <?php
                                             $sql = "SELECT `class_name` FROM `classes` WHERE `class_id` = '$class_id' ";
