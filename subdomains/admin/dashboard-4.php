@@ -75,7 +75,7 @@
                         </div>
                         <div class="col-4 text-end">
                             <div class="icon icon-shape bg-gradient-dark shadow text-center border-radius-md">
-                                <i class="ni ni-single-copy-04 text-lg opacity-10" aria-hidden="true"></i>
+                                <i class="ni ni-time-alarm text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>
@@ -104,7 +104,7 @@
                         </div>
                         <div class="col-4 text-end">
                             <div class="icon icon-shape bg-gradient-dark shadow text-center border-radius-md">
-                                <i class="ni ni-single-copy-04 text-lg opacity-10" aria-hidden="true"></i>
+                                <i class="ni ni-calendar-grid-58 text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>
@@ -115,57 +115,68 @@
 </div>
 
 <?php include_once "inc/student-table.php"; ?>
-<?php include_once "inc/staff-table.php"; ?>
 <!-- Chart -->
 <div class="container-fluid pt-3">
     <div class="row">
         <div class="col-lg-8">
-            <!-- Card -->
-            <div class="card p-3">
-                <!-- Card header -->
-                <div class="card-header bg-gradient-dark" style="position: relative;">
-                    <div class="d-flex align-items-end">
-                        <!-- Points -->
-                        <div class="points flex-column pe-3 text-center" id="points-container">
-                            <?php for ($i = 1000; $i >= 0; $i -= 100) : ?>
-                                <p class="chart-canvas text-white font-weight-bold"><?php echo $i; ?></p>
-                            <?php endfor; ?>
-                        </div>
-                        <!-- Bars -->
-                        <div class="bar-container">
-                            <div class="bars" id="bar-students"></div>
-                            <div class="bars" id="bar-staff"></div>
-                            <div class="bars" id="bar-alumni"></div>
-                            <div class="bars" id="bar-applicants"></div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card body -->
-                <div class="card-body">
-                    <div class="row">
-                        <!-- Display Sections Dynamically -->
-                        <?php
-                        $sections = [
-                            'students' => ['icon' => 'ni ni-circle-08', 'bg' => 'bg-gradient-info'],
-                            'staff' => ['icon' => 'ni ni-circle-08', 'bg' => 'bg-gradient-dark'],
-                            'alumni' => ['icon' => 'ni ni-hat-3', 'bg' => 'bg-gradient-warning'],
-                            'applicants' => ['icon' => 'ni ni-circle-08', 'bg' => 'bg-gradient-primary'],
-                        ];
-                        foreach ($sections as $section => $details) {
-                            $total = $totals[$section];
-                        ?>
-                            <div class="col-6 col-lg-3 py-3 ps-0">
-                                <div class="d-flex mb-2">
-                                    <div class="icon icon-shape icon-xxs shadow border-radius-sm <?php echo $details['bg']; ?> text-center me-2 d-flex align-items-center justify-content-center">
-                                        <i class="<?php echo $details['icon']; ?>"></i>
-                                    </div>
-                                    <p class="text-xs mt-1 mb-0 font-weight-bold"><?php echo ucfirst($section); ?></p>
+            <div class="">
+                <?php
+                $sql = "SELECT * FROM `blogs` ORDER BY `blog_timestamp` DESC LIMIT 1";
+                $result = mysqli_query($conn, $sql);
+
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                ?>
+                        <div class="">
+                            <div class="card">
+                                <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
+                                    <a href="javascript:;" class="d-block">
+                                        <img src="<?php echo $row['blog_thumbnail'] ?>" style="height: 300px; width: 100%;object-fit:cover;" class="img-fluid border-radius-lg">
+                                    </a>
                                 </div>
-                                <h4 class="font-weight-bolder text-uppercase" id="total-<?php echo $section; ?>" countTo="<?php echo $total; ?>"></h4>
+
+                                <div class="card-body pt-3">
+                                    <span class="text-gradient text-warning text-uppercase text-xs font-weight-bold my-2"><?php echo $row['blog_category']; ?></span>
+                                    <a href="javascript:;" class="card-title h5 d-block text-darker">
+                                        <?php echo $row['blog_title']; ?>
+                                    </a>
+                                    <p class="card-description mb-4">
+                                        <?php echo $row['blog_content']; ?>
+                                    </p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="author align-items-center">
+                                            <?php
+                                            $staff_id = $row['staff_id'];
+                                            $sql = "SELECT * FROM `staff` WHERE `staff_id` = '$staff_id'";
+                                            $staff_result = mysqli_query($conn, $sql);
+                                            $staff = mysqli_fetch_assoc($staff_result);
+                                            ?>
+
+                                            <img src="<?php echo $staff['photo']; ?>" class="avatar shadow">
+
+                                            <div class="name ps-3">
+                                                <span><?php echo $staff['first_name'] . " " . $staff['last_name']; ?></span>
+                                                <div class="stats">
+                                                    <small><?php echo date("j F, Y h:m", strtotime($row['blog_timestamp'])); ?></small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        <?php } ?>
+                        </div>
+                    <?php
+                    }
+                } else {
+                    ?>
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="text-center text-secondary">No blogs found.</p>
+                        </div>
                     </div>
-                </div>
+                <?php
+                }
+                ?>
             </div>
         </div>
         <div class="col-lg-4">
@@ -211,70 +222,6 @@
                     }
                     ?>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="row mt-3">
-        <div class="col-lg-8">
-            <div class="">
-                <?php
-                $sql = "SELECT * FROM `blogs` ORDER BY `blog_timestamp` DESC LIMIT 1";
-                $result = mysqli_query($conn, $sql);
-
-                if (mysqli_num_rows($result) > 0) {
-                    while ($row = mysqli_fetch_assoc($result)) {
-                ?>
-                        <div class="">
-                            <div class="card">
-                                <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
-                                    <a href="javascript:;" class="d-block">
-                                        <img src="<?php echo $row['blog_thumbnail'] ?>" style="height: 300px; width: 100%;object-fit:cover;" class="img-fluid border-radius-lg">
-                                    </a>
-                                </div>
-
-                                <div class="card-body pt-3">
-                                    <span class="text-gradient text-warning text-uppercase text-xs font-weight-bold my-2"><?php echo $row['blog_category']; ?></span>
-                                    <a href="javascript:;" class="card-title h5 d-block text-darker">
-                                        <?php echo $row['blog_title']; ?>
-                                    </a>
-                                    <p class="card-description mb-4">
-                                        <?php echo $row['blog_content']; ?>
-                                    </p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="author align-items-center">
-                                            <?php
-
-                                            $staff_id = $row['staff_id'];
-                                            $sql = "SELECT * FROM `staff` WHERE `staff_id` = '$staff_id'";
-                                            $staff_result = mysqli_query($conn, $sql);
-                                            $staff = mysqli_fetch_assoc($staff_result);
-                                            ?>
-
-                                            <img src="<?php echo $staff['photo']; ?>" class="avatar shadow">
-
-                                            <div class="name ps-3">
-                                                <span><?php echo $staff['first_name'] . " " . $staff['last_name']; ?></span>
-                                                <div class="stats">
-                                                    <small><?php echo date("j F, Y h:m", strtotime($row['blog_timestamp'])); ?></small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <?php
-                    }
-                } else {
-                    ?>
-                    <div class="card">
-                        <div class="card-body">
-                            <p class="text-center text-secondary">No blogs found.</p>
-                        </div>
-                    </div>
-                <?php
-                }
-                ?>
             </div>
         </div>
     </div>

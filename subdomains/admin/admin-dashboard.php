@@ -3,14 +3,31 @@ session_start();
 require_once "../../config/database.php";
 
 if (isset($_SESSION['staff'])) {
-    $position_id = $_SESSION['staff']['position_id'];
+
+    // Determining the session variable
+    $staff_id = $_SESSION['staff']['staff_id'];
     $class_id = $_SESSION['staff']['class_id'];
-    
+    $position_id = $_SESSION['staff']['position_id'];
+
+
+    $stmt = $conn->prepare("SELECT * FROM `staff` WHERE `staff_id` = ?");
+    $stmt->bind_param("i", $staff_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $staff = $result->fetch_assoc();
+
     $sql = "SELECT * FROM `classes` WHERE `class_id` = '$class_id'";
     $result = mysqli_query($conn, $sql);
     $class = mysqli_fetch_assoc($result);
-}
- else {
+
+    $sql = $conn->prepare("SELECT * FROM `school_post` WHERE `position_id` = ?");
+    $sql->bind_param("i", $position_id);
+    $sql->execute();
+    $positions = $sql->get_result();
+    $position = $positions->fetch_assoc();
+
+    $position_number = $position['position_number'];
+} else {
     header("Location: admin-logout.php");
     exit;
 }
@@ -90,7 +107,7 @@ $scale_factor = 300 / $max_total; // Adjust the height scale factor based on the
         .points {
             height: 100%;
             position: relative;
-            bottom: -30px;
+            bottom: -20px;
         }
     </style>
 
@@ -103,16 +120,25 @@ $scale_factor = 300 / $max_total; // Adjust the height scale factor based on the
     <!--  -->
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <?php include "inc/admin-navbar.php";
-        if (in_array($position_id, [1, 2])) {
+
+        if (in_array($position_number, [1])) {
             require 'dashboard-1.php';
-        } else if (in_array($position_id, [3])) {
+        } else if (in_array($position_number, [2])) {
             require 'dashboard-2.php';
-        } else if (in_array($position_id, [4])) {
+        } else if (in_array($position_number, [3])) {
             require 'dashboard-3.php';
-        } else if (in_array($position_id, [5])) {
+        } else if (in_array($position_number, [4])) {
             require 'dashboard-4.php';
+        } else if (in_array($position_number, [5])) {
+            require 'dashboard-5.php';
+        } else if (in_array($position_number, [6])) {
+            require 'dashboard-6.php';
+        } else if (in_array($position_number, [7])) {
+            require 'dashboard-7.php';
+        } else if (in_array($position_number, [8])) {
+            require 'dashboard-8.php';
         } else {
-            require 'dashboard-general.php';
+            require 'dashboard-default.php';
         }
         include "inc/admin-footer.php";
         ?>

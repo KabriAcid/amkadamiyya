@@ -32,7 +32,7 @@
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Students</p>
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Overall Students</p>
                                 <h6 class="font-weight-bolder mb-0">
                                     <?php
                                     $sql = "SELECT COUNT(*) AS `total_students` FROM `students` ";
@@ -89,7 +89,7 @@
                                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Payroll</p>
                                 <h6 class="font-weight-bolder mb-0">
                                     <?php
-                                    $sql = "SELECT SUM(`salary`) AS `totaL_balance` FROM `staff`";
+                                    $sql = "SELECT SUM(`salary`) AS `totaL_balance` FROM `staff` WHERE status = 1";
                                     $total = mysqli_query($conn, $sql);
                                     $row = mysqli_fetch_assoc($total);
                                     ?>

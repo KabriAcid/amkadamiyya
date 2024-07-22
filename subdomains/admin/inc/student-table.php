@@ -51,7 +51,7 @@ if (isset($_SESSION['staff'])) {
                         <tbody>
                             <?php
                             if (in_array($position_number, [1, 2, 3, 4, 5])) {
-                                $sql = "SELECT * FROM `students` ORDER BY `admission_id` ASC, `first_name` ASC, `second_name` ASC, `last_name` ASC, `gender` ASC, `class_id` ASC";
+                                $sql = "SELECT * FROM `students` ORDER BY `class_id` ASC, `first_name` ASC, `second_name` ASC, `last_name` ASC, `gender` ASC, `class_id` ASC";
                                 $result = mysqli_query($conn, $sql);
                                 while ($row = mysqli_fetch_assoc($result)) {
                             ?>

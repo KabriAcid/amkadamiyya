@@ -23,7 +23,6 @@ function hasNewNotifications()
             </div>
             <ul class="navbar-nav  justify-content-end">
                 <li class="nav-item d-flex align-items-center">
-
                     <a href="admin-profile.php" class="nav-link text-body font-weight-bold px-0">
                         <span class="me-2"><small class="text-secondary">Welcome&comma;&nbsp;</small><span class="font-weight-bolder"><?php echo $_SESSION['staff']['first_name']; ?></span></span>
                         <img src="<?php echo $_SESSION['staff']['photo']; ?>" class="avatar avatar-sm">

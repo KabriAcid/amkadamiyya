@@ -1,14 +1,16 @@
 <?php
 session_start();
 include '../../config/database.php';
+
+
 //  Login Process
 if (isset($_POST['login'])) {
     if (empty($_POST['username']) || empty($_POST['password'])) {
         $_SESSION['error_message'] = "Both username and password are required!";
     } else {
         // Sanitize user inputs
-        $username = mysqli_real_escape_string($conn, $_POST['username']);
-        $password = mysqli_real_escape_string($conn, $_POST['password']);
+        $username = mysqli_real_escape_string($conn, trim(htmlspecialchars($_POST['username'])));
+        $password = mysqli_real_escape_string($conn, trim(htmlspecialchars($_POST['password'])));
 
         // Fetch user data from the database
         $sql = "SELECT * FROM `staff` WHERE `username` = '$username'";

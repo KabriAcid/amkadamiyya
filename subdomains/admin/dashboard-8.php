@@ -6,46 +6,23 @@
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Staff</p>
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Students</p>
                                 <h6 class="font-weight-bolder mb-0">
                                     <?php
-                                    $sql = "SELECT COUNT(*) AS `total_staff` FROM `staff` ";
-                                    $total = mysqli_query($conn, $sql);
-                                    $row = mysqli_fetch_assoc($total);
+                                    if (isset($_SESSION['staff'])) {
+                                        $class_id = $_SESSION['staff']['class_id'];
+                                        $sql = "SELECT COUNT(*) AS `total_students` FROM `students` WHERE class_id = '$class_id'";
+                                        $total = mysqli_query($conn, $sql);
+                                        $row = mysqli_fetch_assoc($total);
+                                    }
                                     ?>
-                                    <?php echo $row['total_staff']; ?>
+                                    <?php echo $row['total_students']; ?>
                                 </h6>
                             </div>
                         </div>
                         <div class="col-4 text-end">
                             <div class="icon icon-shape bg-gradient-dark shadow text-center border-radius-md">
-                                <i class="ni ni-circle-08 text-lg opacity-10" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-6">
-            <div class="card">
-                <div class="card-body p-3">
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="numbers">
-                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Current Session</p>
-                                <h6 class="font-weight-bolder mb-0">
-                                    <?php
-                                    $sql = "SELECT session_name FROM `defaults`";
-                                    $total = mysqli_query($conn, $sql);
-                                    $row = mysqli_fetch_assoc($total);
-                                    ?>
-                                    <?php echo $row['session_name']; ?>
-                                </h6>
-                            </div>
-                        </div>
-                        <div class="col-4 text-end">
-                            <div class="icon icon-shape bg-gradient-dark shadow text-center border-radius-md">
-                                <i class="ni ni-calendar-grid-58 text-lg opacity-10" aria-hidden="true"></i>
+                                <i class="ni ni-single-02 text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>
@@ -54,6 +31,50 @@
         </div>
         <!--  -->
         <div class="col-xl-3 col-sm-6">
+            <div class="card mb-3 mb-xl-0">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Uploaded Subjects</p>
+                                <h6 class="font-weight-bolder mb-0">
+                                    <span>
+                                        <?php
+                                        if (isset($_SESSION['staff'])) {
+                                            $class_id = $_SESSION['staff']['class_id'];
+                                            $sql = "SELECT COUNT(DISTINCT `subject_id`) AS `total_uploaded` FROM `results` WHERE class_id = '$class_id'";
+                                            $total = mysqli_query($conn, $sql);
+                                            $row = mysqli_fetch_assoc($total);
+                                        }
+                                        ?>
+                                        <?php echo $row['total_uploaded']; ?>
+                                    </span>
+                                    <span>/</span>
+                                    <span>
+                                        <?php
+                                        if (isset($_SESSION['staff'])) {
+                                            $section_id = $_SESSION['staff']['section_id'];
+                                            $sql = "SELECT COUNT(*) AS `total_subjects` FROM `section_subjects` WHERE section_id = '$section_id'";
+                                            $total = mysqli_query($conn, $sql);
+                                            $row = mysqli_fetch_assoc($total);
+                                            echo $row['total_subjects'];
+                                        }
+                                        ?>
+                                    </span>
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div class="icon icon-shape bg-gradient-dark shadow text-center border-radius-md">
+                                <i class="ni ni-single-copy-04 text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Current Term  -->
+        <div class="col-xl-3 col-sm-6">
             <div class="card">
                 <div class="card-body p-3">
                     <div class="row">
@@ -61,12 +82,14 @@
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Current Term</p>
                                 <h6 class="font-weight-bolder mb-0">
-                                    <?php
-                                    $sql = "SELECT current_term FROM `defaults`";
-                                    $total = mysqli_query($conn, $sql);
-                                    $row = mysqli_fetch_assoc($total);
-                                    ?>
-                                    <?php echo $row['current_term']; ?>
+                                    <span>
+                                        <?php
+                                        $sql = "SELECT current_term FROM `defaults`";
+                                        $total = mysqli_query($conn, $sql);
+                                        $row = mysqli_fetch_assoc($total);
+                                        ?>
+                                        <?php echo $row['current_term']; ?>
+                                    </span>
                                 </h6>
                             </div>
                         </div>
@@ -79,39 +102,29 @@
                 </div>
             </div>
         </div>
-        <!--  -->
+        <!-- Current Session  -->
         <div class="col-xl-3 col-sm-6">
             <div class="card">
                 <div class="card-body p-3">
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Uploaded classes</p>
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Current Session</p>
                                 <h6 class="font-weight-bolder mb-0">
                                     <span>
                                         <?php
-                                        $sql = "SELECT COUNT(DISTINCT `class_id`) AS `total_uploaded` FROM `results`";
+                                        $sql = "SELECT session_name FROM `defaults`";
                                         $total = mysqli_query($conn, $sql);
                                         $row = mysqli_fetch_assoc($total);
                                         ?>
-                                        <?php echo $row['total_uploaded']; ?>
+                                        <?php echo $row['session_name']; ?>
                                     </span>
-                                    <span>/</span>
-                                    <span>
-                                        <?php
-                                        $sql = "SELECT COUNT(*) AS `total_classes` FROM `classes`";
-                                        $total = mysqli_query($conn, $sql);
-                                        $row = mysqli_fetch_assoc($total);
-                                        ?>
-                                        <?php echo $row['total_classes']; ?>
-                                    </span>
-
                                 </h6>
                             </div>
                         </div>
                         <div class="col-4 text-end">
                             <div class="icon icon-shape bg-gradient-dark shadow text-center border-radius-md">
-                                <i class="ni ni-upload-96 text-lg opacity-10" aria-hidden="true"></i>
+                                <i class="ni ni-calendar-grid-58 text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>
@@ -122,7 +135,6 @@
 </div>
 
 <?php include_once "inc/student-table.php"; ?>
-<?php include_once "inc/staff-table.php"; ?>
 <!-- Chart -->
 <div class="container-fluid pt-3">
     <div class="row">
@@ -154,7 +166,6 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="author align-items-center">
                                             <?php
-
                                             $staff_id = $row['staff_id'];
                                             $sql = "SELECT * FROM `staff` WHERE `staff_id` = '$staff_id'";
                                             $staff_result = mysqli_query($conn, $sql);

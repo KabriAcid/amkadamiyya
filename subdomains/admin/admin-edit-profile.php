@@ -17,14 +17,12 @@ if (isset($_SESSION['staff'])) {
     $position = $positions->fetch_assoc();
 
     $position_number = $position['position_number'];
-    echo $position_number;
-
 
 
     // Hindering staff from editing part of their profile
     $disabled = ''; // Default to no disabled attribute
 
-    if (in_array($position_number, [9])) {
+    if (in_array($position_number, [0])) {
         $disabled = 'disabled';
     }
 } else {
@@ -70,7 +68,7 @@ if (isset($_SESSION['staff'])) {
                         <div class="card">
                             <div class="card-header">
                                 <h6 class="mb-0 text-gradient text-dark">Biodata</h6>
-                                <p class="text-sm mb-0">Here you can modify or change a your personal biodata.</p>
+                                <p class="text-sm mb-0">Here you can modify or change your personal biodata.</p>
                             </div>
                             <hr class="horizontal dark">
                             <div class="card-body">
