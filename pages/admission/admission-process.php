@@ -103,8 +103,6 @@ if (isset($_POST['applyAdmission'])) {
     } else {
         $_SESSION['error_message'] = $errors;
     }
-
-    exit;
 }
 
 
