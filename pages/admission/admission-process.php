@@ -130,7 +130,7 @@ if (isset($_POST['checkStatus'])) {
         $_SESSION['errorMessage'] = "Invalid application code.";
     }
     $stmt->close();
-    header("Location: admissin-check-status.php");
+    header("Location: admission-check-status.php");
     exit();
 }
 ?>
