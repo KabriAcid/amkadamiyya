@@ -1,32 +1,32 @@
----------------- AMKADAMIYYA WEBSITE --------------------
-    ---ALL SECTIONS----
-        - Add all relevant documents to the website
-        - Make all hompage footer link to designated webpages. 
-        - Fix News sections and make it dynamic
+### AMKADAMIYYA WEBSITE
 
+#### All Sections
+- Upload all relevant documents to the website.
+- Ensure all homepage footer links direct to their designated webpages.
+- Fix the news section and make it dynamic.
 
-    ---ADMIN SECTION----
-        - Examination officer should manage the results upload
-        - Make the notification bell dynamic
-        - Show a highlight of notification on the notification bell
-        - Show notifications base on the notification level
-        - Improve the general alert section
-        - Fix the chart graph in the admin dashboard
-        - Improve the school session table
-        - Improve payments functionality
-        - Application search section should work properly
-        - Optimize the blog section
-        - Improve the functionality of the results upload status
-        - Fix the issue of school term
-        - Make profile image pop up using modal
+#### Admin Section
+- Allow the examination officer to manage results upload.
+- Make the notification bell dynamic.
+- Display highlights of notifications on the notification bell.
+- Show notifications based on their notification level.
+- Improve the general alert section.
+- Enhance the school session table.
+- Improve payment functionalities.
+- Ensure the application search section works properly.
+- Optimize the blog section.
+- Enhance the functionality of the results upload status.
+- Fix issues related to the school term.
+- Implement a modal pop-up for profile images.
+- Fix the chart graph in the admin dashboard.
 
+#### Students Section
+- Improve payment functionalities.
+- Enhance results functionality.
+- Ensure response from the payment gateway API.
+- Make the notification bell dynamic.
+- Display highlights of notifications on the notification bell.
+- Show notifications based on their notification level.
 
-    --- STUDENTS SECTION----
-    - Improve payments functionality
-    - Improve results functionality
-    - Get response from the payment gateway API
-    - Make the notification bell dynamic
-    - Show a highlight of notification on the notification bell
-    - Show notifications base on the notification level
-
-- Debugging of AMKADAMIYYA SCHOOL E-SYSTEM
+### Debugging
+- Debug the AMKADAMIYYA School E-System.

@@ -31,8 +31,8 @@ if (isset($_POST['contactBtn'])) {
 
     // If there are validation errors, store them and redirect
     if (!empty($errors)) {
-        $_SESSION['error_message'] = implode(' ', $errors);
-        header("Location: index.php");
+        $_SESSION['error_message'] = $errors;
+        header("Location: " . $_SERVER['PHP_SELF']);
         exit;
     }
 
@@ -54,6 +54,50 @@ if (isset($_POST['contactBtn'])) {
     }
 
     mysqli_close($conn);
-    header("Location: index.php");
+    header("Location: " . $_SERVER['PHP_SELF']);
     exit;
 }
+
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Get the email from the form submission
+    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+
+    // Check if the email is valid
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $_SESSION['error_message'] = "Invalid email address.";
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit;
+    }
+
+    // Check if the email already exists
+    $stmt = $conn->prepare("SELECT email FROM newsletters WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        $_SESSION['error_message'] = "The email is already subscribed.";
+        $stmt->close();
+        $conn->close();
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit;
+    } else {
+        $stmt->close();
+
+        // Insert the email into the newsletter table
+        $stmt = $conn->prepare("INSERT INTO newsletters (email) VALUES (?)");
+        $stmt->bind_param("s", $email);
+
+        if ($stmt->execute()) {
+            $_SESSION['success_message'] = "You have successfully subscribed to the newsletter!";
+        } else {
+            $_SESSION['error_message'] = "There was an error subscribing. Please try again.";
+        }
+
+        $stmt->close();
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit;
+    }
+}
+?>

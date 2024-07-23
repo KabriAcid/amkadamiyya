@@ -740,7 +740,7 @@ require 'process.php';
                     <h6 class="text-sm text-primary">Enquiries</h6>
                     <ul class="flex-column ms-n3 nav">
                         <li class="nav-item">
-                            <a class="nav-link text-secondary" href="">
+                            <a class="nav-link text-secondary" href="https://www.google.com/maps/search/?api=1&query=Samunaka%20Junction,%20Along%20Wuro%20Sembe%20Road%20Jalingo,%20Taraba%20State,%20Nigeria" target="_blank">
                                 Get Directions
                             </a>
                         </li>
