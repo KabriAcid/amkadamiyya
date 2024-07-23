@@ -90,10 +90,6 @@ if (isset($_POST['applyAdmission'])) {
         VALUES ('$enrolling_class', '$section_id', '$first_name', '$second_name', '$last_name', '$birth_date', '$state', '$lga', '$gender', '$parent_first_name', '$parent_last_name', '$parent_email', '$parent_address', '$parent_phone_number', 0, '$application_code', '$registration_id')";
 
         if (mysqli_query($conn, $sql)) {
-            // $sql = "INSERT INTO `admin_notification` (`not_level`, `not_title`, `not_content`, `not_icon`, `not_icon_color`, `not_bg_color`)
-            //             VALUES ('applicant', 'New Applicant received.', '$first_name $last_name from $lga has applied for an admission and is enrolling for ', 'ni ni-single-02', 'text-warning', 'bg-warning-soft');";
-            // mysqli_query($conn, $sql);
-            // $_SESSION['success_message'] = "Student added successfully!";
             $_SESSION['registration_success']['registration_id'] = $registration_id;
 
             header('Location: ' . $_SERVER['PHP_SELF']);
@@ -128,7 +124,7 @@ if (isset($_POST['checkStatus'])) {
         $_SESSION['errorMessage'] = "Invalid application code.";
     }
     $stmt->close();
-    header("Location: admission-check-status.php");
+    header('Location: ' . $_SERVER['PHP_SELF']);
     exit();
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
-require_once "../../config/database.php";
+require_once "admission-process.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +16,7 @@ require_once "../../config/database.php";
             <div class="container pt-5">
                 <h3 class="header">Admission Status</h3>
                 <p>Please enter the <span class="text-success">Application Code</span> to check for admission status.</p>
-                <form action="admission-process.php" method="post">
+                <form action="" method="post">
                     <div class="text-center py-2 mt-3">
                         <div class="mx-auto">
                             <div class="d-flex">
