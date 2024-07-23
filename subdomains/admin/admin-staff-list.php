@@ -1,6 +1,6 @@
 <?php
-    session_start();
-    include("../../config/database.php");
+session_start();
+include "../../config/database.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,21 +11,20 @@
 </head>
 
 <body class="g-sidenav-show bg-info-soft">
-     <?php
-        include "inc/admin-sidebar.php";
+    <?php
+    include "inc/admin-sidebar.php";
     ?>
-
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         <?php include "inc/admin-navbar.php"; ?>
-        <?php include "inc/staff-table.php";?>
-        <?php include "inc/admin-footer.php";?>
+        <?php include "inc/staff-table.php"; ?>
+        <?php include "inc/admin-footer.php"; ?>
     </main>
 
 
     <script src="../../js/plugins/sweetalert.min.js"></script>
     <script src="../../js/plugins/datatables.js"></script>
     <?php include "inc/admin-scripts.php"; ?>
-    
+
     <?php
     if (isset($_SESSION['success_message'])) {
     ?>
@@ -45,9 +44,9 @@
     }
     ?>
 
-    
+
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const dataTableBasic = new simpleDatatables.DataTable("#datatable-search", {
                 searchable: true,
                 fixedHeight: true,

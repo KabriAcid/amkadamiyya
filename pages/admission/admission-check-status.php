@@ -1,30 +1,9 @@
-<?php
-session_start();
-require_once "../../config/database.php";
-
-if (isset($_POST['checkStatus'])) {
-    $application_code = $_POST['application_code'];
-    $sql = "SELECT * FROM `applicants` WHERE `application_code` = '$application_code'";
-    $result = mysqli_query($conn, $sql);
-
-    if ($row = mysqli_fetch_assoc($result)) {
-        if ($application_code == $row['application_code'] and $row['admission_status'] == 0) {
-            $_GET['infoMessage'] = "You application is now pending kindly check later.";
-        } else if ($application_code != $row['application_code']) {
-            $_GET['errorMessage'] = "Invalid application Code";
-        } else if ($application_code == $row['application_code'] and $row['admission_status'] == 1) {
-            $_GET['successMessage'] = true;
-        }
-    }
-
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <?php include "../../includes/header.php"; ?>
-    <title>Check Admisssion Status</title>
+    <title>Check Admission Status</title>
 </head>
 
 <body class="bg-info-soft" style="font-family: 'Open Sans'">
@@ -33,54 +12,39 @@ if (isset($_POST['checkStatus'])) {
         <section>
             <div class="container pt-5">
                 <h3 class="header">Admission Status</h3>
-                <p>Please enter in the <span class="text-success">Application Code</span> to check for admission status.
-                </p>
-                <form action="" method="post">
+                <p>Please enter the <span class="text-success">Application Code</span> to check for admission status.</p>
+                <form action="admission-process.php" method="post">
                     <div class="text-center py-2 mt-3">
                         <div class="mx-auto">
                             <div class="d-flex">
                                 <div class="input-group mb-4">
-                                    <span class="input-group-text"><i class="fas fa-search"
-                                            aria-hidden="true"></i></span>
-                                    <input class="form-control" placeholder="Enter Application Code" type="text"
-                                        name="application_code">
-                                    <input type="submit" name="checkStatus"
-                                        class="btn bg-gradient-dark w-auto me-1 mb-0"
-                                        style="border-radius: 0px 4px 4px 0px;">
+                                    <span class="input-group-text"><i class="fas fa-search" aria-hidden="true"></i></span>
+                                    <input class="form-control" placeholder="Enter Application Code" type="text" name="application_code" required tabindex="1">
+                                    <input type="submit" name="checkStatus" class="btn bg-gradient-dark w-auto me-1 mb-0" style="border-radius: 0px 4px 4px 0px;">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </form>
-                <?php if (isset($_GET['infoMessage'])) {
-                    ?>
-                    <div class="mt-5">
-                        <p class="text-center lead text-warning"><?php echo $_GET['infoMessage']; ?>.</p>
-                    </div>
-                    <?php
-                } else if (isset($_GET['successMessage'])) {
-                    ?>
-                        <div class="mt-5">
-                            <p class="text-center lead"><span class="text-success">Congratulations! </span>Dear
-                            <?php echo $row['first_name'] . " " . $row['last_name'] ?> your admission has been approved.
-                            </p>
-                            <div class="d-flex justify-content-center">
-                                <button type="button" onclick="window.print();" class="btn btn-success">PRINT</button>
-                            </div>
-                        </div>
-                    <?php
-                } else if (isset($_GET['errorMessage'])) {
-                    ?>
-                            <div class="mt-5">
-                                <p class="text-center lead text-danger"><?php echo $_GET['errorMessage']; ?></p>
-                            </div>
-                    <?php
-                } ?>
+                <?php
+                if (isset($_SESSION['infoMessage'])) {
+                    echo '<div class="mt-5"><p class="text-center lead text-warning">' . $_SESSION['infoMessage'] . '</p></div>';
+                    unset($_SESSION['infoMessage']);
+                }
+                if (isset($_SESSION['successMessage'])) {
+                    echo '<div class="mt-5"><p class="text-center lead"><span class="text-success">Congratulations! </span>Dear ' . $_SESSION['first_name'] . ' ' . $_SESSION['last_name'] . ', your admission has been approved.</p><div class="d-flex justify-content-center"><button type="button" onclick="window.print();" class="btn btn-success">PRINT</button></div></div>';
+                    unset($_SESSION['successMessage'], $_SESSION['first_name'], $_SESSION['last_name']);
+                }
+                if (isset($_SESSION['errorMessage'])) {
+                    echo '<div class="mt-5"><p class="text-center lead text-danger">' . $_SESSION['errorMessage'] . '</p></div>';
+                    unset($_SESSION['errorMessage']);
+                }
+                ?>
             </div>
         </section>
     </main>
     <!-- Footer  -->
-    <?php include "../../includes/scripts.php";?>
+    <?php include "../../includes/scripts.php"; ?>
 </body>
 
 </html>

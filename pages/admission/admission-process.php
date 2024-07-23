@@ -106,3 +106,31 @@ if (isset($_POST['applyAdmission'])) {
 
     exit;
 }
+
+
+// Checking admission status
+
+if (isset($_POST['checkStatus'])) {
+    $application_code = $_POST['application_code'];
+
+    $stmt = $conn->prepare("SELECT * FROM `applicants` WHERE `application_code` = ?");
+    $stmt->bind_param("s", $application_code);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($row = $result->fetch_assoc()) {
+        if ($row['admission_status'] == 0) {
+            $_SESSION['infoMessage'] = "Your application is now pending, kindly check later.";
+        } else if ($row['admission_status'] == 1) {
+            $_SESSION['successMessage'] = true;
+            $_SESSION['applicant']['first_name'] = $row['first_name'];
+            $_SESSION['applicant']['last_name'] = $row['last_name'];
+        }
+    } else {
+        $_SESSION['errorMessage'] = "Invalid application code.";
+    }
+    $stmt->close();
+    header("Location: admissin-check-status.php");
+    exit();
+}
+?>
