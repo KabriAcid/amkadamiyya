@@ -1,66 +1,5 @@
 <?php
-session_start();
-include "config/database.php";
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['contactBtn'])) {
-    // Collect and sanitize form data
-    $first_name = ucfirst(trim($_POST['first_name']));
-    $last_name = ucfirst(trim($_POST['last_name']));
-    $email = trim($_POST['email']);
-    $phone_number = trim($_POST['phone_number']);
-    $message = trim($_POST['message']);
-
-    // Validation checks
-    if (empty($first_name) || !preg_match("/^[a-zA-Z'-]+$/", $first_name)) {
-        $_SESSION['errors'] = "Invalid or empty first name.";
-    }
-    if (empty($last_name) || !preg_match("/^[a-zA-Z'-]+$/", $last_name)) {
-        $_SESSION['errors'] = "Invalid or empty last name.";
-    }
-    if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $_SESSION['errors'] = "Invalid or empty email.";
-    }
-    if (empty($phone_number) || !preg_match("/^[0-9]{10,15}$/", $phone_number)) {
-        $_SESSION['errors'] = "Invalid or empty phone number.";
-    }
-    if (empty($message)) {
-        $_SESSION['errors'] = "Message cannot be empty.";
-    }
-
-    // If there are validation errors, redirect
-    if (!empty($_SESSION['errors'])) {
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit;
-    }
-
-    // Prepare and bind parameters to prevent SQL injection
-    $sql = "INSERT INTO `contacts` (first_name, last_name, email, phone_number, message) VALUES (?, ?, ?, ?, ?)";
-    if ($stmt = mysqli_prepare($conn, $sql)) {
-        mysqli_stmt_bind_param($stmt, "sssss", $first_name, $last_name, $email, $phone_number, $message);
-
-        // Execute the statement and check for success
-        if (mysqli_stmt_execute($stmt)) {
-            // Set a success message in session
-            $_SESSION['feedback'] = "Form submitted successfully!";
-
-            // Prepare the notification query
-            $not_title = $first_name . ' ' . $last_name . ' is trying to reach you.';
-            $notification_sql = "INSERT INTO `admin_notification` (`not_title`, `not_content`, `not_icon`, `not_icon_color`, `not_bg_color`) VALUES (?, ?, 'fa fa-envelope', 'text-primary', 'bg-primary-soft')";
-            if ($not_stmt = mysqli_prepare($conn, $notification_sql)) {
-                mysqli_stmt_bind_param($not_stmt, "ss", $not_title, $message);
-                mysqli_stmt_execute($not_stmt);
-            }
-
-            // Redirect to avoid form resubmission on page refresh
-            header("Location: " . $_SERVER['PHP_SELF']);
-            exit;
-        } else {
-            $_SESSION['error'] = "Error occurred: " . mysqli_stmt_error($stmt);
-        }
-    } else {
-        $_SESSION['error'] = "Error occurred: " . mysqli_error($conn);
-    }
-}
+require 'process.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -82,6 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['contactBtn'])) {
     <link href="css/nucleo-icons.css" rel="stylesheet" />
     <link href="css/nucleo-svg.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/286d2a7519.js" crossorigin="anonymous"></script>
+
+    <!-- Sweetalert -->
+    <script src="js/plugins/sweetalert.min.js"></script>
 
     <link id="pagestyle" href="css/soft-design-system-pro.min3f71.css" rel="stylesheet" />
     <link id="pagestyle" href="css/style.css" rel="stylesheet" />
@@ -607,7 +549,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['contactBtn'])) {
                     <div class="col-lg-7 d-flex flex-column justify-content-center pb-4 px-0">
                         <div class="card">
                             <div class="card-body rounded-3 shadow-lg blur">
-                                <form id="contact-form" action="index.php" method="post" autocomplete="off">
+                                <form id="contact-form" action="" method="post" autocomplete="off">
                                     <h3 class="text-center my-3">Contact us</h3>
                                     <div class="card-body">
                                         <div class="row">
@@ -685,17 +627,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['contactBtn'])) {
                     <h6 class="text-sm text-primary">Contact Information</h6>
                     <ul class="flex-column ms-n3 nav">
                         <li class="nav-item">
-                            <span class="nav-link opacity-8"><span class="font-weight-bold">Location</span>: Samunaka Junction, <br> Along Wuro Sembe Road Jalingo, <br> Taraba State, Nigeria.</span>
+                            <span class="nav-link opacity-8">
+                                <span class="font-weight-bold">Location:</span>
+                                <a href="https://www.google.com/maps/search/?api=1&query=Samunaka%20Junction,%20Along%20Wuro%20Sembe%20Road%20Jalingo,%20Taraba%20State,%20Nigeria" target="_blank" style="text-decoration: none; color: inherit;">
+                                    Samunaka Junction, <br> Along Wuro Sembe Road Jalingo, <br> Taraba State, Nigeria.
+                                </a>
+                            </span>
                         </li>
                         <li class="nav-item">
-                            <span class="nav-link opacity-8"><span class="font-weight-bold">Tel</span>: 080-3063-1546,
-                                070-1494-8484, 0703-794-3396</span>
+                            <span class="nav-link opacity-8">
+                                <span class="font-weight-bold">Tel:</span>
+                                <a href="tel:+08030631546" style="text-decoration: none; color: inherit;">
+                                    080-3063-1546
+                                </a>,
+                                <a href="tel:+07014948484" style="text-decoration: none; color: inherit;">
+                                    070-1494-8484
+                                </a>,
+                                <a href="tel:+07037943396" style="text-decoration: none; color: inherit;">
+                                    0703-794-3396
+                                </a>
+                            </span>
+
                         </li>
                         <li class="nav-item">
                             <span class="nav-link opacity-8"><span class="font-weight-bold">Batch No:</span> BN-3293542</span>
                         </li>
                         <li class="nav-item">
-                            <span class="nav-link opacity-8"><span class="font-weight-bold">Mail:</span> amkadamiyyaschool@gmail.com</span>
+                            <span class="nav-link opacity-8">
+                                <span class="font-weight-bold">Mail:</span>
+                                <a href="mailto:amkadamiyyaschool@gmail.com?subject=Contact%20Amkadamiyya%20School%20Jalingo" style="text-decoration: none; color: inherit;" target="_blank">
+                                    amkadamiyyaschool@gmail.com
+                                </a>
+                            </span>
+
                         </li>
                     </ul>
                 </div>
@@ -808,13 +772,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['contactBtn'])) {
                 </div>
 
                 <div class="col-md-6 col-lg-3 col-12 mb-md-0 mb-4">
-                    <h6 class="text-sm text-primary">Newsletter</h6>
-                    <p class="text-sm mb-0">Subscribe to Amkadamiyya's Newsletter.</p>
+                    <h6 class="text-sm mb-0 text-primary">Newsletter</h6>
+                    <p class="text-sm">Subscribe to Amkadamiyya's Newsletter.</p>
                     <form action="" method="post">
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Enter your email address" type="text" name="newsletter" required>
+                                    <input class="form-control" placeholder="Enter your email address" type="email" name="email" required>
                                 </div>
                             </div>
                             <div class="text-end">
@@ -833,8 +797,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['contactBtn'])) {
                         <script>
                             document.write(new Date().getFullYear())
                         </script> Soft by Abdul Sass |
-                        kabriacid01@gmail.com.
+                        <a href="mailto:kabriacid01@gmail.com?subject=Contact%20Abdullahi%20Kabri" style="text-decoration: none; color: inherit;">
+                            kabriacid01@gmail.com
+                        </a>.
                     </p>
+
                 </div>
                 <div class="col-lg-4 col-4">
                     <button type="button" class="btn btn-icon-only btn-link mb-0 opacity-6">
@@ -895,41 +862,42 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['contactBtn'])) {
 
     <script src="js/core/popper.min.js"></script>
     <script src="js/core/bootstrap.min.js"></script>
-    <script src="js/plugins/chartjs.min.js"></script>
     <script src="js/plugins/perfect-scrollbar.min.js"></script>
     <script src="js/plugins/smooth-scrollbar.min.js"></script>
-    <script src="js/plugins/sweetalert.min.js"></script>
-
 
 
     <?php
     // Handling feedback display
-    if (isset($_SESSION['feedback'])) {
-    ?>
-        <script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Success!',
-                text: "<?php echo $_SESSION['feedback']; ?>",
-                confirmButtonText: 'OK'
-            });
-        </script>
-    <?php
-        unset($_SESSION['feedback']); // Clear feedback message
 
-    }
-    if (isset($_SESSION['errors'])) {
+    if (isset($_SESSION['success_message'])) {
     ?>
         <script>
-            Swal.fire({
-                icon: 'error',
-                title: 'Error!',
-                text: "<?php echo $_SESSION['errors']; ?>",
-                confirmButtonText: 'OK'
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: "<?php echo $_SESSION['success_message']; ?>",
+                    confirmButtonText: 'OK'
+                });
             });
         </script>
     <?php
-        unset($_SESSION['errors']); // Clear feedback message
+        unset($_SESSION['success_message']); // Clear feedback message
+    }
+    if (isset($_SESSION['error_message'])) {
+    ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: "<?php echo $_SESSION['error_message']; ?>",
+                    confirmButtonText: 'OK'
+                });
+            });
+        </script>
+    <?php
+        unset($_SESSION['error_message']); // Clear feedback message
     }
     ?>
 

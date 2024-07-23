@@ -12,7 +12,8 @@ if (isset($_POST['register'])) {
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
         $_SESSION['error_message'] = "User Already Exist";
-    } else {
+    } 
+    else {
         function capitalize($string)
         {
             return ucwords(strtolower(trim($string)));
