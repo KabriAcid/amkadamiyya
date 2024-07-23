@@ -24,6 +24,7 @@ function isValidPhoneNumber($parent_phone_number) {
 
 // Adding new student
 if (isset($_POST['applyAdmission'])) {
+    
     $registration_id = md5(uniqid());
 
     $enrolling_class = $_POST['enrolling_class'];
