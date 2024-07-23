@@ -2,6 +2,8 @@
 <?php
 session_start();
 require_once "../../config/database.php";
+
+
 function changeCase($data)
 {
     $data = trim($data);
@@ -105,7 +107,7 @@ if (isset($_POST['applyAdmission'])) {
 // Checking admission status
 
 if (isset($_POST['checkStatus'])) {
-    $application_code = $_POST['application_code'];
+    $application_code = mysqli_real_escape_string($conn, trim($_POST['application_code']));
 
     $stmt = $conn->prepare("SELECT * FROM `applicants` WHERE `application_code` = ?");
     $stmt->bind_param("s", $application_code);
@@ -124,7 +126,5 @@ if (isset($_POST['checkStatus'])) {
         $_SESSION['errorMessage'] = "Invalid application code.";
     }
     $stmt->close();
-    header('Location: ' . $_SERVER['PHP_SELF']);
-    exit();
 }
 ?>

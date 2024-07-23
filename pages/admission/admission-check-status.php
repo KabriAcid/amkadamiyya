@@ -1,5 +1,5 @@
 <?php
-require_once "admission-process.php";
+    require_once "admission-process.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
