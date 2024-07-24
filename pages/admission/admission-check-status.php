@@ -14,7 +14,7 @@
     <main>
         <section>
             <div class="container pt-5">
-                <h3 class="header">Admission Status</h3>
+                <h3 class="header">Check Admission Status</h3>
                 <p>Please enter the <span class="text-success">Application Code</span> to check for admission status.</p>
                 <form action="" method="post">
                     <div class="text-center py-2 mt-3">
@@ -23,7 +23,7 @@
                                 <div class="input-group mb-4">
                                     <span class="input-group-text"><i class="fas fa-search" aria-hidden="true"></i></span>
                                     <input class="form-control" placeholder="Enter Application Code" type="text" name="application_code" required tabindex="1">
-                                    <input type="submit" name="checkStatus" class="btn bg-gradient-dark w-auto me-1 mb-0" style="border-radius: 0px 4px 4px 0px;">
+                                    <input type="submit" name="checkStatus" class="btn bg-gradient-dark w-auto me-1 mb-0" style="border-radius: 0px 4px 4px 0px;" tabindex="2">
                                 </div>
                             </div>
                         </div>
