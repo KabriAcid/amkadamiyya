@@ -31,20 +31,16 @@ if (isset($_GET['student_id'])) {
 }
 
 // Check if staff session is set
-if (!isset($_SESSION['staff'])) {
+if (isset($_SESSION['staff'])) {
+    // Check if staff position ID is valid
+    $position_id = $_SESSION['staff']['position_id'];
+    
+    // Set the disabled attribute if the position is not allowed to edit certain profiles
+    $disabled = !in_array($position_id, [1, 2, 3, 5]) ? 'disabled' : '';
+} else {
     redirect('admin-logout.php');
 }
 
-// Check if staff position ID is valid
-$position_id = $_SESSION['staff']['position_id'];
-
-// If position ID is not in the allowed list, log out
-if (!in_array($position_id, [1, 2, 3, 5])) {
-    redirect('admin-logout.php');
-}
-
-// Set the disabled attribute if the position is not allowed to edit certain profiles
-$disabled = !in_array($position_id, [1, 2, 3, 5]) ? 'disabled' : '';
 
 ?>
 

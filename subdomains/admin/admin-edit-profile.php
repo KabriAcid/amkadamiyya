@@ -30,18 +30,13 @@ if (isset($_SESSION['staff'])) {
 
     // Retrieve position_number
     $position_number = $position['position_number'];
+    // Set the disabled attribute if the position is not allowed to edit certain profiles
+    $disabled = !in_array($position_id, [1, 2, 3, 5]) ? 'disabled' : '';
 
-    // Check if position_number is not in the allowed list
-    if (!in_array($position_number, [1, 2, 3, 5])) {
-        // Logout the staff and redirect
-        redirect('admin-logout.php');
-    }
 } else {
     // Redirect to logout if session is not set
     redirect('admin-logout.php');
 }
-    // Set the disabled attribute if the position is not allowed to edit certain profiles
-    $disabled = !in_array($position_id, [1, 2, 3, 5]) ? 'disabled' : '';
 ?>
 <!DOCTYPE html>
 <html lang="en">

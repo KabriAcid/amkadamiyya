@@ -11,7 +11,8 @@ function redirect($url) {
 // Check if staff session and staff ID are set
 if (!isset($_SESSION['staff']['position_id'])) {
     redirect('admin-logout.php');
-} else {
+} 
+else {
     $position_id = $_SESSION['staff']['position_id'];
 }
 
