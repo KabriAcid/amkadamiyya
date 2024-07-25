@@ -3,7 +3,8 @@
 include "_UPDATE.php";
 
 // Redirect function for convenience
-function redirect($url) {
+function redirect($url)
+{
     header("Location: $url");
     exit();
 }
@@ -11,8 +12,7 @@ function redirect($url) {
 // Check if staff session and staff ID are set
 if (!isset($_SESSION['staff']['position_id'])) {
     redirect('admin-logout.php');
-} 
-else {
+} else {
     $position_id = $_SESSION['staff']['position_id'];
 }
 
@@ -288,12 +288,19 @@ if (!in_array($position_id, [1, 2, 3, 5])) {
                                         </div>
                                     </div>
                                     <!--  -->
+                                    <?php
+                                    // Ensure salary is a numeric value and convert it to a float
+                                    $salary = isset($staff['salary']) ? $staff['salary'] : 0;
+                                    $salary = is_numeric($salary) ? (float) $salary : 0;
+                                    ?>
+
                                     <div class="col-md-6">
                                         <label>Salary</label>
                                         <div class="input-group mb-3">
-                                            <input type="text" value="&#8358;<?php echo number_format($staff['salary']); ?>.00" class="form-control" name=" salary">
+                                            <input type="text" value="&#8358;<?php echo number_format($salary, 2); ?>" class="form-control" name="salary">
                                         </div>
                                     </div>
+
                                     <!--  -->
                                     <div class="col-md-6">
                                         <label>Account Number</label>

@@ -91,7 +91,7 @@ if (isset($_SESSION['staff'])) {
                                     <strong class="text-dark">Email: </strong>&nbsp; <?php echo $staff['email']; ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Phone Number: </strong>&nbsp;  <?php echo substr($staff['phone_number'], 0, 3) . '-' . substr($staff['phone_number'], 3, 4) . '-' . substr($staff['phone_number'], 7); ?>
+                                    <strong class="text-dark">Phone Number: </strong>&nbsp; <?php echo substr($staff['phone_number'], 0, 3) . '-' . substr($staff['phone_number'], 3, 4) . '-' . substr($staff['phone_number'], 7); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Class: </strong>&nbsp;
@@ -143,7 +143,12 @@ if (isset($_SESSION['staff'])) {
                                     <strong class="text-dark">LGA: </strong>&nbsp; <?php echo ucfirst($staff['lga']); ?>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
-                                    <strong class="text-dark">Salary: </strong>&nbsp;&#8358; <?php echo number_format($staff['salary']) ?? 0; ?>.00
+                                    <?php
+                                    // Ensure salary is a numeric value, default to 0 if it's not
+                                    $salary = isset($staff['salary']) && is_numeric($staff['salary']) ? (float) $staff['salary'] : 0;
+                                    ?>
+                                    <strong class="text-dark">Salary: </strong>&nbsp;&#8358; <?php echo number_format($salary, 2); ?>
+
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Account Number: </strong>&nbsp; <?php echo $staff['account_number']; ?>
