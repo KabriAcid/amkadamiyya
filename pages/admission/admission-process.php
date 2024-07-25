@@ -24,21 +24,22 @@ if (isset($_POST['applyAdmission'])) {
     $registration_id = md5(uniqid());
 
     $enrolling_class = $_POST['enrolling_class'];
-    $result = mysqli_query($conn, "SELECT * FROM `classes` WHERE `general_class_id` = '$enrolling_class'");
+    $result = mysqli_query($conn, "SELECT * FROM `classes` WHERE `class_id` = '$enrolling_class'");
     if ($result && mysqli_num_rows($result) > 0) {
         $class = mysqli_fetch_assoc($result);
         $section_id = $class['section_id'];
-    } else {
+    } 
+    else {
         $section_id = null; // or handle the error appropriately
     }
 
     $first_name = changeCase($_POST['first_name']);
     $second_name = changeCase($_POST['second_name']);
     $last_name = changeCase($_POST['last_name']);
-    $birth_date = trim($_POST['birth_date']);
-    $state = changeCase($_POST['state']);
-    $lga = changeCase($_POST['lga']);
-    $gender = trim($_POST['gender']);
+    $birth_date = $_POST['birth_date'];
+    $state = $_POST['state'];
+    $lga = $_POST['lga'];
+    $gender = $_POST['gender'];
     $parent_first_name = changeCase($_POST['parent_first_name']);
     $parent_last_name = changeCase($_POST['parent_last_name']);
     $parent_email = trim($_POST['parent_email']);
@@ -46,17 +47,6 @@ if (isset($_POST['applyAdmission'])) {
     $parent_phone_number = trim($_POST['parent_phone_number']);
 
     $errors = [];
-
-    $mandatoryFields = [
-        'first_name', 'last_name', 'birth_date', 'state', 'lga', 'gender',
-        'parent_first_name', 'parent_last_name', 'parent_address'
-    ];
-
-    foreach ($mandatoryFields as $field) {
-        if (empty($_POST[$field])) {
-            $errors[] = ucfirst(str_replace('_', ' ', $field)) . " is required";
-        }
-    }
 
     if (!isValidPhoneNumber($parent_phone_number)) {
         $errors[] = "Please enter a valid Nigerian phone number.";
@@ -92,7 +82,7 @@ if (isset($_POST['applyAdmission'])) {
         }
         $stmt->close();
     } else {
-        $_SESSION['error_message'] = implode('<br>', $errors);
+        $_SESSION['error_message'] = "Error Occured";
     }
 }
 
