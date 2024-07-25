@@ -22,8 +22,7 @@
                     <form action="" method="post">
                         <div class="card">
                             <div class="card-header pb-0 p-3">
-                                <h4 class="mb-0 text-dark text-gradient text-center">General Settings</h4>
-                                <p class="text-sm">Here you can truncate data for all the following database tables</p>
+                                <h4 class="mb-0 text-dark text-gradient text-center">Truncate Tables</h4>
                             </div>
                             <hr class="horizontal dark">
                             <div class="card-body p-3">
