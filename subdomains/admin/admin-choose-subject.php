@@ -3,12 +3,12 @@ session_start();
 require_once '../../config/database.php';
 
 // Retrieve section and class IDs from session
-$sectionId = $_SESSION['staff']['section_id'];
-$classId = $_SESSION['staff']['class_id'];
+$section_id = $_SESSION['staff']['section_id'];
+$class_id = $_SESSION['staff']['class_id'];
 
 // Prepare and execute the query to get subjects for the section
 $stmt = $conn->prepare('SELECT * FROM section_subjects WHERE section_id = ?');
-$stmt->bind_param('i', $sectionId);
+$stmt->bind_param('i', $section_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -80,7 +80,7 @@ if (isset($_SESSION['staff'])) {
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $sql = "SELECT subject_id FROM results WHERE class_id = '$class_id'";
+                                            $sql = "SELECT DISTINCT(subject_id, status) FROM results WHERE class_id = '$class_id'";
                                             $result = mysqli_query($conn, $sql);
                                             $count = 1;
 
@@ -91,11 +91,18 @@ if (isset($_SESSION['staff'])) {
                                                     <td class="text-sm text-left font-weight-normal"><?php echo $count; ?></td>
                                                     <!-- Subject -->
                                                     <td class="text-sm text-center font-weight-normal">
-                                                        <?php echo htmlspecialchars($orw['subject_id']); ?>
+                                                        <?php
+                                                        $subject_id = $row['subject_id'];
+                                                        $sql = "SELECT subject_name FROM subjects WHERE subject_id = '$subject_id'";
+                                                        $subject = mysqli_fetch_assoc(mysqli_query($conn, $sql));
+                                                        echo $subject['subject_name'];
+                                                        ?>
                                                     </td>
                                                     <!-- Upload Status -->
                                                     <td class="text-sm text-center font-weight-normal">
-
+                                                        <span class="badge badge-sm rounded <?php echo $row['status'] == 1 ? 'bg-gradient-success' : "bg-gradient-secondary"; ?>">
+                                                            <?php echo $row['status'] == 1 ? 'Active' : "Inactive"; ?>
+                                                        </span>
                                                     </td>
                                                 </tr>
                                             <?php
