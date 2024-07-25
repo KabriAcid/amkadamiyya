@@ -1,6 +1,12 @@
 <?php
 include "_UPDATE.php";
 
+// Redirect function for convenience
+function redirect($url) {
+    header("Location: $url");
+    exit();
+}
+
 // Check if alumni ID is set
 if (isset($_GET['alumni_id'])) {
     $alumni_id = $_GET['alumni_id'];
@@ -10,19 +16,28 @@ if (isset($_GET['alumni_id'])) {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $alumni_id);
     $stmt->execute();
-    $alumni = $stmt->get_result()->fetch_assoc();
+    $result = $stmt->get_result();
+
+    // Check if alumni exists
+    if ($result->num_rows > 0) {
+        $alumni = $result->fetch_assoc();
+    } else {
+        // Redirect if alumni does not exist
+        redirect('admin-alumni-list.php');
+    }
 } else {
-    header('Location: admin-alumni-list.php');
-    exit();
+    // Redirect if alumni_id is not set
+    redirect('admin-alumni-list.php');
 }
 
-// Check if staff position ID is set
-if (isset($_SESSION['staff'])) {
-    $position_id = $_SESSION['staff']['position_id'];
+// Check if staff position ID is set in session
+if (!isset($_SESSION['staff']['position_id'])) {
+    redirect('admin-logout.php');
 } else {
-    header('Location: admin-logout.php');
+    $position_id = $_SESSION['staff']['position_id'];
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 

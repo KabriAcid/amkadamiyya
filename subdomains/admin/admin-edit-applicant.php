@@ -1,6 +1,12 @@
 <?php
 include_once "_UPDATE.php";
 
+// Redirect function for convenience
+function redirect($url) {
+    header("Location: $url");
+    exit();
+}
+
 // Check if applicant ID is set
 if (isset($_GET['applicant_id'])) {
     $applicant_id = $_GET['applicant_id'];
@@ -10,19 +16,29 @@ if (isset($_GET['applicant_id'])) {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $applicant_id);
     $stmt->execute();
-    $applicant = $stmt->get_result()->fetch_assoc();
+    $result = $stmt->get_result();
+
+    // Check if applicant exists
+    if ($result->num_rows > 0) {
+        $applicant = $result->fetch_assoc();
+    } else {
+        // Redirect if applicant does not exist
+        redirect('admin-new-applicant.php');
+    }
 } else {
-    header('Location: admin-new-applicant.php');
-    exit();
+    // Redirect if applicant_id is not set
+    redirect('admin-new-applicant.php');
 }
 
 // Check if staff position ID is set
-if (isset($_SESSION['staff'])) {
+if (isset($_SESSION['staff']['position_id'])) {
     $position_id = $_SESSION['staff']['position_id'];
 } else {
-    header('Location: admin-logout.php');
+    // Redirect if staff position ID is not set
+    redirect('admin-logout.php');
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 

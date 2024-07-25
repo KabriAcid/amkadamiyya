@@ -2,8 +2,14 @@
 
 include "_UPDATE.php";
 
-// Check if staff ID is set
-if (isset($_GET['staff_id'])) {
+// Redirect function for convenience
+function redirect($url) {
+    header("Location: $url");
+    exit();
+}
+
+// Check if staff ID and position ID are set in the session
+if (isset($_GET['staff_id']) && isset($_SESSION['staff']['position_id'])) {
     $staff_id = $_GET['staff_id'];
     $position_id = $_SESSION['staff']['position_id'];
 
@@ -12,23 +18,31 @@ if (isset($_GET['staff_id'])) {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $staff_id);
     $stmt->execute();
-    $staff = $stmt->get_result()->fetch_assoc();
+    $result = $stmt->get_result();
 
+    // Check if staff exists
+    if ($result->num_rows > 0) {
+        $staff = $result->fetch_assoc();
+    } else {
+        // Redirect if staff does not exist
+        redirect('admin-staff-list.php');
+    }
+
+    // Check if position ID is not in allowed list
     if (!in_array($position_id, [1, 2, 3, 5])) {
-        header('Location: admin-staff-list.php');
+        redirect('admin-staff-list.php');
     }
 } else {
-    header('Location: admin-staff-list.php');
+    // Redirect if staff_id or position_id is not set
+    redirect('admin-staff-list.php');
 }
 
-
-// Check if staff position ID is set
-if (isset($_SESSION['staff'])) {
-    $position_id = $_SESSION['staff']['position_id'];
-} else {
-    header('Location: admin-logout.php');
+// Check if staff position ID is set in session
+if (!isset($_SESSION['staff']['position_id'])) {
+    redirect('admin-logout.php');
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 

@@ -2,6 +2,12 @@
 
 include "_UPDATE.php";
 
+// Redirect function for convenience
+function redirect($url) {
+    header("Location: $url");
+    exit();
+}
+
 // Check if student ID is set
 if (isset($_GET['student_id'])) {
     $student_id = $_GET['student_id'];
@@ -19,19 +25,16 @@ if (isset($_GET['student_id'])) {
         // Process student data as needed
     } else {
         // Redirect if student does not exist
-        header("Location: admin-student-list.php");
-        exit();
+        redirect("admin-student-list.php");
     }
 } else {
     // Redirect if student_id is not set
-    header("Location: admin-student-list.php");
-    exit();
+    redirect("admin-student-list.php");
 }
 
 // Check if staff position ID is set
 if (isset($_SESSION['staff'])) {
     $position_id = $_SESSION['staff']['position_id'];
-
 
     // Hindering staff from editing part of their profile
     $disabled = ''; // Default to no disabled attribute
