@@ -542,7 +542,7 @@ if (isset($_SESSION['staff'])) {
                      ?>
                         <li class="nav-item">
                            <a class="nav-link" href="admin-general-settings.php">
-                              <span class="sidenav-normal"> General Settings </span>
+                              <span class="sidenav-normal"> Truncate Data </span>
                            </a>
                         </li>
                      <?php
