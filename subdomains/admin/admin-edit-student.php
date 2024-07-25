@@ -21,7 +21,6 @@ if (isset($_GET['student_id'])) {
     // Check if student exists
     if ($result->num_rows > 0) {
         $student = $result->fetch_assoc();
-        // Process student data as needed
     } else {
         // Redirect if student does not exist
         redirect("admin-student-list.php");
@@ -31,20 +30,24 @@ if (isset($_GET['student_id'])) {
     redirect("admin-student-list.php");
 }
 
-// Check if staff position ID is set
-if (isset($_SESSION['staff'])) {
-    $position_id = $_SESSION['staff']['position_id'];
-    // Hindering staff from editing part of their profile
-    $disabled = ''; // Default to no disabled attribute
-
-    if (!in_array($position_id, [1, 2, 3, 5])) {
-        $disabled = 'disabled';
-    }
-} else {
-    header('Location: admin-logout.php');
+// Check if staff session is set
+if (!isset($_SESSION['staff'])) {
+    redirect('admin-logout.php');
 }
 
+// Check if staff position ID is valid
+$position_id = $_SESSION['staff']['position_id'];
+
+// If position ID is not in the allowed list, log out
+if (!in_array($position_id, [1, 2, 3, 5])) {
+    redirect('admin-logout.php');
+}
+
+// Set the disabled attribute if the position is not allowed to edit certain profiles
+$disabled = !in_array($position_id, [1, 2, 3, 5]) ? 'disabled' : '';
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
