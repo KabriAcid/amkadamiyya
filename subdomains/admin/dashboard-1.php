@@ -140,7 +140,7 @@
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Uploaded Subjects</p>
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Uploaded Classes</p>
                                 <h6 class="font-weight-bolder mb-0">
                                     <span>
                                         <?php

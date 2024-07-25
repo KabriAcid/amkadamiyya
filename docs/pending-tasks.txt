@@ -13,6 +13,7 @@
 - Improve the general alert section.
 - Enhance the school session table.
 - Improve payment functionalities.
+- Fix the admission ID issues for SSS Students.
 - Ensure the application search section works properly.
 - Optimize the blog section.
 - Enhance the functionality of the results upload status.
