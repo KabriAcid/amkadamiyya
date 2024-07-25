@@ -1,5 +1,23 @@
 <?php
 require_once "_CREATE.php";
+// Redirect function for convenience
+function redirect($url)
+{
+    header("Location: $url");
+    exit();
+}
+// Check if staff position ID is set
+if (isset($_SESSION['staff'])) {
+    $position_id = $_SESSION['staff']['position_id'];
+    // Hindering staff from editing part of their profile
+    $disabled = ''; // Default to no disabled attribute
+
+    if (!in_array($position_id, [1, 2, 3, 5])) {
+        redirect('admin-logout.php');
+    }
+} else {
+    redirect('admin-logout.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,7 +29,7 @@ require_once "_CREATE.php";
 
 <body class="g-sidenav-show bg-info-soft">
     <?php
-        include "inc/admin-sidebar.php";
+    include "inc/admin-sidebar.php";
     ?>
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
@@ -32,25 +50,21 @@ require_once "_CREATE.php";
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label for="first_name">First Name</label>
-                                        <input type="text" class="form-control" name="first_name"
-                                            placeholder="Enter first name" required>
+                                        <input type="text" class="form-control" name="first_name" placeholder="Enter first name" required>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="second_name">Second Name</label>
-                                        <input type="text" class="form-control" name="second_name"
-                                            placeholder="Enter second name">
+                                        <input type="text" class="form-control" name="second_name" placeholder="Enter second name">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label for="last_name">Last Name</label>
-                                        <input type="text" class="form-control" name="last_name"
-                                            placeholder="Enter last name" required>
+                                        <input type="text" class="form-control" name="last_name" placeholder="Enter last name" required>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="index_no">WAEC Index No</label>
-                                        <input type="text" class="form-control" name="index_no" placeholder="001"
-                                            maxlength="3">
+                                        <input type="text" class="form-control" name="index_no" placeholder="001" maxlength="3">
                                     </div>
                                 </div>
                                 <div class="row">
@@ -73,20 +87,17 @@ require_once "_CREATE.php";
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="position_held">Position Held</label>
-                                        <input type="text" class="form-control" name="position_held"
-                                            placeholder="Enter position held">
+                                        <input type="text" class="form-control" name="position_held" placeholder="Enter position held">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-8">
                                         <label for="email">Email</label>
-                                        <input type="email" class="form-control" name="email"
-                                            placeholder="Enter email address" required>
+                                        <input type="email" class="form-control" name="email" placeholder="Enter email address" required>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label for="phone_number">Phone Number</label>
-                                        <input type="tel" class="form-control" name="phone_number"
-                                            placeholder="Enter phone number">
+                                        <input type="tel" class="form-control" name="phone_number" placeholder="Enter phone number">
                                     </div>
                                 </div>
                                 <div class="row">
@@ -99,11 +110,11 @@ require_once "_CREATE.php";
                                             $result = mysqli_query($conn, $sql);
 
                                             while ($row = mysqli_fetch_assoc($result)) {
-                                                ?>
+                                            ?>
                                                 <option value="<?php echo $row['state_name']; ?>">
                                                     <?php echo $row['state_name'] ?>
                                                 </option>
-                                                <?php
+                                            <?php
                                             }
                                             ?>
                                         </select>
@@ -121,18 +132,15 @@ require_once "_CREATE.php";
                                 <div class="row">
                                     <div class="form-group col-md-8">
                                         <label for="address">Address</label>
-                                        <input type="text" class="form-control" name="address"
-                                            placeholder="Enter address">
+                                        <input type="text" class="form-control" name="address" placeholder="Enter address">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label for="nin_number">NIN Number</label>
-                                        <input type="text" class="form-control" name="nin_number"
-                                            placeholder="Enter NIN number" required maxlength="11">
+                                        <input type="text" class="form-control" name="nin_number" placeholder="Enter NIN number" required maxlength="11">
                                     </div>
                                 </div>
                                 <div class="text-end mt-3">
-                                    <button type="submit" class="btn bg-gradient-success"
-                                        name="addalumni">Upload</button>
+                                    <button type="submit" class="btn bg-gradient-success" name="addalumni">Upload</button>
                                 </div>
                             </form>
 
@@ -141,7 +149,7 @@ require_once "_CREATE.php";
                 </div>
             </div>
         </div>
-        <?php include "inc/admin-footer.php";?>
+        <?php include "inc/admin-footer.php"; ?>
     </main>
 
 
@@ -151,9 +159,9 @@ require_once "_CREATE.php";
 
     <?php
     if (isset($_SESSION['success_message'])) {
-        ?>
+    ?>
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('DOMContentLoaded', function() {
                 Swal.fire({
                     title: "Successful",
                     text: "<?php echo $_SESSION['success_message']; ?>",
@@ -163,23 +171,23 @@ require_once "_CREATE.php";
                 })
             })
         </script>
-        <?php
+    <?php
         unset($_SESSION['success_message']);
     } else if (isset($_SESSION['error_message'])) {
-        ?>
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    Swal.fire({
-                        title: "Error",
-                        text: "<?php echo $_SESSION['error_message']; ?>",
-                        timer: 3000,
-                        showConfirmButton: true,
-                        icon: 'error'
-                    })
+    ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: "Error",
+                    text: "<?php echo $_SESSION['error_message']; ?>",
+                    timer: 3000,
+                    showConfirmButton: true,
+                    icon: 'error'
                 })
-            </script>
-            <?php
-            unset($_SESSION['error_message']);
+            })
+        </script>
+    <?php
+        unset($_SESSION['error_message']);
     }
     ?>
 
