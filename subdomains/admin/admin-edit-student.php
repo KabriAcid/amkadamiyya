@@ -11,7 +11,21 @@ if (isset($_GET['student_id'])) {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $student_id);
     $stmt->execute();
-    $student = $stmt->get_result()->fetch_assoc();
+    $result = $stmt->get_result();
+
+    // Check if student exists
+    if ($result->num_rows > 0) {
+        $student = $result->fetch_assoc();
+        // Process student data as needed
+    } else {
+        // Redirect if student does not exist
+        header("Location: admin-student-list.php");
+        exit();
+    }
+} else {
+    // Redirect if student_id is not set
+    header("Location: admin-student-list.php");
+    exit();
 }
 
 // Check if staff position ID is set

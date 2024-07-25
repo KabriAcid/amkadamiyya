@@ -49,7 +49,7 @@
                                     </td>
                                     <!-- Position -->
                                     <td class="align-middle text-center text-sm">
-                                        <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                        <span class="text-secondary text-xs font-weight-bold">
                                             <?php
                                             $position_id = $row['position_id'];
                                             $sql = "SELECT * FROM `school_post` WHERE `position_id` = '$position_id'";

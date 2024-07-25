@@ -11,7 +11,7 @@ if (isset($_POST['register'])) {
     $sql = "SELECT * FROM `staff` WHERE `email` = '$email' AND 'phone_number' = '$phone_number'";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
-        $_SESSION['error_message'] = "User Already Exist";
+        $_SESSION['error_message'] = "Staff Already Exist";
     } else {
         function capitalize($string)
         {
@@ -140,7 +140,7 @@ if (isset($_POST['addStudent'])) {
     function generateStudentID($conn, $section_id, $entry_year)
     {
 
-        $sql = "SELECT * FROM `sections` WHERE `section_id` = '$section_id'";
+        $sql = "SELECT * FROM `sections` WHERE `general_section_id` = '$section_id'";
         $result = mysqli_query($conn, $sql);
         $section = mysqli_fetch_assoc($result);
 
@@ -168,8 +168,7 @@ if (isset($_POST['addStudent'])) {
 
     $result = mysqli_query($conn, "SELECT * FROM `classes` WHERE `class_id` = '$class_id'");
     $class = mysqli_fetch_assoc($result);
-
-    $section_id = $class['section_id'];
+    $section_id = $class['general_section_id'];
 
     function changeCase($string)
     {
