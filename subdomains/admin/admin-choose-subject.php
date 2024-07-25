@@ -2,10 +2,11 @@
 session_start();
 require_once '../../config/database.php';
 
+// Retrieve section and class IDs from session
 $sectionId = $_SESSION['staff']['section_id'];
 $classId = $_SESSION['staff']['class_id'];
 
-// Prepare the query
+// Prepare and execute the query to get subjects for the section
 $stmt = $conn->prepare('SELECT * FROM section_subjects WHERE section_id = ?');
 $stmt->bind_param('i', $sectionId);
 $stmt->execute();
@@ -23,6 +24,10 @@ while ($row = $result->fetch_assoc()) {
     $subjects[] = $subject;
 }
 
+// Sort subjects based on 'uploaded' status
+usort($subjects, function ($a, $b) {
+    return $a['uploaded'] <=> $b['uploaded'];
+});
 // Check if staff position ID is set
 if (isset($_SESSION['staff'])) {
     $position_id = $_SESSION['staff']['position_id'];
@@ -35,14 +40,12 @@ if (isset($_SESSION['staff'])) {
 <html lang="en">
 
 <head>
-    <title>Select Subject</title>
+    <title>Choose Subject</title>
     <?php include "inc/admin-header.php"; ?>
 </head>
 
 <body class="g-sidenav-show bg-info-soft">
-    <?php
-    include "inc/admin-sidebar.php";
-    ?>
+    <?php include "inc/admin-sidebar.php"; ?>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         <?php require "inc/admin-navbar.php"; ?>
         <!-- Main content  -->
@@ -59,7 +62,6 @@ if (isset($_SESSION['staff'])) {
                                     </option>
                                 <?php } ?>
                             </select>
-
                             <div class="form-group mb-0 mt-3 text-center">
                                 <input type="submit" name="chooseSubject" value="Choose" class="mb-0 btn bg-gradient-success">
                             </div>
@@ -90,12 +92,13 @@ if (isset($_SESSION['staff'])) {
                                                     <td class="text-sm text-center font-weight-normal">
                                                         <?php echo htmlspecialchars($subject['subject_name']); ?>
                                                     </td>
-                                                    <!-- Status -->
+                                                    <!-- Upload Status -->
                                                     <td class="text-sm text-center font-weight-normal">
-                                                        <?php
-                                                            
-
-                                                        ?>
+                                                        <?php if ($subject['uploaded']) { ?>
+                                                            <span style="color: green;">&#10004; Uploaded</span>
+                                                        <?php } else { ?>
+                                                            <span style="color: red;">&#10008; Not Uploaded</span>
+                                                        <?php } ?>
                                                     </td>
                                                 </tr>
                                             <?php $count++;
