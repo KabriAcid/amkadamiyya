@@ -1,7 +1,6 @@
 <?php
 session_start();
 require_once "../../config/database.php";
-print_r($_SESSION['staff']);
 
 if (isset($_SESSION['staff'])) {
 

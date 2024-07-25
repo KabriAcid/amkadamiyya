@@ -3,7 +3,6 @@
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>Set Defaults</title>
     <?php include "inc/admin-header.php"; ?>
@@ -13,7 +12,6 @@
     <?php
     include "inc/admin-sidebar.php";
     ?>
-
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         <?php require "inc/admin-navbar.php"; ?>
         <div class="container-fluid py-4">
