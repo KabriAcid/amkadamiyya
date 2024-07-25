@@ -48,10 +48,10 @@ if (isset($_GET['delete_notification'])) {
  * Example usage:
  *
  * To delete a subject with ID 1:
- * `http://example.com/delete.php?delete_subject=1`
+ * `http://example.com/_DELETE.php?delete_subject=1`
  *
  * To delete all notifications:
- * `http://example.com/delete.php?delete_notification=1`
+ * `http://example.com/_DELETE.php?delete_notification=1`
  */
 if (isset($_GET['delete_notification'])) {
     $staff_id = $_GET['delete_notification'];

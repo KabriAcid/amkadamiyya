@@ -1,5 +1,6 @@
 <?php
-include_once "update.php";
+include_once "_UPDATE.php";
+
 if (isset($_SESSION['staff'])) {
     $staff_id = $_SESSION['staff']['staff_id'];
     $position_id = $_SESSION['staff']['position_id'];
@@ -22,10 +23,11 @@ if (isset($_SESSION['staff'])) {
     // Hindering staff from editing part of their profile
     $disabled = ''; // Default to no disabled attribute
 
-    if (in_array($position_number, [0])) {
+    if (!in_array($position_number, [1, 2, 3, 5])) {
         $disabled = 'disabled';
     }
-} else {
+} 
+else {
     header('Location: admin-logout.php');
 }
 ?>

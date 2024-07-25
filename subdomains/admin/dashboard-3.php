@@ -111,7 +111,7 @@
                         </div>
                         <div class="col-4 text-end">
                             <div class="icon icon-shape bg-gradient-dark shadow text-center border-radius-md">
-                                <i class="ni ni-upload-96 text-lg opacity-10" aria-hidden="true"></i>
+                                <i class="ni ni-cloud-upload-96 text-lg opacity-10" aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>

@@ -12,8 +12,7 @@ if (isset($_POST['register'])) {
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
         $_SESSION['error_message'] = "User Already Exist";
-    } 
-    else {
+    } else {
         function capitalize($string)
         {
             return ucwords(strtolower(trim($string)));
@@ -52,7 +51,15 @@ if (isset($_POST['register'])) {
 
         // Handle file upload for photo
         if (!empty($_FILES['photo']['name'])) {
-            $photo = "uploads/" . strtoupper(uniqid((substr($first_name, 0) . '-' . $last_name))) . '.' . basename(pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION));
+            // Check file size
+            if ($_FILES['photo']['size'] > 3 * 1024 * 1024) { // 3MB in bytes
+                $_SESSION['error_message'] = "Photo size exceeds 3MB!";
+                // Redirect back to the same page
+                header("Location: " . $_SERVER['PHP_SELF']);
+                exit();
+            }
+
+            $photo = "uploads/" . strtoupper($first_name . ' ' . $last_name . '-' . uniqid()) . '.' . basename(pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION));
             if (!move_uploaded_file($_FILES['photo']['tmp_name'], $photo)) {
                 $_SESSION['error_message'] = "Photo upload failed!";
                 // Redirect back to the same page
@@ -62,6 +69,7 @@ if (isset($_POST['register'])) {
         } else {
             $photo = 'uploads/default.png';
         }
+
 
         function isValidPhoneNumber($phone_number)
         {
@@ -144,8 +152,7 @@ if (isset($_POST['addStudent'])) {
             $current_serial = $serial['current_serial'] + 1;
             $sql = "UPDATE `serial_numbers` SET `current_serial` = '$current_serial' WHERE `section_id` = '$section_id' AND `entry_year` = '$entry_year'";
             mysqli_query($conn, $sql);
-        } 
-        else {
+        } else {
             $current_serial = $section['serial_start'];
             $sql = "INSERT INTO serial_numbers (section_id, entry_year, current_serial) VALUES ('$section_id', '$entry_year', '$current_serial')";
             mysqli_query($conn, $sql);
@@ -231,7 +238,7 @@ if (isset($_POST['addStudent'])) {
         VALUES ('$class_id', '$section_id', '$admission_id', 1, '$password', '$first_name', '$second_name', '$last_name', '$birth_date', '$state', '$lga', '$gender', '$parent_first_name', '$parent_last_name', '$parent_email', '$parent_address', '$parent_phone_number')";
 
         if (mysqli_query($conn, $sql)) {
-            $_SESSION['success_message'] = "Student added successfully!"; 
+            $_SESSION['success_message'] = "Student added successfully!";
             header("Location: " . $_SERVER['PHP_SELF']);
             exit();
         } else {
@@ -412,7 +419,7 @@ if (isset($_POST['approveBtn'])) {
     if ($applicant) {
 
         $class_id = $applicant['enrolling_class'];
-        
+
         $entry_year = date('y');
         // Determing section base on class
         $sql = "SELECT * FROM `classes` WHERE `class_id` = '$class_id'";
@@ -741,7 +748,8 @@ if (isset($_POST['approveBtn'])) {
 ========================================*/
 
 // Function to sanitize input
-function sanitize_input($data, $conn) {
+function sanitize_input($data, $conn)
+{
     return $conn->real_escape_string(htmlspecialchars(ucwords(strtolower(trim($data)))));
 }
 

@@ -1,6 +1,6 @@
 <?php
 
-include "update.php";
+include "_UPDATE.php";
 
 // Check if staff ID is set
 if (isset($_GET['staff_id'])) {

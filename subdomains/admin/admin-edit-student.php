@@ -1,6 +1,6 @@
 <?php
 
-include "update.php";
+include "_UPDATE.php";
 
 // Check if student ID is set
 if (isset($_GET['student_id'])) {

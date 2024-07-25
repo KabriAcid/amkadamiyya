@@ -1,6 +1,6 @@
 <?php
 
-require_once "update.php";
+require_once "_UPDATE.php";
 
 if (isset($_SESSION['staff'])) {
     $staff_id = $_SESSION['staff']['staff_id'];
