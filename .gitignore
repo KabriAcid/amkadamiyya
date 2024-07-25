@@ -1,0 +1,13 @@
+# Ignore the database dump file
+/sql/latest-amka-db.sql
+
+# Ignore other common files
+*.log
+*.tmp
+*.bak
+*.swp
+
+# Ignore directories
+node_modules/
+vendor/
+.DS_Store
