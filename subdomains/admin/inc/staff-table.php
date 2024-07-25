@@ -34,7 +34,7 @@
                         </thead>
                         <tbody>
                             <?php
-                            $sql = "SELECT * FROM `staff` ORDER BY `position_id`, `first_name`, `last_name`";
+                            $sql = "SELECT * FROM `staff` WHERE position_id != 1 ORDER BY `position_id`, `first_name`, `last_name`";
                             $result = mysqli_query($conn, $sql);
                             while ($row = mysqli_fetch_assoc($result)) {
                             ?>
