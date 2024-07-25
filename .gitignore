@@ -6,6 +6,7 @@
 *.tmp
 *.bak
 *.swp
+*.sql
 
 # Ignore directories
 node_modules/
