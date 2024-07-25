@@ -1,35 +1,47 @@
 <?php
 include_once "_UPDATE.php";
 
+// Redirect function for convenience
+function redirect($url)
+{
+    header("Location: $url");
+    exit();
+}
+
+// Check if staff session is set
 if (isset($_SESSION['staff'])) {
+    // Retrieve staff_id and position_id from session
     $staff_id = $_SESSION['staff']['staff_id'];
     $position_id = $_SESSION['staff']['position_id'];
 
+    // Prepare and execute SQL query to get staff details
     $stmt = $conn->prepare("SELECT * FROM `staff` WHERE `staff_id` = ?");
     $stmt->bind_param("i", $staff_id);
     $stmt->execute();
     $result = $stmt->get_result();
     $staff = $result->fetch_assoc();
 
+    // Prepare and execute SQL query to get position details
     $sql = $conn->prepare("SELECT * FROM `school_position` WHERE `position_id` = ?");
     $sql->bind_param("i", $position_id);
     $sql->execute();
     $positions = $sql->get_result();
     $position = $positions->fetch_assoc();
 
+    // Retrieve position_number
     $position_number = $position['position_number'];
 
-
-    // Hindering staff from editing part of their profile
-    $disabled = ''; // Default to no disabled attribute
-
+    // Check if position_number is not in the allowed list
     if (!in_array($position_number, [1, 2, 3, 5])) {
-        $disabled = 'disabled';
+        // Logout the staff and redirect
+        redirect('admin-logout.php');
     }
-} 
-else {
-    header('Location: admin-logout.php');
+} else {
+    // Redirect to logout if session is not set
+    redirect('admin-logout.php');
 }
+    // Set the disabled attribute if the position is not allowed to edit certain profiles
+    $disabled = !in_array($position_id, [1, 2, 3, 5]) ? 'disabled' : '';
 ?>
 <!DOCTYPE html>
 <html lang="en">
