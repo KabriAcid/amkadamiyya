@@ -161,6 +161,8 @@ if (isset($_POST['addStudent'])) {
         $admission_id = sprintf('AMK/%d/%d', $entry_year, $current_serial);
         return $admission_id;
     }
+
+
     // Input sanitization and validation
     $class_id = $_POST['class_id'];
 
@@ -540,7 +542,7 @@ if (isset($_POST['uploadSubject'])) {
 
         // Insert scores into the results table
         $sql = "INSERT INTO `results` (`student_id`, `subject_id`, `class_id`, `first_test`, `second_test`, `exam`, `total`, `grade`, `remark`, `status`)
-                VALUES ('$student_id', '$subject_id', '$class_id', '$first_test', '$second_test', '$exam', '$total', '$grade', '$remark', 0)";
+                VALUES ('$student_id', '$subject_id', '$class_id', '$first_test', '$second_test', '$exam', '$total', '$grade', '$remark', 1)";
         if (!mysqli_query($conn, $sql)) {
             $_SESSION['error_message'] = "Error inserting scores: " . mysqli_error($conn);
             header("Location: " . $_SERVER['PHP_SELF']);

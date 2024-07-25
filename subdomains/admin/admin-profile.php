@@ -5,6 +5,7 @@ require_once "../../config/database.php";
 // Check if staff ID is set
 if (isset($_SESSION['staff'])) {
     $staff_id = $_SESSION['staff']['staff_id'];
+    $position_id = $_SESSION['staff']['position_id'];
 
     // Prepare SQL query with parameterized query
     $sql = "SELECT * FROM `staff` WHERE `staff_id` = ?";
@@ -12,16 +13,10 @@ if (isset($_SESSION['staff'])) {
     $stmt->bind_param("i", $staff_id);
     $stmt->execute();
     $staff = $stmt->get_result()->fetch_assoc();
-} else {
-    header('Location: admin-staff-list.php');
-    exit();
-}
-
-// Check if staff position ID is set
-if (isset($_SESSION['staff'])) {
-    $position_id = $_SESSION['staff']['position_id'];
-} else {
+} 
+ else {
     header('Location: admin-logout.php');
+    exit;
 }
 
 ?>

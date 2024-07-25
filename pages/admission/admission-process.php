@@ -24,11 +24,11 @@ function isValidPhoneNumber($parent_phone_number) {
 
 // Adding new student
 if (isset($_POST['applyAdmission'])) {
-    
+
     $registration_id = md5(uniqid());
 
     $enrolling_class = $_POST['enrolling_class'];
-    $result = mysqli_query($conn, "SELECT * FROM `classes` WHERE `class_id` = '$enrolling_class'");
+    $result = mysqli_query($conn, "SELECT * FROM `classes` WHERE `general_class_id` = '$enrolling_class'");
     $class = mysqli_fetch_assoc($result);
     $section_id = $class['section_id'];
 
@@ -65,26 +65,32 @@ if (isset($_POST['applyAdmission'])) {
     $md5_hash = md5(uniqid(rand(), true));
     $substring = substr($md5_hash, 0, 12);
     $application_code = strtoupper(insertHyphens($substring));
+    $admission_status = 0;
 
     if (empty($errors)) {
         $sql = "INSERT INTO `applicants` (`enrolling_class`, `section_id`, `first_name`, `second_name`, `last_name`, `birth_date`, `state`, `lga`, `gender`, `parent_first_name`, `parent_last_name`, `parent_email`, `parent_address`, `parent_phone_number`, `admission_status`, `application_code`, `registration_id`)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?)";
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("iisssssssssssss", $enrolling_class, $section_id, $first_name, $second_name, $last_name, $birth_date, $state, $lga, $gender, $parent_first_name, $parent_last_name, $parent_email, $parent_address, $parent_phone_number, $application_code, $registration_id);
+        if ($stmt === false) {
+            die('Prepare failed: ' . htmlspecialchars($conn->error));
+        }
+
+        $stmt->bind_param("iissssssssssssss", $enrolling_class, $section_id, $first_name, $second_name, $last_name, $birth_date, $state, $lga, $gender, $parent_first_name, $parent_last_name, $parent_email, $parent_address, $parent_phone_number, $admission_status, $application_code, $registration_id);
 
         if ($stmt->execute()) {
-            $_SESSION['registration_success'] = "Application submitted successful";
+            $_SESSION['registration_success'] = "Application submitted successfully";
             header("Location: " . $_SERVER['PHP_SELF']);
             exit();
         } else {
-            $_SESSION['error_message'] = "Error: " . $stmt->error;
+            $_SESSION['error_message'] = "Error: " . htmlspecialchars($stmt->error);
         }
         $stmt->close();
     } else {
         $_SESSION['error_message'] = implode('<br>', $errors);
     }
 }
+
 
 // Checking admission status
 if (isset($_POST['checkStatus'])) {

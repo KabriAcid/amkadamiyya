@@ -22,7 +22,7 @@ $result = $stmt->get_result();
 $subjects = [];
 while ($row = $result->fetch_assoc()) {
     $subjectId = $row['subject_id'];
-    $subjectStmt = $conn->prepare('SELECT subject_id, subject_name, uploaded FROM subjects WHERE subject_id = ?');
+    $subjectStmt = $conn->prepare('SELECT subject_id, subject_name FROM subjects WHERE subject_id = ?');
     $subjectStmt->bind_param('i', $subjectId);
     $subjectStmt->execute();
     $subjectResult = $subjectStmt->get_result();
@@ -31,10 +31,6 @@ while ($row = $result->fetch_assoc()) {
     $subjectStmt->close();
 }
 
-// Sort subjects based on 'uploaded' status
-usort($subjects, function($a, $b) {
-    return $a['uploaded'] <=> $b['uploaded'];
-});
 ?>
 <!-- HTML -->
 <!DOCTYPE html>
@@ -84,7 +80,7 @@ usort($subjects, function($a, $b) {
                                         <tbody>
                                             <?php
                                             // Prepare and execute query to get results based on class_id
-                                            $resultStmt = $conn->prepare('SELECT subject_id, status FROM results WHERE class_id = ?');
+                                            $resultStmt = $conn->prepare('SELECT DISTINCT subject_id, status FROM results WHERE class_id = ?');
                                             $resultStmt->bind_param('i', $class_id);
                                             $resultStmt->execute();
                                             $resultData = $resultStmt->get_result();

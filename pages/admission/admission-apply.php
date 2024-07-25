@@ -115,13 +115,26 @@ if (isset($_SESSION['registration_success'])) {
                                             <div class="input-group">
                                                 <select class="form-select" name="enrolling_class">
                                                     <?php
-                                                    // Fetch classes from database
-                                                    $sql = "SELECT * FROM `general_class`";
-                                                    $result = mysqli_query($conn, $sql);
-                                                    while ($class = mysqli_fetch_assoc($result)) {
-                                                        echo '<option value="' . htmlspecialchars($class['class_id']) . '">' . htmlspecialchars($class['class_name']) . '</option>';
+                                                    // Fetch classes from the database
+                                                    $stmt = $conn->prepare("SELECT DISTINCT general_class_id FROM `classes` WHERE class_name != 'null'");
+                                                    $stmt->execute();
+                                                    $result = $stmt->get_result();
+
+                                                    while ($class = $result->fetch_assoc()) {
+                                                        $class_id = $class['general_class_id'];
+
+                                                        // Fetch class details using the general_class_id
+                                                        $stmt2 = $conn->prepare("SELECT * FROM general_class WHERE class_id = ?");
+                                                        $stmt2->bind_param("i", $class_id);
+                                                        $stmt2->execute();
+                                                        $row = $stmt2->get_result()->fetch_assoc();
+
+                                                        if ($row) {
+                                                            echo '<option value="' . htmlspecialchars($row['class_id']) . '">' . htmlspecialchars($row['class_name']) . '</option>';
+                                                        }
                                                     }
                                                     ?>
+
                                                 </select>
                                             </div>
                                         </div>
