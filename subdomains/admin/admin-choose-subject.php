@@ -2,49 +2,52 @@
 session_start();
 require_once '../../config/database.php';
 
-// Retrieve section and class IDs from session
-$section_id = $_SESSION['staff']['section_id'];
-$class_id = $_SESSION['staff']['class_id'];
+// Check if staff position ID is set and retrieve section and class IDs from session
+if (isset($_SESSION['staff'])) {
+    $position_id = $_SESSION['staff']['position_id'];
+    $section_id = $_SESSION['staff']['section_id'];
+    $class_id = $_SESSION['staff']['class_id'];
+} else {
+    header('Location: admin-logout.php');
+    exit;
+}
 
 // Prepare and execute the query to get subjects for the section
-$stmt = $conn->prepare('SELECT * FROM section_subjects WHERE section_id = ?');
+$stmt = $conn->prepare('SELECT subject_id FROM section_subjects WHERE section_id = ?');
 $stmt->bind_param('i', $section_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Fetch the results    
+// Fetch the subjects and their details
 $subjects = [];
 while ($row = $result->fetch_assoc()) {
     $subjectId = $row['subject_id'];
-    $stmt = $conn->prepare('SELECT * FROM subjects WHERE subject_id = ?');
-    $stmt->bind_param('i', $subjectId);
-    $stmt->execute();
-    $subjectResult = $stmt->get_result();
+    $subjectStmt = $conn->prepare('SELECT subject_id, subject_name, uploaded FROM subjects WHERE subject_id = ?');
+    $subjectStmt->bind_param('i', $subjectId);
+    $subjectStmt->execute();
+    $subjectResult = $subjectStmt->get_result();
     $subject = $subjectResult->fetch_assoc();
     $subjects[] = $subject;
+    $subjectStmt->close();
 }
 
-// Check if staff position ID is set
-if (isset($_SESSION['staff'])) {
-    $position_id = $_SESSION['staff']['position_id'];
-} else {
-    header('Location: admin-logout.php');
-}
+// Sort subjects based on 'uploaded' status
+usort($subjects, function($a, $b) {
+    return $a['uploaded'] <=> $b['uploaded'];
+});
 ?>
 <!-- HTML -->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>Choose Subject</title>
     <?php include "inc/admin-header.php"; ?>
 </head>
-
 <body class="g-sidenav-show bg-info-soft">
     <?php include "inc/admin-sidebar.php"; ?>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         <?php require "inc/admin-navbar.php"; ?>
-        <!-- Main content  -->
+        <!-- Main content -->
         <div class="container-fluid py-3">
             <div class="container-fluid px-0">
                 <div class="card">
@@ -80,34 +83,40 @@ if (isset($_SESSION['staff'])) {
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $sql = "SELECT DISTINCT(subject_id, status) FROM results WHERE class_id = '$class_id'";
-                                            $result = mysqli_query($conn, $sql);
+                                            // Prepare and execute query to get results based on class_id
+                                            $resultStmt = $conn->prepare('SELECT subject_id, status FROM results WHERE class_id = ?');
+                                            $resultStmt->bind_param('i', $class_id);
+                                            $resultStmt->execute();
+                                            $resultData = $resultStmt->get_result();
                                             $count = 1;
 
-                                            while ($row = mysqli_fetch_assoc($result)) {
+                                            while ($row = $resultData->fetch_assoc()) {
+                                                $subject_id = $row['subject_id'];
+                                                $subjectStmt = $conn->prepare('SELECT subject_name FROM subjects WHERE subject_id = ?');
+                                                $subjectStmt->bind_param('i', $subject_id);
+                                                $subjectStmt->execute();
+                                                $subjectResult = $subjectStmt->get_result();
+                                                $subject = $subjectResult->fetch_assoc();
+                                                $subjectStmt->close();
                                             ?>
                                                 <tr>
                                                     <!-- S/N -->
                                                     <td class="text-sm text-left font-weight-normal"><?php echo $count; ?></td>
                                                     <!-- Subject -->
                                                     <td class="text-sm text-center font-weight-normal">
-                                                        <?php
-                                                        $subject_id = $row['subject_id'];
-                                                        $sql = "SELECT subject_name FROM subjects WHERE subject_id = '$subject_id'";
-                                                        $subject = mysqli_fetch_assoc(mysqli_query($conn, $sql));
-                                                        echo $subject['subject_name'];
-                                                        ?>
+                                                        <?php echo htmlspecialchars($subject['subject_name']); ?>
                                                     </td>
                                                     <!-- Upload Status -->
                                                     <td class="text-sm text-center font-weight-normal">
-                                                        <span class="badge badge-sm rounded <?php echo $row['status'] == 1 ? 'bg-gradient-success' : "bg-gradient-secondary"; ?>">
-                                                            <?php echo $row['status'] == 1 ? 'Active' : "Inactive"; ?>
+                                                        <span class="badge badge-sm rounded <?php echo $row['status'] == 1 ? 'bg-gradient-success' : 'bg-gradient-secondary'; ?>">
+                                                            <?php echo $row['status'] == 1 ? 'Uploaded' : 'Unuploaded'; ?>
                                                         </span>
                                                     </td>
                                                 </tr>
                                             <?php
                                                 $count++;
                                             }
+                                            $resultStmt->close();
                                             ?>
                                         </tbody>
                                     </table>
@@ -120,10 +129,8 @@ if (isset($_SESSION['staff'])) {
         </div>
         <?php include "inc/admin-footer.php"; ?>
     </main>
-
     <script src="../../js/plugins/sweetalert.min.js"></script>
     <script src="../../js/plugins/datatables.js"></script>
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const dataTableBasic = new simpleDatatables.DataTable("#datatable-basic", {
@@ -138,9 +145,7 @@ if (isset($_SESSION['staff'])) {
             });
         });
     </script>
-
     <?php include "inc/admin-scripts.php"; ?>
-
     <?php
     if (isset($_SESSION['success_message'])) {
     ?>
@@ -176,5 +181,4 @@ if (isset($_SESSION['staff'])) {
     }
     ?>
 </body>
-
 </html>
