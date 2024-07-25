@@ -235,7 +235,7 @@ if (!in_array($position_id, [1, 2, 3, 5])) {
                                         <div class="input-group mb-3">
                                             <select class="form-select" name="position_id">
                                                 <?php
-                                                $sql = "SELECT * FROM `school_position`;";
+                                                $sql = "SELECT * FROM `school_position` WHERE position_id != 1;";
                                                 $positions = mysqli_query($conn, $sql);
 
                                                 while ($position = mysqli_fetch_assoc($positions)) {
