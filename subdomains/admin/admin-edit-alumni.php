@@ -7,7 +7,7 @@ function redirect($url) {
     exit();
 }
 
-// Check if alumni ID is set
+// Check if alumni ID is set and valid
 if (isset($_GET['alumni_id'])) {
     $alumni_id = $_GET['alumni_id'];
 
@@ -30,13 +30,18 @@ if (isset($_GET['alumni_id'])) {
     redirect('admin-alumni-list.php');
 }
 
-// Check if staff position ID is set in session
-if (!isset($_SESSION['staff']['position_id'])) {
+// Check if staff session is set
+if (!isset($_SESSION['staff'])) {
     redirect('admin-logout.php');
-} else {
-    $position_id = $_SESSION['staff']['position_id'];
+}
+
+// Check if staff position ID is set in session
+$position_id = $_SESSION['staff']['position_id'];
+if (!in_array($position_id, [1, 2, 3, 5])) {
+    redirect('admin-logout.php');
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
