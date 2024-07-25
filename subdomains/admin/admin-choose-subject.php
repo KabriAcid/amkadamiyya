@@ -24,10 +24,6 @@ while ($row = $result->fetch_assoc()) {
     $subjects[] = $subject;
 }
 
-// Sort subjects based on 'uploaded' status
-usort($subjects, function ($a, $b) {
-    return $a['uploaded'] <=> $b['uploaded'];
-});
 // Check if staff position ID is set
 if (isset($_SESSION['staff'])) {
     $position_id = $_SESSION['staff']['position_id'];
@@ -83,26 +79,29 @@ if (isset($_SESSION['staff'])) {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $count = 1;
-                                            foreach ($subjects as $subject) { ?>
+                                            <?php
+                                            $sql = "SELECT subject_id FROM results WHERE class_id = '$class_id'";
+                                            $result = mysqli_query($conn, $sql);
+                                            $count = 1;
+
+                                            while ($row = mysqli_fetch_assoc($result)) {
+                                            ?>
                                                 <tr>
                                                     <!-- S/N -->
                                                     <td class="text-sm text-left font-weight-normal"><?php echo $count; ?></td>
                                                     <!-- Subject -->
                                                     <td class="text-sm text-center font-weight-normal">
-                                                        <?php echo htmlspecialchars($subject['subject_name']); ?>
+                                                        <?php echo htmlspecialchars($orw['subject_id']); ?>
                                                     </td>
                                                     <!-- Upload Status -->
                                                     <td class="text-sm text-center font-weight-normal">
-                                                        <?php if ($subject['uploaded']) { ?>
-                                                            <span style="color: green;">&#10004; Uploaded</span>
-                                                        <?php } else { ?>
-                                                            <span style="color: red;">&#10008; Not Uploaded</span>
-                                                        <?php } ?>
+
                                                     </td>
                                                 </tr>
-                                            <?php $count++;
-                                            } ?>
+                                            <?php
+                                                $count++;
+                                            }
+                                            ?>
                                         </tbody>
                                     </table>
                                 </div>
