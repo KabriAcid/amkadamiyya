@@ -8,7 +8,15 @@ function redirect($url)
     exit();
 }
 // Check if staff position ID is set
-if (!isset($_SESSION['staff'])) {
+if (isset($_SESSION['staff'])) {
+    $position_id = $_SESSION['staff']['position_id'];
+    // Hindering staff from editing part of their profile
+    $disabled = ''; // Default to no disabled attribute
+
+    if (!in_array($position_id, [1, 2, 3, 5])) {
+        redirect('admin-logout.php');
+    }
+} else {
     redirect('admin-logout.php');
 }
 ?>
