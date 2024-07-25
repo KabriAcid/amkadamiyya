@@ -1,25 +1,21 @@
 <?php
+// Start session
 session_start();
-require_once "../../config/database.php";
+require_once '../../config/database.php';
 
-// Function to change case
-function changeCase($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    return ucwords(strtolower($data));
+// Function to change the case of a string
+function changeCase($string) {
+    return ucwords(strtolower(trim($string)));
 }
 
-// Function to insert hyphens
+// Function to insert hyphens in a string
 function insertHyphens($string) {
-    $result = chunk_split($string, 4, '-');
-    return rtrim($result, '-');
+    return implode("-", str_split($string, 4));
 }
 
-// Function to validate phone number
-function isValidPhoneNumber($parent_phone_number) {
-    $pattern = '/^((070|080|090|081|091)\d{8})$/';
-    trim($parent_phone_number);
-    return preg_match($pattern, $parent_phone_number) === 1;
+// Function to validate Nigerian phone numbers
+function isValidPhoneNumber($phone) {
+    return preg_match('/^(\+234|0)[789]\d{9}$/', $phone);
 }
 
 // Adding new student
@@ -29,8 +25,12 @@ if (isset($_POST['applyAdmission'])) {
 
     $enrolling_class = $_POST['enrolling_class'];
     $result = mysqli_query($conn, "SELECT * FROM `classes` WHERE `general_class_id` = '$enrolling_class'");
-    $class = mysqli_fetch_assoc($result);
-    $section_id = $class['section_id'];
+    if ($result && mysqli_num_rows($result) > 0) {
+        $class = mysqli_fetch_assoc($result);
+        $section_id = $class['section_id'];
+    } else {
+        $section_id = null; // or handle the error appropriately
+    }
 
     $first_name = changeCase($_POST['first_name']);
     $second_name = changeCase($_POST['second_name']);
@@ -76,7 +76,12 @@ if (isset($_POST['applyAdmission'])) {
             die('Prepare failed: ' . htmlspecialchars($conn->error));
         }
 
-        $stmt->bind_param("iissssssssssssss", $enrolling_class, $section_id, $first_name, $second_name, $last_name, $birth_date, $state, $lga, $gender, $parent_first_name, $parent_last_name, $parent_email, $parent_address, $parent_phone_number, $admission_status, $application_code, $registration_id);
+        $stmt->bind_param("iissssssssssssiss", 
+            $enrolling_class, $section_id, $first_name, $second_name, $last_name, 
+            $birth_date, $state, $lga, $gender, $parent_first_name, $parent_last_name, 
+            $parent_email, $parent_address, $parent_phone_number, $admission_status, 
+            $application_code, $registration_id
+        );
 
         if ($stmt->execute()) {
             $_SESSION['registration_success'] = "Application submitted successfully";
@@ -90,6 +95,7 @@ if (isset($_POST['applyAdmission'])) {
         $_SESSION['error_message'] = implode('<br>', $errors);
     }
 }
+
 
 
 // Checking admission status
