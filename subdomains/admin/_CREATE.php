@@ -390,7 +390,7 @@ if (isset($_POST['approveBtn'])) {
     function generateStudentID($conn, $section_id, $entry_year)
     {
 
-        $sql = "SELECT * FROM `sections` WHERE `section_id` = '$section_id'";
+        $sql = "SELECT * FROM `sections` WHERE `general_section_id` = '$section_id'";
         $result = mysqli_query($conn, $sql);
         $section = mysqli_fetch_assoc($result);
 

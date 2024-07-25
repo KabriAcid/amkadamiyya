@@ -1,5 +1,16 @@
 <?php
-    require_once "_CREATE.php";
+require_once "_CREATE.php";
+
+// Redirect function for convenience
+function redirect($url)
+{
+    header("Location: $url");
+    exit();
+}
+// Check if staff position ID is set
+if (!isset($_SESSION['staff'])) {
+    redirect('admin-logout.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,7 +22,7 @@
 
 <body class="g-sidenav-show bg-info-soft">
     <?php
-        include "inc/admin-sidebar.php";
+    include "inc/admin-sidebar.php";
     ?>
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">

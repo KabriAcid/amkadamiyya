@@ -1,5 +1,4 @@
 <?php
-
 include "_UPDATE.php";
 
 // Redirect function for convenience
@@ -35,7 +34,6 @@ if (isset($_GET['student_id'])) {
 // Check if staff position ID is set
 if (isset($_SESSION['staff'])) {
     $position_id = $_SESSION['staff']['position_id'];
-
     // Hindering staff from editing part of their profile
     $disabled = ''; // Default to no disabled attribute
 

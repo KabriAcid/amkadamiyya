@@ -1,6 +1,4 @@
 <?php
-include "_UPDATE.php";
-
 // Function for redirection to avoid code repetition
 function redirect($url) {
     header("Location: $url");
