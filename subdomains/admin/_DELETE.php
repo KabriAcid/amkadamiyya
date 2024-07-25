@@ -60,3 +60,27 @@ if (isset($_GET['delete_notification'])) {
         $_SESSION['success_message'] = "Notifications Deleted Successfully";
     }
 }
+
+// Truncating Database Tables
+
+if (isset($_POST['truncateData'])) {
+    $tables = isset($_POST['tables']) ? $_POST['tables'] : [];
+
+    if (!empty($tables)) {
+        // Assume truncation logic here, for example purposes only
+        $truncated_tables = [];
+        foreach ($tables as $table) {
+            // Simulating truncation
+            $sql = "TRUNCATE TABLE `$table`";
+            if (mysqli_query($conn, $sql)) {
+                $truncated_tables[] = $table;
+                $_SESSION['success_message'] = "Operation successfully.";
+            }
+        }
+    } else {
+        $_SESSION['error_message'] = "No tables selected.";
+    }
+
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit;
+}

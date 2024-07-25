@@ -1,5 +1,5 @@
 <?php
-    require_once "_CREATE.php";
+    require_once "_DELETE.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,6 +23,7 @@
                         <div class="card">
                             <div class="card-header pb-0 p-3">
                                 <h4 class="mb-0 text-dark text-gradient text-center">General Settings</h4>
+                                <p class="text-sm">Here you can truncate data for all the following database tables</p>
                             </div>
                             <hr class="horizontal dark">
                             <div class="card-body p-3">
@@ -43,6 +44,15 @@
                                 <div class="form-check form-switch ps-0">
                                     <input class="form-check-input ms-auto" type="checkbox" id="staff" name="tables[staff]" value="staff" />
                                     <label class="form-check-label null-label text-body ms-3 text-truncate w-80 mb-0" for="staff">Truncate Staff Table</label>
+                                </div>
+                                <!-- Applicants -->
+                                <h6 class="text-uppercase font-weight-bolder mt-4">
+                                    Applicants
+                                </h6>
+                                <p class="text-muted mb-3">Truncating this table will remove all applicants records.</p>
+                                <div class="form-check form-switch ps-0">
+                                    <input class="form-check-input ms-auto" type="checkbox" id="applicants" name="tables[applicants]" value="applicants" />
+                                    <label class="form-check-label null-label text-body ms-3 text-truncate w-80 mb-0" for="applicants">Truncate Applicants Table</label>
                                 </div>
                                 <!-- Alumni -->
                                 <h6 class="text-uppercase font-weight-bolder mt-4">
