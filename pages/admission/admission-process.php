@@ -75,6 +75,7 @@ if (isset($_POST['applyAdmission'])) {
 
         if ($stmt->execute()) {
             $_SESSION['registration_success'] = "Application submitted successfully";
+            $_SESSION['registration_id'] = $registration_id;
             header("Location: " . $_SERVER['PHP_SELF']);
             exit();
         } else {

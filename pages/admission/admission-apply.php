@@ -3,8 +3,8 @@ require "admission-process.php";
 
 // <!-- Modal for Registration Success -->
 if (isset($_SESSION['registration_success'])) {
-    if (isset($_SESSION['registration_success'])) {
-        $registration_id = $_SESSION['registration_success']['registration_id'];
+    if (isset($_SESSION['registration_id'])) {
+        $registration_id = $_SESSION['registration_id'];
         // Fetch application details using registration_id
         $sql = "SELECT application_code, first_name, last_name 
                 FROM applicants 

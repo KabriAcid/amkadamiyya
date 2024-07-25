@@ -67,7 +67,7 @@ require_once "../../config/database.php";
                                                 <span class="text-secondary text-xs font-weight-bold text-capitalize">
                                                     <?php
                                                     $class_id = $applicant['enrolling_class'];
-                                                    $sql = "SELECT `class_name` FROM `classes` WHERE `class_id` = '$class_id'";
+                                                    $sql = "SELECT `class_name` FROM `general_class` WHERE `class_id` = '$class_id'";
                                                     $clasess = mysqli_query($conn, $sql);
                                                     $class = mysqli_fetch_assoc($clasess);
                                                     echo $class['class_name'];
