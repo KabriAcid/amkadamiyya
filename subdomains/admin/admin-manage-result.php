@@ -2,17 +2,41 @@
 
 require_once "_UPDATE.php";
 
-if (isset($_SESSION['staff'])) {
-    $staff_id = $_SESSION['staff']['staff_id'];
-    $sql = "SELECT * FROM staff WHERE staff_id = '$staff_id'";
-    $staff_result = mysqli_query($conn, $sql);
-    $staff = mysqli_fetch_assoc($staff_result);
+// Redirect function for convenience
+function redirect($url)
+{
+    header("Location: $url");
+    exit();
+}
 
-} else {
-    header('Location: admin-logout.php');
-    exit;
+// Check if staff is logged in
+if (!isset($_SESSION['staff'])) {
+    redirect('admin-logout.php');
+}
+
+// Get staff details
+$staff_id = $_SESSION['staff']['staff_id'];
+$position_id = $_SESSION['staff']['position_id'];
+
+// Prepare and execute SQL query
+$stmt = $conn->prepare("SELECT * FROM staff WHERE staff_id = ?");
+$stmt->bind_param("i", $staff_id);
+$stmt->execute();
+$staff_result = $stmt->get_result();
+$staff = $staff_result->fetch_assoc();
+
+// Check if staff exists
+if (!$staff) {
+    redirect('admin-logout.php');
+}
+
+// Check if position ID is allowed
+$allowed_positions = [1, 2, 3, 5];
+if (!in_array($position_id, $allowed_positions)) {
+    redirect('admin-logout.php');
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 

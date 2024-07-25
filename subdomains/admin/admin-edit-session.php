@@ -11,7 +11,6 @@ function redirect($url)
 if (isset($_SESSION['staff'])) {
     $position_id = $_SESSION['staff']['position_id'];
     // Hindering staff from editing part of their profile
-    $disabled = ''; // Default to no disabled attribute
 
     if (!in_array($position_id, [1, 2, 3, 5])) {
         redirect('admin-logout.php');
