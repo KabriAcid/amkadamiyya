@@ -798,20 +798,20 @@ INSERT INTO `school_levy` (`levy_id`, `item`, `item_amount`, `section_id`) VALUE
 -- --------------------------------------------------------
 
 --
--- Table structure for table `school_post`
+-- Table structure for table `school_position`
 --
 
-CREATE TABLE `school_post` (
+CREATE TABLE `school_position` (
   `position_id` int(11) NOT NULL,
   `position_name` varchar(50) NOT NULL,
   `position_number` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `school_post`
+-- Dumping data for table `school_position`
 --
 
-INSERT INTO `school_post` (`position_id`, `position_name`, `position_number`) VALUES
+INSERT INTO `school_position` (`position_id`, `position_name`, `position_number`) VALUES
 (1, 'Digital Manager', 1),
 (2, 'Director', 2),
 (3, 'Accountant', 2),
@@ -1603,9 +1603,9 @@ ALTER TABLE `school_levy`
   ADD KEY `fk_school_levey_1` (`section_id`);
 
 --
--- Indexes for table `school_post`
+-- Indexes for table `school_position`
 --
-ALTER TABLE `school_post`
+ALTER TABLE `school_position`
   ADD PRIMARY KEY (`position_id`);
 
 --
@@ -1655,7 +1655,7 @@ ALTER TABLE `staff`
   ADD KEY `staff_ibfk_1_subject` (`subject_id`),
   ADD KEY `staff_ibfk_1_class` (`class_id`),
   ADD KEY `staff_ibfk_1_section` (`section_id`),
-  ADD KEY `staff_ibfk_1_school_post` (`position_id`);
+  ADD KEY `staff_ibfk_1_school_position` (`position_id`);
 
 --
 -- Indexes for table `students`
@@ -1805,9 +1805,9 @@ ALTER TABLE `school_levy`
   MODIFY `levy_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `school_post`
+-- AUTO_INCREMENT for table `school_position`
 --
-ALTER TABLE `school_post`
+ALTER TABLE `school_position`
   MODIFY `position_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --

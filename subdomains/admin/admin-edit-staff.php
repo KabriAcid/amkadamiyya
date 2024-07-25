@@ -233,7 +233,7 @@ if (!isset($_SESSION['staff']['position_id'])) {
                                         <div class="input-group mb-3">
                                             <select class="form-select" name="position_id">
                                                 <?php
-                                                $sql = "SELECT * FROM `school_post`;";
+                                                $sql = "SELECT * FROM `school_position`;";
                                                 $positions = mysqli_query($conn, $sql);
 
                                                 while ($position = mysqli_fetch_assoc($positions)) {

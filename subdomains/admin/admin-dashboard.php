@@ -21,7 +21,7 @@ if (isset($_SESSION['staff'])) {
     $result = mysqli_query($conn, $sql);
     $class = mysqli_fetch_assoc($result);
 
-    $sql = $conn->prepare("SELECT * FROM `school_post` WHERE `position_id` = ?");
+    $sql = $conn->prepare("SELECT * FROM `school_position` WHERE `position_id` = ?");
     $sql->bind_param("i", $position_id);
     $sql->execute();
     $positions = $sql->get_result();

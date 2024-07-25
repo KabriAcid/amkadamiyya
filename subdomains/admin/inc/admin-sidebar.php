@@ -2,7 +2,7 @@
 if (isset($_SESSION['staff'])) {
    // Determine position from session variable
    $position_id = $_SESSION['staff']['position_id'];
-   $stmt = $conn->prepare("SELECT position_number FROM school_post WHERE position_id = ?");
+   $stmt = $conn->prepare("SELECT position_number FROM school_position WHERE position_id = ?");
    $stmt->bind_param("i", $position_id);
    $stmt->execute();
    $result = $stmt->get_result();

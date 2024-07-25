@@ -57,7 +57,7 @@ if (isset($_SESSION['staff'])) {
                                     <p class="mb-0 font-weight-bold text-sm">
                                         <?php
                                         // $position_id = $alumni['position_id'];
-                                        // $sql = "SELECT `position_name` FROM `school_post` WHERE `position_id` = '$position_id'";
+                                        // $sql = "SELECT `position_name` FROM `school_position` WHERE `position_id` = '$position_id'";
                                         // $positions = mysqli_query($conn, $sql);
                                         // $position = mysqli_fetch_assoc($positions);
                                         // echo $position['position_name'];

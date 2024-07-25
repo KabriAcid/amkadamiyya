@@ -52,7 +52,7 @@
                                         <span class="text-secondary text-xs font-weight-bold">
                                             <?php
                                             $position_id = $row['position_id'];
-                                            $sql = "SELECT * FROM `school_post` WHERE `position_id` = '$position_id'";
+                                            $sql = "SELECT * FROM `school_position` WHERE `position_id` = '$position_id'";
                                             $positions = mysqli_query($conn, $sql);
                                             $position = mysqli_fetch_assoc($positions);
                                             echo $position['position_name'] ?? '';

@@ -18,7 +18,7 @@
         <?php require "inc/admin-navbar.php"; ?>
         <div class="container-fluid py-4">
             <div class="row">
-                <div class="col-lg-8 mx-auto">
+                <div class="col-lg-8">
                     <form action="" method="post">
                         <div class="card">
                             <div class="card-header pb-0 p-3">

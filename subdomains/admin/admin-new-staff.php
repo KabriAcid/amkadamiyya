@@ -229,7 +229,7 @@ if (isset($_SESSION['registration_success'])) {
                                                     <div class="input-group">
                                                         <select class="form-select" name="position_id">
                                                             <?php
-                                                            $sql = "SELECT * FROM `school_post` WHERE `position_number` >= 5 ORDER BY `position_number` DESC;";
+                                                            $sql = "SELECT * FROM `school_position` WHERE `position_number` >= 5 ORDER BY `position_number` DESC;";
                                                             $result = mysqli_query($conn, $sql);
                                                             while ($post = mysqli_fetch_assoc($result)) {
                                                             ?>

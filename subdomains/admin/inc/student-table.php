@@ -4,7 +4,7 @@ if (isset($_SESSION['staff'])) {
     $position_id = $_SESSION['staff']['position_id'];
     $class_id = $_SESSION['staff']['class_id'];
 
-    $stmt = $conn->prepare("SELECT position_number FROM school_post WHERE position_id = ?");
+    $stmt = $conn->prepare("SELECT position_number FROM school_position WHERE position_id = ?");
     $stmt->bind_param("i", $position_id);
     $stmt->execute();
     $result = $stmt->get_result();

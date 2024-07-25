@@ -11,7 +11,7 @@ if (isset($_SESSION['staff'])) {
     $result = $stmt->get_result();
     $staff = $result->fetch_assoc();
 
-    $sql = $conn->prepare("SELECT * FROM `school_post` WHERE `position_id` = ?");
+    $sql = $conn->prepare("SELECT * FROM `school_position` WHERE `position_id` = ?");
     $sql->bind_param("i", $position_id);
     $sql->execute();
     $positions = $sql->get_result();
@@ -233,7 +233,7 @@ else {
                                         <div class="input-group mb-3">
                                             <select class="form-select" name="position_id" <?php echo $disabled; ?>>
                                                 <?php
-                                                $sql = "SELECT * FROM `school_post`;";
+                                                $sql = "SELECT * FROM `school_position`;";
                                                 $positions = mysqli_query($conn, $sql);
 
                                                 while ($position = mysqli_fetch_assoc($positions)) {
