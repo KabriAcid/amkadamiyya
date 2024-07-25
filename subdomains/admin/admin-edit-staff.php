@@ -8,10 +8,17 @@ function redirect($url) {
     exit();
 }
 
-// Check if staff ID and position ID are set in the session
-if (isset($_GET['staff_id']) && isset($_SESSION['staff']['position_id'])) {
-    $staff_id = $_GET['staff_id'];
+// Check if staff session and staff ID are set
+if (!isset($_SESSION['staff']['position_id'])) {
+    redirect('admin-logout.php');
+} else {
     $position_id = $_SESSION['staff']['position_id'];
+}
+
+if (!isset($_GET['staff_id'])) {
+    redirect('admin-staff-list.php');
+} else {
+    $staff_id = $_GET['staff_id'];
 
     // Prepare SQL query with parameterized query
     $sql = "SELECT * FROM `staff` WHERE `staff_id` = ?";
@@ -27,21 +34,15 @@ if (isset($_GET['staff_id']) && isset($_SESSION['staff']['position_id'])) {
         // Redirect if staff does not exist
         redirect('admin-staff-list.php');
     }
-
-    // Check if position ID is not in allowed list
-    if (!in_array($position_id, [1, 2, 3, 5])) {
-        redirect('admin-staff-list.php');
-    }
-} else {
-    // Redirect if staff_id or position_id is not set
-    redirect('admin-staff-list.php');
 }
 
-// Check if staff position ID is set in session
-if (!isset($_SESSION['staff']['position_id'])) {
+// Check if position ID is not in allowed list
+if (!in_array($position_id, [1, 2, 3, 5])) {
     redirect('admin-logout.php');
 }
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
