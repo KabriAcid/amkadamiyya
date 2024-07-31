@@ -136,7 +136,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body p-1">
-                <img id="modalImage" src="" alt="photo" class="img-fluid rounded-3">
+                <img id="modalImage" src="" alt="photo" class="img-fluid w-100">
             </div>
         </div>
     </div>
