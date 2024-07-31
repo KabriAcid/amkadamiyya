@@ -74,7 +74,7 @@ if (isset($_SESSION['staff'])) {
                                     <div class="col-md-6 mt-3">
                                         <label>Date of Birth</label>
                                         <div class="input-group">
-                                            <input type="date" class="form-control text-uppercase" name="birth_date" required>
+                                            <input type="date" class="form-control text-uppercase" name="birth_date">
                                         </div>
                                     </div>
                                     <!-- State of Origin  -->
@@ -150,14 +150,14 @@ if (isset($_SESSION['staff'])) {
                                     <div class="col-md-6 mt-3">
                                         <label>First Name</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="First Name" name="parent_first_name" required>
+                                            <input type="text" class="form-control" placeholder="First Name" name="parent_first_name">
                                         </div>
                                     </div>
                                     <!-- Last Name  -->
                                     <div class="col-md-6 mt-3">
                                         <label>Last Name</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Last Name" name="parent_last_name" required>
+                                            <input type="text" class="form-control" placeholder="Last Name" name="parent_last_name">
                                         </div>
                                     </div>
                                     <!-- Email Address  -->
@@ -171,14 +171,14 @@ if (isset($_SESSION['staff'])) {
                                     <div class="col-md-4 mt-3">
                                         <label>Phone Number</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" name="parent_phone_number" placeholder="e.g., 08012345678" required maxlength="11">
+                                            <input type="text" class="form-control" name="parent_phone_number" placeholder="e.g., 08012345678" maxlength="11">
                                         </div>
                                     </div>
                                     <!-- Home Address  -->
                                     <div class="col-md-12 mt-3">
                                         <label>Home Address</label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="eg. Samunaka Junction Along Wuro Sembe Road, Jalingo." name="parent_address" required>
+                                            <input type="text" class="form-control" placeholder="eg. Samunaka Junction Along Wuro Sembe Road, Jalingo." name="parent_address">
                                         </div>
                                     </div>
                                     <!-- Attestation -->
