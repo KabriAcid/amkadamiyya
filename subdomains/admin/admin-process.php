@@ -348,7 +348,6 @@ if (isset($_POST['uploadBlog'])) {
     }
 
     $stmt->close();
-    $conn->close();
 }
 
 
