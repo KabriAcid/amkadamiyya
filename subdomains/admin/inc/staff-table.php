@@ -34,7 +34,7 @@
                                 <tr>
                                     <td class="align-middle text-center text-sm">
                                         <div class="d-flex align-items-center">
-                                            <img src="<?php echo htmlspecialchars($row['photo']); ?>" class="avatar avatar-sm text-center me-2" data-bs-toggle="modal" data-bs-target="#imageModal">
+                                            <img src="<?php echo htmlspecialchars($row['photo']); ?>" class="avatar avatar-sm text-center me-2 cursor-pointer" onclick="showModal('<?php echo htmlspecialchars($row['photo']); ?>')" alt="Staff Photo">
                                             <span class="text-secondary text-xs font-weight-bold text-capitalize">
                                                 <?php echo htmlspecialchars($row['first_name'] . " " . $row['last_name']); ?>
                                             </span>
@@ -126,23 +126,27 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- Modal -->
-                <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModal" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-bod">
-                                <?php
-                                if (isset($_SESSION['staff'])) {
-                                    $photo = $_SESSION['staff']['photo'];
-                                }
-                                ?>
-                                <img src="<?= $photo; ?>" alt="photo" class="img-fluid">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End of Modal -->
             </div>
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="imageModal" aria-labelledby="imageModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body p-1">
+                <img id="modalImage" src="" alt="photo" class="img-fluid rounded-3">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showModal(imageSrc) {
+        var modalImage = document.getElementById('modalImage');
+        modalImage.src = imageSrc;
+        var myModal = new bootstrap.Modal(document.getElementById('imageModal'));
+        myModal.show();
+    }
+</script>
