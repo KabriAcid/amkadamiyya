@@ -5,3 +5,20 @@
 - Student: Info Color
 - Alumni: Primary Color
 - Applicant: Danger Color
+
+
+-----------Positions---------------
+
+1	Digital Manager	1	
+2	Director	2	
+3	Accountant	2	
+4	Exam Officer	3	
+5	Admission Officer	4	
+6	General Secretary	5	
+7	Co-ordinator	6	
+8	Principal	6	
+9	Vice Principal	6	
+10	Headmaster	7	
+11	Senior Master	7	
+12	Staff	8	
+14	Non-Staff	9	
