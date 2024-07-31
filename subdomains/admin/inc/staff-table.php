@@ -126,23 +126,23 @@
                         </tbody>
                     </table>
                 </div>
+                <!-- Modal -->
+                <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModal" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-bod">
+                                <?php
+                                if (isset($_SESSION['staff'])) {
+                                    $photo = $_SESSION['staff']['photo'];
+                                }
+                                ?>
+                                <img src="<?= $photo; ?>" alt="photo" class="img-fluid">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End of Modal -->
             </div>
         </div>
     </div>
 </div>
-<!-- Modal -->
-<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body">
-                <?php
-                    if(isset($_SESSION['staff'])){
-                        $photo = $_SESSION['staff']['photo'];
-                    }
-                ?>
-               <img src="<?= $photo;?>" alt="photo">
-            </div>
-        </div>
-    </div>
-</div>
-<!-- End of Modal -->
