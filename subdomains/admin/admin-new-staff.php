@@ -66,11 +66,11 @@ if (isset($_SESSION['staff'])) {
                                             <div class="row mt-3">
                                                 <div class="col-md-6 mt-3">
                                                     <label>First Name</label>
-                                                    <input class="multisteps-form__input form-control" name="first_name" type="text" placeholder="eg. Aliyu">
+                                                    <input class="multisteps-form__input form-control" name="first_name" type="text" placeholder="eg. Aliyu" required>
                                                 </div>
                                                 <div class="col-md-6 mt-3">
                                                     <label>Last Name</label>
-                                                    <input class="multisteps-form__input form-control" name="last_name" type="text" placeholder="eg. Bello Sani">
+                                                    <input class="multisteps-form__input form-control" name="last_name" type="text" placeholder="eg. Bello Sani" required>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -114,7 +114,7 @@ if (isset($_SESSION['staff'])) {
                                             <div class="row">
                                                 <div class="col-md-6 mt-3">
                                                     <label>State</label>
-                                                    <select required onchange="toggleLGA(this);" name="state" id="state" class="form-select select-state">
+                                                    <select onchange="toggleLGA(this);" name="state" id="state" class="form-select select-state">
                                                         <option value="" selected="selected">-- State --</option>
                                                         <?php
                                                         $sql = "SELECT * FROM nigerian_states;";
@@ -133,7 +133,7 @@ if (isset($_SESSION['staff'])) {
                                                 <!--  -->
                                                 <div class="col-md-6 mt-3">
                                                     <label>LGA</label>
-                                                    <select name="lga" id="lga" class="form-select select-lga" required>
+                                                    <select name="lga" id="lga" class="form-select select-lga">
                                                         <option value="">LGA</option>
                                                     </select>
                                                 </div>
@@ -146,7 +146,7 @@ if (isset($_SESSION['staff'])) {
                                                 </div>
                                                 <div class="col-md-4 mt-3">
                                                     <label>Phone Number</label>
-                                                    <input type="text" class="multisteps-form__input form-control" name="phone_number" placeholder="07012345678" required maxlength="11">
+                                                    <input type="text" class="multisteps-form__input form-control" name="phone_number" placeholder="07012345678" maxlength="11">
                                                 </div>
                                             </div>
                                             <div class="button-row d-flex mt-4">
@@ -159,7 +159,7 @@ if (isset($_SESSION['staff'])) {
                                     <!-- Qualification -->
                                     <div class="card multisteps-form__panel p-3 border-radius-xl bg-white" data-animation="FadeIn">
                                         <h5 class="font-weight-bolder mb-0">Qualification</h5>
-                                        <p class="mb-0 text-sm">The awarded class must match the class section.</p>
+                                        <p class="mb-0 text-sm">Set aliases(fake data) where details are unknown.</p>
                                         <div class="multisteps-form__content">
                                             <div class="row">
                                                 <div class="col-md-6 mt-3">
@@ -273,7 +273,7 @@ if (isset($_SESSION['staff'])) {
                                             <div class="row">
                                                 <div class="col-md-6 mt-3">
                                                     <label>Bank Account Number</label>
-                                                    <input type="text" class="multisteps-form__input form-control" name="account_number" placeholder="Bank Account Number" required maxlength="10">
+                                                    <input type="text" class="multisteps-form__input form-control" name="account_number" placeholder="Bank Account Number" maxlength="10">
                                                 </div>
                                                 <div class="col-md-6 mt-3">
                                                     <label>Bank Name</label>
@@ -310,14 +310,14 @@ if (isset($_SESSION['staff'])) {
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="container py-6">
-                                                    <div class="d-flex justify-content-center align-items-center">
+                                                <div class="container p-3">
+                                                    <div class="d-flex align-items-center">
                                                         <div>
                                                             <div class="form-check mb-0">
                                                                 <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" required>
                                                             </div>
                                                         </div>
-                                                        <div class="ms-4">
+                                                        <div class="ms-2">
                                                             <span class="text-dark font-weight-bold d-block text-sm">Confirm Submission</span>
                                                             <span class="text-xs d-block">Please ensure that all mandatory fields are filled out correctly.</span>
                                                         </div>
@@ -329,7 +329,7 @@ if (isset($_SESSION['staff'])) {
                                                 <button class="btn bg-gradient-light mb-0 js-btn-prev" type="button" title="Prev">Prev</button>
 
                                                 <!-- Submit Button -->
-                                                <button type="submit" focusable name="register" class="btn bg-gradient-success ms-auto mb-0">Proceed</button>
+                                                <button type="submit" focusable name="register" class="btn bg-gradient-success ms-auto mb-0">Register</button>
                                                 <!-- <button type="submit" focusable name="register" class="btn bg-gradient-success ms-auto mb-0" onclick="soft.showSwal('success-message')">Proceed</button> -->
                                             </div>
                                         </div>
