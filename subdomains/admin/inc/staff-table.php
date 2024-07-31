@@ -34,7 +34,7 @@
                                 <tr>
                                     <td class="align-middle text-center text-sm">
                                         <div class="d-flex align-items-center">
-                                            <img src="<?php echo htmlspecialchars($row['photo']); ?>" class="avatar avatar-sm text-center me-2">
+                                            <img src="<?php echo htmlspecialchars($row['photo']); ?>" class="avatar avatar-sm text-center me-2" data-bs-toggle="modal" data-bs-target="#imageModal">
                                             <span class="text-secondary text-xs font-weight-bold text-capitalize">
                                                 <?php echo htmlspecialchars($row['first_name'] . " " . $row['last_name']); ?>
                                             </span>
