@@ -1,5 +1,5 @@
 <?php
-require 'process.php';
+    require 'process.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -5,6 +5,7 @@
 <meta name="keywords" content="School in Taraba, Amkadamiyya, Amkad">
 <meta name="author" content="Bsc. Software Engineering: Abdullahi Abubakar Kabri">
 <meta name="google-site-verification" content="+nxGUDJ4QpAZ5l9Bsjdi102tLVC21AIh5d1Nl23908vVuFHs34=">
+<meta name="openai-domain-verification" content="dv-oah0pJ6F5d9ugDzBZY6lhIvv">
 <link rel="icon" type="image/png" href="../../assets/favicon/favicon.png">
 
 <!-- Google Fonts: Open Sans -->

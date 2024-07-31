@@ -19,7 +19,6 @@
 - Create different directories for uploads
 - Enhance the functionality of the results upload status.
 - Fix issues related to the school term.
-- Implement a modal pop-up for profile images.
 - Fix the chart graph in the admin dashboard.
 - Add condition for checking if staff session isset in all pages.
 
