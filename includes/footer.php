@@ -37,7 +37,7 @@
                  <h6 class="text-sm text-primary">Quick Links</h6>
                  <ul class="flex-column ms-n3 nav">
                      <li class="nav-item">
-                         <a class="nav-link opacity-8" href="index.php">Home</a>
+                         <a class="nav-link opacity-8" href="../index.php">Home</a>
                      </li>
                      <li class="nav-item">
                          <a class="nav-link opacity-8" href="pages/admission/admission-requirements.php">Admission</a>
