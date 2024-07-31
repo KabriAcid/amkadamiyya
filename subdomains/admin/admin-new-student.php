@@ -11,9 +11,9 @@ function redirect($url)
 if (isset($_SESSION['staff'])) {
     $position_id = $_SESSION['staff']['position_id'];
     $sql = "SELECT position_number FROM school_position WHERE position_id = '$position_id'";
-    $result = mysqli_query($conn, $sql);
-    $row = mysqli_fetch_assoc($result);
-    $position_number = $row['position_number'];
+    $postions = mysqli_query($conn, $sql);
+    $position = mysqli_fetch_assoc($postions);
+    $position_number = $position['position_number'];
 
     if (!in_array($position_number, [1, 2, 3, 5])) {
         redirect('admin-logout.php');

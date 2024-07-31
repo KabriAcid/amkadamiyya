@@ -11,7 +11,12 @@ function redirect($url)
 // Check if staff position ID is set
 if (isset($_SESSION['staff'])) {
     $position_id = $_SESSION['staff']['position_id'];
-    if (!in_array($position_id, [1, 2, 3, 5])) {
+    $sql = "SELECT position_number FROM school_position WHERE position_id = '$position_id'";
+    $postions = mysqli_query($conn, $sql);
+    $position = mysqli_fetch_assoc($postions);
+    $position_number = $position['position_number'];
+
+    if (!in_array($position_number, [1, 2, 3, 5])) {
         redirect('admin-logout.php');
     }
 } else {
