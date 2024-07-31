@@ -32,6 +32,7 @@ if (isset($_SESSION['staff'])) {
     $position_number = $position['position_number'];
     // Set the disabled attribute if the position is not allowed to edit certain profiles
     $disabled = !in_array($position_id, [1, 2, 3, 5]) ? 'disabled' : '';
+    $disabled = '';
 
 } else {
     // Redirect to logout if session is not set

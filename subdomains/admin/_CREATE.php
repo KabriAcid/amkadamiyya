@@ -598,7 +598,6 @@ if (isset($_POST['approveBtn'])) {
     } else {
         $_SESSION['error_message'] = 'Applicant not found.';
     }
-
     mysqli_free_result($result);
 } elseif (isset($_POST['declineBtn'])) {
     $applicant_id = mysqli_real_escape_string($conn, $_POST['applicant_id']);

@@ -1,6 +1,6 @@
 <?php
 
-include "_UPDATE.php";
+include_once "_UPDATE.php";
 
 // Redirect function for convenience
 function redirect($url)
