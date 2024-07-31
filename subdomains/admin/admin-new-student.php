@@ -187,8 +187,8 @@ if (isset($_SESSION['staff'])) {
                                             <div class="col-8 col-md-6">
                                                 <div class="d-flex align-items-center">
                                                     <div>
-                                                        <div class="form-check form-switch mb-0">
-                                                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked>
+                                                        <div class="form-check mb-0">
+                                                            <input class="form-check-input null-label" type="checkbox" id="flexSwitchCheckDefault" required>
                                                         </div>
                                                     </div>
                                                     <div class="ms-2">
