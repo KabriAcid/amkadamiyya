@@ -135,13 +135,12 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
-                <h4 class="text-gradient text-dark text-center">Registration Successful</h4>
-                <hr class="horizontal dark my-1">
-                <p class="py-3">Dear <?php echo $first_name . ' ' . $last_name; ?>, your username is <strong><?php echo $username; ?></strong> and the default password is <strong><i>amka123</i></strong></p>
-                <p class="text-sm mb-0">Note: Please change your password immediately after logging in.</p>
-                <div class="d-flex justify-content-center">
-                    <button type="button" class="btn bg-gradient-info mt-3" data-bs-dismiss="modal">Ok</button>
-                </div>
+                <?php
+                    if(isset($_SESSION['staff'])){
+                        $photo = $_SESSION['staff']['photo'];
+                    }
+                ?>
+               <img src="<?= $photo;?>" alt="photo">
             </div>
         </div>
     </div>
