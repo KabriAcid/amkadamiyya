@@ -17,13 +17,6 @@ if (isset($_POST['register'])) {
         {
             return ucwords(strtolower(trim($string)));
         }
-        // Validate mandatory fields
-        $mandatoryFields = ['first_name', 'last_name', 'birth_date', 'gender', 'address', 'state', 'lga', 'email', 'phone_number', 'qualification', 'discipline', 'class_id', 'subject_id', 'position_id', 'account_number', 'bank_name', 'salary', 'status'];
-        foreach ($mandatoryFields as $field) {
-            if (empty($_POST[$field])) {
-                $_SESSION['error_message'] = "Some fields are missing!";
-            }
-        }
 
         // Sanitize and assign variables
         $first_name = capitalize(mysqli_real_escape_string($conn, $_POST['first_name']));
@@ -195,20 +188,6 @@ if (isset($_POST['addStudent'])) {
     // Hash the password using BCRYPT
     $default_password = $admission_id;
     $password = password_hash($default_password, PASSWORD_BCRYPT);
-
-
-    $errors = [];
-
-    // Validate mandatory fields
-    $mandatoryFields = [
-        'first_name', 'last_name', 'birth_date', 'state', 'lga', 'gender',
-        'parent_first_name', 'parent_last_name', 'parent_address'
-    ];
-    foreach ($mandatoryFields as $field) {
-        if (empty($_POST[$field])) {
-            $errors[] = ucfirst(str_replace('_', ' ', $field)) . " is required";
-        }
-    }
 
     function isValidPhoneNumber($parent_phone_number)
     {
