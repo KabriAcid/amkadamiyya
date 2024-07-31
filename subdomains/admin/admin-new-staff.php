@@ -313,7 +313,7 @@ if (isset($_SESSION['staff'])) {
                                                 <div class="container py-6">
                                                     <div class="d-flex justify-content-center align-items-center">
                                                         <div>
-                                                            <div class="form-check form-switch mb-0">
+                                                            <div class="form-check mb-0">
                                                                 <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" required>
                                                             </div>
                                                         </div>
