@@ -9,9 +9,6 @@ if (isset($_SESSION['staff'])) {
     $class_id = $_SESSION['staff']['class_id'];
     $position_id = $_SESSION['staff']['position_id'];
 
-    print_r($_SESSION['staff']);
-
-
     $stmt = $conn->prepare("SELECT * FROM `staff` WHERE `staff_id` = ?");
     $stmt->bind_param("i", $staff_id);
     $stmt->execute();
