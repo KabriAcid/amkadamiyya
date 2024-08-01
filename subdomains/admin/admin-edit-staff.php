@@ -21,8 +21,8 @@ if (!isset($_SESSION['staff']['position_id'])) {
 
     if (!in_array($position_number, [1, 2, 3, 5])) {
         redirect('admin-logout.php');
+    }
 }
-
 if (!isset($_GET['staff_id'])) {
     redirect('admin-staff-list.php');
 } else {
