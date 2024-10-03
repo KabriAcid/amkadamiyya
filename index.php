@@ -14,6 +14,7 @@
     <meta name="author" content="Bsc. Software Engineering: Abdullahi Abubakar Kabri">
     <meta name="google-site-verification" content="+nxGUDJ4QpAZ5l9Bsjdi102tLVC21AIh5d1Nl23908vVuFHs34=">
     <meta name="openai-domain-verification" content="dv-oah0pJ6F5d9ugDzBZY6lhIvv">
+    <meta name="google-adsense-account" content="ca-pub-6264818977708411">
     <title>Home - Amkadamiyya School Jalingo</title>
     <link rel="icon" type="image/png" href="assets/favicon/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
