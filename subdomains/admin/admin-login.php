@@ -2,7 +2,6 @@
 session_start();
 include '../../config/database.php';
 
-
 //  Login Process
 if (isset($_POST['login'])) {
     if (empty($_POST['username']) || empty($_POST['password'])) {
