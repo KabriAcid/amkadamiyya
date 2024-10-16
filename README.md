@@ -1,4 +1,4 @@
-# Amkadamiyya School Jalingo Website
+# Amkadamiyya School Jalingo
 
 ## Overview
 Welcome to the official website of Amkadamiyya School Jalingo. This platform provides comprehensive information about our school's admission process, mission, academic achievements, and upcoming events.
