@@ -204,7 +204,7 @@ if (isset($_SESSION['staff'])) {
                                     <div class="col-md-6">
                                         <label>Parent Email Address</label>
                                         <div class="input-group mb-3">
-                                            <input type="text" name="parent_email" placeholder="Parent Email Address" value="<?php echo ucfirst($student['parent_email']); ?>" class="form-control" <?php echo $disabled; ?>>
+                                            <input type="text" name="parent_email" placeholder="Parent Email Address" value="<?php echo $student['parent_email']; ?>" class="form-control" <?php echo $disabled; ?>>
 
 
                                             <?php if ($disabled) : ?>
