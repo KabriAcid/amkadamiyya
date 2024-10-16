@@ -1,19 +1,28 @@
 <?php
 session_start();
 require_once "../../config/database.php";
+    // Check if alumni ID is set
+    if (isset($_GET['alumni_id'])) {
+        $alumni_id = $_GET['alumni_id'];
 
-// Check if alumni ID is set
-if (isset($_GET['alumni_id'])) {
-    $alumni_id = $_GET['alumni_id'];
-    $sql = "SELECT * FROM `alumni` WHERE `alumni_id` = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $alumni_id);
-    $stmt->execute();
-    $alumni = $stmt->get_result()->fetch_assoc();
-} else {
-    header('Location: admin-alumni-list.php');
-    exit();
-}
+        // Prepare the SQL query to fetch the alumni data
+        $sql = "SELECT * FROM `alumni` WHERE `alumni_id` = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $alumni_id);
+        $stmt->execute();
+        $alumni = $stmt->get_result()->fetch_assoc();
+
+        // If no alumni data is found, redirect to the list page
+        if (!$alumni) {
+            header('Location: admin-alumni-list.php');
+            exit();
+        }
+    } else {
+        // If no alumni ID is provided, redirect to the list page
+        header('Location: admin-alumni-list.php');
+        exit();
+    }
+
 
 // Check if staff position ID is set
 if (isset($_SESSION['staff'])) {
@@ -25,6 +34,7 @@ if (isset($_SESSION['staff'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>View Alumni</title>
     <?php include "inc/admin-header.php"; ?>
@@ -32,7 +42,7 @@ if (isset($_SESSION['staff'])) {
 
 <body class="g-sidenav-show bg-info-soft">
     <?php
-        include "inc/admin-sidebar.php";
+    include "inc/admin-sidebar.php";
     ?>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         <?php require "inc/admin-navbar.php"; ?>
@@ -102,7 +112,7 @@ if (isset($_SESSION['staff'])) {
                                         $date_of_birth = date('d-M-Y', strtotime($alumni['birth_date']));
                                         echo $date_of_birth;
                                         ?>
-</span>
+                                    </span>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Index No:</strong>
@@ -112,8 +122,8 @@ if (isset($_SESSION['staff'])) {
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Email Address:</strong>
-                                    <span class="text-secondary text-xs font-weight-bold text-capitalize">
-                                        <?php echo ucfirst($alumni['email']); ?>
+                                    <span class="text-secondary text-xs font-weight-bold">
+                                        <?php echo $alumni['email']; ?>
                                     </span>
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
@@ -149,7 +159,7 @@ if (isset($_SESSION['staff'])) {
                                 </div>
                                 <div class="col-xxl-4 col-6 text-sm mb-4">
                                     <strong class="text-dark">Home Address:</strong>
-                                    <span class="text-secondary text-xs font-weight-bold text-capitalize">
+                                    <span class="text-secondary text-xs font-weight-bold">
                                         <?php echo $alumni['address']; ?>
                                     </span>
                                 </div>
