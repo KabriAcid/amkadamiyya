@@ -81,7 +81,7 @@
                                             </a>
                                         </li>
                                         <li class="px-2 py-1">
-                                            <a class="dropdown-item border-radius-md" href="../../subdomains/admin/logout.php">
+                                            <a class="dropdown-item border-radius-md" href="../../subdomains/admin/admin-logout.php">
                                                 <span>Logout</span>
                                             </a>
                                         </li>
