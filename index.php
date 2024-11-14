@@ -234,24 +234,21 @@ require 'process.php';
                             <div class="card card-blog card-plain">
                                 <div class="position-relative">
                                     <a class="d-block blur-shadow-image">
-                                        <img src="assets/images/students/student.jpg" ; alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
+                                        <img src="subdomains/admin/<?= $row['blog_thumbnail'] ?>" ; alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
                                     </a>
                                 </div>
                                 <div class="card-body px-0 pt-4">
                                     <p class="text-gradient text-info font-weight-bold text-sm text-uppercase">
-                                        News</p>
+                                        <?= $row['blog_category']; ?></p>
                                     <a href="javascript:;">
                                         <h4>
-                                            End of Second Term Highlights
+                                            <?= $row['blog_title']; ?>
                                         </h4>
                                     </a>
                                     <p>
-                                        At the close of the first term, our school celebrates the achievements and growth of our
-                                        students and faculty. Academic accomplishments, artistic showcases, and extracurricular
-                                        successes have marked this phase of the academic year. As we transition into the next
-                                        term, we carry forward the momentum and enthusiasm gained during these initial months.
+                                        <?= $row['blog_content']; ?>
                                     </p>
-                                    <button type="button" class="btn bg-gradient-info mt-3">Read more</button>
+                                    <a href="pages/gallery/media-gallery.php" class="btn bg-gradient-info mt-3">Read more</a>
                                 </div>
                             </div>
                         </div>
@@ -416,21 +413,6 @@ require 'process.php';
                     <p>Our school campus comprises a total of 10 special buildings. From science labs, computer labs,
                         libraries to recreational spaces.</p>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Timeline Blog -->
-    <section class="py-6 bg-gray-100">
-        <div class="container">
-            <div class="d-flex justify-content-center">
-                <div class="col-6 text-center">
-                    <h2>Timeline</h2>
-                    <p class="text-primary text-gradient">A glance at Amkadamiyya&apos;s post timeline.</p>
-                </div>
-            </div>
-            <div class="row">
-
             </div>
         </div>
     </section>
