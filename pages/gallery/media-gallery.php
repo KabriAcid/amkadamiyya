@@ -25,7 +25,7 @@ require '../../config/database.php';
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
                             // Get blog ID
-                            $blogId = $row['id'];
+                            $blogId = $row['blog_id'];
 
                             // Count likes for this blog post
                             $likesResult = mysqli_query($conn, "SELECT COUNT(*) AS like_count FROM blog_likes WHERE blog_id = $blogId");
@@ -35,8 +35,6 @@ require '../../config/database.php';
                             $commentsResult = mysqli_query($conn, "SELECT COUNT(*) AS comment_count FROM blog_comments WHERE blog_id = $blogId");
                             $commentsCount = mysqli_fetch_assoc($commentsResult)['comment_count'];
 
-                            // Extract a preview of the blog content (18 words)
-                            $contentPreview = implode(' ', array_slice(explode(' ', $row['blog_content']), 0, 18));
                     ?>
                             <div class="col-lg-8 mx-auto text-center">
                                 <div class="card card-blog card-plain">
@@ -55,7 +53,7 @@ require '../../config/database.php';
                                             </h4>
                                         </a>
                                         <p>
-                                            <?= $contentPreview; ?>...
+                                            <?= $row['blog_content']; ?>...
                                         </p>
                                         <a href="pages/gallery/media-gallery.php" class="btn bg-gradient-info mt-3">Read more</a>
 
