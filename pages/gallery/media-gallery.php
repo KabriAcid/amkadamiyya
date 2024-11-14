@@ -20,7 +20,7 @@ require '../../config/database.php';
             <div class="container pt-5">
                 <div class="row">
                     <?php
-                    $sql = 'SELECT * FROM blogs';
+                    $sql = 'SELECT * FROM blogs LIMIT 3';
                     $result = mysqli_query($conn, $sql);
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {

@@ -225,7 +225,7 @@ require 'process.php';
         <div class="container">
             <div class="row">
                 <?php
-                $sql = 'SELECT * FROM blogs';
+                $sql = 'SELECT * FROM blogs LIMIT 3';
                 $result = mysqli_query($conn, $sql);
                 if (mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
@@ -254,8 +254,6 @@ require 'process.php';
                         </div>
                 <?php
                     }
-                } else {
-                    echo "0 results";
                 }
                 ?>
             </div>
