@@ -40,7 +40,7 @@ require '../../config/database.php';
                                 <div class="card card-blog card-plain">
                                     <div class="position-relative">
                                         <a class="d-block blur-shadow-image">
-                                            <img src="subdomains/admin/<?= $row['blog_thumbnail'] ?>" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
+                                            <img src="../../subdomains/admin/<?= $row['blog_thumbnail'] ?>" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
                                         </a>
                                     </div>
                                     <div class="card-body px-0 pt-4">
@@ -55,7 +55,6 @@ require '../../config/database.php';
                                         <p>
                                             <?= $row['blog_content']; ?>...
                                         </p>
-                                        <a href="pages/gallery/media-gallery.php" class="btn bg-gradient-info mt-3">Read more</a>
 
                                         <!-- Like and Comment Section -->
                                         <div class="mt-3">
