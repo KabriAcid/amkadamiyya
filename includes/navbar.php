@@ -41,7 +41,7 @@
                                     Docs <i class="ms-1 fa fa-chevron-down text-secondary mt-1"></i>
                                 </a>
                                 <ul class="dropdown-menu px-2 py-3">
-                                    <li><a class="dropdown-item border-radius-md" href="../../pages/admission/admission-requirements.php">About theDirector</a></li>
+                                    <li><a class="dropdown-item border-radius-md" href="../../pages/admission/admission-requirements.php">About the Director</a></li>
                                     <li><a class="dropdown-item border-radius-md" href="../../pages/admission/admission-check-status.php">History and Development</a></li>
                                     <li><a class="dropdown-item border-radius-md" href="../../pages/admission/admission-guidelines.php">Mission and Vision</a></li>
                                 </ul>
@@ -53,7 +53,7 @@
                                     Dropdown <i class="ms-1 fa fa-chevron-down text-secondary mt-1"></i>
                                 </a>
                                 <ul class="dropdown-menu px-2 py-3">
-                                    <li><a class="dropdown-item border-radius-md" href="../../pages/admission/admission-requirements.php">About theDirector</a></li>
+                                    <li><a class="dropdown-item border-radius-md" href="../../pages/admission/admission-requirements.php">About the Director</a></li>
                                     <li><a class="dropdown-item border-radius-md" href="../../pages/admission/admission-check-status.php">History and Development</a></li>
                                     <li><a class="dropdown-item border-radius-md" href="../../pages/admission/admission-guidelines.php">Mission and Vision</a></li>
                                 </ul>
@@ -109,10 +109,10 @@
                         ?>
                             <ul class="navbar-nav">
                                 <li class="nav-item">
-                                    <a href="../../subdomains/student/student-login.php" ; class="btn btn-sm bg-gradient-info btn-round text-uppercase mb-0 me-1">students portal</a>
+                                    <a href="../../subdomains/student/student-login.php" class="btn btn-sm bg-gradient-info btn-round text-uppercase mb-0 me-1">students portal</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="../../subdomains/admin/admin-login.php" ; class="btn btn-sm bg-gradient-dark btn-round text-uppercase mb-0 me-1">admin portal</a>
+                                    <a href="../../subdomains/admin/admin-login.php" class="btn btn-sm bg-gradient-dark btn-round text-uppercase mb-0 me-1">admin portal</a>
                                 </li>
                             </ul>
                         <?php

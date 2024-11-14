@@ -52,7 +52,7 @@ require_once "../../config/database.php";
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="author align-items-center">
                                                 <?php
-                                                
+
                                                 $staff_id = $row['staff_id'];
                                                 $sql = "SELECT * FROM `staff` WHERE `staff_id` = '$staff_id'";
                                                 $staff_result = mysqli_query($conn, $sql);
@@ -60,17 +60,17 @@ require_once "../../config/database.php";
                                                 ?>
 
                                                 <img src="<?php echo $staff['photo']; ?>" class="avatar shadow">
-                                                
+
                                                 <div class="name ps-3">
                                                     <span><?php echo $staff['first_name'] . " " . $staff['last_name']; ?></span>
                                                     <div class="stats">
-                                                        <small><?php echo date("j F, Y h:m", strtotime($row['blog_timestamp'])); ?></small>
+                                                        <small><?php echo date("j F, Y H:m", strtotime($row['blog_timestamp'])); ?></small>
                                                     </div>
                                                 </div>
                                             </div>
                                             <!-- Delete Icon -->
                                             <div class="text-end">
-                                                    <i class="fa fa-trash text-secondary cursor-pointer" data-target="successToast"></i>
+                                                <i class="fa fa-trash text-secondary cursor-pointer" data-target="successToast"></i>
                                                 </a>
                                             </div>
                                             <!-- Modal -->

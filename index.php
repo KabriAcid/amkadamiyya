@@ -1,5 +1,5 @@
 <?php
-    require 'process.php';
+require 'process.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -405,8 +405,9 @@
             </div>
         </div>
     </section>
-    <!--  -->
-    <section class="py-10" id="count-stats">
+
+    <!-- Statistics -->
+    <section class="py-6" id="count-stats">
         <div class="container">
             <div class="row justify-content-center text-center">
                 <div class="col-lg-3 col-md-6">
@@ -438,9 +439,9 @@
     </section>
 
     <!-- Timeline Blog -->
-    <!-- <section class="py-6 bg-gray-100">
+    <section class="py-6 bg-gray-100">
         <div class="container">
-            <div class="d-flex justify-content-center py-4">
+            <div class="d-flex justify-content-center">
                 <div class="col-6 text-center">
                     <h2>Timeline</h2>
                     <p class="text-primary text-gradient">A glance at Amkadamiyya&apos;s post timeline.</p>
@@ -539,7 +540,9 @@
                 </div>
             </div>
         </div>
-    </section> -->
+    </section>
+
+
     <!-- Contact Us -->
     <div class="container-fluid py-3">
         <div class="page-header min-vh-100">

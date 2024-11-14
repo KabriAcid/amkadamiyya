@@ -157,7 +157,7 @@
                                             <div class="name ps-3">
                                                 <span><?php echo $staff['first_name'] . " " . $staff['last_name']; ?></span>
                                                 <div class="stats">
-                                                    <small><?php echo date("j F, Y h:m", strtotime($row['blog_timestamp'])); ?></small>
+                                                    <small><?php echo date("j F, Y H:m", strtotime($row['blog_timestamp'])); ?></small>
                                                 </div>
                                             </div>
                                         </div>
@@ -210,7 +210,7 @@
                                     <div class="ms-3">
                                         <div class="numbers">
                                             <h6 class="mb-1 text-dark text-sm"><?php echo $row['not_title']; ?></h6>
-                                            <span class="text-sm"><?php echo date("j F, Y h:m", strtotime($row['not_timestamp'])); ?></span>
+                                            <span class="text-sm"><?php echo date("j F, Y H:m", strtotime($row['not_timestamp'])); ?></span>
                                         </div>
                                     </div>
                                 </div>

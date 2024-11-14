@@ -1,10 +1,10 @@
 <?php
 include "student-process.php";
-$student_id = $_SESSION['student']
-['student_id'];
+$student_id = $_SESSION['student']['student_id'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Notifications</title>
     <?php include "inc/student-header.php"; ?>
@@ -12,7 +12,7 @@ $student_id = $_SESSION['student']
 
 <body class="g-sidenav-show bg-info-soft">
     <?php require "inc/student-sidebar.php"; ?>
-    
+
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         <?php require "inc/student-navbar.php"; ?>
         <div class="container-fluid py-4">
@@ -39,7 +39,7 @@ $student_id = $_SESSION['student']
                                                 </span>
                                                 <div class="timeline-content">
                                                     <h6 class="text-dark text-sm font-weight-bold mb-0"><?php echo $row['not_title']; ?></h6>
-                                                    <p class="text-secondary font-weight-bold text-xs mt-1 mb-0"><?php echo date("j F, Y h:m", strtotime($row['not_timestamp'])); ?></p>
+                                                    <p class="text-secondary font-weight-bold text-xs mt-1 mb-0"><?php echo date("j F, Y H:m", strtotime($row['not_timestamp'])); ?></p>
                                                     <p class="mt-3">
                                                         <?php echo $row['not_content']; ?>
                                                     </p>
