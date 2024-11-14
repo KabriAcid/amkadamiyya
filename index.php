@@ -229,24 +229,27 @@ require 'process.php';
                 $result = mysqli_query($conn, $sql);
                 if (mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
+                        // Extract the first 18 words
+                        $contentPreview = implode(' ', array_slice(explode(' ', $row['blog_content']), 0, 18));
                 ?>
                         <div class="col-lg-8 mx-auto text-center">
                             <div class="card card-blog card-plain">
                                 <div class="position-relative">
                                     <a class="d-block blur-shadow-image">
-                                        <img src="subdomains/admin/<?= $row['blog_thumbnail'] ?>" ; alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
+                                        <img src="subdomains/admin/<?= $row['blog_thumbnail'] ?>" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
                                     </a>
                                 </div>
                                 <div class="card-body px-0 pt-4">
                                     <p class="text-gradient text-info font-weight-bold text-sm text-uppercase">
-                                        <?= $row['blog_category']; ?></p>
+                                        <?= $row['blog_category']; ?>
+                                    </p>
                                     <a href="javascript:;">
                                         <h4>
                                             <?= $row['blog_title']; ?>
                                         </h4>
                                     </a>
                                     <p>
-                                        <?= $row['blog_content']; ?>
+                                        <?= $contentPreview; ?>...
                                     </p>
                                     <a href="pages/gallery/media-gallery.php" class="btn bg-gradient-info mt-3">Read more</a>
                                 </div>
@@ -256,6 +259,7 @@ require 'process.php';
                     }
                 }
                 ?>
+
             </div>
         </div>
     </section>
