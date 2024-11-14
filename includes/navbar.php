@@ -29,9 +29,9 @@
                                     Admission <i class="ms-1 fa fa-chevron-down text-secondary mt-1"></i>
                                 </a>
                                 <ul class="dropdown-menu px-2 py-3">
-                                    <li><a class="dropdown-item border-radius-md" href="../../pages/admission/admission-requirements.php">Apply For Admission</a></li>
-                                    <li><a class="dropdown-item border-radius-md" href="../../pages/admission/admission-check-status.php">Check Admission Status</a></li>
-                                    <li><a class="dropdown-item border-radius-md" href="../../pages/admission/admission-guidelines.php">Guidelines</a></li>
+                                    <li><a class="dropdown-item border-radius-md" href="../admission/admission-requirements.php">Apply For Admission</a></li>
+                                    <li><a class="dropdown-item border-radius-md" href="../admission/admission-check-status.php">Check Admission Status</a></li>
+                                    <li><a class="dropdown-item border-radius-md" href="../admission/admission-guidelines.php">Guidelines</a></li>
                                 </ul>
                             </li>
 
@@ -41,21 +41,20 @@
                                     Docs <i class="ms-1 fa fa-chevron-down text-secondary mt-1"></i>
                                 </a>
                                 <ul class="dropdown-menu px-2 py-3">
-                                    <li><a class="dropdown-item border-radius-md" href="../../pages/admission/admission-requirements.php">About the Director</a></li>
-                                    <li><a class="dropdown-item border-radius-md" href="../../pages/admission/admission-check-status.php">History and Development</a></li>
-                                    <li><a class="dropdown-item border-radius-md" href="../../pages/admission/admission-guidelines.php">Mission and Vision</a></li>
+                                    <li><a class="dropdown-item border-radius-md" href="../docs/admission-requirements.php">About the Director</a></li>
+                                    <li><a class="dropdown-item border-radius-md" href="../docs/admission-check-status.php">History and Development</a></li>
+                                    <li><a class="dropdown-item border-radius-md" href="../docs/admission-guidelines.php">Mission and Vision</a></li>
                                 </ul>
                             </li>
 
-                            <!-- Docs -->
-                            <li class="nav-item dropdown dropdown-hover mx-2">
-                                <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center text-dark" role="button" id="admissionDropdown" data-bs-toggle="dropdown">
-                                    Dropdown <i class="ms-1 fa fa-chevron-down text-secondary mt-1"></i>
+                            <!-- Gallery -->
+                            <li class="nav-item mx-2 dropdown">
+                                <a href="#" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" role="button">
+                                    Gallery
                                 </a>
-                                <ul class="dropdown-menu px-2 py-3">
-                                    <li><a class="dropdown-item border-radius-md" href="../../pages/admission/admission-requirements.php">About the Director</a></li>
-                                    <li><a class="dropdown-item border-radius-md" href="../../pages/admission/admission-check-status.php">History and Development</a></li>
-                                    <li><a class="dropdown-item border-radius-md" href="../../pages/admission/admission-guidelines.php">Mission and Vision</a></li>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="../gallery/media-gallery.php">Media Gallery</a></li>
+                                    <li><a class="dropdown-item" href="#">Art Gallery</a></li>
                                 </ul>
                             </li>
 

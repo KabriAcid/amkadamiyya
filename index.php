@@ -76,12 +76,11 @@ require 'process.php';
                     </li>
                     <li class="nav-item mx-2 dropdown">
                         <a href="#" class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" role="button">
-                            Pages
+                            Gallery
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li><a class="dropdown-item" href="pages/gallery/media-gallery.php">Media Gallery</a></li>
+                            <li><a class="dropdown-item" href="#">Art Gallery</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -156,11 +155,8 @@ require 'process.php';
                         <h1 class="text-white fadeIn2 fadeInBottom">Amkadamiyya School Jalingo</h1>
                         <p class="lead mb-5 fadeIn3 fadeInBottom text-white opacity-6">"Education For Better Future."
                         </p>
-                        <button type="submit" class="btn bg-white btn-rounded me-2 fadeIn1 fadeInBottom">Get
-                            started</button>
-                        <button type="submit" class="btn bg-white btn-icon-only rounded-circle fadeIn1 fadeInBottom">
-                            <i class="fas fa-play"></i>
-                        </button>
+                        <a class="btn bg-white btn-rounded me-2 fadeIn1 fadeInBottom" href="#link-bookmark">Get
+                            started</a>
                     </div>
                 </div>
             </div>
@@ -188,7 +184,7 @@ require 'process.php';
     <section class="py-5">
         <div class="container">
             <div class="row">
-                <div class="col-lg-5 col-6 mx-lg-0 mx-auto px-lg-0 px-md-0 my-auto">
+                <div class="col-lg-5 col-6 mx-lg-0 mx-auto px-lg-0 px-md-0 my-auto" id="link-bookmark">
                     <img class="w-100 border-radius-lg shadow" src="assets/images/avatar/director.jpg">
                 </div>
                 <div class="col-lg-6 col-10 d-flex justify-content-center flex-column mx-auto text-lg-start text-center">
@@ -228,57 +224,43 @@ require 'process.php';
     <section class="py-5 bg-gray-100">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 mx-auto text-center">
-                    <div class="card card-blog card-plain">
-                        <div class="position-relative">
-                            <a class="d-block blur-shadow-image">
-                                <img src="assets/images/students/student.jpg" ; alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                            </a>
+                <?php
+                $sql = 'SELECT * FROM blogs';
+                $result = mysqli_query($conn, $sql);
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                ?>
+                        <div class="col-lg-8 mx-auto text-center">
+                            <div class="card card-blog card-plain">
+                                <div class="position-relative">
+                                    <a class="d-block blur-shadow-image">
+                                        <img src="assets/images/students/student.jpg" ; alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
+                                    </a>
+                                </div>
+                                <div class="card-body px-0 pt-4">
+                                    <p class="text-gradient text-info font-weight-bold text-sm text-uppercase">
+                                        News</p>
+                                    <a href="javascript:;">
+                                        <h4>
+                                            End of Second Term Highlights
+                                        </h4>
+                                    </a>
+                                    <p>
+                                        At the close of the first term, our school celebrates the achievements and growth of our
+                                        students and faculty. Academic accomplishments, artistic showcases, and extracurricular
+                                        successes have marked this phase of the academic year. As we transition into the next
+                                        term, we carry forward the momentum and enthusiasm gained during these initial months.
+                                    </p>
+                                    <button type="button" class="btn bg-gradient-info mt-3">Read more</button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body px-0 pt-4">
-                            <p class="text-gradient text-info font-weight-bold text-sm text-uppercase">
-                                News</p>
-                            <a href="javascript:;">
-                                <h4>
-                                    End of Second Term Highlights
-                                </h4>
-                            </a>
-                            <p>
-                                At the close of the first term, our school celebrates the achievements and growth of our
-                                students and faculty. Academic accomplishments, artistic showcases, and extracurricular
-                                successes have marked this phase of the academic year. As we transition into the next
-                                term, we carry forward the momentum and enthusiasm gained during these initial months.
-                            </p>
-                            <button type="button" class="btn bg-gradient-info mt-3">Read more</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-8 mx-auto text-center mt-5">
-                    <div class="card card-blog card-plain">
-                        <div class="position-relative">
-                            <a class="d-block blur-shadow-image">
-                                <img src="assets/images/students/student-7.jpg" alt="img-blur-shadow" class="img-fluid shadow border-radius-lg">
-                            </a>
-                        </div>
-                        <div class="card-body px-0 pt-4">
-                            <p class="text-gradient text-warning text-gradient font-weight-bold text-sm text-uppercase">
-                                Events</p>
-                            <a href="javascript:;">
-                                <h4>
-                                    Speech and Prize Giving Day
-                                </h4>
-                            </a>
-                            <p>
-
-                                Join us for an inspiring event as we recognize the outstanding achievements of our
-                                students and faculty at the upcoming Speech and Prize Giving Day. Get ready for an
-                                evening filled with motivational speeches and well-deserved awards, as we celebrate
-                                excellence and inspiration within our school community.
-                            </p>
-                            <button type="button" class="btn bg-gradient-warning mt-3">Read more</button>
-                        </div>
-                    </div>
-                </div>
+                <?php
+                    }
+                } else {
+                    echo "0 results";
+                }
+                ?>
             </div>
         </div>
     </section>
@@ -448,96 +430,7 @@ require 'process.php';
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-4 mb-lg-0 mb-4">
-                    <div class="card">
-                        <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
-                            <a href="javascript:;" class="d-block">
-                                <img src="assets/images/backgrounds/house.jpg" class="img-fluid border-radius-lg">
-                            </a>
-                        </div>
 
-                        <div class="card-body pt-3">
-                            <span
-                                class="text-gradient text-warning text-uppercase text-xs font-weight-bold my-2">House</span>
-                            <a href="javascript:;" class="card-title h5 d-block text-darker">
-                                Shared Coworking
-                            </a>
-                            <p class="card-description mb-4">
-                                Use border utilities to quickly style the border and border-radius of an element. Great
-                                for images, buttons.
-                            </p>
-                            <div class="author align-items-center">
-                                <img src="assets/images/staff/staff.jpg" alt="..." class="avatar shadow">
-                                <div class="name ps-3">
-                                    <span>Abdullahi Kabri</span>
-                                    <div class="stats">
-                                        <small>Bloged on 28 February</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-lg-0 mb-4">
-                    <div class="card">
-                        <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
-                            <a href="javascript:;" class="d-block">
-                                <img src="assets/images/backgrounds/antalya.jpg" class="img-fluid border-radius-lg">
-                            </a>
-                        </div>
-
-                        <div class="card-body pt-3">
-                            <span
-                                class="text-gradient text-info text-uppercase text-xs font-weight-bold my-2">Office</span>
-                            <a href="javascript:;" class="text-darker card-title h5 d-block">
-                                Really Housekeeping
-                            </a>
-                            <p class="card-description mb-4">
-                                Use border utilities to quickly style the border and border-radius of an element. Great
-                                for images, buttons.
-                            </p>
-                            <div class="author align-items-center">
-                                <img src="assets/images/staff/anty.jpg" alt="..." class="avatar shadow">
-                                <div class="name ps-3">
-                                    <span>Anty Maryam</span>
-                                    <div class="stats">
-                                        <small>Bloged 2 min ago</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-lg-0 mb-4">
-                    <div class="card">
-                        <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
-                            <a href="javascript:;" class="d-block">
-                                <img src="assets/images/backgrounds/blog7-3.jpg" class="img-fluid border-radius-lg">
-                            </a>
-                        </div>
-
-                        <div class="card-body pt-3">
-                            <span
-                                class="text-gradient text-warning text-uppercase text-xs font-weight-bold my-2">Hub</span>
-                            <a href="javascript:;" class="text-darker card-title h5 d-block">
-                                Shared Coworking
-                            </a>
-                            <p class="card-description mb-4">
-                                Use border utilities to quickly style the border and border-radius of an element. Great
-                                for images, buttons.
-                            </p>
-                            <div class="author align-items-center">
-                                <img src="assets/images/staff/e-officer.jpg" alt="..." class="avatar shadow">
-                                <div class="name ps-3">
-                                    <span>Abubakar Abubakar</span>
-                                    <div class="stats">
-                                        <small>Bloged now</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
