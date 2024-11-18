@@ -130,30 +130,30 @@ if (isset($_POST['register'])) {
 // Adding new student
 if (isset($_POST['addStudent'])) {
     // Generate Student ID function
-    function generateStudentID($conn, $section_id, $entry_year)
-    {
+    // function generateStudentID($conn, $section_id, $entry_year)
+    // {
 
-        $sql = "SELECT * FROM `sections` WHERE `general_section_id` = '$section_id'";
-        $result = mysqli_query($conn, $sql);
-        $section = mysqli_fetch_assoc($result);
+    //     $sql = "SELECT * FROM `sections` WHERE `general_section_id` = '$section_id'";
+    //     $result = mysqli_query($conn, $sql);
+    //     $section = mysqli_fetch_assoc($result);
 
-        $sql = "SELECT * FROM `serial_numbers` WHERE `section_id` = '$section_id' AND `entry_year` = '$entry_year'";
-        $result = mysqli_query($conn, $sql);
-        $serial = mysqli_fetch_assoc($result);
+    //     $sql = "SELECT * FROM `serial_numbers` WHERE `section_id` = '$section_id' AND `entry_year` = '$entry_year'";
+    //     $result = mysqli_query($conn, $sql);
+    //     $serial = mysqli_fetch_assoc($result);
 
-        if ($serial) {
-            $current_serial = $serial['current_serial'] + 1;
-            $sql = "UPDATE `serial_numbers` SET `current_serial` = '$current_serial' WHERE `section_id` = '$section_id' AND `entry_year` = '$entry_year'";
-            mysqli_query($conn, $sql);
-        } else {
-            $current_serial = $section['serial_start'];
-            $sql = "INSERT INTO serial_numbers (section_id, entry_year, current_serial) VALUES ('$section_id', '$entry_year', '$current_serial')";
-            mysqli_query($conn, $sql);
-        }
+    //     if ($serial) {
+    //         $current_serial = $serial['current_serial'] + 1;
+    //         $sql = "UPDATE `serial_numbers` SET `current_serial` = '$current_serial' WHERE `section_id` = '$section_id' AND `entry_year` = '$entry_year'";
+    //         mysqli_query($conn, $sql);
+    //     } else {
+    //         $current_serial = $section['serial_start'];
+    //         $sql = "INSERT INTO serial_numbers (section_id, entry_year, current_serial) VALUES ('$section_id', '$entry_year', '$current_serial')";
+    //         mysqli_query($conn, $sql);
+    //     }
 
-        $admission_id = sprintf('AMK/%d/%d', $entry_year, $current_serial);
-        return $admission_id;
-    }
+    //     $admission_id = sprintf('AMK/%d/%d', $entry_year, $current_serial);
+    //     return $admission_id;
+    // }
 
 
     // Input sanitization and validation
@@ -175,6 +175,8 @@ if (isset($_POST['addStudent'])) {
     $state = trim($_POST['state']);
     $lga = trim($_POST['lga']);
     $gender = trim($_POST['gender']);
+    $entry_date = $_POST['entry_date'];
+    $admission_id = $_POST['admission_id'];
     $parent_first_name = changeCase(trim($_POST['parent_first_name']));
     $parent_last_name = changeCase(trim($_POST['parent_last_name']));
     $parent_email = trim($_POST['parent_email']);
@@ -182,40 +184,40 @@ if (isset($_POST['addStudent'])) {
     $parent_phone_number = trim($_POST['parent_phone_number']);
 
     // Variables
-    $entry_year = date('y');
-    $admission_id = generateStudentID($conn, $section_id, $entry_year);
+    // $entry_year = date('y');
+    // $admission_id = generateStudentID($conn, $section_id, $entry_year);
 
     // Hash the password using BCRYPT
     $default_password = $admission_id;
     $password = password_hash($default_password, PASSWORD_BCRYPT);
 
-    function isValidPhoneNumber($parent_phone_number)
-    {
-        // Define the regular expression pattern for a Nigerian phone number
-        $pattern = '/^((070|080|090|081|091)\d{8})$/';
-        trim($parent_phone_number);
+    // function isValidPhoneNumber($parent_phone_number)
+    // {
+    //     // Define the regular expression pattern for a Nigerian phone number
+    //     $pattern = '/^((070|080|090|081|091)\d{8})$/';
+    //     trim($parent_phone_number);
 
-        // Check if the phone number matches the pattern
-        if (preg_match($pattern, $parent_phone_number)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    // Validate phone number
-    if (!isValidPhoneNumber($parent_phone_number)) {
-        $_SESSION['error_message'] = "Please enter a valid Nigerian phone number.";
-        // Redirect back to the same page
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit();
-    }
+    //     // Check if the phone number matches the pattern
+    //     if (preg_match($pattern, $parent_phone_number)) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
+    // // Validate phone number
+    // if (!isValidPhoneNumber($parent_phone_number)) {
+    //     $_SESSION['error_message'] = "Please enter a valid Nigerian phone number.";
+    //     // Redirect back to the same page
+    //     header("Location: " . $_SERVER['PHP_SELF']);
+    //     exit();
+    // }
 
 
     if (empty($errors)) {
         // Insert data into the database
-        $sql = "INSERT INTO `students` (`class_id`, `section_id`, `admission_id`, `status`, `password`, `first_name`, `second_name`, `last_name`, `birth_date`, `state`, `lga`, `gender`, `parent_first_name`, `parent_last_name`, `parent_email`, `parent_address`, `parent_phone_number`) 
+        $sql = "INSERT INTO `students` (`class_id`, `section_id`, `admission_id`, `status`, `entry_date`, `password`, `first_name`, `second_name`, `last_name`, `birth_date`, `state`, `lga`, `gender`, `parent_first_name`, `parent_last_name`, `parent_email`, `parent_address`, `parent_phone_number`) 
 
-        VALUES ('$class_id', '$section_id', '$admission_id', 1, '$password', '$first_name', '$second_name', '$last_name', '$birth_date', '$state', '$lga', '$gender', '$parent_first_name', '$parent_last_name', '$parent_email', '$parent_address', '$parent_phone_number')";
+        VALUES ('$class_id', '$section_id', '$admission_id', 1, '$entry_date', '$password', '$first_name', '$second_name', '$last_name', '$birth_date', '$state', '$lga', '$gender', '$parent_first_name', '$parent_last_name', '$parent_email', '$parent_address', '$parent_phone_number')";
 
         if (mysqli_query($conn, $sql)) {
             $_SESSION['success_message'] = "Student added successfully!";

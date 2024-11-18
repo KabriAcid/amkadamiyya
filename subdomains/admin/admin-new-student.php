@@ -86,7 +86,7 @@ if (isset($_SESSION['staff'])) {
                                     <div class="col-md-6 mt-3">
                                         <label>State of Origin</label>
                                         <div class="input-group">
-                                            <select required onchange="toggleLGA(this);" name="state" id="state" class="form-select select-state">
+                                            <select onchange="toggleLGA(this);" name="state" id="state" class="form-select select-state">
                                                 <option value="" selected="selected">-- State --</option>
                                                 <?php
                                                 $sql = "SELECT * FROM `nigerian_states`;";
@@ -106,7 +106,7 @@ if (isset($_SESSION['staff'])) {
                                     <div class="col-md-6 mt-3">
                                         <label>Local government Area</label>
                                         <div class="input-group">
-                                            <select name="lga" id="lga" class="form-select select-lga" required>
+                                            <select name="lga" id="lga" class="form-select select-lga">
                                                 <option value="">LGA</option>
                                             </select>
                                         </div>
@@ -140,6 +140,21 @@ if (isset($_SESSION['staff'])) {
                                             </select>
                                         </div>
                                     </div>
+                                    <!-- Entry Date -->
+                                    <div class="col-md-6 mt-3">
+                                        <label>Entry Date</label>
+                                        <div class="input-group">
+                                            <input type="date" name="entry_date" class="form-control">
+                                        </div>
+                                    </div>
+                                    <!-- Admission ID -->
+                                    <div class="col-md-6 mt-3">
+                                        <label>Admission ID</label>
+                                        <div class="input-group">
+                                            <input type="text" name="admission_id" class="form-control" placeholder="AMK/24/1001">
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -193,7 +208,7 @@ if (isset($_SESSION['staff'])) {
                                                 <div class="d-flex align-items-center">
                                                     <div>
                                                         <div class="form-check mb-0">
-                                                            <input class="form-check-input null-label" type="checkbox" id="flexSwitchCheckDefault" required>
+                                                            <input class="form-check-input null-label" type="checkbox" id="flexSwitchCheckDefault">
                                                         </div>
                                                     </div>
                                                     <div class="ms-2">
