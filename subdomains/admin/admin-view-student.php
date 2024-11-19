@@ -12,6 +12,9 @@ if (isset($_GET['student_id'])) {
     $stmt->bind_param("i", $student_id);
     $stmt->execute();
     $student = $stmt->get_result()->fetch_assoc();
+    if(!$student){
+        header('Location: admin-student-list.php');
+    }
 }
 
 // Check if staff position ID is set

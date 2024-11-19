@@ -165,22 +165,22 @@ if (isset($_POST['addStudent'])) {
 
     function changeCase($string)
     {
-        return ucwords(strtolower(htmlspecialchars($string)));
+        return ucwords(strtolower(htmlspecialchars(trim($string))));
     }
 
-    $first_name = changeCase(trim($_POST['first_name']));
-    $second_name = changeCase(trim($_POST['second_name']));
-    $last_name = changeCase(trim($_POST['last_name']));
+    $first_name = changeCase($_POST['first_name']);
+    $second_name = changeCase($_POST['second_name']);
+    $last_name = changeCase($_POST['last_name']);
     $birth_date = trim($_POST['birth_date']);
     $state = trim($_POST['state']);
     $lga = trim($_POST['lga']);
     $gender = trim($_POST['gender']);
     $entry_date = $_POST['entry_date'];
     $admission_id = $_POST['admission_id'];
-    $parent_first_name = changeCase(trim($_POST['parent_first_name']));
-    $parent_last_name = changeCase(trim($_POST['parent_last_name']));
+    $parent_first_name = changeCase($_POST['parent_first_name']);
+    $parent_last_name = changeCase($_POST['parent_last_name']);
     $parent_email = trim($_POST['parent_email']);
-    $parent_address = changeCase(trim($_POST['parent_address']));
+    $parent_address = changeCase($_POST['parent_address']);
     $parent_phone_number = trim($_POST['parent_phone_number']);
 
     // Variables
@@ -217,7 +217,7 @@ if (isset($_POST['addStudent'])) {
         // Insert data into the database
         $sql = "INSERT INTO `students` (`class_id`, `section_id`, `admission_id`, `status`, `entry_date`, `password`, `first_name`, `second_name`, `last_name`, `birth_date`, `state`, `lga`, `gender`, `parent_first_name`, `parent_last_name`, `parent_email`, `parent_address`, `parent_phone_number`) 
 
-        VALUES ('$class_id', '$section_id', '$admission_id', 1, '$entry_date', '$password', '$first_name', '$second_name', '$last_name', '$birth_date', '$state', '$lga', '$gender', '$parent_first_name', '$parent_last_name', '$parent_email', '$parent_address', '$parent_phone_number')";
+        VALUES ('$class_id', '$section_id', '$admission_id', 1, '$entry_date', '$password', '$first_name', '$second_name', '$last_name', '$birth_date', 'Taraba', 'Jalingo', '$gender', '$parent_first_name', '$parent_last_name', '$parent_email', '$parent_address', '$parent_phone_number')";
 
         if (mysqli_query($conn, $sql)) {
             $_SESSION['success_message'] = "Student added successfully!";
@@ -716,4 +716,3 @@ if (isset($_POST['addstudentlevy'])) {
     // Close statement
     $stmt->close();
 }
-

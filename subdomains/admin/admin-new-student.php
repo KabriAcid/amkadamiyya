@@ -100,7 +100,7 @@ if (isset($_SESSION['staff'])) {
                                                 }
                                                 ?>
                                             </select>
-                                        </div>
+                                        </div> changes
                                     </div>
                                     <!-- Local Government Area  -->
                                     <div class="col-md-6 mt-3">

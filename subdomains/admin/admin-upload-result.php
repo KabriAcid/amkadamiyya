@@ -45,7 +45,7 @@ $default = mysqli_fetch_assoc($defaults);
         <!-- Main content  -->
         <div class="container-fluid py-4">
             <div class="card card-body bg-gradient-dark" id="profile">
-                <div class="row align-items-center">
+                <div class="row">
                     <div class="col-sm-auto col-2">
                         <div class="avatar avatar-xl position-relative">
                             <img src="<?php echo $_SESSION['staff']['photo']; ?>" alt="" class="w-100 border-radius-lg shadow-sm" />
