@@ -12,7 +12,7 @@ if (isset($_GET['student_id'])) {
     $stmt->bind_param("i", $student_id);
     $stmt->execute();
     $student = $stmt->get_result()->fetch_assoc();
-    if(!$student){
+    if (!$student) {
         header('Location: admin-student-list.php');
     }
 }
@@ -34,7 +34,7 @@ if (isset($_SESSION['staff'])) {
 
 <body class="g-sidenav-show bg-info-soft">
     <?php
-        include "inc/admin-sidebar.php";
+    include "inc/admin-sidebar.php";
     ?>
 
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">

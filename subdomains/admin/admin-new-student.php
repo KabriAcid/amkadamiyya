@@ -79,7 +79,7 @@ if (isset($_SESSION['staff'])) {
                                     <div class="col-md-6 mt-3">
                                         <label>Date of Birth</label>
                                         <div class="input-group">
-                                            <input type="date" class="form-control text-uppercase" name="birth_date">
+                                            <input type="date" class="form-control" name="birth_date" value="2018-10-01">
                                         </div>
                                     </div>
                                     <!-- State of Origin  -->
@@ -127,7 +127,7 @@ if (isset($_SESSION['staff'])) {
                                         <div class="input-group">
                                             <select class="form-select" name="class_id">
                                                 <?php
-                                                $sql = "SELECT * FROM `classes` WHERE `class_name` != 'NULL';";
+                                                /* $sql = "SELECT * FROM `classes` WHERE `class_name` != 'NULL';";
                                                 $result = mysqli_query($conn, $sql);
 
                                                 while ($class = mysqli_fetch_assoc($result)) {
@@ -135,8 +135,9 @@ if (isset($_SESSION['staff'])) {
                                                     <option value="<?php echo $class['class_id']; ?>">
                                                         <?php echo $class['class_name'] ?></option>
                                                 <?php
-                                                }
+                                                }*/
                                                 ?>
+                                                <option value="24">SSS3</option>
                                             </select>
                                         </div>
                                     </div>
@@ -151,7 +152,7 @@ if (isset($_SESSION['staff'])) {
                                     <div class="col-md-6 mt-3">
                                         <label>Admission ID</label>
                                         <div class="input-group">
-                                            <input type="text" name="admission_id" class="form-control" placeholder="AMK/24/1001">
+                                            <input type="text" name="admission_id" class="form-control" placeholder="AMK/24/1001" value="AS/19/1">
                                         </div>
                                     </div>
 
