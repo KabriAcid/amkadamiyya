@@ -645,8 +645,8 @@ require 'process.php';
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-secondary" href="">
-                                Jobs
+                            <a class="nav-link text-secondary" href="pig-game/setup.html">
+                                Games
                             </a>
                         </li>
                     </ul>
