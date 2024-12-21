@@ -1,7 +1,7 @@
 <?php
 // Start session
 session_start();
-require 'config/database.php';
+require '../config/database.php';
 // Capture form data
 $username = $_POST['username'];
 $password = $_POST['password'];
@@ -26,5 +26,3 @@ if ($stmt->execute()) {
 
 // Close the statement and connection
 $stmt->close();
-?>
-
