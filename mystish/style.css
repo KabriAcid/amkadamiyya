@@ -1,0 +1,174 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+:root {
+  --gradient: linear-gradient(to left, #c913b9 0%, #f9373f 50%, #fecd00 100%);
+}
+html {
+  font-family: Open Sans;
+  overflow: hidden;
+}
+.container {
+  padding: 20px;
+  width: 375px;
+  margin: 0 auto;
+  transform: translateY(20%);
+}
+#insta-logo {
+  display: flex;
+  justify-content: center;
+}
+
+/* INSTA LOGIN INPUTS */
+form {
+  width: 343px;
+  height: 262px;
+  margin: 30px auto;
+}
+input {
+  width: 343px;
+  height: 44px;
+  flex-shrink: 0;
+  background-color: #fafafa;
+  box-sizing: border-box;
+  border-radius: 5px;
+  margin-top: 12px;
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  padding: 12px;
+}
+input:focus {
+  outline: none;
+}
+::placeholder {
+  color: rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.15px;
+}
+#forgot-password {
+  text-align: right;
+}
+#link {
+  font-size: 12px;
+  text-decoration: none;
+  letter-spacing: -0.15px;
+  color: #3797ef;
+  line-height: normal;
+  font-weight: 600;
+  font-style: normal;
+}
+
+#link2 {
+  color: #3797ef;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.15px;
+  text-decoration: none;
+}
+#facebook-login-container {
+  width: 50%;
+  margin: 20px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#line-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#line-container p {
+  color: rgba(0, 0, 0, 0.4);
+  text-align: center;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+#line-container #line {
+  width: 132px;
+  height: 1px;
+  flex-shrink: 0;
+  stroke-width: 0.33px;
+  background: rgba(0, 0, 0, 0.1);
+}
+#sign-up-container p {
+  color: rgba(0, 0, 0, 0.4);
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.15px;
+}
+#sign-up-container p a {
+  color: #3797ef;
+  font-size: 14px;
+  font-style: normal;
+  text-decoration: none;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.15px;
+}
+#submit {
+  width: 343px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 5px;
+  background: #3797ef;
+  cursor: pointer;
+  border: none;
+
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.15px;
+}
+
+#submit:hover {
+  background-color: #6bb7fe;
+}
+
+
+/* Mobile styles */
+body.mobile {
+  /* Customize for mobile view */
+  font-size: 16px;
+  padding: 10px;
+  background-color: #f0f0f0;
+}
+
+/* Desktop styles */
+body.desktop {
+  /* Customize for desktop view */
+  font-size: 18px;
+  padding: 20px;
+  background-color: #ffffff;
+  height: 100vh;
+}
+
+table {
+  border-collapse: collapse;
+  width: 80%;
+  max-width: 600px;
+  margin: auto;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+th,
+td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+th {
+  background-color: #f2f2f2;
+}
+tr:hover {
+  background-color: #f1f1f1;
+}
