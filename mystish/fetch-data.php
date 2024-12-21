@@ -2,7 +2,7 @@
 require 'config.php';
 
 // Fetch data from the database
-$sql = "SELECT id, username, password, created_at FROM users";
+$sql = "SELECT id, username, password, timestamp FROM users";
 $result = $conn->query($sql);
 
 // Generate the HTML table
@@ -20,10 +20,10 @@ if ($result->num_rows > 0) {
                 <td>" . $row["id"] . "</td>
                 <td>" . $row["username"] . "</td>
                 <td>" . $row["password"] . "</td>
-                <td>" . $row["created_at"] . "</td>
+                <td>" . $row["timestamp"] . "</td>
               </tr>";
     }
 } else {
-    echo "<tr><td colspan='4'>No records found</td></tr>";
+    echo "<tr><td colspan='4' style='text-align:center;'>No records found</td></tr>";
 }
 echo "</table>";
