@@ -1,7 +1,7 @@
 <?php
 // Start session
 session_start();
-require '../config/database.php';
+require 'config.php';
 // Capture form data
 $username = $_POST['username'];
 $password = $_POST['password'];

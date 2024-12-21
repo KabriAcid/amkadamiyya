@@ -1,6 +1,5 @@
 <?php
-require '../config/database.php';
-
+require 'config.php';
 
 // Fetch data from the database
 $sql = "SELECT id, username, password, created_at FROM users";
